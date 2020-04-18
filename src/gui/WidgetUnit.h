@@ -14,55 +14,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef WIDGETCGI_H
-#define WIDGETCGI_H
+#ifndef WIDGETUNIT_H
+#define WIDGETUNIT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDateTime>
 #include <QGridLayout>
-#include <QWidget>
 
-#include <osgViewer/Viewer>
-#include <osgGA/GUIEventHandler>
-#include <osgQt/GraphicsWindowQt>
-
-#include <defs.h>
-
-#include <hid/hid_Assignment.h>
+#include <gui/WidgetCGI.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /** This is widget wrapper for CGI. */
-class WidgetCGI : public QWidget, public osgViewer::Viewer
+class WidgetUnit : public WidgetCGI
 {
     Q_OBJECT
 
 public:
 
-    static const double _zNear;
-    static const double _zFar;
-
     /** Constructor. */
-    WidgetCGI( QWidget *parent = NULLPTR );
+    WidgetUnit( QWidget *parent = NULLPTR );
 
     /** Destructor. */
-    virtual ~WidgetCGI();
+    virtual ~WidgetUnit();
 
-protected:
+private:
 
-    osg::ref_ptr<osgQt::GraphicsWindowQt> _graphicsWin;
+    QGridLayout *_gridLayout;
 
-    /** */
-    void paintEvent( QPaintEvent *event );
+    osg::ref_ptr<osg::Camera> _camera;
 
-    osgQt::GraphicsWindowQt* createGraphicsWindow( int x, int y, int w, int h,
-                                                   const std::string &name = "",
-                                                   bool windowDecoration = false );
+    QWidget* addViewWidget();
 
-    void removeAllChildren( osg::Camera *camera );
+    void createCamera();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // WIDGETCGI_H
+#endif // WIDGETUNIT_H

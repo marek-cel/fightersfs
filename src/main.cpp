@@ -22,6 +22,8 @@
 #include <QFontDatabase>
 #include <QMetaType>
 
+#include <osg/Notify>
+
 #include <defs.h>
 
 #include <gui/MainWindow.h>
@@ -50,6 +52,12 @@ int main( int argc, char *argv[] )
     file.open( QFile::ReadOnly );
     QString styleSheet = QLatin1String( file.readAll() );
     qApp->setStyleSheet( styleSheet );
+
+#   ifdef SIM_OSGDEBUGINFO
+    osg::setNotifyLevel( osg::DEBUG_INFO );
+#   else
+    osg::setNotifyLevel( osg::WARN );
+#   endif
 
     MainWindow *win = new MainWindow();
 

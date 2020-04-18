@@ -4,7 +4,9 @@ HEADERS += \
     $$PWD/MainWindow.h \
     $$PWD/MessageBox.h \
     $$PWD/WidgetCGI.h \
-    $$PWD/WidgetCtrl.h
+    $$PWD/WidgetCtrl.h \
+    $$PWD/WidgetPlay.h \
+    $$PWD/WidgetUnit.h
 
 SOURCES += \
     $$PWD/DialogAction.cpp \
@@ -12,8 +14,10 @@ SOURCES += \
     $$PWD/MainWindow.cpp \
     $$PWD/MessageBox.cpp \
     $$PWD/WidgetCGI.cpp \
-    $$PWD/WidgetCGI_KeyHandler.cpp \
-    $$PWD/WidgetCtrl.cpp
+    $$PWD/WidgetCtrl.cpp \
+    $$PWD/WidgetPlay.cpp \
+    $$PWD/WidgetPlay_KeyHandler.cpp \
+    $$PWD/WidgetUnit.cpp
 
 FORMS += \
     $$PWD/DialogAction.ui \

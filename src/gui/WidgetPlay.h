@@ -14,55 +14,85 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef WIDGETCGI_H
-#define WIDGETCGI_H
+#ifndef WIDGETPLAY_H
+#define WIDGETPLAY_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDateTime>
 #include <QGridLayout>
-#include <QWidget>
 
-#include <osgViewer/Viewer>
-#include <osgGA/GUIEventHandler>
-#include <osgQt/GraphicsWindowQt>
-
-#include <defs.h>
+#include <gui/WidgetCGI.h>
 
 #include <hid/hid_Assignment.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /** This is widget wrapper for CGI. */
-class WidgetCGI : public QWidget, public osgViewer::Viewer
+class WidgetPlay : public WidgetCGI
 {
     Q_OBJECT
 
 public:
 
-    static const double _zNear;
-    static const double _zFar;
+    /** */
+    class KeyHandler : public osgGA::GUIEventHandler
+    {
+    public:
+
+        /** */
+        KeyHandler( WidgetCGI *widgetCGI );
+
+        /** */
+        inline const bool* getKeysState() const { return _keysState; }
+
+        /** */
+        bool handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter & );
+
+    private:
+
+        WidgetCGI *_widgetCGI;
+
+        bool _keysState[ HID_MAX_KEYS ];
+
+        bool handleKeyDn( const osgGA::GUIEventAdapter &ea );
+        bool handleKeyUp( const osgGA::GUIEventAdapter &ea );
+    };
 
     /** Constructor. */
-    WidgetCGI( QWidget *parent = NULLPTR );
+    WidgetPlay( QWidget *parent = NULLPTR );
 
     /** Destructor. */
-    virtual ~WidgetCGI();
+    virtual ~WidgetPlay();
+
+    /** */
+    void init();
+
+    /** */
+    void stop();
+
+    /** */
+    void update();
 
 protected:
 
-    osg::ref_ptr<osgQt::GraphicsWindowQt> _graphicsWin;
-
     /** */
-    void paintEvent( QPaintEvent *event );
+    void resizeEvent( QResizeEvent *event );
 
-    osgQt::GraphicsWindowQt* createGraphicsWindow( int x, int y, int w, int h,
-                                                   const std::string &name = "",
-                                                   bool windowDecoration = false );
+private:
 
-    void removeAllChildren( osg::Camera *camera );
+    QGridLayout *_gridLayout;
+
+    osg::ref_ptr<KeyHandler> _keyHandler;
+
+    osg::ref_ptr<osg::Camera> _cameraOTW;
+    osg::ref_ptr<osg::Camera> _cameraHUD;
+
+    QWidget* addViewWidget();
+
+    void createCameraOTW();
+    void createCameraHUD();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // WIDGETCGI_H
+#endif // WIDGETPLAY_H

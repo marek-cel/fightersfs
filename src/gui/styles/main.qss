@@ -4,14 +4,14 @@
   background-image: url(":/gui/images/back.png") no-repeat center center fixed;
 }
 
-#pageMain QPushButton
+#pageHome QPushButton
 {
-  padding: 10px 40px;
-  border-radius: 10px;
-  border-style: outset;
-  border-width: 2px;
-  border-color: #fff;
-  color: #fff;
+  font-family: "FSG Stencil";
+  font-size: 14pt;
+}
+
+#pageData QPushButton
+{
   font-family: "FSG Stencil";
   font-size: 14pt;
 }
@@ -43,7 +43,7 @@ QPushButton
 
 QPushButton:hover
 {
-  background-color: #555;
+  background-color: rgba( 255, 255, 255, 65 );
 }
 
 QPushButton:disabled
@@ -54,6 +54,6 @@ QPushButton:disabled
 
 QPushButton:pressed
 {
-  background-color: #808080;
+  background-color: rgba( 255, 255, 255, 127 );
   border-width: 0;
 }

@@ -43,6 +43,13 @@ class MainWindow : public QMainWindow
 
 public:
 
+    enum
+    {
+        PageHome = 0,
+        PageData = 1,
+        PagePlay = 2
+    };
+
     /** Constructor. */
     explicit MainWindow( QWidget *parent = NULLPTR );
 
@@ -98,9 +105,12 @@ private slots:
     void shortcutPause_activated();
     void shortcutAbort_activated();
 
-    void on_pushButtonMenuStartTutorial_clicked();
+    void on_pushButtonMenuTutorial_clicked();
+    void on_pushButtonMenuData_clicked();
     void on_pushButtonMenuConf_clicked();
     void on_pushButtonMenuExit_clicked();
+
+    void on_pushButtonDataBack_clicked();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

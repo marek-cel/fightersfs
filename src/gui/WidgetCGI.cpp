@@ -27,86 +27,23 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const double WidgetCGI::m_zNear = 0.55;
-const double WidgetCGI::m_zFar  = SIM_SKYDOME_RAD + 0.1f * SIM_SKYDOME_RAD;
+const double WidgetCGI::_zNear = 0.55;
+const double WidgetCGI::_zFar  = SIM_SKYDOME_RAD + 0.1f * SIM_SKYDOME_RAD;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetCGI::WidgetCGI( QWidget *parent ) :
-    QWidget ( parent ),
-
-    _gridLayout ( 0 )
+    QWidget( parent )
 {
-#   ifdef SIM_OSGDEBUGINFO
-    osg::setNotifyLevel( osg::DEBUG_INFO );
-#   else
-    osg::setNotifyLevel( osg::WARN );
-#   endif
-
     //setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
     setThreadingModel( osgViewer::ViewerBase::ThreadPerContext );
 
     _graphicsWin = createGraphicsWindow( x(), y(), width(), height() );
-
-    QWidget *widget = addViewWidget();
-
-    _gridLayout = new QGridLayout( this );
-    _gridLayout->setContentsMargins( 1, 1, 1, 1 );
-    _gridLayout->addWidget( widget, 0, 0 );
-
-    _keyHandler = new KeyHandler( this );
-    getEventHandlers().push_front( _keyHandler.get() );
-
-    setLayout( _gridLayout );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetCGI::~WidgetCGI() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::init()
-{
-    removeAllChildren( _cameraHUD.get() );
-    removeAllChildren( _cameraOTW.get() );
-
-    osg::ref_ptr<osg::Node> nodeHUD = sim::Manager::instance()->getNodeHUD();
-    osg::ref_ptr<osg::Node> nodeOTW = sim::Manager::instance()->getNodeOTW();
-
-    if ( nodeHUD.valid() )
-    {
-        _cameraHUD->addChild( nodeHUD.get() );
-    }
-
-    if ( nodeOTW.valid() )
-    {
-        setSceneData( nodeOTW.get() );
-    }
-
-    setCameraManipulator( sim::Manager::instance()->getCameraManipulator() );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::stop()
-{
-    removeAllChildren( _cameraHUD.get() );
-    removeAllChildren( _cameraOTW.get() );
-
-    setCameraManipulator( 0 );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::update()
-{
-    hid::Manager::instance()->setKeysState( _keyHandler->getKeysState() );
-
-    //////////////////
-    QWidget::update();
-    //////////////////
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -117,77 +54,6 @@ void WidgetCGI::paintEvent( QPaintEvent *event )
     /////////////////////////////
 
     frame();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::resizeEvent( QResizeEvent *event )
-{
-    //////////////////////////////
-    QWidget::resizeEvent( event );
-    //////////////////////////////
-
-    sim::Manager::instance()->reload();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-QWidget* WidgetCGI::addViewWidget()
-{
-    createCameraOTW();
-    createCameraHUD();
-
-    addEventHandler( new osgViewer::StatsHandler );
-    setKeyEventSetsDone( 0 );
-
-    return _graphicsWin->getGLWidget();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::createCameraOTW()
-{
-    _cameraOTW = getCamera();
-
-    _cameraOTW->setGraphicsContext( _graphicsWin );
-
-    const osg::GraphicsContext::Traits *traits = _graphicsWin->getTraits();
-
-    float w = traits->width  / 1.0f;
-    float h = traits->height / 1.0f;
-
-    _cameraOTW->setClearColor( osg::Vec4( 0.0, 0.0, 0.0, 1.0 ) );
-    //_cameraOTW->setClearColor( osg::Vec4( 0.47, 0.71, 1.0, 1.0 ) );
-    //_cameraOTW->setClearColor( osg::Vec4( 0.223529, 0.223529, 0.223529, 1.0 ) );
-    _cameraOTW->setViewport( new osg::Viewport( 0, 0, w, h ) );
-    _cameraOTW->setProjectionMatrixAsPerspective( 30.0f, static_cast<double>(traits->width)/static_cast<double>(traits->height), m_zNear, m_zFar );
-    _cameraOTW->setNearFarRatio( m_zNear / m_zFar );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::createCameraHUD()
-{
-    _cameraHUD = new osg::Camera();
-
-    _cameraHUD->setGraphicsContext( _graphicsWin );
-
-    const osg::GraphicsContext::Traits *traits = _graphicsWin->getTraits();
-
-    double size = 100.0;
-    double w2h = (double)(traits->width) / (double)(traits->height);
-
-    _cameraHUD->setProjectionMatrixAsOrtho2D( -size * w2h, size * w2h, -size, size );
-    _cameraHUD->setReferenceFrame( osg::Transform::ABSOLUTE_RF );
-    _cameraHUD->setViewMatrix( osg::Matrix::identity() );
-    //_cameraHUD->setClearMask( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT );
-    _cameraHUD->setClearMask( GL_DEPTH_BUFFER_BIT );
-    _cameraHUD->setRenderOrder( osg::Camera::POST_RENDER );
-    _cameraHUD->setAllowEventFocus( false );
-    _cameraHUD->setProjectionResizePolicy( osg::Camera::HORIZONTAL );
-    _cameraHUD->setViewport( new osg::Viewport( 0, 0, traits->width, traits->height ) );
-
-    addSlave( _cameraHUD, false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

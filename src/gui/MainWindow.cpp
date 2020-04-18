@@ -90,6 +90,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::init()
 {
+    _ui->stackedMain->setCurrentIndex( PageHome );
+
     hid::Manager::instance()->init();
 
     _dialogConf->readData();
@@ -130,9 +132,9 @@ void MainWindow::timerEvent( QTimerEvent *event )
 
     double timeStep = (double)_timer->restart() / 1000.0;
 
-    if ( _ui->widgetCGI->isVisible() && _inited )
+    if ( _ui->widgetPlay->isVisible() && _inited )
     {
-        _ui->widgetCGI->update();
+        _ui->widgetPlay->update();
     }
 
     if ( _pending && !sim::Data::get()->ownship.destroyed )
@@ -156,7 +158,7 @@ void MainWindow::timerEvent( QTimerEvent *event )
 
                 if ( manipulator.valid() )
                 {
-                    _ui->widgetCGI->setCameraManipulator( manipulator.get() );
+                    _ui->widgetPlay->setCameraManipulator( manipulator.get() );
 
                     manipulator->setElevation( osg::DegreesToRadians( 10.0 ) );
                     manipulator->setDistance( 25.0 );
@@ -250,14 +252,14 @@ void MainWindow::simulationStart( int missionIndex )
         _heading  = 0.0;
         _timeCoef = 1.0;
 
-        _ui->stackedMain->setCurrentIndex( 1 );
+        _ui->stackedMain->setCurrentIndex( PagePlay );
 
-        int w = _ui->widgetCGI->width();
-        int h = _ui->widgetCGI->height();
+        int w = _ui->widgetPlay->width();
+        int h = _ui->widgetPlay->height();
 
         sim::Manager::instance()->init( w, h, missionIndex );
 
-        _ui->widgetCGI->init();
+        _ui->widgetPlay->init();
     }
 }
 
@@ -296,9 +298,9 @@ void MainWindow::simulationAbort()
 
     _timeCoef = 1.0;
 
-    _ui->stackedMain->setCurrentIndex( 0 );
+    _ui->stackedMain->setCurrentIndex( PageHome );
 
-    _ui->widgetCGI->stop();
+    _ui->widgetPlay->stop();
 
     sim::Manager::instance()->destroy();
 
@@ -345,9 +347,16 @@ void MainWindow::shortcutAbort_activated()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_pushButtonMenuStartTutorial_clicked()
+void MainWindow::on_pushButtonMenuTutorial_clicked()
 {
     simulationStart( 0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButtonMenuData_clicked()
+{
+    _ui->stackedMain->setCurrentIndex( PageData );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -372,4 +381,11 @@ void MainWindow::on_pushButtonMenuConf_clicked()
 void MainWindow::on_pushButtonMenuExit_clicked()
 {
     close();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButtonDataBack_clicked()
+{
+    _ui->stackedMain->setCurrentIndex( PageHome );
 }
