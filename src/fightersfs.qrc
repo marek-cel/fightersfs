@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>gui/images/back.png</file>
+        <file>gui/images/icon.png</file>
+        <file>gui/images/logo.png</file>
+        <file>gui/fonts/fsg_stencil.ttf</file>
+        <file>gui/styles/main.qss</file>
+    </qresource>
+</RCC>
