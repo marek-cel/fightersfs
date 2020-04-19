@@ -23,6 +23,7 @@
 #include <sim/sim_Elevation.h>
 #include <sim/sim_ListScenery.h>
 #include <sim/sim_ListUnits.h>
+#include <sim/sim_Log.h>
 #include <sim/sim_Ownship.h>
 
 #include <sim/cgi/sim_FogScene.h>
@@ -324,6 +325,6 @@ void Simulation::readMissions()
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "ERROR! Cannot open campaign file: " << campaignFile << std::endl;
+        Log::e() << "Cannot open campaign file: " << campaignFile << std::endl;
     }
 }

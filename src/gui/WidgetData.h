@@ -14,59 +14,47 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-
-#include <sim/utils/sim_XmlDoc.h>
-
-#include <sim/sim_Defines.h>
+#ifndef WIDGETDATA_H
+#define WIDGETDATA_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using namespace sim;
+#include <QWidget>
+
+#include <defs.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XmlDoc::XmlDoc( const std::string &fileName ) :
-    m_doc  ( 0 ),
-    m_open ( false ),
-    m_root ( 0 )
+namespace Ui
 {
-    readFile( fileName );
+    class WidgetData;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XmlDoc::~XmlDoc()
+class WidgetData : public QWidget
 {
-    if ( m_root ) delete m_root;
-    m_root = 0;
+    Q_OBJECT
 
-    xmlFreeDoc( m_doc );
-}
+public:
+
+    explicit WidgetData( QWidget *parent = NULLPTR );
+
+    ~WidgetData();
+
+signals:
+
+    void back();
+
+private:
+
+    Ui::WidgetData *_ui;                    ///< UI object
+
+private slots:
+
+    void on_pushButtonBack_clicked();
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int XmlDoc::readFile( const std::string &fileName )
-{
-    m_doc = xmlParseFile( fileName.c_str() );
-
-    if ( m_doc == 0 )
-    {
-        xmlFreeDoc( m_doc );
-        return SIM_FAILURE;
-    }
-
-    xmlNodePtr root = xmlDocGetRootElement( m_doc );
-
-    if ( root == 0 )
-    {
-        xmlFreeNode( root );
-        xmlFreeDoc( m_doc );
-        return SIM_FAILURE;
-    }
-
-    m_root = new XmlNode( root, fileName );
-
-    m_open = true;
-
-    return SIM_SUCCESS;
-}
+#endif // WIDGETDATA_H

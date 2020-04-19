@@ -45,9 +45,9 @@ public:
 
     enum
     {
-        PageHome = 0,
-        PageData = 1,
-        PagePlay = 2
+        PageHome = 0,       ///< home page index
+        PageData = 1,       ///< database page index
+        PagePlay = 2        ///< simulation page index
     };
 
     /** Constructor. */
@@ -71,21 +71,29 @@ private:
 
     Ui::MainWindow *_ui;                    ///< UI object
 
-    DialogConf *_dialogConf;                ///<
+    DialogConf *_dialogConf;                ///< configuration dialog
 
-    QShortcut *_shortcutPause;              ///<
-    QShortcut *_shortcutAbort;              ///<
+    QShortcut *_shortcutPause;              ///< pause keybaord shortcut
+    QShortcut *_shortcutAbort;              ///< abort keybaord shortcut
 
-    QElapsedTimer *_timer;                  ///<
+#   ifdef SIM_TEST
+    QShortcut *_shortcutAuto;               ///< toggle autopilot keybaord shortcut
+
+    QShortcut *_shortcutTimeFaster;         ///< faster time elapsing keyboard shortcut
+    QShortcut *_shortcutTimeSlower;         ///< slower time elapsing keyboard shortcut
+    QShortcut *_shortcutTimeNormal;         ///< normal time elapsing keyboard shortcut
+#   endif
+
+    QElapsedTimer *_timer;                  ///< timer object
 
     int _timerId;                           ///< timer ID
 
     double _timeCoef;                       ///< [-] time coefficient
     double _heading;                        ///< [rad] last valid heading
 
-    bool _autopilot;                        ///<
-    bool _inited;                           ///<
-    bool _paused;                           ///<
+    bool _autopilot;                        ///< specifies if autopilot is enabled
+    bool _inited;                           ///< specifies if simulation is initialized
+    bool _paused;                           ///< specifies if simulation is paused
     bool _throttle;                         ///< specifies if throttle is inited
     bool _pending;                          ///< specifies if mission is pending
 
@@ -105,12 +113,20 @@ private slots:
     void shortcutPause_activated();
     void shortcutAbort_activated();
 
+#   ifdef SIM_TEST
+    void shortcutAuto_activated();
+
+    void shortcutTimeFaster_activated();
+    void shortcutTimeSlower_activated();
+    void shortcutTimeNormal_activated();
+#   endif
+
     void on_pushButtonMenuTutorial_clicked();
     void on_pushButtonMenuData_clicked();
     void on_pushButtonMenuConf_clicked();
     void on_pushButtonMenuExit_clicked();
 
-    void on_pushButtonDataBack_clicked();
+    void on_pageData_back();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

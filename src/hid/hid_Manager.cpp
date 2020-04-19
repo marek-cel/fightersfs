@@ -19,7 +19,7 @@
 
 #include <memory.h>
 
-#include <sim/sim_Defs.h>
+#include <sim/sim_Defines.h>
 #include <hid/hid_Joysticks.h>
 
 ////////////////////////////////////////////////////////////////////////////////

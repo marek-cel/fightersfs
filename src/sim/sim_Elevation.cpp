@@ -20,7 +20,7 @@
 #include <math.h>
 #include <stdio.h>
 
-#include <osg/Notify>
+#include <sim/sim_Log.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -148,7 +148,7 @@ void Elevation::readFile( const std::string &fileName )
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "ERROR! Cannot open elevation file: " << fileName << std::endl;
+        Log::e() << "Cannot open elevation file: " << fileName << std::endl;
 
         error = true;
     }

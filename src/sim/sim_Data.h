@@ -21,7 +21,7 @@
 
 #include <memory.h>
 
-#include <sim/sim_Defs.h>
+#include <sim/sim_Defines.h>
 #include <sim/sim_Types.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -208,12 +208,12 @@ private:
 public:
 
     /** Returns pointer to the common data object. */
-    static inline SimulationData* get() { return &m_data; }
+    static inline SimulationData* get() { return &_data; }
 
     /** Zeroes common data. */
     static inline void reset()
     {
-        memset( &m_data, 0, sizeof(SimulationData) );
+        memset( &_data, 0, sizeof(SimulationData) );
     }
 
     /** Destructor. */
@@ -221,7 +221,7 @@ public:
 
 private:
 
-    static SimulationData m_data;   ///< simulation data
+    static SimulationData _data;    ///< simulation data
 };
 
 } // end of sim namespace

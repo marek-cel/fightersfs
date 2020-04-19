@@ -18,6 +18,7 @@
 #include <sim/entities/sim_WreckageAircraft.h>
 
 #include <sim/sim_Elevation.h>
+#include <sim/sim_Log.h>
 #include <sim/cgi/sim_Models.h>
 #include <sim/cgi/sim_Textures.h>
 #include <sim/entities/sim_Explosion.h>
@@ -261,7 +262,7 @@ void WreckageAircraft::loadLivery()
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "Model node does not exist." << std::endl;
+        Log::e() << "Model node does not exist." << std::endl;
     }
 }
 
@@ -279,6 +280,6 @@ void WreckageAircraft::loadModel()
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "ERROR! Cannot open aircraft file: " << aircraftFile << std::endl;
+        Log::e() << "Cannot open aircraft file: " << aircraftFile << std::endl;
     }
 }

@@ -14,16 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef SIM_DEFS_H
-#define SIM_DEFS_H
-
-////////////////////////////////////////////////////////////////////////////////
-
-#ifdef __ANDROID__
-#   define SIM_DATA_PATH "/sdcard/Download/data/"
-#else
-#   define SIM_DATA_PATH "../data/"
-#endif
+#ifndef SIM_DEFINES_H
+#define SIM_DEFINES_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -104,4 +96,13 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // SIM_DEFS_H
+#define THROW( e ) \
+{ \
+    e.setFile( __FILE__ ); \
+    e.setLine( __LINE__ ); \
+    throw e; \
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // SIM_DEFINES_H

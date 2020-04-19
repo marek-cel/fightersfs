@@ -15,58 +15,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
 
-#include <sim/utils/sim_XmlDoc.h>
+#include <gui/WidgetData.h>
+#include <ui_WidgetData.h>
 
-#include <sim/sim_Defines.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace sim;
+#include <gui/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XmlDoc::XmlDoc( const std::string &fileName ) :
-    m_doc  ( 0 ),
-    m_open ( false ),
-    m_root ( 0 )
+WidgetData::WidgetData( QWidget *parent ) :
+    QWidget ( parent ),
+    _ui ( new Ui::WidgetData )
 {
-    readFile( fileName );
+    _ui->setupUi( this );
+
+    for ( int i = 0; i < Units::instance()->getCount(); i++ )
+    {
+        QString name = Units::instance()->getData( i ).name.get().c_str();
+        _ui->comboBoxUnits->addItem( name );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XmlDoc::~XmlDoc()
+WidgetData::~WidgetData()
 {
-    if ( m_root ) delete m_root;
-    m_root = 0;
-
-    xmlFreeDoc( m_doc );
+    DELPTR( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int XmlDoc::readFile( const std::string &fileName )
+void WidgetData::on_pushButtonBack_clicked()
 {
-    m_doc = xmlParseFile( fileName.c_str() );
-
-    if ( m_doc == 0 )
-    {
-        xmlFreeDoc( m_doc );
-        return SIM_FAILURE;
-    }
-
-    xmlNodePtr root = xmlDocGetRootElement( m_doc );
-
-    if ( root == 0 )
-    {
-        xmlFreeNode( root );
-        xmlFreeDoc( m_doc );
-        return SIM_FAILURE;
-    }
-
-    m_root = new XmlNode( root, fileName );
-
-    m_open = true;
-
-    return SIM_SUCCESS;
+    emit back();
 }

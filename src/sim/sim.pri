@@ -3,7 +3,7 @@ HEADERS += \
     $$PWD/sim_Captions.h \
     $$PWD/sim_Creator.h \
     $$PWD/sim_Data.h \
-    $$PWD/sim_Defs.h \
+    $$PWD/sim_Defines.h \
     $$PWD/sim_Elevation.h \
     $$PWD/sim_Languages.h \
     $$PWD/sim_ListScenery.h \
@@ -11,6 +11,7 @@ HEADERS += \
     $$PWD/sim_Log.h \
     $$PWD/sim_Manager.h \
     $$PWD/sim_Ownship.h \
+    $$PWD/sim_Path.h \
     $$PWD/sim_Route.h \
     $$PWD/sim_Simulation.h \
     $$PWD/sim_Statistics.h \
@@ -27,6 +28,7 @@ SOURCES += \
     $$PWD/sim_Log.cpp \
     $$PWD/sim_Manager.cpp \
     $$PWD/sim_Ownship.cpp \
+    $$PWD/sim_Path.cpp \
     $$PWD/sim_Route.cpp \
     $$PWD/sim_Simulation.cpp \
     $$PWD/sim_Statistics.cpp

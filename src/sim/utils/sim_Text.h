@@ -59,7 +59,7 @@ public:
 
 private:
 
-    Strings m_strings;
+    Strings _strings;
 };
 
 } // end of sim namespace

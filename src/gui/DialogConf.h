@@ -32,14 +32,17 @@ namespace Ui
 
 ////////////////////////////////////////////////////////////////////////////////
 
+/** Configuration dialog box class. */
 class DialogConf : public QDialog
 {
     Q_OBJECT
 
 public:
 
+    /** Constructor. */
     explicit DialogConf( QWidget *parent = NULLPTR );
 
+    /** Destructor. */
     ~DialogConf();
 
     void readData();
@@ -49,7 +52,7 @@ public:
 
 private:
 
-    Ui::DialogConf *_ui;
+    Ui::DialogConf *_ui;        ///< UI object
 };
 
 ////////////////////////////////////////////////////////////////////////////////

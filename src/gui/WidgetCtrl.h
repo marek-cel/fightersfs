@@ -35,14 +35,17 @@ namespace Ui
 
 ////////////////////////////////////////////////////////////////////////////////
 
+/** Controls configuration widget class. */
 class WidgetCtrl : public QWidget
 {
     Q_OBJECT
 
 public:
 
+    /** Constructor. */
     explicit WidgetCtrl( QWidget *parent = NULLPTR );
 
+    /** Destructor. */
     ~WidgetCtrl();
 
     void getAssignments( hid::Assignment assignments[] );
@@ -54,7 +57,7 @@ public:
 
 private:
 
-    Ui::WidgetCtrl *_ui;
+    Ui::WidgetCtrl *_ui;        ///< UI object
 
     bool _defaultAssignmentsInited;
 

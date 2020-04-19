@@ -19,6 +19,7 @@
 
 #include <limits>
 
+#include <sim/sim_Log.h>
 #include <sim/entities/sim_Unit.h>
 #include <sim/utils/sim_String.h>
 
@@ -92,7 +93,7 @@ void Entities::listAll()
 
     while ( it != m_children.end() )
     {
-        osg::notify(osg::ALWAYS) << (*it)->getName() << std::endl;
+        Log::i() << (*it)->getName() << std::endl;
         ++it;
     }
 }

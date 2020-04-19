@@ -19,10 +19,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <memory.h>
-#include <string>
-
-#include <sim/sim_Defs.h>
+#include <sim/sim_Defines.h>
+#include <sim/sim_Path.h>
 #include <sim/sim_Types.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,29 +39,8 @@ public:
      */
     inline static std::string getPath( const std::string &path )
     {
-        return m_basePath + path;
+        return Path::get( path );
     }
-
-    /**
-     * @brief setBasePath
-     * @param basePath
-     */
-    inline static void setBasePath( const std::string &basePath )
-    {
-        m_basePath = basePath;
-    }
-
-    /** Overloaded operator which initializes memory. */
-    void* operator new( size_t st )
-    {
-        void *pv = ::operator new( st );
-        if ( pv ) memset( pv , 0 , st );
-        return pv;
-    }
-
-private:
-
-    static std::string m_basePath;
 };
 
 } // end of sim namespace

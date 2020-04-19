@@ -19,6 +19,8 @@
 
 #include <osgDB/ReadFile>
 
+#include <sim/sim_Log.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace sim;
@@ -62,7 +64,7 @@ osg::Texture2D* Textures::get( const std::string &textureFile, float maxAnisotro
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "ERROR! Cannot open texture file: " << textureFile << std::endl;
+        Log::e() << "Cannot open texture file: " << textureFile << std::endl;
     }
 
     return 0;

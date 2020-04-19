@@ -19,8 +19,15 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <sim/sim_Defs.h>
+#include <sim/sim_Defines.h>
 #include <sim/sim_Log.h>
+#include <sim/sim_Path.h>
+
+#include <sim/utils/sim_Singleton.h>
+#include <sim/utils/sim_Text.h>
+#include <sim/utils/sim_XmlDoc.h>
+#include <sim/utils/sim_XmlNode.h>
+#include <sim/utils/sim_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -61,7 +68,33 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-typedef sim::Log Log;
+#ifndef THROW
+#define THROW( e ) \
+{ \
+    e.setFile( __FILE__ ); \
+    e.setLine( __LINE__ ); \
+    throw e; \
+}
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+
+typedef unsigned char  UInt8;   ///< 8-bits unsigned integer type
+typedef unsigned short UInt16;  ///< 16-bits unsigned integer type
+typedef unsigned int   UInt32;  ///< 32-bits unsigned integer type
+
+////////////////////////////////////////////////////////////////////////////////
+
+typedef sim::Log  Log;
+typedef sim::Path Path;
+typedef sim::Text Text;
+
+typedef sim::XmlDoc   XmlDoc;
+typedef sim::XmlNode  XmlNode;
+typedef sim::XmlUtils XmlUtils;
+
+template < class TYPE >
+class Singleton : public sim::Singleton< TYPE > {};
 
 ////////////////////////////////////////////////////////////////////////////////
 

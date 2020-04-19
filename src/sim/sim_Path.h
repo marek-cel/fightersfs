@@ -14,66 +14,69 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-
-#include <sim/cgi/sim_Fonts.h>
-
-#include <osgDB/ReadFile>
-
-#include <sim/sim_Log.h>
+#ifndef SIM_PATH_H
+#define SIM_PATH_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using namespace sim;
+#include <string>
+
+#ifndef SIM_BASE_PATH
+#   ifdef SIM_TEST
+#       define SIM_BASE_PATH "../data/"
+#   else
+#       if defined(__ANDROID__)
+#           define SIM_DATA_PATH "/sdcard/Download/data/"
+#       elif defined(_LINUX_)
+#           define SIM_BASE_PATH "/usr/share/fightersfs/"
+#       elif defined(WIN32)
+#           define SIM_BASE_PATH "../data/"
+#       endif
+#   endif
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-osgText::Font* Fonts::get( const std::string &fontFile )
+namespace sim
 {
-    for ( unsigned int i = 0; i < instance()->m_fileNames.size(); i++ )
+
+/**
+ * @brief Files path class.
+ */
+class Path
+{
+public:
+
+    /**
+     * Returns file path prefixed with base path.
+     * @param path file path relative to the base path.
+     */
+    inline static std::string get( const char *path = "" )
     {
-        if ( fontFile == instance()->m_fileNames.at( i ) )
-        {
-            return instance()->m_fonts.at( i );
-        }
+        return get( std::string( path ) );
     }
 
-    osg::ref_ptr<osgText::Font> font = osgText::readFontFile( fontFile );
-
-    if ( font.valid() )
+    /**
+     * Returns file path prefixed with base path.
+     * @param path file path relative to the base path.
+     */
+    inline static std::string get( const std::string &path )
     {
-        instance()->m_fonts.push_back( font.get() );
-        instance()->m_fileNames.push_back( fontFile );
-
-        return font.get();
-    }
-    else
-    {
-        Log::e() << "Cannot open font file: " << fontFile << std::endl;
+        return _basePath + path;
     }
 
-    return 0;
-}
+    inline static void setBasePath( const char *basePath )
+    {
+        _basePath = basePath;
+    }
+
+private:
+
+    static std::string _basePath;
+};
+
+} // end of sim namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Fonts::reset()
-{
-    instance()->m_fileNames.clear();
-    instance()->m_fonts.clear();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Fonts::Fonts()
-{
-    m_fileNames.clear();
-    m_fonts.clear();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Fonts::~Fonts()
-{
-    m_fileNames.clear();
-    m_fonts.clear();
-}
+#endif // SIM_PATH_H

@@ -37,25 +37,10 @@
     <string notr="true"/>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <property name="leftMargin">
-     <number>0</number>
-    </property>
-    <property name="topMargin">
-     <number>0</number>
-    </property>
-    <property name="rightMargin">
-     <number>0</number>
-    </property>
-    <property name="bottomMargin">
-     <number>0</number>
-    </property>
-    <property name="spacing">
-     <number>0</number>
-    </property>
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedMain">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="pageHome">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -187,129 +172,8 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="pageData">
-       <layout class="QGridLayout" name="gridLayout_5">
-        <item row="0" column="0" colspan="2">
-         <widget class="QWidget" name="widgetDataHeader" native="true">
-          <layout class="QGridLayout" name="gridLayout_4">
-           <property name="leftMargin">
-            <number>11</number>
-           </property>
-           <property name="topMargin">
-            <number>11</number>
-           </property>
-           <property name="bottomMargin">
-            <number>11</number>
-           </property>
-           <item row="0" column="0">
-            <widget class="QPushButton" name="pushButtonDataBack">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>BACK</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLabel" name="labelDataTitle">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>1</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <family>FSG Stencil</family>
-               <pointsize>20</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLabel
-{
-	font-family: &quot;FSG Stencil&quot;;
-}</string>
-             </property>
-             <property name="text">
-              <string>DATABASE</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="1" column="0" rowspan="2" colspan="2">
-         <widget class="QWidget" name="widgetDataContent" native="true">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>1</verstretch>
-           </sizepolicy>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_6">
-           <property name="spacing">
-            <number>11</number>
-           </property>
-           <item row="0" column="1">
-            <widget class="QComboBox" name="comboBox">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>1</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QPlainTextEdit" name="plainTextData">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>1</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPlainTextEdit
-{
-	background-color: rgba( 0, 0, 0, 127 );
-	border-radius: 10px;
-}</string>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Plain</enum>
-             </property>
-             <property name="lineWidth">
-              <number>0</number>
-             </property>
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0" rowspan="2">
-            <widget class="WidgetUnit" name="widgetUnit" native="true">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>3</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-       </layout>
+      <widget class="WidgetData" name="pageData">
+       <layout class="QGridLayout" name="gridLayout_5"/>
       </widget>
       <widget class="QWidget" name="pagePlay">
        <layout class="QGridLayout" name="gridLayout_2">
@@ -340,15 +204,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>WidgetUnit</class>
-   <extends>QWidget</extends>
-   <header>gui/WidgetUnit.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>WidgetPlay</class>
    <extends>QWidget</extends>
    <header>gui/WidgetPlay.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WidgetData</class>
+   <extends>QWidget</extends>
+   <header>gui/WidgetData.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

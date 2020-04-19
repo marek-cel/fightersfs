@@ -31,17 +31,21 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 MainWindow::MainWindow( QWidget *parent ) :
-#   ifdef SIM_TEST
-    QMainWindow( parent ),
-#   else
     QMainWindow( parent, Qt::FramelessWindowHint ),
-#   endif
     _ui ( new Ui::MainWindow ),
 
     _dialogConf ( NULLPTR ),
 
     _shortcutPause ( NULLPTR ),
     _shortcutAbort ( NULLPTR ),
+
+#   ifdef SIM_TEST
+    _shortcutAuto ( NULLPTR ),
+
+    _shortcutTimeFaster ( NULLPTR ),
+    _shortcutTimeSlower ( NULLPTR ),
+    _shortcutTimeNormal ( NULLPTR ),
+#   endif
 
     _timer ( NULLPTR ),
 
@@ -63,6 +67,14 @@ MainWindow::MainWindow( QWidget *parent ) :
     _shortcutPause = new QShortcut( QKeySequence(Qt::Key_Pause)  , this, SLOT(shortcutPause_activated()) );
     _shortcutAbort = new QShortcut( QKeySequence(Qt::Key_Escape) , this, SLOT(shortcutAbort_activated()) );
 
+#   ifdef SIM_TEST
+    _shortcutAuto = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_A), this, SLOT(shortcutAuto_activated()) );
+
+    _shortcutTimeFaster = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Equal) , this, SLOT(shortcutTimeFaster_activated()) );
+    _shortcutTimeSlower = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Minus) , this, SLOT(shortcutTimeSlower_activated()) );
+    _shortcutTimeNormal = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_0)     , this, SLOT(shortcutTimeNormal_activated()) );
+#   endif
+
     _timer = new QElapsedTimer();
 
     settingsRead();
@@ -82,6 +94,14 @@ MainWindow::~MainWindow()
 
     DELPTR( _shortcutPause );
     DELPTR( _shortcutAbort );
+
+#   ifdef SIM_TEST
+    DELPTR( _shortcutAuto );
+
+    DELPTR( _shortcutTimeFaster );
+    DELPTR( _shortcutTimeSlower );
+    DELPTR( _shortcutTimeNormal );
+#   endif
 
     DELPTR( _ui );
 }
@@ -347,6 +367,80 @@ void MainWindow::shortcutAbort_activated()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef SIM_TEST
+void MainWindow::shortcutAuto_activated()
+{
+    toggleAutopilot();
+}
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+
+#ifdef SIM_TEST
+void MainWindow::shortcutTimeFaster_activated()
+{
+    if ( _inited )
+    {
+        if ( _timeCoef > 0.9 )
+        {
+            if ( _timeCoef < 10.0 )
+            {
+                _timeCoef += 1.0;
+            }
+            else
+            {
+                _timeCoef = 10.0;
+            }
+        }
+        else
+        {
+            _timeCoef += 0.1;
+        }
+    }
+
+    if ( _timeCoef > 10.0 ) _timeCoef = 10.0;
+}
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+
+#ifdef SIM_TEST
+void MainWindow::shortcutTimeSlower_activated()
+{
+    if ( _inited )
+    {
+        if ( _timeCoef > 1.0 )
+        {
+            _timeCoef -= 1.0;
+        }
+        else
+        {
+            if ( _timeCoef > 0.0 )
+            {
+                _timeCoef -= 0.1;
+            }
+            else
+            {
+                _timeCoef = 0.0;
+            }
+        }
+    }
+
+    if ( _timeCoef < 0.0 ) _timeCoef = 0.0;
+}
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+
+#ifdef SIM_TEST
+void MainWindow::shortcutTimeNormal_activated()
+{
+    _timeCoef = 1.0;
+}
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::on_pushButtonMenuTutorial_clicked()
 {
     simulationStart( 0 );
@@ -385,7 +479,7 @@ void MainWindow::on_pushButtonMenuExit_clicked()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_pushButtonDataBack_clicked()
+void MainWindow::on_pageData_back()
 {
     _ui->stackedMain->setCurrentIndex( PageHome );
 }

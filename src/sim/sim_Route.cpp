@@ -17,7 +17,7 @@
 
 #include <sim/sim_Route.h>
 
-#include <sim/sim_Defs.h>
+#include <sim/sim_Defines.h>
 
 #include <sim/utils/sim_String.h>
 #include <sim/utils/sim_XmlUtils.h>

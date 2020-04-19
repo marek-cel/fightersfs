@@ -31,7 +31,7 @@ Text::Text() {}
 
 Text::Text( const Text &text )
 {
-    m_strings = text.m_strings;
+    _strings = text._strings;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +42,7 @@ Text::~Text() {}
 
 void Text::append( const char *str )
 {
-    for ( Strings::iterator it = m_strings.begin(); it != m_strings.end(); it++ )
+    for ( Strings::iterator it = _strings.begin(); it != _strings.end(); it++ )
     {
         it->second += str;
     }
@@ -59,12 +59,12 @@ void Text::append( const std::string &str )
 
 void Text::append( const Text &text )
 {
-    if ( m_strings.size() == text.m_strings.size() )
+    if ( _strings.size() == text._strings.size() )
     {
-        Strings::iterator it = m_strings.begin();
-        Strings::const_iterator it_src = text.m_strings.begin();
+        Strings::iterator it = _strings.begin();
+        Strings::const_iterator it_src = text._strings.begin();
 
-        while ( it != m_strings.end() && it_src != text.m_strings.end() )
+        while ( it != _strings.end() && it_src != text._strings.end() )
         {
             it->second += it_src->second;
 
@@ -78,9 +78,9 @@ void Text::append( const Text &text )
 
 std::string Text::get() const
 {
-    Strings::const_iterator it = m_strings.find( Languages::instance()->getCurrent() );
+    Strings::const_iterator it = _strings.find( Languages::instance()->getCurrent() );
 
-    if ( it != m_strings.end() )
+    if ( it != _strings.end() )
     {
         return it->second;
     }
@@ -92,14 +92,14 @@ std::string Text::get() const
 
 void Text::set( UInt8 index, const std::string &str )
 {
-    Strings::iterator it = m_strings.find( index );
+    Strings::iterator it = _strings.find( index );
 
-    if ( it != m_strings.end() )
+    if ( it != _strings.end() )
     {
         it->second = str;
     }
     else
     {
-        m_strings.insert( std::pair< UInt8, std::string >( index, str ) );
+        _strings.insert( std::pair< UInt8, std::string >( index, str ) );
     }
 }

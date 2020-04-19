@@ -18,6 +18,7 @@
 #include <sim/sim_Creator.h>
 
 #include <sim/sim_ListUnits.h>
+#include <sim/sim_Log.h>
 
 #include <sim/entities/sim_Aircraft.h>
 #include <sim/entities/sim_Balloon.h>
@@ -112,7 +113,7 @@ Unit* Creator::createUnit( const std::string &type, const std::string &file,
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "ERROR! Unknown unit type: \"" << type << "\"" << std::endl;
+        Log::e() << "Unknown unit type: \"" << type << "\"" << std::endl;
     }
 
     if ( unit )
@@ -128,7 +129,7 @@ Unit* Creator::createUnit( const std::string &type, const std::string &file,
                 delete unit;
                 unit = 0;
 
-                osg::notify(osg::ALWAYS) << "ERROR! Cannot read unit file: " << unitFile << std::endl;
+                Log::e() << "Cannot read unit file: " << unitFile << std::endl;
             }
         }
         else
@@ -136,7 +137,7 @@ Unit* Creator::createUnit( const std::string &type, const std::string &file,
             delete unit;
             unit = 0;
 
-            osg::notify(osg::ALWAYS) << "ERROR! Cannot open unit file: " << unitFile << std::endl;
+            Log::e() << "Cannot open unit file: " << unitFile << std::endl;
         }
     }
 

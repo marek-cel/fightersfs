@@ -268,7 +268,7 @@ void Scenery::createShadow()
 
     stateSet->setAttribute( material.get() );
 
-    osg::ref_ptr<osg::Texture2D> texture = Textures::get( getPath( "shadow.png" ) );
+    osg::ref_ptr<osg::Texture2D> texture = Textures::get( getPath( "textures/shadow.png" ) );
     stateSet->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON );
 }
 #endif

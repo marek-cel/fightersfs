@@ -32,6 +32,9 @@ class UnitMarine : public UnitSurface
 public:
 
 #   ifdef SIM_TEST
+    static const char _frag[];      ///<
+    static const char _vert[];      ///<
+
     static void createReflection( osg::Node *model, osg::Group *parent );
 #   endif
 

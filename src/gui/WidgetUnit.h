@@ -25,7 +25,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** This is widget wrapper for CGI. */
+/** This is widget wrapper for database CGI. */
 class WidgetUnit : public WidgetCGI
 {
     Q_OBJECT

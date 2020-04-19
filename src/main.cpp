@@ -39,6 +39,8 @@ int main( int argc, char *argv[] )
     setenv( "LC_NUMERIC", "en_US", 1 );
 #   endif
 
+    Path::setBasePath( SIM_BASE_PATH );
+
     QApplication *app = new QApplication( argc, argv );
 
     app->setApplicationName    ( SIM_APP_NAME   );

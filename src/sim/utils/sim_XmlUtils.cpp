@@ -17,7 +17,7 @@
 
 #include <sim/utils/sim_XmlUtils.h>
 
-#include <sim/sim_Defs.h>
+#include <sim/sim_Defines.h>
 #include <sim/sim_Languages.h>
 
 #include <sim/utils/sim_Misc.h>

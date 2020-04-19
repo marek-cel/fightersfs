@@ -1,3 +1,11 @@
+2020-04-19 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * refactorization
+    
+    * reading units data from file and populating units combo box
+
+
+
 2020-04-18 Marek M. Cel <marekcel@marekcel.pl>
 
     * initial commit

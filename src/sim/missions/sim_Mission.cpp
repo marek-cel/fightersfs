@@ -18,6 +18,7 @@
 #include <sim/missions/sim_Mission.h>
 
 #include <sim/sim_Elevation.h>
+#include <sim/sim_Log.h>
 #include <sim/sim_Ownship.h>
 #include <sim/sim_Statistics.h>
 #include <sim/sim_Creator.h>
@@ -132,7 +133,7 @@ void Mission::init( const std::string &missionFile )
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "ERROR! Cannot open mission file: " << file << std::endl;
+        Log::e() << "Cannot open mission file: " << file << std::endl;
     }
 
     Data::get()->message.pointer_custom  = false;

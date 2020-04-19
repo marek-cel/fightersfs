@@ -32,6 +32,7 @@ class MessageBox : public QMessageBox
 
 public:
 
+    /** Shows question box with yes and no buttons. */
     static StandardButton question( QWidget *parent,
                                     const QString &title,
                                     const QString& text );

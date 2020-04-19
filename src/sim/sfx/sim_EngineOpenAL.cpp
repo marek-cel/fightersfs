@@ -20,6 +20,7 @@
 #include <osg/Notify>
 
 #include <sim/sim_Base.h>
+#include <sim/sim_Log.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -47,12 +48,12 @@ EngineOpenAL::EngineOpenAL() :
 
         if ( !alcMakeContextCurrent( _context ) )
         {
-            osg::notify(osg::ALWAYS) << "Cannot create context." << std::endl;
+            Log::e() << "Cannot create context." << std::endl;
         }
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "Cannot open audio device." << std::endl;
+        Log::e() << "Cannot open audio device." << std::endl;
     }
 
     _bombs     = new Sample( Base::getPath( "sfx/bombs.wav" ) );

@@ -23,6 +23,8 @@
 
 #include <osgDB/ReadFile>
 
+#include <sim/sim_Log.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace sim;
@@ -142,7 +144,7 @@ osg::Node* Models::get( const std::string &objectFile, bool straight )
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "ERROR! Cannot open object file: " << objectFile << std::endl;
+        Log::e() << "Cannot open object file: " << objectFile << std::endl;
     }
 
     return 0;
@@ -163,7 +165,7 @@ osg::Node* Models::readNodeFile( std::string objectFile )
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "ERROR! Cannot read object file: " << objectFile << std::endl;
+        Log::e() << "Cannot read object file: " << objectFile << std::endl;
     }
 
     return object.release();

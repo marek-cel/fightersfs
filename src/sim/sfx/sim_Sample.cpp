@@ -23,6 +23,8 @@
 
 #include <AL/alut.h>
 
+#include <sim/sim_Log.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace sim;
@@ -180,7 +182,7 @@ bool Sample::checkForErrors()
             break;
         }
 
-        osg::notify(osg::ALWAYS) << "SFX sample error: " << error_str << std::endl;
+        Log::e() << "SFX sample error: " << error_str << std::endl;
 
         return true;
     }
