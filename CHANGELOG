@@ -1,3 +1,13 @@
+2020-04-25 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * DELPTR and DELTAB macros used instead of simple deleting objects
+    
+    * unit viewer added
+    
+    * cleanup
+
+
+
 2020-04-19 Marek M. Cel <marekcel@marekcel.pl>
     
     * refactorization

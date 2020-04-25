@@ -31,40 +31,21 @@ Data::SimulationData Data::_data;
 ////////////////////////////////////////////////////////////////////////////////
 
 Manager::Manager() :
-    m_simulation ( 0 ),
+    _simulation ( 0 ),
 
-    m_mission_index ( 0 ),
-    m_scenery_index ( 0 ),
+    _mission_index ( 0 ),
 
-    m_type_index_ownship ( 0 ),
-    m_type_index_wingman ( 0 ),
-    m_type_index_ally_1  ( 0 ),
-    m_type_index_ally_2  ( 0 ),
-    m_type_index_enemy_1 ( 0 ),
-    m_type_index_enemy_2 ( 0 ),
-    m_type_index_enemy_3 ( 0 ),
-    m_type_index_enemy_4 ( 0 ),
+    _status ( Pending ),
 
-    m_livery_index_ownship ( 0 ),
-    m_livery_index_wingman ( 0 ),
-    m_livery_index_ally_1  ( 0 ),
-    m_livery_index_ally_2  ( 0 ),
-    m_livery_index_enemy_1 ( 0 ),
-    m_livery_index_enemy_2 ( 0 ),
-    m_livery_index_enemy_3 ( 0 ),
-    m_livery_index_enemy_4 ( 0 ),
+    _timeStep ( 0.0 ),
+    _timeInit ( 0.0 ),
 
-    m_status ( Pending ),
-
-    m_timeStep ( 0.0 ),
-    m_timeInit ( 0.0 ),
-
-    m_autopilot ( false ),
-    m_finished  ( false ),
-    m_inited    ( false ),
-    m_paused    ( false ),
-    m_pending   ( false ),
-    m_started   ( false )
+    _autopilot ( false ),
+    _finished  ( false ),
+    _inited    ( false ),
+    _paused    ( false ),
+    _pending   ( false ),
+    _started   ( false )
 {
     Data::reset();
 }
@@ -73,66 +54,46 @@ Manager::Manager() :
 
 Manager::~Manager()
 {
-    if ( m_simulation ) delete m_simulation;
-    m_simulation = 0;
+    DELPTR( _simulation );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::init( int width, int height, UInt32 mission_index )
 {
-    if ( m_simulation != 0 )
+    if ( _simulation != 0 )
     {
         reset();
     }
 
-    m_simulation = new Simulation( width, height );
+    _simulation = new Simulation( width, height );
 
-    m_mission_index = mission_index;
-    m_scenery_index = -1;
-
-    m_type_index_ownship = -1;
-    m_type_index_wingman = -1;
-    m_type_index_ally_1  = -1;
-    m_type_index_ally_2  = -1;
-    m_type_index_enemy_1 = -1;
-    m_type_index_enemy_2 = -1;
-    m_type_index_enemy_3 = -1;
-    m_type_index_enemy_4 = -1;
-
-    m_livery_index_ownship = -1;
-    m_livery_index_wingman = -1;
-    m_livery_index_ally_1  = -1;
-    m_livery_index_ally_2  = -1;
-    m_livery_index_enemy_1 = -1;
-    m_livery_index_enemy_2 = -1;
-    m_livery_index_enemy_3 = -1;
-    m_livery_index_enemy_4 = -1;
+    _mission_index = mission_index;
 
     setViewChase();
 
-    m_cameraManipulator = m_simulation->getCameraManipulator();
+    _cameraManipulator = _simulation->getCameraManipulator();
 
-    m_nodeHUD = m_simulation->getNodeHUD();
-    m_nodeOTW = m_simulation->getNodeOTW();
+    _nodeHUD = _simulation->getNodeHUD();
+    _nodeOTW = _simulation->getNodeOTW();
 
-    m_status = Pending;
+    _status = Pending;
 
-    m_autopilot = false;
-    m_finished  = false;
-    m_inited    = false;
-    m_paused    = true;
-    m_pending   = true;
-    m_started   = false;
+    _autopilot = false;
+    _finished  = false;
+    _inited    = false;
+    _paused    = true;
+    _pending   = true;
+    _started   = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::reload()
 {
-    if ( m_simulation )
+    if ( _simulation )
     {
-        m_simulation->load();
+        _simulation->load();
     }
 }
 
@@ -140,37 +101,37 @@ void Manager::reload()
 
 void Manager::update( double timeStep )
 {
-    m_timeStep = timeStep;
+    _timeStep = timeStep;
 
-    if ( m_timeStep < SIM_TIME_STEP_MIN ) m_timeStep = SIM_TIME_STEP_MIN;
-    if ( m_timeStep > SIM_TIME_STEP_MAX ) m_timeStep = SIM_TIME_STEP_MAX;
+    if ( _timeStep < SIM_TIME_STEP_MIN ) _timeStep = SIM_TIME_STEP_MIN;
+    if ( _timeStep > SIM_TIME_STEP_MAX ) _timeStep = SIM_TIME_STEP_MAX;
 
-    if ( m_simulation != 0 )
+    if ( _simulation != 0 )
     {
-        if ( !m_inited )
+        if ( !_inited )
         {
-            if ( m_timeInit > 1.0 )
+            if ( _timeInit > 1.0 )
             {
-                m_simulation->init( m_mission_index );
-                m_simulation->load();
+                _simulation->init( _mission_index );
+                _simulation->load();
 
-                m_inited = true;
+                _inited = true;
             }
 
-            m_timeInit += m_timeStep;
+            _timeInit += _timeStep;
         }
         else
         {
-            Data::get()->controls.autopilot = m_autopilot;
+            Data::get()->controls.autopilot = _autopilot;
 
-            if ( m_paused )
+            if ( _paused )
             {
                 if ( !Data::get()->paused )
                 {
                     Data::get()->message.visible = true;
                     Data::get()->message.overlay = true;
 
-                    if ( m_started )
+                    if ( _started )
                     {
                         strcpy( Data::get()->message.text, Captions::instance()->getResume().c_str() );
                     }
@@ -182,27 +143,27 @@ void Manager::update( double timeStep )
             }
             else
             {
-                m_started = true;
+                _started = true;
 
-                if ( !m_pending )
+                if ( !_pending )
                 {
                     if ( Data::get()->mission.time_end > SIM_END_DELAY )
                     {
-                        m_finished = true;
-                        m_paused   = true;
+                        _finished = true;
+                        _paused   = true;
                     }
                 }
             }
 
-            Data::get()->paused = m_paused;
+            Data::get()->paused = _paused;
 
-            ///////////////////////////////////
-            m_simulation->update( m_timeStep );
-            ///////////////////////////////////
+            /////////////////////////////////
+            _simulation->update( _timeStep );
+            /////////////////////////////////
 
-            m_status = Data::get()->mission.status;
+            _status = Data::get()->mission.status;
 
-            m_pending = m_status == Pending;
+            _pending = _status == Pending;
         }
     }
 }
@@ -211,13 +172,13 @@ void Manager::update( double timeStep )
 
 void Manager::pause()
 {
-    if ( m_inited )
+    if ( _inited )
     {
-        m_paused = true;
+        _paused = true;
 
-        if ( m_simulation )
+        if ( _simulation )
         {
-            m_simulation->pause();
+            _simulation->pause();
         }
     }
 }
@@ -226,13 +187,13 @@ void Manager::pause()
 
 void Manager::unpause()
 {
-    if ( m_inited )
+    if ( _inited )
     {
-        m_paused = false;
+        _paused = false;
 
-        if ( m_simulation )
+        if ( _simulation )
         {
-            m_simulation->unpause();
+            _simulation->unpause();
         }
     }
 }
@@ -241,9 +202,9 @@ void Manager::unpause()
 
 void Manager::restart()
 {
-    if ( m_simulation )
+    if ( _simulation )
     {
-        m_simulation->restart();
+        _simulation->restart();
     }
 }
 
@@ -281,10 +242,10 @@ void Manager::setLanguage( int index )
 
 void Manager::setViewChase()
 {
-    if ( m_simulation )
+    if ( _simulation )
     {
-        m_simulation->setViewChase();
-        m_cameraManipulator = m_simulation->getCameraManipulator();
+        _simulation->setViewChase();
+        _cameraManipulator = _simulation->getCameraManipulator();
     }
 }
 
@@ -292,10 +253,10 @@ void Manager::setViewChase()
 
 void Manager::setViewFlyby()
 {
-    if ( m_simulation )
+    if ( _simulation )
     {
-        m_simulation->setViewFlyby();
-        m_cameraManipulator = m_simulation->getCameraManipulator();
+        _simulation->setViewFlyby();
+        _cameraManipulator = _simulation->getCameraManipulator();
     }
 }
 
@@ -303,10 +264,10 @@ void Manager::setViewFlyby()
 
 void Manager::setViewFront()
 {
-    if ( m_simulation )
+    if ( _simulation )
     {
-        m_simulation->setViewFront();
-        m_cameraManipulator = m_simulation->getCameraManipulator();
+        _simulation->setViewFront();
+        _cameraManipulator = _simulation->getCameraManipulator();
     }
 }
 
@@ -314,10 +275,10 @@ void Manager::setViewFront()
 
 void Manager::setViewOrbit()
 {
-    if ( m_simulation )
+    if ( _simulation )
     {
-        m_simulation->setViewOrbit();
-        m_cameraManipulator = m_simulation->getCameraManipulator();
+        _simulation->setViewOrbit();
+        _cameraManipulator = _simulation->getCameraManipulator();
     }
 }
 
@@ -325,10 +286,10 @@ void Manager::setViewOrbit()
 
 void Manager::setViewPilot()
 {
-    if ( m_simulation )
+    if ( _simulation )
     {
-        m_simulation->setViewPilot();
-        m_cameraManipulator = m_simulation->getCameraManipulator();
+        _simulation->setViewPilot();
+        _cameraManipulator = _simulation->getCameraManipulator();
     }
 }
 
@@ -336,10 +297,10 @@ void Manager::setViewPilot()
 
 void Manager::setViewShift()
 {
-    if ( m_simulation )
+    if ( _simulation )
     {
-        m_simulation->setViewShift();
-        m_cameraManipulator = m_simulation->getCameraManipulator();
+        _simulation->setViewShift();
+        _cameraManipulator = _simulation->getCameraManipulator();
     }
 }
 
@@ -347,10 +308,10 @@ void Manager::setViewShift()
 
 void Manager::setViewWorld()
 {
-    if ( m_simulation )
+    if ( _simulation )
     {
-        m_simulation->setViewWorld();
-        m_cameraManipulator = m_simulation->getCameraManipulator();
+        _simulation->setViewWorld();
+        _cameraManipulator = _simulation->getCameraManipulator();
     }
 }
 
@@ -358,9 +319,9 @@ void Manager::setViewWorld()
 
 void Manager::toggleOrbitUnit()
 {
-    if ( m_simulation )
+    if ( _simulation )
     {
-        m_simulation->toggleOrbitUnit();
+        _simulation->toggleOrbitUnit();
     }
 }
 
@@ -370,19 +331,18 @@ void Manager::reset()
 {
     Data::reset();
 
-    if ( m_simulation ) delete m_simulation;
-    m_simulation = 0;
+    DELPTR( _simulation );
 
-    m_nodeHUD = 0;
-    m_nodeOTW = 0;
+    _nodeHUD = 0;
+    _nodeOTW = 0;
 
-    m_timeStep = 0.0;
-    m_timeInit = 0.0;
+    _timeStep = 0.0;
+    _timeInit = 0.0;
 
-    m_autopilot = false;
-    m_finished  = false;
-    m_inited    = false;
-    m_paused    = false;
-    m_pending   = false;
-    m_started   = false;
+    _autopilot = false;
+    _finished  = false;
+    _inited    = false;
+    _paused    = false;
+    _pending   = false;
+    _started   = false;
 }

@@ -24,10 +24,10 @@ using namespace sim;
 ////////////////////////////////////////////////////////////////////////////////
 
 Module::Module( osg::Group *root, Module *parent ) :
-    m_root ( root ),
-    m_parent ( parent )
+    _root ( root ),
+    _parent ( parent )
 {
-    m_children.clear();
+    _children.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -43,8 +43,8 @@ void Module::addChild( Module *child )
 {
     if ( child )
     {
-        m_children.push_back( child );
-        m_root->addChild( child->getNode() );
+        _children.push_back( child );
+        _root->addChild( child->getNode() );
     }
 }
 
@@ -52,9 +52,9 @@ void Module::addChild( Module *child )
 
 void Module::load()
 {
-    List::iterator it = m_children.begin();
+    List::iterator it = _children.begin();
 
-    while ( it != m_children.end() )
+    while ( it != _children.end() )
     {
         (*it)->load();
 
@@ -66,9 +66,9 @@ void Module::load()
 
 void Module::update()
 {
-    List::iterator it = m_children.begin();
+    List::iterator it = _children.begin();
 
-    while ( it != m_children.end() )
+    while ( it != _children.end() )
     {
         (*it)->update();
 
@@ -80,16 +80,15 @@ void Module::update()
 
 void Module::removeAllChildren()
 {
-    if ( m_root->getNumChildren() > 0 )
+    if ( _root->getNumChildren() > 0 )
     {
-        m_root->removeChildren( 0, m_root->getNumChildren() );
+        _root->removeChildren( 0, _root->getNumChildren() );
     }
 
-    for ( unsigned int i = 0; i < m_children.size(); i++ )
+    for ( unsigned int i = 0; i < _children.size(); i++ )
     {
-        if ( m_children[ i ] ) delete m_children[ i ];
-        m_children[ i ] = 0;
+        DELPTR( _children[ i ] );
     }
 
-    m_children.clear();
+    _children.clear();
 }

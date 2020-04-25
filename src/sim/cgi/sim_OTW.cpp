@@ -32,7 +32,7 @@ OTW::OTW( float linesWidth, Module *parent ) :
 
     m_linesWidth ( linesWidth )
 {
-    osg::ref_ptr<osg::StateSet> stateSet = m_root->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
 
     stateSet->setMode( GL_RESCALE_NORMAL , osg::StateAttribute::ON  );
     stateSet->setMode( GL_LIGHTING       , osg::StateAttribute::ON  );

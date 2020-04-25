@@ -47,7 +47,7 @@ public:
      * @param root OSG module root node object
      * @param parent parent module
      */
-    Module( osg::Group *root, Module *parent = 0 );
+    Module( osg::Group *root, Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~Module();
@@ -62,15 +62,15 @@ public:
     virtual void update();
 
     /** Returns module OSG node.  */
-    inline osg::Group* getNode() { return m_root.get(); }
+    inline osg::Group* getNode() { return _root.get(); }
 
 protected:
 
-    osg::ref_ptr<osg::Group> m_root;    ///< OSG module root node
+    osg::ref_ptr<osg::Group> _root;     ///< OSG module root node
 
-    List m_children;                    ///< children nodes
+    List _children;                     ///< children nodes
 
-    Module *m_parent;                   ///< parent node
+    Module *_parent;                    ///< parent node
 
     /** Removes all children. */
     virtual void removeAllChildren();

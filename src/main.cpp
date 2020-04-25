@@ -73,8 +73,8 @@ int main( int argc, char *argv[] )
 
     int result = app->exec();
 
-    delete win; win = 0;
-    delete app; app = 0;
+    DELPTR( win );
+    DELPTR( app );
 
     return result;
 }

@@ -42,6 +42,8 @@ public:
 
     ~WidgetData();
 
+    void step();
+
 signals:
 
     void back();
@@ -53,6 +55,7 @@ private:
 private slots:
 
     void on_pushButtonBack_clicked();
+    void on_comboBoxUnits_currentIndexChanged( int index );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

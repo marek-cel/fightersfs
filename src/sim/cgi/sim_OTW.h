@@ -37,7 +37,7 @@ class OTW : public Module
 public:
 
     /** Constructor. */
-    OTW( float linesWidth, Module *parent = 0 );
+    OTW( float linesWidth, Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~OTW();

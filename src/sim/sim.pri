@@ -55,7 +55,8 @@ HEADERS += \
     $$PWD/cgi/sim_Scenery.h \
     $$PWD/cgi/sim_SkyDome.h \
     $$PWD/cgi/sim_SplashScreen.h \
-    $$PWD/cgi/sim_Textures.h
+    $$PWD/cgi/sim_Textures.h \
+    $$PWD/cgi/sim_Viewer.h
 
 SOURCES += \
     $$PWD/cgi/sim_Camera.cpp \
@@ -76,7 +77,8 @@ SOURCES += \
     $$PWD/cgi/sim_Scenery.cpp \
     $$PWD/cgi/sim_SkyDome.cpp \
     $$PWD/cgi/sim_SplashScreen.cpp \
-    $$PWD/cgi/sim_Textures.cpp
+    $$PWD/cgi/sim_Textures.cpp \
+    $$PWD/cgi/sim_Viewer.cpp
 
 ################################################################################
 

@@ -37,8 +37,7 @@ XmlDoc::XmlDoc( const std::string &fileName ) :
 
 XmlDoc::~XmlDoc()
 {
-    if ( m_root ) delete m_root;
-    m_root = 0;
+    DELPTR( m_root );
 
     xmlFreeDoc( m_doc );
 }

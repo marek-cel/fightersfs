@@ -78,8 +78,7 @@ Gunner::Gunner( Affiliation affiliation, Group *parent, float range ) :
 
 Gunner::~Gunner()
 {
-    if ( m_target ) delete m_target;
-    m_target = 0;
+    DELPTR( m_target );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

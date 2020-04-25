@@ -80,7 +80,7 @@ protected:
 
 private:
 
-    QGridLayout *_gridLayout;
+    QGridLayout *_layout;
 
     osg::ref_ptr<KeyHandler> _keyHandler;
 

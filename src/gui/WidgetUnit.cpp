@@ -17,22 +17,28 @@
 
 #include <gui/WidgetUnit.h>
 
-#include <osgGA/TrackballManipulator>
+#include <osgViewer/ViewerEventHandlers>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetUnit::WidgetUnit( QWidget *parent ) :
     WidgetCGI ( parent ),
 
-    _gridLayout ( 0 )
+    _layout ( NULLPTR ),
+    _viewer ( NULLPTR )
 {
+    _viewer = new sim::Viewer( _gwin->getTraits()->width, _gwin->getTraits()->height );
+
     QWidget *widget = addViewWidget();
 
-    _gridLayout = new QGridLayout( this );
-    _gridLayout->setContentsMargins( 1, 1, 1, 1 );
-    _gridLayout->addWidget( widget, 0, 0 );
+    _layout = new QGridLayout( this );
+    _layout->setContentsMargins( 1, 1, 1, 1 );
+    _layout->addWidget( widget, 0, 0 );
 
-    setLayout( _gridLayout );
+    setLayout( _layout );
+
+    setCameraManipulator( _viewer->getCameraManipulator() );
+    _viewer->resetViewer();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,13 +47,35 @@ WidgetUnit::~WidgetUnit() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void WidgetUnit::update()
+{
+    _viewer->update( SIM_TIME_STEP );
+
+    //////////////////
+    QWidget::update();
+    //////////////////
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetUnit::setUnit( int index )
+{
+    _viewer->setUnit( index );
+    _viewer->resetViewer();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 QWidget* WidgetUnit::addViewWidget()
 {
     createCamera();
 
-    setKeyEventSetsDone( 0 );
+    setSceneData( _viewer->getNode() );
 
-    return _graphicsWin->getGLWidget();
+    addEventHandler( new osgViewer::StatsHandler );
+    //setKeyEventSetsDone( 0 );
+
+    return _gwin->getGLWidget();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,9 +84,9 @@ void WidgetUnit::createCamera()
 {
     _camera = getCamera();
 
-    _camera->setGraphicsContext( _graphicsWin );
+    _camera->setGraphicsContext( _gwin );
 
-    const osg::GraphicsContext::Traits *traits = _graphicsWin->getTraits();
+    const osg::GraphicsContext::Traits *traits = _gwin->getTraits();
 
     float w = traits->width  / 1.0f;
     float h = traits->height / 1.0f;

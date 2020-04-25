@@ -126,16 +126,14 @@ Unit* Creator::createUnit( const std::string &type, const std::string &file,
         {
             if ( SIM_SUCCESS != unit->read( doc.getRootNode() ) )
             {
-                delete unit;
-                unit = 0;
+                DELPTR( unit );
 
                 Log::e() << "Cannot read unit file: " << unitFile << std::endl;
             }
         }
         else
         {
-            delete unit;
-            unit = 0;
+            DELPTR( unit );
 
             Log::e() << "Cannot open unit file: " << unitFile << std::endl;
         }

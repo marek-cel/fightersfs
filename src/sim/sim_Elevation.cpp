@@ -20,6 +20,7 @@
 #include <math.h>
 #include <stdio.h>
 
+#include <sim/sim_Defines.h>
 #include <sim/sim_Log.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -173,6 +174,5 @@ void Elevation::reset()
     m_side = 0.0f;
     m_step = 0.0f;
 
-    if ( m_elev ) delete [] m_elev;
-    m_elev = 0;
+    DELTAB( m_elev );
 }

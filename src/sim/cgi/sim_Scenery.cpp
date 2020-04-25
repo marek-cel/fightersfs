@@ -55,13 +55,13 @@ Scenery::Scenery( Module *parent ) :
 {
 #   ifdef SIM_DESKTOP
     osgSim::OverlayNode::OverlayTechnique technique = osgSim::OverlayNode::OBJECT_DEPENDENT_WITH_ORTHOGRAPHIC_OVERLAY;
-    m_root = m_overlayNode = new osgSim::OverlayNode( technique );
+    _root = m_overlayNode = new osgSim::OverlayNode( technique );
 
     m_overlayNode->getOrCreateStateSet()->setTextureAttribute( 1, new osg::TexEnv( osg::TexEnv::DECAL ) );
     m_overlayNode->setContinuousUpdate( true );
 #   endif
 
-    m_root->setName( "scenery" );
+    _root->setName( "scenery" );
 
     loadTerrain();
     createObjects();
@@ -83,9 +83,9 @@ Scenery::~Scenery()
 
 void Scenery::load()
 {
-    if ( m_root->getNumChildren() > 0 )
+    if ( _root->getNumChildren() > 0 )
     {
-        m_root->removeChildren( 0, m_root->getNumChildren() );
+        _root->removeChildren( 0, _root->getNumChildren() );
     }
 
     loadTerrain();
@@ -181,7 +181,7 @@ void Scenery::update()
 void Scenery::createGeneric()
 {
     m_switchGeneric = new osg::Switch();
-    m_root->addChild( m_switchGeneric.get() );
+    _root->addChild( m_switchGeneric.get() );
 
     m_pat_0 = new osg::PositionAttitudeTransform();
     m_pat_x = new osg::PositionAttitudeTransform();
@@ -206,7 +206,7 @@ void Scenery::createObjects()
 
         if ( object.valid() )
         {
-            m_root->addChild( object.get() );
+            _root->addChild( object.get() );
         }
     }
 }
@@ -298,7 +298,7 @@ void Scenery::loadTerrain()
     {
         m_terrainNode = terrain.get();
 
-        m_root->addChild( terrain.get() );
+        _root->addChild( terrain.get() );
     }
 }
 

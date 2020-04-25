@@ -24,7 +24,7 @@
  * <h1>FSG - Flight Simulation Game</h1>
  *
  * <p>FSG is an arcade style combat flight simulation video game engine written
- * in C++ intended to be used with mobile devices such as smartphones and
+ * in C++ intended to be used with PC's, mobile devices such as smartphones and
  * tablets as well as smart TVs and set-top boxes.</p>
  *
  * <p>OpenGL ES or GLES for short and OpenSceneGraph or OSG are used
@@ -70,7 +70,7 @@ public:
     virtual ~Manager();
 
     /**
-     * Initializes simulation.
+     * Initializes mission.
      * @param width viewport width in pixels
      * @param height viewport height in pixels
      * @param mission_index mission file index as defined in missions/campaign.xml
@@ -104,49 +104,49 @@ public:
     /** Returns current camera manipulator. */
     inline osgGA::CameraManipulator* getCameraManipulator()
     {
-        return m_cameraManipulator.get();
+        return _cameraManipulator.get();
     }
 
     /** Returns HUD (Head-up-Display) scene node. */
-    inline osg::Group* getNodeHUD() { return m_nodeHUD.get(); }
+    inline osg::Group* getNodeHUD() { return _nodeHUD.get(); }
 
     /** Returns OTW (Out-the-Window) scene node. */
-    inline osg::Group* getNodeOTW() { return m_nodeOTW.get(); }
+    inline osg::Group* getNodeOTW() { return _nodeOTW.get(); }
 
     /** Returns mission status. */
-    inline Status getStatus() const { return m_status; }
+    inline Status getStatus() const { return _status; }
 
     /** Returns Id of the currently orbited (by camera) unit. */
     inline UInt32 getOrbitedUnitId() const
     {
-        if ( m_simulation )
-            return m_simulation->getOrbitedUnitId();
+        if ( _simulation )
+            return _simulation->getOrbitedUnitId();
 
         return 0;
     }
 
     /** Returns true if mission is finished due to success ot failure. */
-    inline bool isFinished() const { return m_finished; }
+    inline bool isFinished() const { return _finished; }
 
     /** Returns true if simulation is inited. */
     inline bool isInited() const
     {
-        return m_simulation != 0;
+        return _simulation != 0;
     }
 
     /** Returns true if simulation is inited and ready. */
-    inline bool isReady() const { return m_simulation != 0 && m_inited; }
+    inline bool isReady() const { return _simulation != 0 && _inited; }
 
     /** Returns true if simulation is paused. */
-    inline bool isPaused() const { return m_paused; }
+    inline bool isPaused() const { return _paused; }
 
     /** Returns true if mission is not finished. */
-    inline bool isPending() const { return m_pending; }
+    inline bool isPending() const { return _pending; }
 
     /** Sets autopilot state. */
     inline void setAutopilot( bool autopilot )
     {
-        m_autopilot = autopilot;
+        _autopilot = autopilot;
     }
 
     /**
@@ -195,45 +195,26 @@ public:
 
 private:
 
-    Simulation *m_simulation;   ///< simulation object
+    Simulation *_simulation;            ///< simulation object
 
-    osg::ref_ptr<osg::Group> m_nodeHUD; ///< HUD root node
-    osg::ref_ptr<osg::Group> m_nodeOTW; ///< OTW root node
+    osg::ref_ptr<osg::Group> _nodeHUD;  ///< HUD root node
+    osg::ref_ptr<osg::Group> _nodeOTW;  ///< OTW root node
 
-    osg::ref_ptr<osgGA::CameraManipulator> m_cameraManipulator; ///< current camera manipulator
+    osg::ref_ptr<osgGA::CameraManipulator> _cameraManipulator;  ///< current camera manipulator
 
-    UInt32 m_mission_index;     ///< mission file index
-    int m_scenery_index;        ///<
+    UInt32 _mission_index;              ///< mission file index
 
-    int m_type_index_ownship;   ///<
-    int m_type_index_wingman;   ///<
-    int m_type_index_ally_1;    ///<
-    int m_type_index_ally_2;    ///<
-    int m_type_index_enemy_1;   ///<
-    int m_type_index_enemy_2;   ///<
-    int m_type_index_enemy_3;   ///<
-    int m_type_index_enemy_4;   ///<
+    Status _status;                     ///< last mission status
 
-    int m_livery_index_ownship; ///<
-    int m_livery_index_wingman; ///<
-    int m_livery_index_ally_1;  ///<
-    int m_livery_index_ally_2;  ///<
-    int m_livery_index_enemy_1; ///<
-    int m_livery_index_enemy_2; ///<
-    int m_livery_index_enemy_3; ///<
-    int m_livery_index_enemy_4; ///<
+    double _timeStep;                   ///< [s] simulation time step
+    double _timeInit;                   ///< [s] time since init
 
-    Status m_status;            ///< last mission status
-
-    double m_timeStep;          ///< [s] simulation time step
-    double m_timeInit;          ///< [s] time since init
-
-    bool m_autopilot;           ///< specifies if autopilot is engaged
-    bool m_finished;            ///< specifies if simulation is finished
-    bool m_inited;              ///<
-    bool m_paused;              ///< specifies if simulation is paused
-    bool m_pending;             ///< specifies if mission is pending
-    bool m_started;             ///< specifies if simulation have been started after initial pause
+    bool _autopilot;                    ///< specifies if autopilot is engaged
+    bool _finished;                     ///< specifies if simulation is finished
+    bool _inited;                       ///<
+    bool _paused;                       ///< specifies if simulation is paused
+    bool _pending;                      ///< specifies if mission is pending
+    bool _started;                      ///< specifies if simulation have been started after initial pause
 
     /** Destroys simulation object, resets data, etc. */
     void reset();

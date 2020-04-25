@@ -65,8 +65,7 @@ Route* Route::read( const XmlNode &node )
         }
     }
 
-    if ( route ) delete route;
-    route = 0;
+    DELPTR( route );
 
     return route;
 }

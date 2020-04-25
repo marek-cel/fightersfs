@@ -79,7 +79,7 @@ public:
 
     UInt32 getCount() const { return _units.size(); }
 
-    Data getData( UInt32 index ) const;
+    Data getData( int index ) const;
 
 private:
 

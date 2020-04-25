@@ -126,7 +126,7 @@ private slots:
     void on_pushButtonMenuConf_clicked();
     void on_pushButtonMenuExit_clicked();
 
-    void on_pageData_back();
+    void on_widgetData_back();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

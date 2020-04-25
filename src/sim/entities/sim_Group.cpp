@@ -58,8 +58,7 @@ void Group::deleteAllEntities()
 
     while ( it != m_children.end() )
     {
-        if ( *it ) delete (*it);
-        (*it) = 0;
+        DELPTR( *it );
 
         it = m_children.erase( it );
     }
@@ -77,8 +76,7 @@ void Group::deleteEntity( Entity *entity )
         {
             if ( (*it) == entity )
             {
-                if ( *it ) delete (*it);
-                (*it) = 0;
+                DELPTR( *it );
                 m_children.erase( it );
 
                 return;
@@ -167,8 +165,7 @@ void Group::update( double timeStep )
         {
             if ( (*it)->getState() == Inactive )
             {
-                delete (*it);
-                (*it) = 0;
+                DELPTR( *it );
                 it = m_children.erase( it );
             }
             else

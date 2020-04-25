@@ -57,8 +57,7 @@ Fighter::Fighter( Affiliation affiliation ) :
 
 Fighter::~Fighter()
 {
-    if ( m_target ) delete m_target;
-    m_target = 0;
+    DELPTR( m_target );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

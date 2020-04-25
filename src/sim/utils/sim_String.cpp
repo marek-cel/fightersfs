@@ -24,6 +24,8 @@
 #include <sstream>
 #include <string.h>
 
+#include <sim/sim_Defines.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace sim;
@@ -59,8 +61,7 @@ std::string String::stripLeadingSpaces( const std::string &str )
 
     std::string result = &( temp[ offset ] );
 
-    if ( temp ) delete [] temp;
-    temp = 0;
+    DELTAB( temp );
 
     return result;
 }

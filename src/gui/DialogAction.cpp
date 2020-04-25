@@ -67,8 +67,7 @@ hid::Assignment DialogAction::getJoyAxisAssignment( QWidget *parent, hid::Assign
         }
     }
 
-    if ( dialog ) delete dialog;
-    dialog = 0;
+    DELPTR( dialog );
 
     return assignment;
 }
@@ -138,8 +137,7 @@ hid::Assignment DialogAction::getJoyButtAssignment( QWidget *parent, hid::Assign
         }
     }
 
-    if ( dialog ) delete dialog;
-    dialog = 0;
+    DELPTR( dialog );
 
     return assignment;
 }
@@ -163,8 +161,7 @@ hid::Assignment DialogAction::getKeyAssignment( QWidget *parent, hid::Assignment
         }
     }
 
-    if ( dialog ) delete dialog;
-    dialog = 0;
+    DELPTR( dialog );
 
     return assignment;
 }

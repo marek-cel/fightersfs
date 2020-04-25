@@ -51,7 +51,7 @@ public:
 
 protected:
 
-    osg::ref_ptr<osgQt::GraphicsWindowQt> _graphicsWin;
+    osg::ref_ptr<osgQt::GraphicsWindowQt> _gwin;
 
     /** */
     void paintEvent( QPaintEvent *event );

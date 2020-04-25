@@ -74,20 +74,11 @@ Simulation::~Simulation()
 {
     Models::reset();
 
-    if ( m_otw ) delete m_otw;
-    m_otw = 0;
-
-    if ( m_hud ) delete m_hud;
-    m_hud = 0;
-
-    if ( m_sfx ) delete m_sfx;
-    m_sfx = 0;
-
-    if ( m_camera ) delete m_camera;
-    m_camera = 0;
-
-    if ( m_mission ) delete m_mission;
-    m_mission = 0;
+    DELPTR( m_otw );
+    DELPTR( m_hud );
+    DELPTR( m_sfx );
+    DELPTR( m_camera );
+    DELPTR( m_mission );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

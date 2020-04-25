@@ -157,6 +157,11 @@ void MainWindow::timerEvent( QTimerEvent *event )
         _ui->widgetPlay->update();
     }
 
+    if ( _ui->widgetData->isVisible() )
+    {
+        _ui->widgetData->step();
+    }
+
     if ( _pending && !sim::Data::get()->ownship.destroyed )
     {
         _heading = sim::Data::get()->ownship.heading;
@@ -479,7 +484,7 @@ void MainWindow::on_pushButtonMenuExit_clicked()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_pageData_back()
+void MainWindow::on_widgetData_back()
 {
     _ui->stackedMain->setCurrentIndex( PageHome );
 }

@@ -38,7 +38,7 @@ WidgetCGI::WidgetCGI( QWidget *parent ) :
     //setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
     setThreadingModel( osgViewer::ViewerBase::ThreadPerContext );
 
-    _graphicsWin = createGraphicsWindow( x(), y(), width(), height() );
+    _gwin = createGraphicsWindow( x(), y(), width(), height() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -43,7 +43,7 @@ Gates::Gates( float linesWidth, Module *parent ) :
 
     m_linesWidth ( linesWidth )
 {
-    m_switch = dynamic_cast<osg::Switch*>( m_root.get() );
+    m_switch = dynamic_cast<osg::Switch*>( _root.get() );
 
     m_pat0 = new osg::PositionAttitudeTransform();
     m_pat1 = new osg::PositionAttitudeTransform();

@@ -46,7 +46,7 @@ SkyDome::SkyDome( Module *parent ) :
     Module( new osg::Group(), parent )
 {
     m_patSky = new osg::PositionAttitudeTransform();
-    m_root->addChild( m_patSky.get() );
+    _root->addChild( m_patSky.get() );
 
     m_patSun = new osg::PositionAttitudeTransform();
     m_patSky->addChild( m_patSun.get() );

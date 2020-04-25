@@ -90,8 +90,7 @@ Stage* Stage::read( const XmlNode &node, bool tutorial )
         }
     }
 
-    if ( stage ) delete stage;
-    stage = 0;
+    DELPTR( stage );
 
     return stage;
 }
@@ -343,8 +342,7 @@ Stage::~Stage()
 {
     for ( Objectives::iterator it = m_objectives.begin(); it != m_objectives.end(); ++it )
     {
-        if ( (*it) ) delete (*it);
-        (*it) = 0;
+        DELPTR( *it );
     }
 
     m_objectives.clear();

@@ -42,7 +42,7 @@ public:
     static float m_sunCoef;
 
     /** Constructor. */
-    SkyDome( Module *parent = 0 );
+    SkyDome( Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~SkyDome();

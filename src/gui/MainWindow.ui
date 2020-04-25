@@ -37,6 +37,21 @@
     <string notr="true"/>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>0</number>
+    </property>
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedMain">
       <property name="currentIndex">
@@ -172,8 +187,12 @@
         </item>
        </layout>
       </widget>
-      <widget class="WidgetData" name="pageData">
-       <layout class="QGridLayout" name="gridLayout_5"/>
+      <widget class="QWidget" name="pageData">
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="WidgetData" name="widgetData" native="true"/>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="pagePlay">
        <layout class="QGridLayout" name="gridLayout_2">

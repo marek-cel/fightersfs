@@ -50,10 +50,9 @@ ObjectiveDestroy* ObjectiveDestroy::read( const XmlNode &node )
             }
             else
             {
-                //////////////////////////////////
-                if ( objective ) delete objective;
-                objective = 0;
-                //////////////////////////////////
+                ////////////////////
+                DELPTR( objective );
+                ////////////////////
 
                 return 0;
             }
@@ -64,8 +63,7 @@ ObjectiveDestroy* ObjectiveDestroy::read( const XmlNode &node )
         return objective;
     }
 
-    if ( objective ) delete objective;
-    objective = 0;
+    DELPTR( objective );
 
     return objective;
 }

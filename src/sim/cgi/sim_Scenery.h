@@ -57,7 +57,7 @@ public:
     }
 
     /** Constructor. */
-    Scenery( Module *parent = 0 );
+    Scenery( Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~Scenery();

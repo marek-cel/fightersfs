@@ -49,7 +49,7 @@ FogScene::FogScene( Module *parent ) :
 
     m_fog = new osg::Fog();
 
-    osg::ref_ptr<osg::StateSet> stateSet = m_root->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
 
     osg::Vec4 color( Color::fog_light, 0.0f );
 
@@ -69,7 +69,7 @@ FogScene::FogScene( Module *parent ) :
 
     addChild( new Scenery( this ) );
 
-    m_root->addChild( Entities::instance()->getNode() );
+    _root->addChild( Entities::instance()->getNode() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +85,7 @@ void FogScene::update()
     /////////////////
 
 #   ifdef SIM_TEST
-    osg::ref_ptr<osg::StateSet> stateSet = m_root->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
 
     if ( Data::get()->camera.type == ViewWorld )
     {

@@ -23,6 +23,8 @@
 
 #include <gui/WidgetCGI.h>
 
+#include <sim/cgi/sim_Viewer.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 /** This is widget wrapper for database CGI. */
@@ -38,11 +40,17 @@ public:
     /** Destructor. */
     virtual ~WidgetUnit();
 
+    void update();
+
+    void setUnit( int index );
+
 private:
 
-    QGridLayout *_gridLayout;
+    QGridLayout *_layout;
 
     osg::ref_ptr<osg::Camera> _camera;
+
+    sim::Viewer *_viewer;
 
     QWidget* addViewWidget();
 

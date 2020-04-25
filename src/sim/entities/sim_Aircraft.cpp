@@ -142,17 +142,11 @@ Aircraft::Aircraft( Affiliation affiliation ) :
 
 Aircraft::~Aircraft()
 {
-    if ( m_pid_phi ) delete m_pid_phi;
-    m_pid_phi = 0;
+    DELPTR( m_pid_phi );
 
-    if ( m_pid_p ) delete m_pid_p;
-    m_pid_p = 0;
-
-    if ( m_pid_q ) delete m_pid_q;
-    m_pid_q = 0;
-
-    if ( m_pid_r ) delete m_pid_r;
-    m_pid_r = 0;
+    DELPTR( m_pid_p );
+    DELPTR( m_pid_q );
+    DELPTR( m_pid_r );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

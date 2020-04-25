@@ -40,7 +40,7 @@ public:
     static int m_visibility;    ///< [m]
 
     /** Constructor. */
-    FogScene( Module *parent = 0 );
+    FogScene( Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~FogScene();

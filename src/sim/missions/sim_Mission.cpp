@@ -68,8 +68,7 @@ Mission::~Mission()
     // delete routes
     for ( Routes::iterator it = m_routes.begin(); it != m_routes.end(); ++it )
     {
-        if ( (it->second) ) delete (it->second);
-        (it->second) = 0;
+        DELPTR( it->second );
     }
 
     m_routes.clear();
@@ -77,8 +76,7 @@ Mission::~Mission()
     // delete stages
     for ( Stages::iterator it = m_stages.begin(); it != m_stages.end(); ++it )
     {
-        if ( (*it) ) delete (*it);
-        (*it) = 0;
+        DELPTR( *it );
     }
 
     m_stages.clear();

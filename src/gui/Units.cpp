@@ -21,7 +21,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Units::Data Units::getData( UInt32 index ) const
+Units::Data Units::getData( int index ) const
 {
     Data result;
 

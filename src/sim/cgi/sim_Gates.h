@@ -42,7 +42,7 @@ public:
     static const float m_size;      ///< [m] waypoint box size
 
     /** Constructor. */
-    Gates( float linesWidth, Module *parent = 0 );
+    Gates( float linesWidth, Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~Gates();

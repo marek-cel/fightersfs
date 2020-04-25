@@ -49,8 +49,7 @@ ObjectiveWaypoint* ObjectiveWaypoint::read( const XmlNode &node )
         }
     }
 
-    if ( objective ) delete objective;
-    objective = 0;
+    DELPTR( objective );
 
     return objective;
 }

@@ -121,9 +121,9 @@ void UnitMarine::createReflection( osg::Node *model, osg::Group *parent )
     lodReflection->addChild( groupReflection.get(), 0.0f, 10000.0f );
 
     osg::ref_ptr<osg::MatrixTransform> reverse = new osg::MatrixTransform;
-    reverse->preMult(osg::Matrix::translate(0.0f, 0.0f, -z) *
-                     osg::Matrix::scale(1.0f, 1.0f, -1.0f) *
-                     osg::Matrix::translate(0.0f, 0.0f, z) );
+    reverse->preMult( osg::Matrix::translate(0.0f, 0.0f, -z) *
+                      osg::Matrix::scale(1.0f, 1.0f, -1.0f) *
+                      osg::Matrix::translate(0.0f, 0.0f, z) );
     reverse->addChild( model );
 
     osg::ref_ptr<osg::ClipPlane> clipPlane = new osg::ClipPlane;
@@ -197,7 +197,7 @@ void UnitMarine::createReflection( osg::Node *model, osg::Group *parent )
 
     ////////////////////////////////
 
-    groupReflection->addChild( model );
+    //groupReflection->addChild( model );
     groupReflection->addChild( cameraRTT.get() );
     groupReflection->addChild( geodeQuad.get() );
 

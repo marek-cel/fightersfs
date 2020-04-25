@@ -40,8 +40,7 @@ Kamikaze::Kamikaze( Affiliation affiliation ) :
 
 Kamikaze::~Kamikaze()
 {
-    if ( m_target ) delete m_target;
-    m_target = 0;
+    DELPTR( m_target );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

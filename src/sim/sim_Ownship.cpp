@@ -101,17 +101,11 @@ Ownship::Ownship() :
 
 Ownship::~Ownship()
 {
-    if ( m_pid_p ) delete m_pid_p;
-    m_pid_p = 0;
+    DELPTR( m_pid_p );
+    DELPTR( m_pid_q );
+    DELPTR( m_pid_r );
 
-    if ( m_pid_q ) delete m_pid_q;
-    m_pid_q = 0;
-
-    if ( m_pid_r ) delete m_pid_r;
-    m_pid_r = 0;
-
-    if ( m_aircraftTarget ) delete m_aircraftTarget;
-    m_aircraftTarget = 0;
+    DELPTR( m_aircraftTarget );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -308,8 +302,8 @@ void Ownship::setAircraft( Aircraft *aircraft )
     {
         m_aircraft = aircraft;
 
-        if ( m_aircraftTarget ) delete m_aircraftTarget;
-        m_aircraftTarget = 0;
+        DELPTR( m_aircraftTarget );
+
         m_aircraftWreckage = 0;
 
         m_destroyed = false;
@@ -406,8 +400,7 @@ void Ownship::idleOutput()
 
 void Ownship::reset()
 {
-    if ( m_aircraftTarget ) delete m_aircraftTarget;
-    m_aircraftTarget = 0;
+    DELPTR( m_aircraftTarget );
 
     m_aircraftWreckage = 0;
     m_targetWreckage   = 0;

@@ -30,18 +30,18 @@
 WidgetPlay::WidgetPlay( QWidget *parent ) :
     WidgetCGI( parent ),
 
-    _gridLayout ( 0 )
+    _layout ( NULLPTR )
 {
     QWidget *widget = addViewWidget();
 
-    _gridLayout = new QGridLayout( this );
-    _gridLayout->setContentsMargins( 1, 1, 1, 1 );
-    _gridLayout->addWidget( widget, 0, 0 );
+    _layout = new QGridLayout( this );
+    _layout->setContentsMargins( 1, 1, 1, 1 );
+    _layout->addWidget( widget, 0, 0 );
 
     _keyHandler = new KeyHandler( this );
     getEventHandlers().push_front( _keyHandler.get() );
 
-    setLayout( _gridLayout );
+    setLayout( _layout );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -113,7 +113,7 @@ QWidget* WidgetPlay::addViewWidget()
     addEventHandler( new osgViewer::StatsHandler );
     setKeyEventSetsDone( 0 );
 
-    return _graphicsWin->getGLWidget();
+    return _gwin->getGLWidget();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -122,9 +122,9 @@ void WidgetPlay::createCameraOTW()
 {
     _cameraOTW = getCamera();
 
-    _cameraOTW->setGraphicsContext( _graphicsWin );
+    _cameraOTW->setGraphicsContext( _gwin );
 
-    const osg::GraphicsContext::Traits *traits = _graphicsWin->getTraits();
+    const osg::GraphicsContext::Traits *traits = _gwin->getTraits();
 
     float w = traits->width  / 1.0f;
     float h = traits->height / 1.0f;
@@ -145,9 +145,9 @@ void WidgetPlay::createCameraHUD()
 {
     _cameraHUD = new osg::Camera();
 
-    _cameraHUD->setGraphicsContext( _graphicsWin );
+    _cameraHUD->setGraphicsContext( _gwin );
 
-    const osg::GraphicsContext::Traits *traits = _graphicsWin->getTraits();
+    const osg::GraphicsContext::Traits *traits = _gwin->getTraits();
 
     double size = 100.0;
     double w2h = (double)(traits->width) / (double)(traits->height);
