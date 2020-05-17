@@ -19,6 +19,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <cmath>
+
+////////////////////////////////////////////////////////////////////////////////
+
 namespace sim
 {
 
@@ -58,6 +62,36 @@ public:
     }
 
     /**
+     * Converts given velocity from km/h to knots.
+     * @param vel velocity expressed in km/h
+     * @return velocity expressed in knots
+     */
+    static inline double kmh2kts( double vel = 1.0 )
+    {
+        return vel * 0.539956803;
+    }
+
+    /**
+     * Converts given velocity from kntos to km/h.
+     * @param vel velocity expressed in knots
+     * @return velocity expressed in km/h
+     */
+    static inline double kts2kmh( double vel = 1.0 )
+    {
+        return vel * 1.852;
+    }
+
+    /**
+     * Converts given length from kilometres to nautical miles.
+     * @param len length expressed in kilometres
+     * @return length expressed in nautical miles
+     */
+    static inline double km2nmi( double len = 1.0 )
+    {
+        return len * 0.539956803;
+    }
+
+    /**
      * Converts given length from metres to feet.
      * @param length length expressed in metres
      * @return length expressed in feet
@@ -72,7 +106,7 @@ public:
      * @param length length expressed in metres
      * @return length expressed in nautical miles
      */
-    static inline float m2nm( float length = 1.0f )
+    static inline float m2nmi( float length = 1.0f )
     {
         return length * 0.000539956803f;
     }
@@ -82,7 +116,7 @@ public:
      * @param length length expressed in nautical miles
      * @return length expressed in metres
      */
-    static inline float nm2m( float length = 1.0 )
+    static inline float nmi2m( float length = 1.0 )
     {
         return length * 1852.0f;
     }
@@ -115,6 +149,26 @@ public:
     static inline float kts2mps( float vel = 1.0f )
     {
         return vel * 0.5144444444444f;
+    }
+
+    /**
+     * Converts given mass from kilograms to pounds.
+     * @param mass mass expressed in kilograms
+     * @return mass expressed in pounds
+     */
+    static inline double kg2lb( double mass = 1.0 )
+    {
+        return mass * 2.20462262;
+    }
+
+    /**
+     * Converts given mass from pounds to kilograms.
+     * @param mass mass expressed in pounds
+     * @return mass expressed in kilograms
+     */
+    static inline double lb2kg( double mass = 1.0 )
+    {
+        return mass * 0.45359237;
     }
 
     /**

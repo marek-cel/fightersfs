@@ -19,6 +19,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <QDomDocument>
 #include <QString>
 #include <QVector>
 
@@ -46,27 +47,52 @@ public:
         /** Aerial unit data struct. */
         struct DataAerial
         {
+            Text role;              ///< role
+            Text powerplant;        ///< powerplant
+            Text armament;          ///< armament
+
+            QString manufacturer;   ///< manufacturer
+            QString firstFlight;    ///< first flight date
+            QString introduction;   ///< introduction date
+            QString retired;        ///< retired date
+            QString primaryUser;    ///< primary user
+            QString crew;           ///< crew
+
+            int numberBuilt;        ///< number built
+
+            double length;          ///< [m] length
+            double wingspan;        ///< [m] wingspan
+            double height;          ///< [m] height
+            double MTOW;            ///< [kg] maximum take-off weight
+            double maxSpeed;        ///< [km/h] maximum speed
+            double range;           ///< [km] range
+
 
         };
 
         /** Maritime unit data struct. */
         struct DataMarine
         {
+            Text type;              ///< type
+            Text armament;          ///< armament
 
+            int numberBuilt;        ///< number built
+            int complement;         ///< complement
+
+            double displacement;    ///< [t] displacement
+            double length;          ///< [m] length
+            double beam;            ///< [m] beam
+            double draft;           ///< [m] draft
+            double maxSpeed;        ///< [kts] maximum speed
         };
 
         /** Ground unit data struct. */
         struct DataGround
         {
+            Text type;              ///< type
+            Text armament;          ///< armament
 
-        };
-
-        /** Unit data union. */
-        union DataUnion
-        {
-            DataAerial aerial;      ///< aerial unit data
-            DataMarine marine;      ///< maritime unit data
-            DataGround ground;      ///< ground unit data
+            int numberBuilt;        ///< number built
         };
 
         UInt32 index;               ///< unit index
@@ -74,7 +100,9 @@ public:
         Type type;                  ///< unit type
         Text name;                  ///< unit name
 
-        DataUnion data;             ///< unit data
+        DataAerial aerial;          ///< aerial unit data
+        DataMarine marine;          ///< maritime unit data
+        DataGround ground;          ///< ground unit data
     };
 
     UInt32 getCount() const { return _units.size(); }
@@ -88,10 +116,15 @@ private:
 
     QVector< Data > _units;         ///< units data
 
-    void readFile( const std::string &file );
-    void readUnits( XmlNode &rootNode );
-    void readUnits( XmlNode &groupNode, Type type );
-    void readUnit( XmlNode &unitNode, Type type );
+    void readFile( const QString &path );
+
+    void readUnits( QDomElement &rootNode );
+    void readUnits( QDomElement &nodeGroup, Type type );
+
+    void readUnit( QDomElement &nodeUnit, Type type );
+    void readUnit( QDomElement &nodeInfo, Data::DataAerial &data );
+    void readUnit( QDomElement &nodeInfo, Data::DataMarine &data );
+    void readUnit( QDomElement &nodeInfo, Data::DataGround &data );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

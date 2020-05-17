@@ -50,7 +50,7 @@ Fighter::Fighter( Affiliation affiliation ) :
     m_engaged ( false )
 {
     m_target = new Target< UnitAerial >( this, ( m_affiliation == Hostile ) ? Friend : Hostile,
-                                         3000.0f, Convert::nm2m( 3.0f ) );
+                                         3000.0f, Convert::nmi2m( 3.0f ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

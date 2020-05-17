@@ -4,6 +4,7 @@ HEADERS += \
     $$PWD/MainWindow.h \
     $$PWD/MessageBox.h \
     $$PWD/Units.h \
+    $$PWD/Utils.h \
     $$PWD/WidgetCGI.h \
     $$PWD/WidgetCtrl.h \
     $$PWD/WidgetData.h \
@@ -16,6 +17,7 @@ SOURCES += \
     $$PWD/MainWindow.cpp \
     $$PWD/MessageBox.cpp \
     $$PWD/Units.cpp \
+    $$PWD/Utils.cpp \
     $$PWD/WidgetCGI.cpp \
     $$PWD/WidgetCtrl.cpp \
     $$PWD/WidgetData.cpp \

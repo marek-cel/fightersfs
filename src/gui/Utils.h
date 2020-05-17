@@ -14,56 +14,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef WIDGETDATA_H
-#define WIDGETDATA_H
+#ifndef UTILS_H
+#define UTILS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QWidget>
+#include <QDomDocument>
 
 #include <defs.h>
 
-#include <gui/Units.h>
-
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Ui
+class Utils
 {
-    class WidgetData;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-class WidgetData : public QWidget
-{
-    Q_OBJECT
-
 public:
 
-    explicit WidgetData( QWidget *parent = NULLPTR );
+    /** @return SIM_SUCCESS on success or SIM_FAILURE on failure. */
+    static int read( const QDomElement &node, Text &text );
 
-    ~WidgetData();
+    static void m2ftin( double len_m, int *len_ft, int *len_in );
 
-    void step();
-
-signals:
-
-    void back();
-
-private:
-
-    Ui::WidgetData *_ui;                    ///< UI object
-
-    void updateDataAerial( const Units::Data::DataAerial &data );
-    void updateDataMarine( const Units::Data::DataMarine &data );
-    void updateDataGround( const Units::Data::DataGround &data );
-
-private slots:
-
-    void on_pushButtonBack_clicked();
-    void on_comboBoxUnits_currentIndexChanged( int index );
+    static QString m2ftin( double len_m );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // WIDGETDATA_H
+#endif // UTILS_H

@@ -22,6 +22,9 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="locale">
+      <locale language="English" country="UnitedStates"/>
+     </property>
      <property name="text">
       <string>Input Device:</string>
      </property>
@@ -38,6 +41,9 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="locale">
+      <locale language="English" country="UnitedStates"/>
+     </property>
      <item>
       <property name="text">
        <string>Keyboard</string>
@@ -47,6 +53,9 @@
    </item>
    <item row="1" column="0" colspan="2">
     <widget class="QTableWidget" name="tableControls">
+     <property name="locale">
+      <locale language="English" country="UnitedStates"/>
+     </property>
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
@@ -79,6 +88,9 @@
        <property name="enabled">
         <bool>false</bool>
        </property>
+       <property name="locale">
+        <locale language="English" country="UnitedStates"/>
+       </property>
        <property name="text">
         <string>Change Assignment</string>
        </property>
@@ -88,6 +100,9 @@
       <widget class="QPushButton" name="buttonAssignmentClear">
        <property name="enabled">
         <bool>false</bool>
+       </property>
+       <property name="locale">
+        <locale language="English" country="UnitedStates"/>
        </property>
        <property name="text">
         <string>Clear Assignment</string>

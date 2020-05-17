@@ -17,7 +17,9 @@
 
 #include <gui/Units.h>
 
-#include <defs.h>
+#include <QFile>
+
+#include <gui/Utils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -37,65 +39,67 @@ Units::Data Units::getData( int index ) const
 
 Units::Units()
 {
-    readFile( Path::get( "units.xml" ) );
+    readFile( Path::get( "units.xml" ).c_str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Units::readFile( const std::string &file )
+void Units::readFile( const QString &path )
 {
-    XmlDoc doc( file );
+    QFile file( path );
 
-    if ( doc.isOpen() )
+    if ( file.open( QFile::ReadOnly | QFile::Text ) )
     {
-        XmlNode rootNode = doc.getRootNode();
+        QDomDocument doc;
 
-        if ( rootNode.isValid() )
+        doc.setContent( &file, false );
+
+        QDomElement rootNode = doc.documentElement();
+
+        if ( !rootNode.isNull() )
         {
             readUnits( rootNode );
         }
         else
         {
-            Log::e() << "Reading file \"" << file << "\" failed. Invalid root node." << std::endl;
+            Log::e() << "Reading file \"" << path.toStdString() << "\" failed. Invalid root node." << std::endl;
         }
     }
     else
     {
-        Log::e() << "Reading file \"" << file << "\" failed." << std::endl;
+        Log::e() << "Reading file \"" << path.toStdString() << "\" failed." << std::endl;
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Units::readUnits( XmlNode &rootNode )
+void Units::readUnits( QDomElement &rootNode )
 {
-    UInt32 index = 0;
+    QDomElement nodeAerial = rootNode.firstChildElement( "aerial" );
+    QDomElement nodeMarine = rootNode.firstChildElement( "marine" );
+    QDomElement nodeGround = rootNode.firstChildElement( "ground" );
 
-    XmlNode nodeAerial = rootNode.getFirstChildElement( "aerial" );
-    XmlNode nodeMarine = rootNode.getFirstChildElement( "marine" );
-    XmlNode nodeGround = rootNode.getFirstChildElement( "ground" );
-
-    if ( nodeAerial.isValid() ) readUnits( nodeAerial, Aerial );
-    if ( nodeMarine.isValid() ) readUnits( nodeMarine, Marine );
-    if ( nodeGround.isValid() ) readUnits( nodeGround, Ground );
+    if ( !nodeAerial.isNull() ) readUnits( nodeAerial, Aerial );
+    if ( !nodeMarine.isNull() ) readUnits( nodeMarine, Marine );
+    if ( !nodeGround.isNull() ) readUnits( nodeGround, Ground );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Units::readUnits( XmlNode &groupNode, Type type )
+void Units::readUnits( QDomElement &nodeGroup, Type type )
 {
-    XmlNode nodeUnit = groupNode.getFirstChildElement( "unit" );
+    QDomElement nodeUnit = nodeGroup.firstChildElement( "unit" );
 
-    while ( nodeUnit.isValid() )
+    while ( !nodeUnit.isNull() )
     {
         readUnit( nodeUnit, type );
-        nodeUnit = nodeUnit.getNextSiblingElement( "unit" );
+        nodeUnit = nodeUnit.nextSiblingElement( "unit" );
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Units::readUnit( XmlNode &unitNode, Type type )
+void Units::readUnit( QDomElement &nodeUnit, Type type )
 {
     Data data;
 
@@ -103,14 +107,118 @@ void Units::readUnit( XmlNode &unitNode, Type type )
 
     data.type = type;
 
-    XmlNode nodeName = unitNode.getFirstChildElement( "name" );
+    QDomElement nodeName = nodeUnit.firstChildElement( "name" );
 
-    int result = XmlUtils::read( nodeName, data.name );
+    int result = Utils::read( nodeName, data.name );
 
     if ( result == SIM_SUCCESS )
     {
-        /////////////////////////
-        _units.push_back( data );
-        /////////////////////////
+        QDomElement nodeInfo = nodeUnit.firstChildElement( "info" );
+
+        if ( !nodeInfo.isNull() )
+        {
+            if ( data.type == Aerial ) readUnit( nodeInfo, data.aerial );
+            if ( data.type == Marine ) readUnit( nodeInfo, data.marine );
+            if ( data.type == Ground ) readUnit( nodeInfo, data.ground );
+
+            /////////////////////////
+            _units.push_back( data );
+            /////////////////////////
+        }
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Units::readUnit( QDomElement &nodeInfo, Data::DataAerial &data )
+{
+    int result = SIM_SUCCESS;
+
+    QDomElement nodeRole         = nodeInfo.firstChildElement( "role" );
+    QDomElement nodePowerplant   = nodeInfo.firstChildElement( "powerplant" );
+    QDomElement nodeArmament     = nodeInfo.firstChildElement( "armament" );
+
+    QDomElement nodeManufacturer = nodeInfo.firstChildElement( "manufacturer" );
+    QDomElement nodeFirstFlight  = nodeInfo.firstChildElement( "first_flight" );
+    QDomElement nodeIntroduction = nodeInfo.firstChildElement( "introduction" );
+    QDomElement nodeRetired      = nodeInfo.firstChildElement( "retired" );
+    QDomElement nodePrimaryUser  = nodeInfo.firstChildElement( "primary_user" );
+    QDomElement nodeCrew         = nodeInfo.firstChildElement( "crew" );
+
+    QDomElement nodeNumberBuilt  = nodeInfo.firstChildElement( "number_built" );
+
+    QDomElement nodeLength       = nodeInfo.firstChildElement( "length" );
+    QDomElement nodeWingspan     = nodeInfo.firstChildElement( "wingspan" );
+    QDomElement nodeHeight       = nodeInfo.firstChildElement( "height" );
+    QDomElement nodeMTOW         = nodeInfo.firstChildElement( "mtow" );
+    QDomElement nodeMaxSpeed     = nodeInfo.firstChildElement( "max_speed" );
+    QDomElement nodeRange        = nodeInfo.firstChildElement( "range" );
+
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodeRole       , data.role       );
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodePowerplant , data.powerplant );
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodeArmament   , data.armament   );
+
+    data.manufacturer = nodeManufacturer .text();
+    data.firstFlight  = nodeFirstFlight  .text();
+    data.introduction = nodeIntroduction .text();
+    data.retired      = nodeRetired      .text();
+    data.primaryUser  = nodePrimaryUser  .text();
+    data.crew         = nodeCrew         .text();
+
+    data.numberBuilt = nodeNumberBuilt.text().toInt();
+
+    data.length   = nodeLength   .text().toDouble();
+    data.wingspan = nodeWingspan .text().toDouble();
+    data.height   = nodeHeight   .text().toDouble();
+    data.MTOW     = nodeMTOW     .text().toDouble();
+    data.maxSpeed = nodeMaxSpeed .text().toDouble();
+    data.range    = nodeRange    .text().toDouble();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Units::readUnit( QDomElement &nodeInfo, Data::DataMarine &data )
+{
+    int result = SIM_SUCCESS;
+
+    QDomElement nodeType         = nodeInfo.firstChildElement( "type" );
+    QDomElement nodeArmament     = nodeInfo.firstChildElement( "armament" );
+
+    QDomElement nodeNumberBuilt  = nodeInfo.firstChildElement( "number_built" );
+    QDomElement nodeComplement   = nodeInfo.firstChildElement( "complement" );
+
+    QDomElement nodeDisplacement = nodeInfo.firstChildElement( "displacement" );
+    QDomElement nodeLength       = nodeInfo.firstChildElement( "length" );
+    QDomElement nodeBeam         = nodeInfo.firstChildElement( "beam" );
+    QDomElement nodeDraft        = nodeInfo.firstChildElement( "draft" );
+    QDomElement nodeMaxSpeed     = nodeInfo.firstChildElement( "max_speed" );
+
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodeType     , data.type     );
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodeArmament , data.armament );
+
+    data.numberBuilt = nodeNumberBuilt .text().toInt();
+    data.complement  = nodeComplement  .text().toInt();
+
+    data.displacement = nodeDisplacement .text().toDouble();
+    data.length       = nodeLength       .text().toDouble();
+    data.beam         = nodeBeam         .text().toDouble();
+    data.draft        = nodeDraft        .text().toDouble();
+    data.maxSpeed     = nodeMaxSpeed     .text().toDouble();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Units::readUnit( QDomElement &nodeInfo, Data::DataGround &data )
+{
+    int result = SIM_SUCCESS;
+
+    QDomElement nodeType         = nodeInfo.firstChildElement( "type" );
+    QDomElement nodeArmament     = nodeInfo.firstChildElement( "armament" );
+
+    QDomElement nodeNumberBuilt  = nodeInfo.firstChildElement( "number_built" );
+
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodeType     , data.type     );
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodeArmament , data.armament );
+
+    data.numberBuilt = nodeNumberBuilt.text().toInt();
 }

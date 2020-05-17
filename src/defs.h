@@ -23,7 +23,9 @@
 #include <sim/sim_Log.h>
 #include <sim/sim_Path.h>
 
+#include <sim/utils/sim_Convert.h>
 #include <sim/utils/sim_Singleton.h>
+#include <sim/utils/sim_String.h>
 #include <sim/utils/sim_Text.h>
 #include <sim/utils/sim_XmlDoc.h>
 #include <sim/utils/sim_XmlNode.h>
@@ -85,9 +87,11 @@ typedef unsigned int   UInt32;  ///< 32-bits unsigned integer type
 
 ////////////////////////////////////////////////////////////////////////////////
 
-typedef sim::Log  Log;
-typedef sim::Path Path;
-typedef sim::Text Text;
+typedef sim::Convert Convert;
+typedef sim::Log     Log;
+typedef sim::Path    Path;
+typedef sim::String  String;
+typedef sim::Text    Text;
 
 typedef sim::XmlDoc   XmlDoc;
 typedef sim::XmlNode  XmlNode;

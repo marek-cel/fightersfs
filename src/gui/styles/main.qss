@@ -57,3 +57,28 @@ QPushButton:pressed
   background-color: rgba( 255, 255, 255, 127 );
   border-width: 0;
 }
+
+QScrollArea
+{
+  background-color: transparent;
+}
+
+QScrollArea > QWidget > QWidget
+{
+  background: transparent;
+}
+
+/*
+QScrollArea > QWidget > QScrollBar
+{
+  background: palette(base);
+}
+*/
+
+QScrollBar:horizontal
+{
+  border: 2px solid #fff;
+  background: #fff;
+  height: 15px;
+  margin: 0px 20px 0 20px;
+}

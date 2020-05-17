@@ -166,13 +166,13 @@ void Viewer::update( double timeStep )
         }
         else
         {
-            _att.zeroRotation();
+            _att.makeRotate( 0.0, osg::X_AXIS );
             _pos = Vec3( 0.0, 0.0, 0.0 );
         }
-    }
 
-    _patModel->setPosition( _pos );
-    _patModel->setAttitude( _att );
+        _patModel->setPosition( _pos );
+        _patModel->setAttitude( _att );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

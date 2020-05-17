@@ -120,7 +120,7 @@ void Ownship::init()
     {
         m_aircraftTarget = new Target< UnitAerial >( m_aircraft,
             ( m_aircraft->getAffiliation() == Hostile ) ? Friend : Hostile,
-            3000.0f, Convert::nm2m( 3.0f ) );
+            3000.0f, Convert::nmi2m( 3.0f ) );
 
         Data::get()->ownship.init_throttle = m_aircraft->getInitThrottle();
     }
