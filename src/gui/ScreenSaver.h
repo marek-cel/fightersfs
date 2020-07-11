@@ -14,52 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef SIM_UNITMARINE_H
-#define SIM_UNITMARINE_H
+#ifndef SCREENSAVER_H
+#define SCREENSAVER_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <sim/entities/sim_UnitSurface.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace sim
-{
-
-/** Marine unit base class. */
-class UnitMarine : public UnitSurface
+/** */
+class ScreenSaver
 {
 public:
 
-#   ifdef SIM_DESKTOP
-    static const char _frag[];      ///<
-    static const char _vert[];      ///<
+    static void disable();
 
-    static void createReflection( osg::Node *model, osg::Group *parent );
-#   endif
+    static void enable();
 
-    /** Constructor. */
-    UnitMarine( Affiliation affiliation = Unknown );
-
-    /** Destructor. */
-    virtual ~UnitMarine();
-
-    /** Destroys unit. */
-    virtual void destroy();
-
-    /** Loads unit (models, textures, etc.). */
-    virtual void load();
-
-    /** Sets unit hit points. */
-    virtual void setHP( UInt16 hp );
-
-protected:
-
-    osg::ref_ptr<osg::Group> m_smoke;   ///< damaged unit smoke group
+    static void reset();
 };
-
-} // end of sim namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // SIM_UNITMARINE_H
+#endif // SCREENSAVER_H

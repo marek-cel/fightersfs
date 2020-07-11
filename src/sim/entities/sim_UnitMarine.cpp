@@ -17,7 +17,7 @@
 
 #include <sim/entities/sim_UnitMarine.h>
 
-#ifdef SIM_TEST
+#ifdef SIM_DESKTOP
 #   include <osg/ClipNode>
 #   include <osg/Geode>
 #   include <osg/Geometry>
@@ -110,7 +110,7 @@ const char UnitMarine::_vert[] =
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifdef SIM_TEST
+#ifdef SIM_DESKTOP
 void UnitMarine::createReflection( osg::Node *model, osg::Group *parent )
 {
     const float z = 0.1f;

@@ -58,9 +58,9 @@ void WidgetCGI::paintEvent( QPaintEvent *event )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-osgQt::GraphicsWindowQt* WidgetCGI::createGraphicsWindow( int x, int y, int w, int h,
-                                                          const std::string &name,
-                                                          bool windowDecoration )
+GraphicsWinQt* WidgetCGI::createGraphicsWindow( int x, int y, int w, int h,
+                                                const std::string &name,
+                                                bool windowDecoration )
 {
     osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits();
 
@@ -77,7 +77,7 @@ osgQt::GraphicsWindowQt* WidgetCGI::createGraphicsWindow( int x, int y, int w, i
     traits->samples          = 4;
     traits->vsync            = true;
 
-    return new osgQt::GraphicsWindowQt( traits.get() );
+    return new GraphicsWinQt( traits.get() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

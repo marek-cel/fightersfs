@@ -24,6 +24,7 @@
 #include <QSettings>
 
 #include <gui/MessageBox.h>
+#include <gui/ScreenSaver.h>
 
 #include <hid/hid_Manager.h>
 #include <sim/sim_Manager.h>
@@ -198,6 +199,11 @@ void MainWindow::timerEvent( QTimerEvent *event )
         }
     }
 
+    if ( sim::Manager::instance()->isInited() && !sim::Manager::instance()->isFinished() )
+    {
+        ScreenSaver::reset();
+    }
+
     hid::Manager::instance()->update( _timeCoef * timeStep );
     sim::Manager::instance()->update( _timeCoef * timeStep );
 
@@ -285,6 +291,8 @@ void MainWindow::simulationStart( int missionIndex )
         sim::Manager::instance()->init( w, h, missionIndex );
 
         _ui->widgetPlay->init();
+
+        ScreenSaver::disable();
     }
 }
 
@@ -328,6 +336,8 @@ void MainWindow::simulationAbort()
     _ui->widgetPlay->stop();
 
     sim::Manager::instance()->destroy();
+
+    ScreenSaver::enable();
 
     std::cout << "Friendly units destroyed: "
               << sim::Statistics::instance()->getFriendsDestroyed()

@@ -28,7 +28,7 @@ WidgetData::WidgetData( QWidget *parent ) :
 {
     _ui->setupUi( this );
 
-    for ( int i = 0; i < Units::instance()->getCount(); i++ )
+    for ( unsigned int i = 0; i < Units::instance()->getCount(); i++ )
     {
         QString name = Units::instance()->getData( i ).name.get().c_str();
         _ui->comboBoxUnits->addItem( name );

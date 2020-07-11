@@ -84,7 +84,6 @@ win32:CONFIG(release, debug|release): LIBS += \
     -losgDB \
     -losgGA \
     -losgParticle \
-    -losgQt \
     -losgSim \
     -losgText \
     -losgUtil \
@@ -97,7 +96,6 @@ win32:CONFIG(debug, debug|release): LIBS += \
     -losgDBd \
     -losgGAd \
     -losgParticled \
-    -losgQtd \
     -losgSimd \
     -losgTextd \
     -losgUtild \
@@ -109,13 +107,14 @@ unix: LIBS += \
     -L/usr/lib \
     -lalut \
     -lopenal \
+    -lX11 \
+    -lXss \
     -lxml2 \
     -lOpenThreads \
     -losg \
     -losgDB \
     -losgGA \
     -losgParticle \
-    -losgQt \
     -losgSim \
     -losgText \
     -losgUtil \
@@ -125,7 +124,8 @@ unix: LIBS += \
 ################################################################################
 
 HEADERS += \
-    defs.h
+    defs.h \
+    fightersfs.h
 
 SOURCES += \
     main.cpp

@@ -25,10 +25,10 @@
 
 #include <osgViewer/Viewer>
 #include <osgGA/GUIEventHandler>
-#include <osgQt/GraphicsWindowQt>
 
 #include <defs.h>
 
+#include <gui/GraphicsWinQt.h>
 #include <hid/hid_Assignment.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,14 +51,14 @@ public:
 
 protected:
 
-    osg::ref_ptr<osgQt::GraphicsWindowQt> _gwin;
+    osg::ref_ptr< GraphicsWinQt > _gwin;
 
     /** */
     void paintEvent( QPaintEvent *event );
 
-    osgQt::GraphicsWindowQt* createGraphicsWindow( int x, int y, int w, int h,
-                                                   const std::string &name = "",
-                                                   bool windowDecoration = false );
+    GraphicsWinQt* createGraphicsWindow( int x, int y, int w, int h,
+                                         const std::string &name = "",
+                                         bool windowDecoration = false );
 
     void removeAllChildren( osg::Camera *camera );
 };

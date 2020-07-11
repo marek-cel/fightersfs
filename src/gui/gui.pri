@@ -1,8 +1,11 @@
 HEADERS += \
     $$PWD/DialogAction.h \
     $$PWD/DialogConf.h \
+    $$PWD/GraphicsWinQt.h \
+    $$PWD/KeyMap.h \
     $$PWD/MainWindow.h \
     $$PWD/MessageBox.h \
+    $$PWD/ScreenSaver.h \
     $$PWD/Units.h \
     $$PWD/Utils.h \
     $$PWD/WidgetCGI.h \
@@ -14,8 +17,11 @@ HEADERS += \
 SOURCES += \
     $$PWD/DialogAction.cpp \
     $$PWD/DialogConf.cpp \
+    $$PWD/GraphicsWinQt.cpp \
+    $$PWD/KeyMap.cpp \
     $$PWD/MainWindow.cpp \
     $$PWD/MessageBox.cpp \
+    $$PWD/ScreenSaver.cpp \
     $$PWD/Units.cpp \
     $$PWD/Utils.cpp \
     $$PWD/WidgetCGI.cpp \

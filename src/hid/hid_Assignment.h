@@ -20,7 +20,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #define HID_MAX_ACTIONS 14
-#define HID_MAX_KEYS    57
+#define HID_MAX_KEYS    69
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -125,10 +125,23 @@ struct Assignment
         KeyHome,                    ///< 53: home
         KeyEnd,                     ///< 54: end
         KeyPageUp,                  ///< 55: page up
-        KeyPageDown                 ///< 56: page down
+        KeyPageDown,                ///< 56: page down
+
+        KeyF1,                      ///< 57: F1
+        KeyF2,                      ///< 58: F2
+        KeyF3,                      ///< 59: F3
+        KeyF4,                      ///< 60: F4
+        KeyF5,                      ///< 61: F5
+        KeyF6,                      ///< 62: F6
+        KeyF7,                      ///< 63: F7
+        KeyF8,                      ///< 64: F8
+        KeyF9,                      ///< 65: F9
+        KeyF10,                     ///< 66: F10
+        KeyF11,                     ///< 67: F11
+        KeyF12                      ///< 68: F12
     };
 
-#   if ( HID_MAX_KEYS != 57 )
+#   if ( HID_MAX_KEYS != 69 )
 #       error 'HID_MAX_KEYS' has been changed! Check code following this line!
 #   endif
 

@@ -14,52 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef SIM_UNITMARINE_H
-#define SIM_UNITMARINE_H
+#ifndef KEYMAP_H
+#define KEYMAP_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <sim/entities/sim_UnitSurface.h>
+#include <hid/hid_Assignment.h>
+
+#include <osgGA/GUIEventAdapter>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace sim
-{
-
-/** Marine unit base class. */
-class UnitMarine : public UnitSurface
+/** */
+class KeyMap
 {
 public:
 
-#   ifdef SIM_DESKTOP
-    static const char _frag[];      ///<
-    static const char _vert[];      ///<
+    static hid::Assignment::Key remapHID( int key_qt );
 
-    static void createReflection( osg::Node *model, osg::Group *parent );
-#   endif
-
-    /** Constructor. */
-    UnitMarine( Affiliation affiliation = Unknown );
-
-    /** Destructor. */
-    virtual ~UnitMarine();
-
-    /** Destroys unit. */
-    virtual void destroy();
-
-    /** Loads unit (models, textures, etc.). */
-    virtual void load();
-
-    /** Sets unit hit points. */
-    virtual void setHP( UInt16 hp );
-
-protected:
-
-    osg::ref_ptr<osg::Group> m_smoke;   ///< damaged unit smoke group
+    static osgGA::GUIEventAdapter::KeySymbol remapOSG( int key_qt );
 };
-
-} // end of sim namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // SIM_UNITMARINE_H
+#endif // KEYMAP_H
