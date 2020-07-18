@@ -2,6 +2,8 @@ QT += core gui opengl svg xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+unix: greaterThan(QT_MAJOR_VERSION, 4): QT += x11extras
+
 TEMPLATE = app
 
 ################################################################################

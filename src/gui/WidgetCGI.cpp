@@ -35,8 +35,8 @@ const double WidgetCGI::_zFar  = SIM_SKYDOME_RAD + 0.1f * SIM_SKYDOME_RAD;
 WidgetCGI::WidgetCGI( QWidget *parent ) :
     QWidget( parent )
 {
-    //setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
-    setThreadingModel( osgViewer::ViewerBase::ThreadPerContext );
+    setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
+    //setThreadingModel( osgViewer::ViewerBase::ThreadPerContext );
 
     _gwin = createGraphicsWindow( x(), y(), width(), height() );
 }
@@ -58,9 +58,9 @@ void WidgetCGI::paintEvent( QPaintEvent *event )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-GraphicsWinQt* WidgetCGI::createGraphicsWindow( int x, int y, int w, int h,
-                                                const std::string &name,
-                                                bool windowDecoration )
+GraphicsWindowQt* WidgetCGI::createGraphicsWindow( int x, int y, int w, int h,
+                                                   const std::string &name,
+                                                   bool windowDecoration )
 {
     osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits();
 
@@ -77,7 +77,7 @@ GraphicsWinQt* WidgetCGI::createGraphicsWindow( int x, int y, int w, int h,
     traits->samples          = 4;
     traits->vsync            = true;
 
-    return new GraphicsWinQt( traits.get() );
+    return new GraphicsWindowQt( traits.get() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

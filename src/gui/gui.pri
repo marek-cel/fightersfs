@@ -1,7 +1,7 @@
 HEADERS += \
     $$PWD/DialogAction.h \
     $$PWD/DialogConf.h \
-    $$PWD/GraphicsWinQt.h \
+    $$PWD/GraphicsWindowQt.h \
     $$PWD/KeyMap.h \
     $$PWD/MainWindow.h \
     $$PWD/MessageBox.h \
@@ -17,7 +17,7 @@ HEADERS += \
 SOURCES += \
     $$PWD/DialogAction.cpp \
     $$PWD/DialogConf.cpp \
-    $$PWD/GraphicsWinQt.cpp \
+    $$PWD/GraphicsWindowQt.cpp \
     $$PWD/KeyMap.cpp \
     $$PWD/MainWindow.cpp \
     $$PWD/MessageBox.cpp \

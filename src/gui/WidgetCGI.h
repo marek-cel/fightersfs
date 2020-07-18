@@ -28,7 +28,7 @@
 
 #include <defs.h>
 
-#include <gui/GraphicsWinQt.h>
+#include <gui/GraphicsWindowQt.h>
 #include <hid/hid_Assignment.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,14 +51,14 @@ public:
 
 protected:
 
-    osg::ref_ptr< GraphicsWinQt > _gwin;
+    osg::ref_ptr< GraphicsWindowQt > _gwin;
 
     /** */
     void paintEvent( QPaintEvent *event );
 
-    GraphicsWinQt* createGraphicsWindow( int x, int y, int w, int h,
-                                         const std::string &name = "",
-                                         bool windowDecoration = false );
+    GraphicsWindowQt* createGraphicsWindow( int x, int y, int w, int h,
+                                            const std::string &name = "",
+                                            bool windowDecoration = false );
 
     void removeAllChildren( osg::Camera *camera );
 };
