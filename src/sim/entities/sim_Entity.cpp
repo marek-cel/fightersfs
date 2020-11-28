@@ -28,21 +28,21 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-std::vector< UInt32 > Entity::m_ids;
+std::vector< UInt32 > Entity::_ids;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 UInt32 Entity::createId()
 {
-    if ( m_ids.size() > 0 )
+    if ( _ids.size() > 0 )
     {
         for ( UInt32 id = 0; id < SIM_ENTITIES_MAX; id++ )
         {
             bool exists = false;
 
-            std::vector< UInt32 >::iterator it = m_ids.begin();
+            std::vector< UInt32 >::iterator it = _ids.begin();
 
-            while ( it != m_ids.end() )
+            while ( it != _ids.end() )
             {
                 if ( id == (*it) )
                 {
@@ -55,14 +55,14 @@ UInt32 Entity::createId()
 
             if ( !exists )
             {
-                m_ids.push_back( id );
+                _ids.push_back( id );
                 return id;
             }
         }
     }
     else
     {
-        m_ids.push_back( 0 );
+        _ids.push_back( 0 );
         return 0;
     }
 
@@ -73,13 +73,13 @@ UInt32 Entity::createId()
 
 void Entity::removeId( UInt32 id )
 {
-    std::vector< UInt32 >::iterator it = m_ids.begin();
+    std::vector< UInt32 >::iterator it = _ids.begin();
 
-    while ( it != m_ids.end() )
+    while ( it != _ids.end() )
     {
         if ( id == (*it) )
         {
-            m_ids.erase( it );
+            _ids.erase( it );
             return;
         }
 
@@ -92,23 +92,23 @@ void Entity::removeId( UInt32 id )
 Entity::Entity( Group *parent, State state, float life_span ) :
     Group( parent ),
 
-    m_id ( createId() ),
+    _id ( createId() ),
 
-    m_state ( state ),
-    m_active ( true ),
+    _state ( state ),
+    _active ( true ),
 
-    m_life_time ( 0.0f ),
-    m_life_span ( life_span )
+    _life_time ( 0.0f ),
+    _life_span ( life_span )
 {
-    m_pat = new osg::PositionAttitudeTransform();
-    m_root->addChild( m_pat.get() );
+    _pat = new osg::PositionAttitudeTransform();
+    m_root->addChild( _pat.get() );
 
-    m_switch = new osg::Switch();
-    m_pat->addChild( m_switch.get() );
+    _switch = new osg::Switch();
+    _pat->addChild( _switch.get() );
 
-    m_switch->setName( "entity" );
+    _switch->setName( "entity" );
 
-    m_att.zeroRotation();
+    _att.zeroRotation();
 
     if ( m_parent == 0 )
     {
@@ -122,14 +122,14 @@ Entity::Entity( Group *parent, State state, float life_span ) :
 
 Entity::~Entity()
 {
-    if ( m_parentGroup.valid() )
+    if ( _parentGroup.valid() )
     {
-        m_parentGroup->removeChild( m_root.get() );
+        _parentGroup->removeChild( m_root.get() );
     }
 
-    /////////////////
-    removeId( m_id );
-    /////////////////
+    ////////////////
+    removeId( _id );
+    ////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -140,12 +140,12 @@ void Entity::makeTopLevel()
     {
         Entity *entity = dynamic_cast< Entity* >( m_parent );
 
-        m_pos = getAbsPos();
-        m_att = getAbsAtt();
+        _pos = getAbsPos();
+        _att = getAbsAtt();
 
         if ( entity )
         {
-            m_vel = entity->getVel();
+            _vel = entity->getVel();
         }
 
         setParent( Entities::instance() );
@@ -156,7 +156,7 @@ void Entity::makeTopLevel()
 
 void Entity::resetLifeTime()
 {
-    m_life_time = 0.0f;
+    _life_time = 0.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -176,24 +176,24 @@ void Entity::update( double timeStep )
     Group::update( timeStep );
     //////////////////////////
 
-    m_timeStep = timeStep;
+    _timeStep = timeStep;
 
-    if ( !Misc::isValid( m_id ) || m_life_time > m_life_span )
+    if ( !Misc::isValid( _id ) || _life_time > _life_span )
     {
         setState( Inactive );
     }
 
     if ( isActive() )
     {
-        m_life_time += m_timeStep;
+        _life_time += _timeStep;
 
         updateElevation();
         updateVelocity();
         timeIntegration();
         updateVariables();
 
-        m_pat->setPosition( m_pos );
-        m_pat->setAttitude( m_att );
+        _pat->setPosition( _pos );
+        _pat->setAttitude( _att );
     }
 }
 
@@ -207,11 +207,11 @@ Vec3 Entity::getAbsPos() const
 
         if ( entity )
         {
-            return entity->getAbsPos() + entity->getAbsAtt() * m_pos;
+            return entity->getAbsPos() + entity->getAbsAtt() * _pos;
         }
     }
 
-    return m_pos;
+    return _pos;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -224,13 +224,13 @@ Quat Entity::getAbsAtt() const
 
         if ( entity )
         {
-            Quat att = m_att * entity->getAbsAtt();
+            Quat att = _att * entity->getAbsAtt();
             att *= 1.0 / att.length();
             return att;
         }
     }
 
-    return m_att;
+    return _att;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -244,27 +244,27 @@ bool Entity::isTopLevel() const
 
 void Entity::setPos( const Vec3 &pos )
 {
-    m_pos = pos;
+    _pos = pos;
     updateVariables();
-    m_pat->setPosition( m_pos );
+    _pat->setPosition( _pos );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Entity::setAtt( const Quat &att )
 {
-    m_att = att;
-    m_att *= 1.0/m_att.length();
+    _att = att;
+    _att *= 1.0/_att.length();
 
     updateVariables();
-    m_pat->setAttitude( m_att );
+    _pat->setAttitude( _att );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Entity::setVel( const Vec3 &vel )
 {
-    m_vel = vel;
+    _vel = vel;
     updateVariables();
 }
 
@@ -272,7 +272,7 @@ void Entity::setVel( const Vec3 &vel )
 
 void Entity::setOmg( const Vec3 &omg )
 {
-    m_omg = omg;
+    _omg = omg;
     updateVariables();
 }
 
@@ -289,18 +289,18 @@ void Entity::setHeading( float heading )
 
 void Entity::setName( const std::string &name )
 {
-    m_name = name;
-    m_switch->setName( m_name.c_str() );
+    _name = name;
+    _switch->setName( _name.c_str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Entity::setParent( Group *parent )
 {
-    if ( m_parentGroup.valid() )
+    if ( _parentGroup.valid() )
     {
-        m_parentGroup->removeChild( m_root.get() );
-        m_parentGroup = 0;
+        _parentGroup->removeChild( m_root.get() );
+        _parentGroup = 0;
     }
 
     if ( m_parent )
@@ -320,14 +320,14 @@ void Entity::setParent( Group *parent )
 
         if ( entity )
         {
-            m_parentGroup = entity->m_switch;
+            _parentGroup = entity->_switch;
         }
         else
         {
-            m_parentGroup = m_parent->getNode();
+            _parentGroup = m_parent->getNode();
         }
 
-        if ( m_parentGroup.valid() ) m_parentGroup->addChild( m_root.get() );
+        if ( _parentGroup.valid() ) _parentGroup->addChild( m_root.get() );
     }
 }
 
@@ -335,24 +335,24 @@ void Entity::setParent( Group *parent )
 
 void Entity::setState( State state )
 {
-    m_state = state;
+    _state = state;
 
-    if ( m_state == Active )
+    if ( _state == Active )
     {
-        m_active = true;
-        m_switch->setAllChildrenOn();
+        _active = true;
+        _switch->setAllChildrenOn();
     }
     else
     {
-        m_active = false;
-        m_switch->setAllChildrenOff();
+        _active = false;
+        _switch->setAllChildrenOff();
     }
 
     List::iterator it = m_children.begin();
 
     while ( it != m_children.end() )
     {
-        (*it)->setState( m_state );
+        (*it)->setState( _state );
         ++it;
     }
 }
@@ -389,11 +389,11 @@ Quat Entity::derivAtt( const Quat &att, const Vec3 &omg )
 
 void Entity::timeIntegration()
 {
-    m_pos += derivPos( m_att, m_vel ) * m_timeStep;
-    m_att = m_att + derivAtt( m_att, m_omg ) * m_timeStep;
+    _pos += derivPos( _att, _vel ) * _timeStep;
+    _att = _att + derivAtt( _att, _omg ) * _timeStep;
 
     // normalize
-    m_att *= 1.0 / m_att.length();
+    _att *= 1.0 / _att.length();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -404,7 +404,7 @@ void Entity::updateElevation() {}
 
 void Entity::updateVariables()
 {
-    m_angles.set( m_att );
+    _angles.set( _att );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

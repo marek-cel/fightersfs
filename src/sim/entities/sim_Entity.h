@@ -97,22 +97,22 @@ public:
      * <p>This node position corresponds to the entity position.</p>
      * @return entity node
      */
-    inline osg::Node* getEntityNode() const { return m_switch.get(); }
+    inline osg::Node* getEntityNode() const { return _switch.get(); }
 
-    inline UInt32 getId() const { return m_id; }
+    inline UInt32 getId() const { return _id; }
 
-    inline Vec3 getPos() const { return m_pos; }
-    inline Quat getAtt() const { return m_att; }
-    inline Vec3 getVel() const { return m_vel; }
-    inline Vec3 getOmg() const { return m_omg; }
+    inline Vec3 getPos() const { return _pos; }
+    inline Quat getAtt() const { return _att; }
+    inline Vec3 getVel() const { return _vel; }
+    inline Vec3 getOmg() const { return _omg; }
 
-    inline Angles getAngles() const { return m_angles; }
+    inline Angles getAngles() const { return _angles; }
 
-    inline std::string getName() const { return m_name; }
+    inline std::string getName() const { return _name; }
 
-    inline State getState() const { return m_state; }
+    inline State getState() const { return _state; }
 
-    inline bool isActive() const { return m_active; }
+    inline bool isActive() const { return _active; }
 
     /** Returns true if entity is top level. */
     bool isTopLevel() const;
@@ -134,31 +134,31 @@ public:
 
 protected:
 
-    static std::vector< UInt32 > m_ids; ///< list of entities ID's being in use
+    static std::vector< UInt32 > _ids;  ///< list of entities ID's being in use
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_pat; ///<
-    osg::ref_ptr<osg::Switch> m_switch;                 ///< root for children
-    osg::ref_ptr<osg::Group> m_parentGroup;             ///< parent group
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat;  ///<
+    osg::ref_ptr<osg::Switch> _switch;                  ///< root for children
+    osg::ref_ptr<osg::Group> _parentGroup;              ///< parent group
 
-    const UInt32 m_id;          ///< entity ID
+    const UInt32 _id;           ///< entity ID
 
-    double m_timeStep;          ///< [s] time step
+    double _timeStep;           ///< [s] time step
 
-    Vec3 m_pos;                 ///< [m] position expressed in ENU
-    Quat m_att;                 ///< attitude expressed as quaternion
-    Vec3 m_vel;                 ///< [m/s] velocity expressed in BAS
-    Vec3 m_omg;                 ///< [rad/s] angular velocity expressed in BAS
+    Vec3 _pos;                  ///< [m] position expressed in ENU
+    Quat _att;                  ///< attitude expressed as quaternion
+    Vec3 _vel;                  ///< [m/s] velocity expressed in BAS
+    Vec3 _omg;                  ///< [rad/s] angular velocity expressed in BAS
 
-    Angles m_angles;            ///< [rad] attitude expressed as rotation angles from ENU to BAS in z-y-x convention
+    Angles _angles;             ///< [rad] attitude expressed as rotation angles from ENU to BAS in z-y-x convention
 
-    State m_state;              ///< entity state
+    State _state;               ///< entity state
 
-    bool m_active;              ///< specify if entity is active
+    bool _active;               ///< specify if entity is active
 
-    float m_life_time;          ///< [s] life time
-    float m_life_span;          ///< [s] life span
+    float _life_time;           ///< [s] life time
+    float _life_span;           ///< [s] life span
 
-    std::string m_name;         ///< entity name
+    std::string _name;          ///< entity name
 
     /** Computes position derivative. */
     Vec3 derivPos( const Quat &att, const Vec3 &vel );

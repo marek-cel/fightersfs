@@ -14,47 +14,49 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
-#ifndef SIM_FOGSCENE_H
-#define SIM_FOGSCENE_H
+#ifndef KEYHANDLER_H
+#define KEYHANDLER_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <osg/Fog>
-#include <osg/Group>
+#include <osgGA/GUIEventHandler>
 
-#include <sim/cgi/sim_Module.h>
+#include <hid/hid_Assignment.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace sim
-{
+class WidgetCGI;
 
-/**
- * @brief Fog scene module class.
- * <p>This is parent module for all fogged sub-modules.</p>
- */
-class FogScene : public Module
+////////////////////////////////////////////////////////////////////////////////
+
+/** */
+class KeyHandler : public osgGA::GUIEventHandler
 {
 public:
 
-    static int _visibility;     ///< [m]
+    /** */
+    KeyHandler( WidgetCGI *widgetCGI );
 
-    /** Constructor. */
-    FogScene( Module *parent = NULLPTR );
+    /** */
+    inline const bool* getKeysState() const { return _keysState; }
 
-    /** Destructor. */
-    virtual ~FogScene();
+    /** */
+    bool handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter & );
 
-    /** Updates fog scene module. */
-    void update();
+    void registerKeyPressCallback( void(*fun)() );
 
 private:
 
-    osg::ref_ptr<osg::Fog> _fog;    ///< fog
-};
+    WidgetCGI *_widgetCGI;
 
-} // end of sim namespace
+    void(*_keyPressCallback)();
+
+    bool _keysState[ HID_MAX_KEYS ];
+
+    bool handleKeyDn( const osgGA::GUIEventAdapter &ea );
+    bool handleKeyUp( const osgGA::GUIEventAdapter &ea );
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // SIM_FOGSCENE_H
+#endif // KEYHANDLER_H

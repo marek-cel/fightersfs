@@ -63,7 +63,7 @@ Unit::~Unit()
 
 void Unit::activate()
 {
-    if ( m_state == Standby )
+    if ( _state == Standby )
     {
         Statistics::instance()->reportActivated( m_affiliation );
 
@@ -110,7 +110,7 @@ void Unit::damage( UInt16 dp )
 
 void Unit::destroy()
 {
-    if ( m_state == Active )
+    if ( _state == Active )
     {
         Statistics::instance()->reportDestroyed( m_affiliation );
 
@@ -146,14 +146,14 @@ void Unit::load()
 
     if ( m_model.valid() )
     {
-        m_switch->removeChild( m_model.get() );
+        _switch->removeChild( m_model.get() );
     }
 
     m_model = Models::get( getPath( m_modelFile ) );
 
     if ( m_model.valid() )
     {
-        m_switch->addChild( m_model.get() );
+        _switch->addChild( m_model.get() );
     }
 }
 
@@ -161,7 +161,7 @@ void Unit::load()
 
 void Unit::makeAutomatic()
 {
-    m_switch->setName( m_name.c_str() );
+    _switch->setName( _name.c_str() );
     m_ownship = false;
 }
 
@@ -178,7 +178,7 @@ void Unit::makeOwnship()
 
     activate();
 
-    m_switch->setName( "ownship" );
+    _switch->setName( "ownship" );
 
     /////////////////
     m_ownship = true;
@@ -252,11 +252,11 @@ void Unit::update( double timeStep )
     {
         if ( m_ownship && Data::get()->camera.type == ViewPilot )
         {
-            m_switch->setAllChildrenOff();
+            _switch->setAllChildrenOff();
         }
         else
         {
-            m_switch->setAllChildrenOn();
+            _switch->setAllChildrenOn();
         }
 
         updateCollisions();
@@ -363,9 +363,9 @@ void Unit::updateCollisions()
 
         if ( unit )
         {
-            if ( m_id != unit->getId() && unit->isActive() )
+            if ( _id != unit->getId() && unit->isActive() )
             {
-                r = unit->getPos() - m_pos;
+                r = unit->getPos() - _pos;
 
                 if ( r.length2() < m_radius2 + unit->getRadius2() )
                 {

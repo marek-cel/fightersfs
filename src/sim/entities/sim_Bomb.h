@@ -31,8 +31,8 @@ class Bomb : public Munition
 {
 public:
 
-    static const float m_r_limit;   ///< [m] range damage limit
-    static const float m_r_limit_2; ///< [m^2] range damage limit squared
+    static const float _r_limit;    ///< [m] range damage limit
+    static const float _r_limit_2;  ///< [m^2] range damage limit squared
 
     /** Constructor. */
     Bomb( UInt32 shooterId, Group *parent = 0 );
@@ -45,7 +45,7 @@ public:
 
 protected:
 
-    float m_elevation;  ///< [m] terrain elevation
+    float _elevation;   ///< [m] terrain elevation
 
     virtual void hit( Unit *target );
 

@@ -34,7 +34,7 @@ const float Bullet::m_vel_m = 600.0f;
 Bullet::Bullet( UInt16 dp, UInt32 shooterId, float life_span, Group *parent ) :
     Munition( dp, shooterId, life_span, parent )
 {
-    m_vel.x() = -m_vel_m;
+    _vel.x() = -m_vel_m;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

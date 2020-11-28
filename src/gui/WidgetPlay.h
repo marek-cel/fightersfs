@@ -21,9 +21,8 @@
 
 #include <QGridLayout>
 
+#include <gui/KeyHandler.h>
 #include <gui/WidgetCGI.h>
-
-#include <hid/hid_Assignment.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,30 +32,6 @@ class WidgetPlay : public WidgetCGI
     Q_OBJECT
 
 public:
-
-    /** */
-    class KeyHandler : public osgGA::GUIEventHandler
-    {
-    public:
-
-        /** */
-        KeyHandler( WidgetCGI *widgetCGI );
-
-        /** */
-        inline const bool* getKeysState() const { return _keysState; }
-
-        /** */
-        bool handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter & );
-
-    private:
-
-        WidgetCGI *_widgetCGI;
-
-        bool _keysState[ HID_MAX_KEYS ];
-
-        bool handleKeyDn( const osgGA::GUIEventAdapter &ea );
-        bool handleKeyUp( const osgGA::GUIEventAdapter &ea );
-    };
 
     /** Constructor. */
     WidgetPlay( QWidget *parent = NULLPTR );

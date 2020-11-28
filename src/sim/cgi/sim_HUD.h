@@ -38,16 +38,16 @@ class HUD : public Base
 {
 public:
 
-    static const UInt16 m_maxRadarMarks;    ///< maximum number of radar marks
+    static const UInt16 _maxRadarMarks;     ///< maximum number of radar marks
 
-    static const float m_sizeCaptions;      ///< captions font size
-    static const float m_sizePlayerBar;     ///< player bar font size
-    static const float m_sizeMessage;       ///< message font size
+    static const float _sizeCaptions;       ///< captions font size
+    static const float _sizePlayerBar;      ///< player bar font size
+    static const float _sizeMessage;        ///< message font size
 
-    static const float m_deg2px;            ///<
-    static const float m_rad2px;            ///<
+    static const float _deg2px;             ///<
+    static const float _rad2px;             ///<
 
-    static const float m_rad11deg;          ///< [rad] 11 deg
+    static const float _rad11deg;           ///< [rad] 11 deg
 
     /** Constructor. */
     HUD( float linesWidth, int width, int height );
@@ -65,88 +65,88 @@ public:
     void update();
 
     /** Returns OSG node.  */
-    inline osg::Group* getNode() { return m_root.get(); }
+    inline osg::Group* getNode() { return _root.get(); }
 
 private:
 
-    const float m_linesWidth;           ///< [px] lines width
+    const float _linesWidth;            ///< [px] lines width
 
-    const int m_width;                  ///< [px] viewport width
-    const int m_height;                 ///< [px] viewport height
+    const int _width;                   ///< [px] viewport width
+    const int _height;                  ///< [px] viewport height
 
-    const int m_maxX;                   ///< [px] maximum x-coordinate value (depending on screen ratio)
+    const int _maxX;                    ///< [px] maximum x-coordinate value (depending on screen ratio)
 
-    osg::ref_ptr<osg::Group> m_root;    ///< HUD root group
+    osg::ref_ptr<osg::Group> _root;     ///< HUD root group
 
-    osg::ref_ptr<osg::Switch> m_switch; ///< HUD master switch
+    osg::ref_ptr<osg::Switch> _switch;  ///< HUD master switch
 
-    osg::ref_ptr<osgText::Font> m_font; ///< HUD font
+    osg::ref_ptr<osgText::Font> _font;  ///< HUD font
 
-    osg::ref_ptr<osg::Switch> m_switchCaption;              ///< captions switch
-    osg::ref_ptr<osg::Switch> m_switchEnemyIndicators;      ///< enemy indicators switch
-    osg::ref_ptr<osg::Switch> m_switchMessage;              ///< message switch
-    osg::ref_ptr<osg::Switch> m_switchPointerCustom;        ///< custom pointer switch
-    osg::ref_ptr<osg::Switch> m_switchPointerTarget;        ///< target cue pointer switch
-    osg::ref_ptr<osg::Switch> m_switchRadarMarksEnemy;      ///< radar marks switch enemy
-    osg::ref_ptr<osg::Switch> m_switchRadarMarksFriend;     ///< radar marks switch friend
-    osg::ref_ptr<osg::Switch> m_switchTargetIndicators;     ///< target indicator switch
-    osg::ref_ptr<osg::Switch> m_switchWaypointIndicators;   ///< waypoint indicators switch
+    osg::ref_ptr<osg::Switch> _switchCaption;               ///< captions switch
+    osg::ref_ptr<osg::Switch> _switchEnemyIndicators;       ///< enemy indicators switch
+    osg::ref_ptr<osg::Switch> _switchMessage;               ///< message switch
+    osg::ref_ptr<osg::Switch> _switchPointerCustom;         ///< custom pointer switch
+    osg::ref_ptr<osg::Switch> _switchPointerTarget;         ///< target cue pointer switch
+    osg::ref_ptr<osg::Switch> _switchRadarMarksEnemy;       ///< radar marks switch enemy
+    osg::ref_ptr<osg::Switch> _switchRadarMarksFriend;      ///< radar marks switch friend
+    osg::ref_ptr<osg::Switch> _switchTargetIndicators;      ///< target indicator switch
+    osg::ref_ptr<osg::Switch> _switchWaypointIndicators;    ///< waypoint indicators switch
 #   ifndef SIM_DESKTOP
-    osg::ref_ptr<osg::Switch> m_switchTrigger;              ///< trigger switch
-    osg::ref_ptr<osg::Switch> m_switchPointerRpm;           ///< RPM pointer switch
-    osg::ref_ptr<osg::Switch> m_switchPointerTrigger;       ///< trigger pointer switch
-    osg::ref_ptr<osg::Switch> m_switchTutorialTips;         ///< tutorial tips switch (only in tutorial mode)
+    osg::ref_ptr<osg::Switch> _switchTrigger;               ///< trigger switch
+    osg::ref_ptr<osg::Switch> _switchPointerRpm;            ///< RPM pointer switch
+    osg::ref_ptr<osg::Switch> _switchPointerTrigger;        ///< trigger pointer switch
+    osg::ref_ptr<osg::Switch> _switchTutorialTips;          ///< tutorial tips switch (only in tutorial mode)
 #   endif
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patCaption;          ///< caption position and scale
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patCrosshair;        ///< crosshair (target sight) position
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patHitIndicator;     ///< hit indicator position and attitude
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patIndicatorALT1;    ///< altimeter 1000 ft hand rotation
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patIndicatorALT2;    ///< altimeter 100 ft hand rotation
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patIndicatorASI;     ///< airspeed inidicator hand rotation
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patIndicatorRadar;   ///< radar heading rotation
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patIndicatorVSI;     ///< vertical speed indicator hand rotation
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patPlayerBar;        ///< player health bar scale and position
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patPointerCustom;    ///< custom pointer position and rotation
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patTargetBar;        ///< target health bar position and scaler
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patTargetBox;        ///< target box position
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patTargetCue;        ///< target cue postion relative to target box
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patTargetDir;        ///< target direction indicator rotation
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patWaypointBox;      ///< wayposint box position
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patWaypointDir;      ///< waypoint direction indicator rotation
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patCaption;           ///< caption position and scale
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patCrosshair;         ///< crosshair (target sight) position
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patHitIndicator;      ///< hit indicator position and attitude
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patIndicatorALT1;     ///< altimeter 1000 ft hand rotation
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patIndicatorALT2;     ///< altimeter 100 ft hand rotation
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patIndicatorASI;      ///< airspeed inidicator hand rotation
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patIndicatorRadar;    ///< radar heading rotation
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patIndicatorVSI;      ///< vertical speed indicator hand rotation
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patPlayerBar;         ///< player health bar scale and position
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patPointerCustom;     ///< custom pointer position and rotation
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patTargetBar;         ///< target health bar position and scaler
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patTargetBox;         ///< target box position
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patTargetCue;         ///< target cue postion relative to target box
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patTargetDir;         ///< target direction indicator rotation
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patWaypointBox;       ///< wayposint box position
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patWaypointDir;       ///< waypoint direction indicator rotation
 #   ifndef SIM_DESKTOP
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patControlsThrottle; ///< throttle grip position
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patPointerRpm;       ///< RPM pointer position
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patControlsThrottle;  ///< throttle grip position
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patPointerRpm;        ///< RPM pointer position
 #   endif
 
-    std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > m_patRadarMarksEnemy;   ///< list of enemy markings PATs
-    std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > m_patRadarMarksFriend;  ///< list of friend markings PATs
+    std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > _patRadarMarksEnemy;    ///< list of enemy markings PATs
+    std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > _patRadarMarksFriend;   ///< list of friend markings PATs
 
-    std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > m_patEnemyBox;          ///< target box position
-    std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > m_patEnemyDir;          ///< target direction indicator rotation
+    std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > _patEnemyBox;           ///< target box position
+    std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > _patEnemyDir;           ///< target direction indicator rotation
 
-    osg::ref_ptr<osg::Geode> m_geodeRadarMarkEnemy;     ///< radar mark geode enemy
-    osg::ref_ptr<osg::Geode> m_geodeRadarMarkFriend;    ///< radar mark geode friend
+    osg::ref_ptr<osg::Geode> _geodeRadarMarkEnemy;      ///< radar mark geode enemy
+    osg::ref_ptr<osg::Geode> _geodeRadarMarkFriend;     ///< radar mark geode friend
 
-    osg::ref_ptr<osg::Geometry> m_hitIndicator;         ///< hit indicator geometry
-    osg::ref_ptr<osg::Geometry> m_playerLifeBar;        ///< player life bar geometry
-    osg::ref_ptr<osg::Geometry> m_targetLifeBar;        ///< target life bar geometry
+    osg::ref_ptr<osg::Geometry> _hitIndicator;          ///< hit indicator geometry
+    osg::ref_ptr<osg::Geometry> _playerLifeBar;         ///< player life bar geometry
+    osg::ref_ptr<osg::Geometry> _targetLifeBar;         ///< target life bar geometry
 #   ifndef SIM_DESKTOP
-    osg::ref_ptr<osg::Geometry> m_tutorialTip;          ///< tutorial tip
+    osg::ref_ptr<osg::Geometry> _tutorialTip;           ///< tutorial tip
 #   endif
 
-    osg::ref_ptr<osg::Material> m_materialIndicators;   ///< indicators material
+    osg::ref_ptr<osg::Material> _materialIndicators;    ///< indicators material
 #   ifndef SIM_DESKTOP
-    osg::ref_ptr<osg::Material> m_materialControls;     ///< controls material
+    osg::ref_ptr<osg::Material> _materialControls;      ///< controls material
 #   endif
 
-    osg::ref_ptr<osgText::Text> m_textPlayerHP;         ///< player's hit points text
-    osg::ref_ptr<osgText::Text> m_textCaption;          ///< caption text
-    osg::ref_ptr<osgText::Text> m_textMessage;          ///< message text
+    osg::ref_ptr<osgText::Text> _textPlayerHP;          ///< player's hit points text
+    osg::ref_ptr<osgText::Text> _textCaption;           ///< caption text
+    osg::ref_ptr<osgText::Text> _textMessage;           ///< message text
 
-    bool m_tutorial;            ///< specifies if HUD is in tutorial mode
+    bool _tutorial;             ///< specifies if HUD is in tutorial mode
 
-    float m_timerTutorial;      ///< [s] timer for tutorial symbols
+    float _timerTutorial;       ///< [s] timer for tutorial symbols
 
     void createBox( osg::Geode *geode, osg::Vec4 color, float width = 1.0f );
 

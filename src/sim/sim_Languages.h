@@ -54,10 +54,10 @@ public:
     virtual ~Languages();
 
     /** */
-    inline UInt8 getCurrent() const { return m_current; }
+    inline UInt8 getCurrent() const { return _current; }
 
     /** */
-    inline UInt8 getDefault() const { return m_default; }
+    inline UInt8 getDefault() const { return _default; }
 
     /** */
     std::string getCodeByIndex( UInt8 index ) const;
@@ -66,7 +66,7 @@ public:
     int getIndexByCode( const std::string &code ) const;
 
     /** */
-    inline unsigned int getCount() const { return m_list.size(); }
+    inline unsigned int getCount() const { return _list.size(); }
 
     /** */
     bool isCodeValid( const std::string &code ) const;
@@ -76,10 +76,10 @@ public:
 
 private:
 
-    List m_list;        ///< supported languages list
+    List _list;         ///< supported languages list
 
-    UInt8 m_current;    ///< current language index
-    UInt8 m_default;    ///< default language index
+    UInt8 _current;     ///< current language index
+    UInt8 _default;     ///< default language index
 
     void readLanguages();
 };

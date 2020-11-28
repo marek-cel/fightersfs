@@ -23,7 +23,7 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const std::string Kamikaze::m_tagName = "kamikaze";
+const std::string Kamikaze::_tagName = "kamikaze";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -101,21 +101,21 @@ void Kamikaze::updateDestination()
 
     if ( !m_engaged )
     {
-        if ( m_route.size() > 0 )
+        if ( _route.size() > 0 )
         {
-            if ( !m_enroute || m_engaged )
+            if ( !_enroute || m_engaged )
             {
-                m_destination = m_route[ m_waypointIndex ];
-                m_destValid = true;
+                _destination = _route[ _waypointIndex ];
+                _destValid = true;
             }
         }
         else
         {
-            m_destValid = false;
+            _destValid = false;
         }
 
-        m_enroute = true;
-        m_wingman = m_leaderValid;
+        _enroute = true;
+        _wingman = _leaderValid;
         m_engaged = false;
     }
 
@@ -132,17 +132,17 @@ void Kamikaze::updateTarget()
 
     if ( target )
     {
-        m_enroute = false;
-        m_wingman = false;
+        _enroute = false;
+        _wingman = false;
         m_engaged = true;
 
-        m_destValid = true;
+        _destValid = true;
 
         Vec3 pos_enu = target->getPos();
         pos_enu.z() = 5.0f;
 
-        m_destination.first  = pos_enu;
-        m_destination.second = m_speed_max;
+        _destination.first  = pos_enu;
+        _destination.second = _speed_max;
     }
     else
     {

@@ -35,30 +35,30 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const float Scenery::m_size_2 = 65536.0f;
-const float Scenery::m_size   = 2.0f * Scenery::m_size_2;
-const float Scenery::m_limit  = Scenery::m_size_2 - SIM_SKYDOME_RAD;
+const float Scenery::_size_2 = 65536.0f;
+const float Scenery::_size   = 2.0f * Scenery::_size_2;
+const float Scenery::_limit  = Scenery::_size_2 - SIM_SKYDOME_RAD;
 
-std::string Scenery::m_terrainFile = "scenery/ocean.osgb";
-std::string Scenery::m_genericFile = "scenery/ocean.osgb";
+std::string Scenery::_terrainFile = "scenery/ocean.osgb";
+std::string Scenery::_genericFile = "scenery/ocean.osgb";
 
-Scenery::ObjectFiles Scenery::m_objectFiles;
+Scenery::ObjectFiles Scenery::_objectFiles;
 
-osg::ref_ptr<osg::Node> Scenery::m_terrainNode = 0;
+osg::ref_ptr<osg::Node> Scenery::_terrainNode = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Scenery::Scenery( Module *parent ) :
     Module( new osg::Group(), parent ),
 
-    m_counter ( 100 )
+    _counter ( 100 )
 {
 #   ifdef SIM_DESKTOP
     osgSim::OverlayNode::OverlayTechnique technique = osgSim::OverlayNode::OBJECT_DEPENDENT_WITH_ORTHOGRAPHIC_OVERLAY;
-    _root = m_overlayNode = new osgSim::OverlayNode( technique );
+    _root = _overlayNode = new osgSim::OverlayNode( technique );
 
-    m_overlayNode->getOrCreateStateSet()->setTextureAttribute( 1, new osg::TexEnv( osg::TexEnv::DECAL ) );
-    m_overlayNode->setContinuousUpdate( true );
+    _overlayNode->getOrCreateStateSet()->setTextureAttribute( 1, new osg::TexEnv( osg::TexEnv::DECAL ) );
+    _overlayNode->setContinuousUpdate( true );
 #   endif
 
     _root->setName( "scenery" );
@@ -76,7 +76,7 @@ Scenery::Scenery( Module *parent ) :
 
 Scenery::~Scenery()
 {
-    m_terrainNode = 0;
+    _terrainNode = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -102,62 +102,62 @@ void Scenery::update()
     /////////////////
 
 #   ifdef SIM_DESKTOP
-    m_mt->setMatrix( osg::Matrixd::rotate( osg::Quat( -Data::get()->ownship.heading, osg::Z_AXIS ) )
-                   * osg::Matrixd::translate( osg::Vec3( Data::get()->ownship.pos_x,
-                                                         Data::get()->ownship.pos_y,
-                                                         0.0f ) ) );
+    _mt->setMatrix( osg::Matrixd::rotate( osg::Quat( -Data::get()->ownship.heading, osg::Z_AXIS ) )
+                  * osg::Matrixd::translate( osg::Vec3( Data::get()->ownship.pos_x,
+                                                        Data::get()->ownship.pos_y,
+                                                        0.0f ) ) );
 #   endif
 
-    if ( m_counter == 100 )
+    if ( _counter == 100 )
     {
-        m_counter = 0;
+        _counter = 0;
 
-        if ( fabs( Data::get()->camera.pos_x ) > m_limit
-          || fabs( Data::get()->camera.pos_y ) > m_limit )
+        if ( fabs( Data::get()->camera.pos_x ) > _limit
+          || fabs( Data::get()->camera.pos_y ) > _limit )
         {
-            m_switchGeneric->setValue( 1, true );
-            m_switchGeneric->setValue( 2, true );
-            m_switchGeneric->setValue( 3, true );
+            _switchGeneric->setValue( 1, true );
+            _switchGeneric->setValue( 2, true );
+            _switchGeneric->setValue( 3, true );
 
             short ix = 0;
             short iy = 0;
 
-            if ( fabs( Data::get()->camera.pos_x ) > m_size_2 )
+            if ( fabs( Data::get()->camera.pos_x ) > _size_2 )
             {
                 if ( Data::get()->camera.pos_x > 0.0 )
                 {
-                    ix = ( Data::get()->camera.pos_x - m_size_2 ) / m_size + 1;
+                    ix = ( Data::get()->camera.pos_x - _size_2 ) / _size + 1;
                 }
                 else
                 {
-                    ix = ( Data::get()->camera.pos_x + m_size_2 ) / m_size - 1;
+                    ix = ( Data::get()->camera.pos_x + _size_2 ) / _size - 1;
                 }
             }
 
-            if ( fabs( Data::get()->camera.pos_y ) > m_size_2 )
+            if ( fabs( Data::get()->camera.pos_y ) > _size_2 )
             {
                 if ( Data::get()->camera.pos_y > 0.0 )
                 {
-                    iy = ( Data::get()->camera.pos_y - m_size_2 ) / m_size + 1;
+                    iy = ( Data::get()->camera.pos_y - _size_2 ) / _size + 1;
                 }
                 else
                 {
-                    iy = ( Data::get()->camera.pos_y + m_size_2 ) / m_size - 1;
+                    iy = ( Data::get()->camera.pos_y + _size_2 ) / _size - 1;
                 }
             }
 
-            float xc = ix * m_size;
-            float yc = iy * m_size;
+            float xc = ix * _size;
+            float yc = iy * _size;
 
             if ( ix == 0 && iy == 0 )
             {
-                m_switchGeneric->setValue( 0, false );
+                _switchGeneric->setValue( 0, false );
             }
             else
             {
-                m_switchGeneric->setValue( 0, true );
+                _switchGeneric->setValue( 0, true );
 
-                m_pat_0->setPosition( osg::Vec3d( xc, yc, 0.0 ) );
+                _pat_0->setPosition( osg::Vec3d( xc, yc, 0.0 ) );
             }
 
             short dix = Misc::sign( Data::get()->camera.pos_x - xc );
@@ -169,29 +169,29 @@ void Scenery::update()
         }
         else
         {
-            m_switchGeneric->setAllChildrenOff();
+            _switchGeneric->setAllChildrenOff();
         }
     }
 
-    m_counter++;
+    _counter++;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Scenery::createGeneric()
 {
-    m_switchGeneric = new osg::Switch();
-    _root->addChild( m_switchGeneric.get() );
+    _switchGeneric = new osg::Switch();
+    _root->addChild( _switchGeneric.get() );
 
-    m_pat_0 = new osg::PositionAttitudeTransform();
-    m_pat_x = new osg::PositionAttitudeTransform();
-    m_pat_y = new osg::PositionAttitudeTransform();
-    m_pat_c = new osg::PositionAttitudeTransform();
+    _pat_0 = new osg::PositionAttitudeTransform();
+    _pat_x = new osg::PositionAttitudeTransform();
+    _pat_y = new osg::PositionAttitudeTransform();
+    _pat_c = new osg::PositionAttitudeTransform();
 
-    m_switchGeneric->addChild( m_pat_0 );
-    m_switchGeneric->addChild( m_pat_x );
-    m_switchGeneric->addChild( m_pat_y );
-    m_switchGeneric->addChild( m_pat_c );
+    _switchGeneric->addChild( _pat_0 );
+    _switchGeneric->addChild( _pat_x );
+    _switchGeneric->addChild( _pat_y );
+    _switchGeneric->addChild( _pat_c );
 
     loadGeneric();
 }
@@ -200,7 +200,7 @@ void Scenery::createGeneric()
 
 void Scenery::createObjects()
 {
-    for ( ObjectFiles::iterator it = m_objectFiles.begin(); it != m_objectFiles.end(); ++it )
+    for ( ObjectFiles::iterator it = _objectFiles.begin(); it != _objectFiles.end(); ++it )
     {
         osg::ref_ptr<osg::Node> object = Models::get( getPath( *it ) );
 
@@ -219,11 +219,11 @@ void Scenery::createShadow()
     const double w_2 = 8.0;
     const double l_2 = 8.0;
 
-    m_mt = new osg::MatrixTransform();
-    m_overlayNode->setOverlaySubgraph( m_mt.get() );
+    _mt = new osg::MatrixTransform();
+    _overlayNode->setOverlaySubgraph( _mt.get() );
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_mt->addChild( geode.get() );
+    _mt->addChild( geode.get() );
 
     osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
     geode->addDrawable( geom.get() );
@@ -281,10 +281,10 @@ void Scenery::loadGeneric()
 
     if ( ocean.valid() )
     {
-        m_pat_0->addChild( ocean.get() );
-        m_pat_x->addChild( ocean.get() );
-        m_pat_y->addChild( ocean.get() );
-        m_pat_c->addChild( ocean.get() );
+        _pat_0->addChild( ocean.get() );
+        _pat_x->addChild( ocean.get() );
+        _pat_y->addChild( ocean.get() );
+        _pat_c->addChild( ocean.get() );
     }
 }
 
@@ -292,11 +292,11 @@ void Scenery::loadGeneric()
 
 void Scenery::loadTerrain()
 {
-    osg::ref_ptr<osg::Node> terrain = Models::get( getPath( m_terrainFile ), true );
+    osg::ref_ptr<osg::Node> terrain = Models::get( getPath( _terrainFile ), true );
 
     if ( terrain.valid() )
     {
-        m_terrainNode = terrain.get();
+        _terrainNode = terrain.get();
 
         _root->addChild( terrain.get() );
     }
@@ -315,7 +315,7 @@ void Scenery::setPositionC( float xc, float yc, short ix, short iy, short dix, s
         else           diy += 2;
     }
 
-    m_pat_c->setPosition( osg::Vec3d( xc + dix * m_size, yc + diy * m_size, 0.0 ) );
+    _pat_c->setPosition( osg::Vec3d( xc + dix * _size, yc + diy * _size, 0.0 ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -328,7 +328,7 @@ void Scenery::setPositionX( float xc, float yc, short ix, short iy, short dix )
         else           dix += 2;
     }
 
-    m_pat_x->setPosition( osg::Vec3d( xc + dix * m_size, yc, 0.0 ) );
+    _pat_x->setPosition( osg::Vec3d( xc + dix * _size, yc, 0.0 ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -341,6 +341,6 @@ void Scenery::setPositionY( float xc, float yc, short ix, short iy, short diy )
         else           diy += 2;
     }
 
-    m_pat_y->setPosition( osg::Vec3d( xc, yc + diy * m_size, 0.0 ) );
+    _pat_y->setPosition( osg::Vec3d( xc, yc + diy * _size, 0.0 ) );
 }
 

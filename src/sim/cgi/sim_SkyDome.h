@@ -38,8 +38,8 @@ class SkyDome : public Module
 {
 public:
 
-    static std::string m_skyDomeFile;   ///< sky dome file
-    static float m_sunCoef;
+    static std::string _skyDomeFile;    ///< sky dome file
+    static float _sunCoef;
 
     /** Constructor. */
     SkyDome( Module *parent = NULLPTR );
@@ -53,11 +53,11 @@ public:
 private:
 
 #   ifdef SIM_TEST
-    osg::ref_ptr<osg::Switch> m_switch;
+    osg::ref_ptr<osg::Switch> _switch;
 #   endif
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patSky;  ///< sky PAT
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patSun;  ///< sun PAT
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patSky;   ///< sky PAT
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patSun;   ///< sun PAT
 
     void createSky();
     void createSun();

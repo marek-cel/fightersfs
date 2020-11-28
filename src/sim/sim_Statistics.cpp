@@ -24,16 +24,16 @@ using namespace sim;
 ////////////////////////////////////////////////////////////////////////////////
 
 Statistics::Statistics() :
-    m_activated ( 0 ),
-    m_destroyed ( 0 ),
+    _activated ( 0 ),
+    _destroyed ( 0 ),
 
-    m_friendsActivated ( 0 ),
-    m_friendsDestroyed ( 0 ),
-    m_enemiesActivated ( 0 ),
-    m_enemiesDestroyed ( 0 ),
-    m_ownshipDestroyed ( 0 ),
+    _friendsActivated ( 0 ),
+    _friendsDestroyed ( 0 ),
+    _enemiesActivated ( 0 ),
+    _enemiesDestroyed ( 0 ),
+    _ownshipDestroyed ( 0 ),
 
-    m_flightTime ( 0.0f )
+    _flightTime ( 0.0f )
 {
     reset();
 }
@@ -51,14 +51,14 @@ void Statistics::reportActivated( Affiliation affiliation )
 {
     if ( affiliation == Hostile )
     {
-        m_enemiesActivated++;
+        _enemiesActivated++;
     }
     else if ( affiliation == Friend )
     {
-        m_friendsActivated++;
+        _friendsActivated++;
     }
 
-    m_activated++;
+    _activated++;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,28 +67,28 @@ void Statistics::reportDestroyed( Affiliation affiliation )
 {
     if ( affiliation == Hostile )
     {
-        m_enemiesDestroyed++;
+        _enemiesDestroyed++;
     }
     else if ( affiliation == Friend )
     {
-        m_friendsDestroyed++;
+        _friendsDestroyed++;
     }
 
-    m_destroyed++;
+    _destroyed++;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Statistics::reset()
 {
-    m_activated = 0;
-    m_destroyed = 0;
+    _activated = 0;
+    _destroyed = 0;
 
-    m_friendsActivated = 0;
-    m_friendsDestroyed = 0;
-    m_enemiesActivated = 0;
-    m_enemiesDestroyed = 0;
-    m_ownshipDestroyed = 0;
+    _friendsActivated = 0;
+    _friendsDestroyed = 0;
+    _enemiesActivated = 0;
+    _enemiesDestroyed = 0;
+    _ownshipDestroyed = 0;
 
-    m_flightTime = 0.0f;
+    _flightTime = 0.0f;
 }

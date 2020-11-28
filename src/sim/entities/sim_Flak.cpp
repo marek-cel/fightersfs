@@ -63,7 +63,7 @@ void Flak::update( double timeStep )
         {
             if ( !m_exploded )
             {
-                if ( m_life_time > m_fuse_time )
+                if ( _life_time > m_fuse_time )
                 {
                     rangeDamage();
                     resetLifeTime();
@@ -88,7 +88,7 @@ void Flak::rangeDamage()
     {
         m_exploded = true;
 
-        m_vel.x() = 0.0;
+        _vel.x() = 0.0;
 
         List entities = *Entities::instance()->getEntities();
         List::iterator it = entities.begin();
@@ -101,7 +101,7 @@ void Flak::rangeDamage()
             {
                 if ( target->isActive() )
                 {
-                    float r2 = ( target->getPos() - m_pos ).length2() - target->getRadius2();
+                    float r2 = ( target->getPos() - _pos ).length2() - target->getRadius2();
 
                     if ( r2 < m_r_limit_2 )
                     {
@@ -125,10 +125,10 @@ void Flak::rangeDamage()
 void Flak::createBurst()
 {
     osg::ref_ptr<osg::Group> group = new osg::Group();
-    m_switch->addChild( group.get() );
+    _switch->addChild( group.get() );
 
     osg::ref_ptr<osgParticle::ParticleSystem> ps = new osgParticle::ParticleSystem();
-    ps->getDefaultParticleTemplate().setLifeTime( m_life_span - 3.0f );
+    ps->getDefaultParticleTemplate().setLifeTime( _life_span - 3.0f );
     ps->getDefaultParticleTemplate().setShape( osgParticle::Particle::QUAD );
     ps->getDefaultParticleTemplate().setSizeRange( osgParticle::rangef(7.0f, 10.0f) );
     ps->getDefaultParticleTemplate().setAlphaRange( osgParticle::rangef(0.9f, 0.0f) );

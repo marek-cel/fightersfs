@@ -46,14 +46,14 @@ using namespace sim;
 ////////////////////////////////////////////////////////////////////////////////
 
 Simulation::Simulation( int width, int height ) :
-    m_otw ( 0 ),
-    m_hud ( 0 ),
-    m_sfx ( 0 ),
+    _otw ( 0 ),
+    _hud ( 0 ),
+    _sfx ( 0 ),
 
-    m_camera  ( 0 ),
-    m_mission ( 0 ),
+    _camera  ( 0 ),
+    _mission ( 0 ),
 
-    m_orbitedUnitId ( 0 )
+    _orbitedUnitId ( 0 )
 {
     readMissions();
 
@@ -61,11 +61,11 @@ Simulation::Simulation( int width, int height ) :
 
     Models::createTracer( 1.2f * linesWidth );
 
-    m_otw = new OTW( linesWidth );
-    m_hud = new HUD( linesWidth, width, height );
-    m_sfx = new SFX();
+    _otw = new OTW( linesWidth );
+    _hud = new HUD( linesWidth, width, height );
+    _sfx = new SFX();
 
-    m_camera = new Camera();
+    _camera = new Camera();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -74,11 +74,11 @@ Simulation::~Simulation()
 {
     Models::reset();
 
-    DELPTR( m_otw );
-    DELPTR( m_hud );
-    DELPTR( m_sfx );
-    DELPTR( m_camera );
-    DELPTR( m_mission );
+    DELPTR( _otw );
+    DELPTR( _hud );
+    DELPTR( _sfx );
+    DELPTR( _camera );
+    DELPTR( _mission );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,16 +89,16 @@ void Simulation::init() {}
 
 void Simulation::init( UInt32 mission_index )
 {
-    if ( mission_index < m_missions.size() )
+    if ( mission_index < _missions.size() )
     {
-        m_mission = new Mission();
-        m_mission->init( m_missions[ mission_index ] );
+        _mission = new Mission();
+        _mission->init( _missions[ mission_index ] );
     }
 
     Ownship::instance()->init();
 
-    m_otw->init();
-    m_hud->init( m_mission->isTutorial() );
+    _otw->init();
+    _hud->init( _mission->isTutorial() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -110,24 +110,24 @@ void Simulation::load()
     // entities must be loaded before OTW
     Entities::instance()->load();
 
-    m_otw->load();
-    m_hud->load();
+    _otw->load();
+    _hud->load();
 
-    m_sfx->init();
+    _sfx->init();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Simulation::pause()
 {
-    m_sfx->pause();
+    _sfx->pause();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Simulation::unpause()
 {
-    m_sfx->unpause();
+    _sfx->unpause();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -141,46 +141,46 @@ void Simulation::restart()
 
 void Simulation::update( double timeStep )
 {
-    m_mission->update( timeStep );
+    _mission->update( timeStep );
 
     // ownship (after mission!)
     Ownship::instance()->update( timeStep );
 
-    m_otw->update();
-    m_hud->update();
-    m_sfx->update();
+    _otw->update();
+    _hud->update();
+    _sfx->update();
 
-    m_camera->update();
+    _camera->update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Simulation::setViewChase()
 {
-    if ( m_camera ) m_camera->setViewChase();
+    if ( _camera ) _camera->setViewChase();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Simulation::setViewFlyby()
 {
-    if ( m_camera ) m_camera->setViewFlyby();
+    if ( _camera ) _camera->setViewFlyby();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Simulation::setViewFront()
 {
-    if ( m_camera ) m_camera->setViewFront();
+    if ( _camera ) _camera->setViewFront();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Simulation::setViewOrbit()
 {
-    if ( m_camera )
+    if ( _camera )
     {
-        m_orbitedUnitId = 0;
+        _orbitedUnitId = 0;
 
         Entity *ownship = Ownship::instance()->getEntity();
 
@@ -188,14 +188,14 @@ void Simulation::setViewOrbit()
         {
             if ( ownship->isActive() )
             {
-                m_camera->setTrackNode( ownship->getEntityNode() );
-                m_camera->setViewOrbit();
+                _camera->setTrackNode( ownship->getEntityNode() );
+                _camera->setViewOrbit();
 
                 Unit *unit = dynamic_cast< Unit* >( ownship );
 
                 if ( unit )
                 {
-                    m_orbitedUnitId = unit->getId();
+                    _orbitedUnitId = unit->getId();
                 }
             }
         }
@@ -206,33 +206,33 @@ void Simulation::setViewOrbit()
 
 void Simulation::setViewPilot()
 {
-    if ( m_camera ) m_camera->setViewPilot();
+    if ( _camera ) _camera->setViewPilot();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Simulation::setViewShift()
 {
-    if ( m_camera ) m_camera->setViewShift();
+    if ( _camera ) _camera->setViewShift();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Simulation::setViewWorld()
 {
-    if ( m_camera )
+    if ( _camera )
     {
-        if ( !m_camera->isWorldNodeValid() )
+        if ( !_camera->isWorldNodeValid() )
         {
             osg::ref_ptr<osg::Node> worldNode = Scenery::getTerrainNode();
 
             if ( worldNode.valid() )
             {
-                m_camera->setWorldNode( worldNode.get() );
+                _camera->setWorldNode( worldNode.get() );
             }
         }
 
-        m_camera->setViewWorld();
+        _camera->setViewWorld();
     }
 }
 
@@ -240,7 +240,7 @@ void Simulation::setViewWorld()
 
 void Simulation::toggleOrbitUnit()
 {
-    if ( m_camera )
+    if ( _camera )
     {
         std::vector< Unit* > units;
 
@@ -256,7 +256,7 @@ void Simulation::toggleOrbitUnit()
                 {
                     units.push_back( unit );
 
-                    if ( unit->getId() == m_orbitedUnitId )
+                    if ( unit->getId() == _orbitedUnitId )
                     {
                         nextUnitIndex = i + 1;
                     }
@@ -271,13 +271,13 @@ void Simulation::toggleOrbitUnit()
                 nextUnitIndex = 0;
             }
 
-            m_orbitedUnitId = units[ nextUnitIndex ]->getId();
+            _orbitedUnitId = units[ nextUnitIndex ]->getId();
 
-            m_camera->setTrackNode( units[ nextUnitIndex ]->getEntityNode() );
+            _camera->setTrackNode( units[ nextUnitIndex ]->getEntityNode() );
         }
         else
         {
-            m_orbitedUnitId = 0;
+            _orbitedUnitId = 0;
         }
     }
 }
@@ -306,7 +306,7 @@ void Simulation::readMissions()
 
                     if ( missionFile.length() > 0 )
                     {
-                        m_missions.push_back( "missions/" + missionFile );
+                        _missions.push_back( "missions/" + missionFile );
                     }
 
                     missionNode = missionNode.getNextSiblingElement( "mission" );

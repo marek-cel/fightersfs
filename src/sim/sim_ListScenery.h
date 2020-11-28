@@ -62,13 +62,13 @@ public:
 
     virtual ~ListScenery();
 
-    inline UInt32 getCount() const { return m_data.size(); }
+    inline UInt32 getCount() const { return _data.size(); }
 
     SceneryData getData( UInt32 index );
 
 private:
 
-    SceneryList m_data;     ///< list of scenery data
+    SceneryList _data;      ///< list of scenery data
 
     void readScenery();
     void readScenery( const XmlNode &node );

@@ -69,7 +69,7 @@ public:
     static osg::Node* get( const std::string &objectFile, bool straight = false );
 
     /** Returns tracer bullet object. */
-    inline static osg::LOD* getTracer() { return m_tracer.get(); }
+    inline static osg::LOD* getTracer() { return _tracer.get(); }
 
     /** Reads object from file. */
     static osg::Node* readNodeFile( std::string objectFile );
@@ -95,10 +95,10 @@ public:
 
 private:
 
-    List m_objects;                         ///< objects list
-    std::vector< std::string > m_fileNames; ///< file names
+    List _objects;                          ///< objects list
+    std::vector< std::string > _fileNames;  ///< file names
 
-    static osg::ref_ptr<osg::LOD> m_tracer; ///< tracer bullet object
+    static osg::ref_ptr<osg::LOD> _tracer;  ///< tracer bullet object
 };
 
 } // end of sim namespace

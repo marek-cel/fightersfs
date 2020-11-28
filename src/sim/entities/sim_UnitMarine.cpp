@@ -220,12 +220,12 @@ void UnitMarine::destroy()
     if ( isActive() )
     {
         Explosion *explosion = new Explosion( 25.0f );
-        explosion->setPos( m_pos );
-        explosion->setAtt( m_att );
+        explosion->setPos( _pos );
+        explosion->setAtt( _att );
 
         WreckageSurface *wreckage = new WreckageSurface( m_model.get(), m_smoke.get() );
-        wreckage->setPos( m_pos );
-        wreckage->setAtt( m_att );
+        wreckage->setPos( _pos );
+        wreckage->setAtt( _att );
 
         if ( m_ownship )
         {
@@ -249,7 +249,7 @@ void UnitMarine::load()
 #   ifdef SIM_TEST
     if ( m_model.valid() )
     {
-        createReflection( m_model.get(), m_switch.get() );
+        createReflection( m_model.get(), _switch.get() );
     }
 #   endif
 }
@@ -267,7 +267,7 @@ void UnitMarine::setHP( UInt16 hp )
         if ( !m_smoke.valid() )
         {
             m_smoke = Effects::createSmoke( 60.0f, 10.0f, 150.0f, 1.0f, 0.04f, 0.5f );
-            m_switch->addChild( m_smoke.get() );
+            _switch->addChild( m_smoke.get() );
         }
     }
 }

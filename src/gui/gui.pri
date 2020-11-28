@@ -2,6 +2,7 @@ HEADERS += \
     $$PWD/DialogAction.h \
     $$PWD/DialogConf.h \
     $$PWD/GraphicsWindowQt.h \
+    $$PWD/KeyHandler.h \
     $$PWD/KeyMap.h \
     $$PWD/MainWindow.h \
     $$PWD/MessageBox.h \
@@ -18,6 +19,7 @@ SOURCES += \
     $$PWD/DialogAction.cpp \
     $$PWD/DialogConf.cpp \
     $$PWD/GraphicsWindowQt.cpp \
+    $$PWD/KeyHandler.cpp \
     $$PWD/KeyMap.cpp \
     $$PWD/MainWindow.cpp \
     $$PWD/MessageBox.cpp \
@@ -28,7 +30,6 @@ SOURCES += \
     $$PWD/WidgetCtrl.cpp \
     $$PWD/WidgetData.cpp \
     $$PWD/WidgetPlay.cpp \
-    $$PWD/WidgetPlay_KeyHandler.cpp \
     $$PWD/WidgetUnit.cpp
 
 FORMS += \

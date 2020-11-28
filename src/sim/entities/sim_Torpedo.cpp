@@ -50,11 +50,11 @@ void Torpedo::update( double timeStep )
     {
         if ( isTopLevel() )
         {
-            if ( m_pos.z() < m_elevation )
+            if ( _pos.z() < m_elevation )
             {
-                if ( fabs( m_angles.phi() ) < 1.0e-3 )
+                if ( fabs( _angles.phi() ) < 1.0e-3 )
                 {
-                    m_omg.y() = -m_angles.tht();
+                    _omg.y() = -_angles.tht();
                 }
             }
         }
@@ -74,7 +74,7 @@ void Torpedo::hit( Unit *target )
     ////////////////////////
 
     Explosion *explosion = new Explosion( 15.0f );
-    explosion->setPos( m_pos );
+    explosion->setPos( _pos );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +87,7 @@ void Torpedo::updateElevation()
         Munition::updateElevation();
         ////////////////////////////
 
-        m_elevation = Elevation::instance()->getElevation( m_pos.x(), m_pos.y() );
+        m_elevation = Elevation::instance()->getElevation( _pos.x(), _pos.y() );
     }
 }
 
@@ -99,23 +99,23 @@ void Torpedo::updateVelocity()
     {
         Vec3 acc;
 
-        if ( m_pos.z() > 0.0f )
+        if ( _pos.z() > 0.0f )
         {
-            if ( m_vel.length() < 100.0f )
+            if ( _vel.length() < 100.0f )
             {
-                acc = m_att.inverse() * Vec3( 0.0, 0.0, -SIM_GRAVITY_ACC );
+                acc = _att.inverse() * Vec3( 0.0, 0.0, -SIM_GRAVITY_ACC );
             }
         }
         else
         {
-            float acc_z = -2.0f * ( m_pos.z() + 2.0f ) - 2.0f * m_vel.z();
+            float acc_z = -2.0f * ( _pos.z() + 2.0f ) - 2.0f * _vel.z();
 
-            acc = m_att.inverse() * Vec3( 0.0, 0.0, acc_z )
-                + Vec3( -m_vel.x() - 25.0f, 0.0, 0.0 );
+            acc = _att.inverse() * Vec3( 0.0, 0.0, acc_z )
+                + Vec3( -_vel.x() - 25.0f, 0.0, 0.0 );
         }
 
-        m_vel += ( acc - ( m_omg ^ m_vel ) ) * m_timeStep;
+        _vel += ( acc - ( _omg ^ _vel ) ) * _timeStep;
 
-        m_omg.x() = -m_angles.phi();
+        _omg.x() = -_angles.phi();
     }
 }

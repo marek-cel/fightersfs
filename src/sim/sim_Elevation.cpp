@@ -30,15 +30,15 @@ using namespace sim;
 ////////////////////////////////////////////////////////////////////////////////
 
 Elevation::Elevation() :
-    m_valid ( false ),
+    _valid ( false ),
 
-    m_num ( 0 ),
+    _num ( 0 ),
 
-    m_half ( 0.0f ),
-    m_side ( 0.0f ),
-    m_step ( 0.0f ),
+    _half ( 0.0f ),
+    _side ( 0.0f ),
+    _step ( 0.0f ),
 
-    m_elev ( 0 )
+    _elev ( 0 )
 {
     reset();
 }
@@ -54,10 +54,10 @@ Elevation::~Elevation()
 
 float Elevation::getElevation( float x, float y )
 {
-    if ( m_valid && fabs( x ) < m_half && fabs( y ) < m_half )
+    if ( _valid && fabs( x ) < _half && fabs( y ) < _half )
     {
-        float xn = ( x + m_half ) / m_step;
-        float yn = ( y + m_half ) / m_step;
+        float xn = ( x + _half ) / _step;
+        float yn = ( y + _half ) / _step;
 
         int ix_0 = floor( xn );
         int ix_1 =  ceil( xn );
@@ -67,10 +67,10 @@ float Elevation::getElevation( float x, float y )
         float dx = xn - ix_0;
         float dy = yn - iy_0;
 
-        float z_x0_y0 = m_elev[ ix_0 * m_num + iy_0 ];
-        float z_x0_y1 = m_elev[ ix_0 * m_num + iy_1 ];
-        float z_x1_y0 = m_elev[ ix_1 * m_num + iy_0 ];
-        float z_x1_y1 = m_elev[ ix_1 * m_num + iy_1 ];
+        float z_x0_y0 = _elev[ ix_0 * _num + iy_0 ];
+        float z_x0_y1 = _elev[ ix_0 * _num + iy_1 ];
+        float z_x1_y0 = _elev[ ix_1 * _num + iy_0 ];
+        float z_x1_y1 = _elev[ ix_1 * _num + iy_1 ];
 
         float z_y0 = z_x0_y0 + dx * ( z_x1_y0 - z_x0_y0 );
         float z_y1 = z_x0_y1 + dx * ( z_x1_y1 - z_x0_y1 );
@@ -102,22 +102,22 @@ void Elevation::readFile( const std::string &fileName )
         {
             if ( num > 0 && coef > 0.0 && step > 0.0 )
             {
-                m_num = num;
+                _num = num;
 
-                m_step = step;
-                m_side = (float)( m_num - 1 ) * m_step;
-                m_half = m_side / 2.0f;
+                _step = step;
+                _side = (float)( _num - 1 ) * _step;
+                _half = _side / 2.0f;
 
-                m_elev = new float [ m_num * m_num ];
+                _elev = new float [ _num * _num ];
             }
             else
             {
                 error = true;
             }
 
-            for ( int ir = 0; ir < m_num && !error; ir++ )
+            for ( int ir = 0; ir < _num && !error; ir++ )
             {
-                for ( int ic = 0; ic < m_num && !error; ic++ )
+                for ( int ic = 0; ic < _num && !error; ic++ )
                 {
                     int elev = 0;
 
@@ -136,7 +136,7 @@ void Elevation::readFile( const std::string &fileName )
                         }
                     }
 
-                    m_elev[ ir * m_num + ic ] = (float)elev * coef;
+                    _elev[ ir * _num + ic ] = (float)elev * coef;
                 }
             }
         }
@@ -154,7 +154,7 @@ void Elevation::readFile( const std::string &fileName )
         error = true;
     }
 
-    m_valid = !error;
+    _valid = !error;
 
     if ( error )
     {
@@ -166,13 +166,13 @@ void Elevation::readFile( const std::string &fileName )
 
 void Elevation::reset()
 {
-    m_valid = false;
+    _valid = false;
 
-    m_num = 0;
+    _num = 0;
 
-    m_half = 0.0f;
-    m_side = 0.0f;
-    m_step = 0.0f;
+    _half = 0.0f;
+    _side = 0.0f;
+    _step = 0.0f;
 
-    DELTAB( m_elev );
+    DELTAB( _elev );
 }

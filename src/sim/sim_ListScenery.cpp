@@ -43,7 +43,7 @@ ListScenery::~ListScenery() {}
 
 ListScenery::SceneryData ListScenery::getData( UInt32 index )
 {
-    return m_data[ index ];
+    return _data[ index ];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +129,7 @@ void ListScenery::readScenery( const XmlNode &node )
 
             XmlUtils::read( initPositionNode, data.initialPosition );
 
-            m_data.push_back( data );
+            _data.push_back( data );
         }
     }
 }

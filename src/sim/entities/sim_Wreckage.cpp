@@ -30,7 +30,7 @@ Wreckage::Wreckage( osg::Node *model, float life_span ) :
 
     if ( modelRefPtr.valid() )
     {
-        m_switch->addChild( modelRefPtr.get() );
+        _switch->addChild( modelRefPtr.get() );
     }
 }
 

@@ -30,12 +30,12 @@ using namespace sim;
 osg::Texture2D* Textures::get( const std::string &textureFile, float maxAnisotropy,
                                osg::Texture::WrapMode mode )
 {
-    for ( unsigned int i = 0; i < instance()->m_fileNames.size(); i++ )
+    for ( unsigned int i = 0; i < instance()->_fileNames.size(); i++ )
     {
-        if ( textureFile == instance()->m_fileNames.at( i ) )
+        if ( textureFile == instance()->_fileNames.at( i ) )
         {
-            instance()->m_textures.at( i )->setMaxAnisotropy( maxAnisotropy );
-            return instance()->m_textures.at( i );
+            instance()->_textures.at( i )->setMaxAnisotropy( maxAnisotropy );
+            return instance()->_textures.at( i );
         }
     }
 
@@ -57,8 +57,8 @@ osg::Texture2D* Textures::get( const std::string &textureFile, float maxAnisotro
 
         texture->setUnRefImageDataAfterApply( false );
 
-        instance()->m_textures.push_back( texture.get() );
-        instance()->m_fileNames.push_back( textureFile );
+        instance()->_textures.push_back( texture.get() );
+        instance()->_fileNames.push_back( textureFile );
 
         return texture.get();
     }
@@ -74,8 +74,8 @@ osg::Texture2D* Textures::get( const std::string &textureFile, float maxAnisotro
 
 Textures::Textures()
 {
-    m_fileNames.clear();
-    m_textures.clear();
+    _fileNames.clear();
+    _textures.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

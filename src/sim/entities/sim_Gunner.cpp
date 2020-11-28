@@ -128,8 +128,8 @@ void Gunner::update( double timeStep )
                 double psi = atan2( -dir_bas.y(), -dir_bas.x() );
                 double tht = atan2( dir_bas.z(), sqrt( dir_bas.x()*dir_bas.x() + dir_bas.y()*dir_bas.y() ) );
 
-                m_target_psi = Inertia< float >::update( m_timeStep, m_target_psi, psi, m_inertia );
-                m_target_tht = Inertia< float >::update( m_timeStep, m_target_tht, tht, m_inertia );
+                m_target_psi = Inertia< float >::update( _timeStep, m_target_psi, psi, m_inertia );
+                m_target_tht = Inertia< float >::update( _timeStep, m_target_tht, tht, m_inertia );
 
                 Quat q_att( 0.0          , osg::X_AXIS,
                             m_target_tht , osg::Y_AXIS,
@@ -156,7 +156,7 @@ void Gunner::update( double timeStep )
 
         updateWeapons();
 
-        m_shoot_time += m_timeStep;
+        m_shoot_time += _timeStep;
     }
 }
 
@@ -172,7 +172,7 @@ void Gunner::updateWeapons()
             {
                 m_shoot_time = 0.0f;
 
-                Tracer *bullet = new Tracer( m_parent_valid ? m_parent_id : m_id );
+                Tracer *bullet = new Tracer( m_parent_valid ? m_parent_id : _id );
 
                 bullet->setPos( m_pos_abs + m_target_dir * Vec3( -1.0, 0.0, 0.0 ) * 20.0f );
                 bullet->setAtt( m_target_dir );
@@ -198,7 +198,7 @@ GunnerFlak::~GunnerFlak() {}
 
 void GunnerFlak::updateWeapons()
 {
-    m_burst_time += m_timeStep;
+    m_burst_time += _timeStep;
 
     if ( m_target_valid )
     {
@@ -242,7 +242,7 @@ void GunnerFlak::updateWeapons()
                             break;
                         }
 
-                        Flak *bullet = new Flak( m_parent_valid ? m_parent_id : m_id, fuse_time );
+                        Flak *bullet = new Flak( m_parent_valid ? m_parent_id : _id, fuse_time );
 
                         bullet->setPos( m_pos_abs + dir * Vec3( -1.0, 0.0, 0.0 ) * offset );
                         bullet->setAtt( dir );
@@ -265,7 +265,7 @@ void GunnerFlak::updateWeapons()
 GunnerRear::GunnerRear( Affiliation affiliation, Group *parent ) :
     Gunner ( affiliation, parent )
 {
-    m_att.makeRotate( M_PI, osg::Z_AXIS );
+    _att.makeRotate( M_PI, osg::Z_AXIS );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -320,7 +320,7 @@ void GunnerZone::updateWeapons()
 GunnerBack::GunnerBack( Affiliation affiliation, Group *parent ) :
     GunnerZone( affiliation, -m_60deg_rad, m_60deg_rad, parent )
 {
-    m_att.makeRotate( M_PI, osg::Z_AXIS );
+    _att.makeRotate( M_PI, osg::Z_AXIS );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -342,7 +342,7 @@ GunnerFront::~GunnerFront() {}
 GunnerLeft::GunnerLeft( Affiliation affiliation, Group *parent ) :
     GunnerZone( affiliation, -m_60deg_rad, m_60deg_rad, parent )
 {
-    m_att.makeRotate( M_PI_2, osg::Z_AXIS );
+    _att.makeRotate( M_PI_2, osg::Z_AXIS );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -354,7 +354,7 @@ GunnerLeft::~GunnerLeft() {}
 GunnerRight::GunnerRight( Affiliation affiliation, Group *parent ) :
     GunnerZone( affiliation, -m_60deg_rad, m_60deg_rad, parent )
 {
-    m_att.makeRotate( -M_PI_2, osg::Z_AXIS );
+    _att.makeRotate( -M_PI_2, osg::Z_AXIS );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

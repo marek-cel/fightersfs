@@ -25,7 +25,7 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const std::string Balloon::m_tagName = "balloon";
+const std::string Balloon::_tagName = "balloon";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -44,6 +44,6 @@ void Balloon::destroy()
     //////////////////////
 
     Explosion *explosion = new Explosion( 10.0f );
-    explosion->setPos( m_pos );
-    explosion->setAtt( m_att );
+    explosion->setPos( _pos );
+    explosion->setAtt( _att );
 }

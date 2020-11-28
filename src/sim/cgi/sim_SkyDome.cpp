@@ -37,23 +37,23 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-std::string SkyDome::m_skyDomeFile = "textures/sky_0.rgb";
-float SkyDome::m_sunCoef = 1.0f;
+std::string SkyDome::_skyDomeFile = "textures/sky_0.rgb";
+float SkyDome::_sunCoef = 1.0f;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 SkyDome::SkyDome( Module *parent ) :
     Module( new osg::Group(), parent )
 {
-    m_patSky = new osg::PositionAttitudeTransform();
-    _root->addChild( m_patSky.get() );
+    _patSky = new osg::PositionAttitudeTransform();
+    _root->addChild( _patSky.get() );
 
-    m_patSun = new osg::PositionAttitudeTransform();
-    m_patSky->addChild( m_patSun.get() );
+    _patSun = new osg::PositionAttitudeTransform();
+    _patSky->addChild( _patSun.get() );
 
 #   ifdef SIM_TEST
-    m_switch = new osg::Switch();
-    m_patSky->addChild( m_switch.get() );
+    _switch = new osg::Switch();
+    _patSky->addChild( _switch.get() );
 #   endif
 
     createSky();
@@ -75,17 +75,17 @@ void SkyDome::update()
 #   ifdef SIM_TEST
     if ( Data::get()->camera.type == ViewWorld )
     {
-        m_switch->setAllChildrenOff();
+        _switch->setAllChildrenOff();
     }
     else
     {
-        m_switch->setAllChildrenOn();
+        _switch->setAllChildrenOn();
     }
 #   endif
 
-    m_patSky->setPosition( osg::Vec3d( Data::get()->camera.pos_x,
-                                       Data::get()->camera.pos_y,
-                                       0.0 ) );
+    _patSky->setPosition( osg::Vec3d( Data::get()->camera.pos_x,
+                                      Data::get()->camera.pos_y,
+                                      0.0 ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -95,12 +95,12 @@ void SkyDome::createSky()
     osg::ref_ptr<osg::Geode> geodeSky = new osg::Geode();
 
 #   ifdef SIM_TEST
-    m_switch->addChild( geodeSky.get() );
+    _switch->addChild( geodeSky.get() );
 #   else
-    m_patSky->addChild( geodeSky.get() );
+    _patSky->addChild( geodeSky.get() );
 #   endif
 
-    std::string textureFile = getPath( m_skyDomeFile );
+    std::string textureFile = getPath( _skyDomeFile );
 
     createDome( geodeSky, Textures::get( textureFile ), SIM_SKYDOME_RAD );
 
@@ -111,12 +111,12 @@ void SkyDome::createSky()
 
 void SkyDome::createSun()
 {
-    m_patSun->setAttitude( osg::Quat( M_PI_2, osg::X_AXIS,
-                                     -M_PI_4, osg::Y_AXIS,
-                                     -M_PI_4, osg::Z_AXIS ) );
+    _patSun->setAttitude( osg::Quat( M_PI_2, osg::X_AXIS,
+                                    -M_PI_4, osg::Y_AXIS,
+                                    -M_PI_4, osg::Z_AXIS ) );
 
     osg::ref_ptr<osg::LightSource> lightSourceSun = new osg::LightSource();
-    m_patSun->addChild( lightSourceSun.get() );
+    _patSun->addChild( lightSourceSun.get() );
 
     osg::ref_ptr<osg::Light> lightSun = new osg::Light();
 
@@ -124,11 +124,11 @@ void SkyDome::createSun()
 
     lightSun->setPosition( osg::Vec4d( SIM_SKYDOME_RAD, 0.0f, 0.0f, 0.0f ) );
 
-    float sunCoef_2 = m_sunCoef * m_sunCoef;
+    float sunCoef_2 = _sunCoef * _sunCoef;
 
-    osg::Vec4 colorAmbient  = osg::Vec4( Color::sun * m_sunCoef, 1.0f );
-    osg::Vec4 colorDiffuse  = osg::Vec4( Color::sun * sunCoef_2, 1.0f );
-    osg::Vec4 colorSpecular = osg::Vec4( Color::sun * sunCoef_2, 1.0f );
+    osg::Vec4 colorAmbient  = osg::Vec4( Color::sun * _sunCoef   , 1.0f );
+    osg::Vec4 colorDiffuse  = osg::Vec4( Color::sun *  sunCoef_2 , 1.0f );
+    osg::Vec4 colorSpecular = osg::Vec4( Color::sun *  sunCoef_2 , 1.0f );
 
     lightSun->setAmbient( colorAmbient );
     lightSun->setDiffuse( colorDiffuse );
@@ -139,12 +139,12 @@ void SkyDome::createSun()
     lightSourceSun->setLight( lightSun.get() );
 
     lightSourceSun->setLocalStateSetModes( osg::StateAttribute::ON );
-    lightSourceSun->setStateSetModes( *m_patSun->getOrCreateStateSet(), osg::StateAttribute::ON );
+    lightSourceSun->setStateSetModes( *_patSun->getOrCreateStateSet(), osg::StateAttribute::ON );
 
 //    if ( 0 )
 //    {
 //        osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-//        m_patSun->addChild( geode.get() );
+//        _patSun->addChild( geode.get() );
 
 //        osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable();
 //        shape->setShape( new osg::Sphere(osg::Vec3( SIM_SKYDOME_RAD, 0, 0 ), 100.0 ) );

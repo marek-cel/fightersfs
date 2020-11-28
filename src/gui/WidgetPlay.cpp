@@ -27,6 +27,13 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void keyPressCallback()
+{
+    sim::Manager::instance()->unpause();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 WidgetPlay::WidgetPlay( QWidget *parent ) :
     WidgetCGI( parent ),
 
@@ -39,6 +46,7 @@ WidgetPlay::WidgetPlay( QWidget *parent ) :
     _layout->addWidget( widget, 0, 0 );
 
     _keyHandler = new KeyHandler( this );
+    _keyHandler->registerKeyPressCallback( &keyPressCallback );
     getEventHandlers().push_front( _keyHandler.get() );
 
     setLayout( _layout );

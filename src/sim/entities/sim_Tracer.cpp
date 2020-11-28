@@ -57,16 +57,16 @@ Tracer::~Tracer()
 
 void Tracer::load()
 {
-    if ( m_switch->getNumChildren() > 0 )
+    if ( _switch->getNumChildren() > 0 )
     {
-        m_switch->removeChildren( 0, m_switch->getNumChildren() );
+        _switch->removeChildren( 0, _switch->getNumChildren() );
     }
 
     m_model = Models::getTracer();
 
     if ( m_model.valid() )
     {
-        m_switch->addChild( m_model.get() );
+        _switch->addChild( m_model.get() );
     }
 
 //    if ( trail && m_quantity < 50 && m_counter_trail % 5 == 0 )
@@ -105,7 +105,7 @@ void Tracer::update( double timeStep )
     Munition::update( timeStep );
     /////////////////////////////
 
-    if ( m_pos.z() < m_elevation )
+    if ( _pos.z() < m_elevation )
     {
         setState( Inactive );
     }
@@ -139,6 +139,6 @@ void Tracer::updateElevation()
         Munition::updateElevation();
         ////////////////////////////
 
-        m_elevation = Elevation::instance()->getElevation( m_pos.x(), m_pos.y() );
+        m_elevation = Elevation::instance()->getElevation( _pos.x(), _pos.y() );
     }
 }

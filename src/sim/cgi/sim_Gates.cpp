@@ -31,9 +31,9 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const float Gates::m_distMax = 0.9 * SIM_SKYDOME_RAD;
-const float Gates::m_distScale = 2000.0f;
-const float Gates::m_size = 2.0f * Gates::m_distScale * tan( Convert::deg2rad( 10.0f * 90.0f / 1200.0f ) );
+const float Gates::_distMax = 0.9 * SIM_SKYDOME_RAD;
+const float Gates::_distScale = 2000.0f;
+const float Gates::_size = 2.0f * Gates::_distScale * tan( Convert::deg2rad( 10.0f * 90.0f / 1200.0f ) );
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,21 +41,21 @@ const float Gates::m_size = 2.0f * Gates::m_distScale * tan( Convert::deg2rad( 1
 Gates::Gates( float linesWidth, Module *parent ) :
     Module( new osg::Switch(), parent ),
 
-    m_linesWidth ( linesWidth )
+    _linesWidth ( linesWidth )
 {
-    m_switch = dynamic_cast<osg::Switch*>( _root.get() );
+    _switch = dynamic_cast<osg::Switch*>( _root.get() );
 
-    m_pat0 = new osg::PositionAttitudeTransform();
-    m_pat1 = new osg::PositionAttitudeTransform();
-    m_pat2 = new osg::PositionAttitudeTransform();
+    _pat0 = new osg::PositionAttitudeTransform();
+    _pat1 = new osg::PositionAttitudeTransform();
+    _pat2 = new osg::PositionAttitudeTransform();
 
-    m_switch->addChild( m_pat0.get() );
-    m_switch->addChild( m_pat1.get() );
-    m_switch->addChild( m_pat2.get() );
+    _switch->addChild( _pat0.get() );
+    _switch->addChild( _pat1.get() );
+    _switch->addChild( _pat2.get() );
 
-    m_geom0 = createGate( m_pat0.get() );
-    m_geom1 = createGate( m_pat1.get() );
-    m_geom2 = createGate( m_pat2.get() );
+    _geom0 = createGate( _pat0.get() );
+    _geom1 = createGate( _pat1.get() );
+    _geom2 = createGate( _pat2.get() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -75,24 +75,24 @@ void Gates::update()
     {
         if ( Data::get()->ownship.waypoint )
         {
-            if ( Data::get()->ownship.waypoint_dist < m_distMax )
+            if ( Data::get()->ownship.waypoint_dist < _distMax )
             {
                 // current gate
-                m_switch->setValue( 0, true );
+                _switch->setValue( 0, true );
 
-                m_pat0->setPosition( Vec3( Data::get()->ownship.waypoint_x,
-                                           Data::get()->ownship.waypoint_y,
-                                           Data::get()->ownship.waypoint_z ) );
+                _pat0->setPosition( Vec3( Data::get()->ownship.waypoint_x,
+                                          Data::get()->ownship.waypoint_y,
+                                          Data::get()->ownship.waypoint_z ) );
 
-                float coef = Data::get()->ownship.waypoint_dist / m_distScale;
+                float coef = Data::get()->ownship.waypoint_dist / _distScale;
 
                 if ( coef > 1.0f )
                 {
-                    m_pat0->setScale( Vec3( coef, coef, coef ) );
+                    _pat0->setScale( Vec3( coef, coef, coef ) );
                 }
                 else
                 {
-                    m_pat0->setScale( Vec3( 1.0f, 1.0f, 1.0f ) );
+                    _pat0->setScale( Vec3( 1.0f, 1.0f, 1.0f ) );
                 }
 
                 // following gates
@@ -100,28 +100,28 @@ void Gates::update()
 
                 if ( ownship )
                 {
-                    coef = updateGate( m_geom1, m_pat1, ownship, 1, coef );
-                    coef = updateGate( m_geom2, m_pat2, ownship, 2, coef );
+                    coef = updateGate( _geom1, _pat1, ownship, 1, coef );
+                    coef = updateGate( _geom2, _pat2, ownship, 2, coef );
                 }
                 else
                 {
-                    m_switch->setValue( 1, false );
-                    m_switch->setValue( 2, false );
+                    _switch->setValue( 1, false );
+                    _switch->setValue( 2, false );
                 }
             }
             else
             {
-                m_switch->setAllChildrenOff();
+                _switch->setAllChildrenOff();
             }
         }
         else
         {
-            m_switch->setAllChildrenOff();
+            _switch->setAllChildrenOff();
         }
     }
     else
     {
-        m_switch->setAllChildrenOff();
+        _switch->setAllChildrenOff();
     }
 }
 
@@ -129,8 +129,8 @@ void Gates::update()
 
 osg::Geometry* Gates::createGate( osg::Group *parent )
 {
-    const float w_2 = m_size / 2.0f;
-    const float h_2 = m_size / 2.0f;
+    const float w_2 = _size / 2.0f;
+    const float h_2 = _size / 2.0f;
 
     osg::ref_ptr<osg::Billboard> billboard = new osg::Billboard();
     parent->addChild( billboard.get() );
@@ -167,7 +167,7 @@ osg::Geometry* Gates::createGate( osg::Group *parent )
     osg::ref_ptr<osg::StateSet> stateSet = billboard->getOrCreateStateSet();
 
     osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
-    lineWidth->setWidth( m_linesWidth );
+    lineWidth->setWidth( _linesWidth );
 
     stateSet->setAttributeAndModes( lineWidth, osg::StateAttribute::ON );
 
@@ -193,11 +193,11 @@ float Gates::updateGate( osg::Geometry *geom, osg::PositionAttitudeTransform *pa
     if ( ownship->getRoute().size() > index )
     {
         Vec3 pos = ownship->getRoute()[ index ].first;
-        coef = ( ownship->getPos() - pos ).length() / m_distScale;
+        coef = ( ownship->getPos() - pos ).length() / _distScale;
 
         if ( coef_prev <= 1.0f )
         {
-            m_switch->setValue( number, true );
+            _switch->setValue( number, true );
 
             pat->setPosition( pos );
 
@@ -224,12 +224,12 @@ float Gates::updateGate( osg::Geometry *geom, osg::PositionAttitudeTransform *pa
         }
         else
         {
-            m_switch->setValue( number, false );
+            _switch->setValue( number, false );
         }
     }
     else
     {
-        m_switch->setValue( number, false );
+        _switch->setValue( number, false );
     }
 
     return coef;

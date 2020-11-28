@@ -25,19 +25,19 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const std::string BomberTorpedo::m_tagName = "bomber_torpedo";
+const std::string BomberTorpedo::_tagName = "bomber_torpedo";
 
-const float BomberTorpedo::m_dropAltMin  = 40.0f;
-const float BomberTorpedo::m_dropAltMax  = 60.0f;
-const float BomberTorpedo::m_dropDistMax = 600.0f;
-const float BomberTorpedo::m_tanMaxTht   = tan( SIM_AIRCRAFT_MAX_THT );
+const float BomberTorpedo::_dropAltMin  = 40.0f;
+const float BomberTorpedo::_dropAltMax  = 60.0f;
+const float BomberTorpedo::_dropDistMax = 600.0f;
+const float BomberTorpedo::_tanMaxTht   = tan( SIM_AIRCRAFT_MAX_THT );
 
 ////////////////////////////////////////////////////////////////////////////////
 
 BomberTorpedo::BomberTorpedo( Affiliation affiliation ) :
     Bomber( affiliation ),
 
-    m_attack ( false )
+    _attack ( false )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,11 +67,11 @@ int BomberTorpedo::read( const XmlNode &node )
 
 void BomberTorpedo::limitTht( float &tht )
 {
-    if ( m_attack )
+    if ( _attack )
     {
-        if ( m_altitude_agl < m_dropAltMin )
+        if ( _altitude_agl < _dropAltMin )
         {
-            tht += ( 1.0 - m_altitude_agl / m_dropAltMin ) * SIM_AIRCRAFT_MAX_THT;
+            tht += ( 1.0 - _altitude_agl / _dropAltMin ) * SIM_AIRCRAFT_MAX_THT;
         }
 
         if ( tht < -SIM_AIRCRAFT_MAX_THT ) tht = -SIM_AIRCRAFT_MAX_THT;
@@ -93,12 +93,12 @@ void BomberTorpedo::updateTarget()
     Bomber::updateTarget();
     ///////////////////////
 
-    m_attack = false;
+    _attack = false;
 
     if ( m_engaged )
     {
-        float dist_attack = m_target_dist - m_dropDistMax;
-        float dist_descent = m_target_alt / m_tanMaxTht;
+        float dist_attack = m_target_dist - _dropDistMax;
+        float dist_descent = m_target_alt / _tanMaxTht;
 
         if ( dist_attack < 2.0f * dist_descent )
         {
@@ -106,16 +106,16 @@ void BomberTorpedo::updateTarget()
 
             if ( target )
             {
-                m_attack = true;
+                _attack = true;
 
-                Vec3 target_dir = m_target_pos - m_pos;
+                Vec3 target_dir = m_target_pos - _pos;
                 target_dir.z() = 0.0f;
                 target_dir *= 1.0/target_dir.length();
 
-                Vec3 drop_pos = m_pos + target_dir * dist_attack;
+                Vec3 drop_pos = _pos + target_dir * dist_attack;
 
-                m_destination.first  = Vec3( drop_pos.x(), drop_pos.y(), m_dropAltMin );
-                m_destination.second = m_speed_max;
+                _destination.first  = Vec3( drop_pos.x(), drop_pos.y(), _dropAltMin );
+                _destination.second = _speed_max;
             }
             else
             {
@@ -135,8 +135,8 @@ void BomberTorpedo::updateWeapons()
 
     if ( m_engaged )
     {
-        if ( m_target_alt < m_dropAltMax
-         && m_target_dist < m_dropDistMax
+        if ( m_target_alt < _dropAltMax
+         && m_target_dist < _dropDistMax
          && fabs( m_target_psi ) < 0.05f )
         {
             m_trigger = true;
@@ -149,7 +149,7 @@ void BomberTorpedo::updateWeapons()
 
     if ( m_trigger && m_ordnanceIndex < m_ordnance.size() )
     {
-        if ( m_time_drop > 1.0f )
+        if ( _time_drop > 1.0f )
         {
             releaseWeapon();
         }

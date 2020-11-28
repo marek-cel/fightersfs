@@ -23,7 +23,7 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const std::string BomberLevel::m_tagName = "bomber_level";
+const std::string BomberLevel::_tagName = "bomber_level";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -62,7 +62,7 @@ void BomberLevel::updateWeapons()
 
     if ( m_engaged )
     {
-        float drop_dist = ( m_airspeed / SIM_GRAVITY_ACC ) * sqrt( 2.0f*SIM_GRAVITY_ACC*m_target_alt );
+        float drop_dist = ( _airspeed / SIM_GRAVITY_ACC ) * sqrt( 2.0f*SIM_GRAVITY_ACC*m_target_alt );
 
         if ( fabs( drop_dist - m_target_dist ) < 30.0f )
         {
@@ -76,7 +76,7 @@ void BomberLevel::updateWeapons()
 
     if ( m_trigger && m_ordnanceIndex < m_ordnance.size() )
     {
-        if ( m_time_drop > 0.2f )
+        if ( _time_drop > 0.2f )
         {
             releaseWeapon();
         }

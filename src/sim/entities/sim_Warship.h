@@ -31,7 +31,7 @@ class Warship : public UnitMarine
 {
 public:
 
-    static const std::string m_tagName; ///<
+    static const std::string _tagName;  ///< unit tag name
 
     /** Constructor. */
     Warship( Affiliation affiliation = Unknown );

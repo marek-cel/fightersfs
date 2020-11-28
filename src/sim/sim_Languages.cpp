@@ -30,8 +30,8 @@ using namespace sim;
 ////////////////////////////////////////////////////////////////////////////////
 
 Languages::Languages() :
-    m_current ( 0 ),
-    m_default ( 0 )
+    _current ( 0 ),
+    _default ( 0 )
 {
     readLanguages();
 }
@@ -44,9 +44,9 @@ Languages::~Languages() {}
 
 std::string Languages::getCodeByIndex( UInt8 index ) const
 {
-    if ( index < m_list.size() )
+    if ( index < _list.size() )
     {
-        return m_list.at( index );
+        return _list.at( index );
     }
 
     return std::string();
@@ -56,9 +56,9 @@ std::string Languages::getCodeByIndex( UInt8 index ) const
 
 int Languages::getIndexByCode( const std::string &code ) const
 {
-    for ( UInt8 i = 0; i < m_list.size(); i++ )
+    for ( UInt8 i = 0; i < _list.size(); i++ )
     {
-        if ( 0 == String::icompare( m_list[ i ], code ) )
+        if ( 0 == String::icompare( _list[ i ], code ) )
         {
             return i;
         }
@@ -78,9 +78,9 @@ bool Languages::isCodeValid( const std::string &code ) const
 
 void Languages::setCurrent( UInt8 current )
 {
-    if ( current < m_list.size() )
+    if ( current < _list.size() )
     {
-        m_current = current;
+        _current = current;
     }
 }
 
@@ -102,11 +102,11 @@ void Languages::readLanguages()
 
                 while ( languageNode.isValid() )
                 {
-                    m_list.push_back( languageNode.getAttribute( "code" ) );
+                    _list.push_back( languageNode.getAttribute( "code" ) );
 
                     if ( String::toBool( languageNode.getAttribute( "default" ) ) )
                     {
-                        m_default = m_list.size() - 1;
+                        _default = _list.size() - 1;
                     }
 
                     languageNode = languageNode.getNextSiblingElement( "language" );
@@ -115,5 +115,5 @@ void Languages::readLanguages()
         }
     }
 
-    m_current = m_default;
+    _current = _default;
 }

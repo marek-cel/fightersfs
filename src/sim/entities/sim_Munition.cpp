@@ -43,14 +43,14 @@ void Munition::load()
 {
     if ( m_model.valid() )
     {
-        m_switch->removeChild( m_model.get() );
+        _switch->removeChild( m_model.get() );
     }
 
     m_model = Models::get( m_modelFile );
 
     if ( m_model.valid() )
     {
-        m_switch->addChild( m_model.get() );
+        _switch->addChild( m_model.get() );
     }
 }
 
@@ -76,8 +76,8 @@ void Munition::update( double timeStep )
                 {
                     if ( target->isActive() )
                     {
-                        Vec3 v1 = m_att * ( m_vel * timeStep );
-                        Vec3 v2 = target->getPos() - m_pos;
+                        Vec3 v1 = _att * ( _vel * timeStep );
+                        Vec3 v2 = target->getPos() - _pos;
 
                         float len1 = v1.length();
 

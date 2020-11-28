@@ -42,111 +42,111 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const std::string Aircraft::m_tagName = "aircraft";
+const std::string Aircraft::_tagName = "aircraft";
 
-const float Aircraft::m_threshold_vel = 1.0f;
-const float Aircraft::m_waypoint_dist = 27.0f;
+const float Aircraft::_threshold_vel = 1.0f;
+const float Aircraft::_waypoint_dist = 27.0f;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Aircraft::Aircraft( Affiliation affiliation ) :
     UnitAerial( affiliation ),
 
-    m_wreckage ( 0 ),
+    _wreckage ( 0 ),
 
-    m_time_p ( 0.0f ),
-    m_time_q ( 0.0f ),
-    m_time_r ( 0.0f ),
-    m_time_v ( 0.0f ),
+    _time_p ( 0.0f ),
+    _time_q ( 0.0f ),
+    _time_r ( 0.0f ),
+    _time_v ( 0.0f ),
 
-    m_speed_min ( 0.0f ),
-    m_speed_max ( 0.0f ),
+    _speed_min ( 0.0f ),
+    _speed_max ( 0.0f ),
 
-    m_roll_max ( 0.0f ),
-    m_turn_max ( 0.0f ),
+    _roll_max ( 0.0f ),
+    _turn_max ( 0.0f ),
 
-    m_pid_phi ( 0 ),
+    _pid_phi ( 0 ),
 
-    m_pid_p ( 0 ),
-    m_pid_q ( 0 ),
-    m_pid_r ( 0 ),
+    _pid_p ( 0 ),
+    _pid_q ( 0 ),
+    _pid_r ( 0 ),
 
-    m_enroute ( true ),
-    m_wingman ( false ),
+    _enroute ( true ),
+    _wingman ( false ),
 
-    m_wingmenCount ( 0 ),
-    m_leaderId ( 0 ),
-    m_wingmanOffset ( 50.0, 50.0, 0.0 ),
-    m_leaderValid ( false ),
-    m_formation ( false ),
+    _wingmenCount ( 0 ),
+    _leaderId ( 0 ),
+    _wingmanOffset ( 50.0, 50.0, 0.0 ),
+    _leaderValid ( false ),
+    _formation ( false ),
 
-    m_waypointIndex ( 0 ),
+    _waypointIndex ( 0 ),
 
-    m_destDist  ( 0.0f ),
-    m_destBear  ( 0.0f ),
-    m_destElev  ( 0.0f ),
-    m_destValid ( false ),
+    _destDist  ( 0.0f ),
+    _destBear  ( 0.0f ),
+    _destElev  ( 0.0f ),
+    _destValid ( false ),
 
-    m_ctrlRoll  ( 0.0f ),
-    m_ctrlPitch ( 0.0f ),
-    m_ctrlYaw   ( 0.0f ),
-    m_throttle  ( 0.0f ),
+    _ctrlRoll  ( 0.0f ),
+    _ctrlPitch ( 0.0f ),
+    _ctrlYaw   ( 0.0f ),
+    _throttle  ( 0.0f ),
 
-    m_initThrottle ( 0.0f ),
+    _initThrottle ( 0.0f ),
 
-    m_prop_angle ( 0.0f ),
-    m_prop_speed ( 0.0f ),
+    _prop_angle ( 0.0f ),
+    _prop_speed ( 0.0f ),
 
-    m_maxAilerons ( 0.0f ),
-    m_maxElevator ( 0.0f ),
-    m_maxRudder   ( 0.0f ),
+    _maxAilerons ( 0.0f ),
+    _maxElevator ( 0.0f ),
+    _maxRudder   ( 0.0f ),
 
-    m_unique ( false ),
+    _unique ( false ),
 
-    m_trigger ( false ),
+    _trigger ( false ),
 
-    m_flash_count   ( 0 ),
-    m_flash_devider ( 2 ),
-    m_flash_angle ( 0.0f ),
+    _flash_count   ( 0 ),
+    _flash_devider ( 2 ),
+    _flash_angle ( 0.0f ),
 
-    m_time_drop   ( 1000.0f ),
-    m_time_launch ( 1000.0f ),
-    m_time_shoot  ( 1000.0f ),
+    _time_drop   ( 1000.0f ),
+    _time_launch ( 1000.0f ),
+    _time_shoot  ( 1000.0f ),
 
-    m_elevation ( 0.0f ),
+    _elevation ( 0.0f ),
 
-    m_altitude_asl  ( 0.0f ),
-    m_altitude_agl  ( 0.0f ),
-    m_airspeed      ( 0.0f ),
-    m_climbRate     ( 0.0f ),
-    m_machNumber    ( 0.0f ),
-    m_angleOfAttack ( 0.0f ),
-    m_sideslipAngle ( 0.0f ),
-    m_pathAngle     ( 0.0f ),
-    m_rollAngle     ( 0.0f ),
-    m_pitchAngle    ( 0.0f ),
-    m_heading       ( 0.0f ),
-    m_turnRate      ( 0.0f )
+    _altitude_asl  ( 0.0f ),
+    _altitude_agl  ( 0.0f ),
+    _airspeed      ( 0.0f ),
+    _climbRate     ( 0.0f ),
+    _machNumber    ( 0.0f ),
+    _angleOfAttack ( 0.0f ),
+    _sideslipAngle ( 0.0f ),
+    _pathAngle     ( 0.0f ),
+    _rollAngle     ( 0.0f ),
+    _pitchAngle    ( 0.0f ),
+    _heading       ( 0.0f ),
+    _turnRate      ( 0.0f )
 {
-    m_flashSwitch = new osg::Switch();
-    m_switch->addChild( m_flashSwitch.get() );
+    _flashSwitch = new osg::Switch();
+    _switch->addChild( _flashSwitch.get() );
 
-    m_pid_phi = new PID( 2.0f, 0.2f, 0.1f, -SIM_AIRCRAFT_MAX_PHI, SIM_AIRCRAFT_MAX_PHI, true, 0.8f );
+    _pid_phi = new PID( 2.0f, 0.2f, 0.1f, -SIM_AIRCRAFT_MAX_PHI, SIM_AIRCRAFT_MAX_PHI, true, 0.8f );
 
-    m_pid_p = new PID( 1.0f, 0.1f, 0.05f, -1.0f, 1.0f, true );
-    m_pid_q = new PID( 1.0f, 0.1f, 0.05f, -1.0f, 1.0f, true );
-    m_pid_r = new PID( 1.0f, 0.1f, 0.05f, -1.0f, 1.0f, true );
+    _pid_p = new PID( 1.0f, 0.1f, 0.05f, -1.0f, 1.0f, true );
+    _pid_q = new PID( 1.0f, 0.1f, 0.05f, -1.0f, 1.0f, true );
+    _pid_r = new PID( 1.0f, 0.1f, 0.05f, -1.0f, 1.0f, true );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Aircraft::~Aircraft()
 {
-    DELPTR( m_pid_phi );
+    DELPTR( _pid_phi );
 
-    DELPTR( m_pid_p );
-    DELPTR( m_pid_q );
-    DELPTR( m_pid_r );
+    DELPTR( _pid_p );
+    DELPTR( _pid_q );
+    DELPTR( _pid_r );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -156,26 +156,26 @@ void Aircraft::destroy()
     if ( isActive() )
     {
         Explosion *explosion = new Explosion( 5.0f );
-        explosion->setPos( m_pos );
-        explosion->setAtt( m_att );
+        explosion->setPos( _pos );
+        explosion->setAtt( _att );
 
-        m_wreckage = new WreckageAircraft( m_modelFile, m_livery, m_smokeTrail.get(), m_ownship );
-        m_wreckage->init( m_pos, m_att, m_vel, m_omg );
+        _wreckage = new WreckageAircraft( m_modelFile, _livery, _smokeTrail.get(), m_ownship );
+        _wreckage->init( _pos, _att, _vel, _omg );
 
         if ( m_ownship )
         {
-            Ownship::instance()->setWreckage( m_wreckage );
+            Ownship::instance()->setWreckage( _wreckage );
         }
 
-        if ( m_wingman )
+        if ( _wingman )
         {
-            Aircraft *leader = dynamic_cast< Aircraft* >( Entities::instance()->getEntityById( m_leaderId ) );
+            Aircraft *leader = dynamic_cast< Aircraft* >( Entities::instance()->getEntityById( _leaderId ) );
 
             if ( leader )
             {
                 leader->wingmenDecrement();
 
-                if ( m_wingmenCount > 0 )
+                if ( _wingmenCount > 0 )
                 {
                     List entities = *Entities::instance()->getEntities();
                     List::iterator it = entities.begin();
@@ -187,10 +187,10 @@ void Aircraft::destroy()
                         if ( wingman )
                         {
                             if ( wingman->isActive() && wingman->getWingman()
-                              && wingman->getLeaderId() == m_id )
+                              && wingman->getLeaderId() == _id )
                             {
-                                wingman->setLeader( m_leaderId );
-                                wingman->setOffset( m_wingmanOffset + wingman->m_wingmanOffset );
+                                wingman->setLeader( _leaderId );
+                                wingman->setOffset( _wingmanOffset + wingman->_wingmanOffset );
                             }
                         }
 
@@ -210,12 +210,12 @@ void Aircraft::destroy()
 
 void Aircraft::load()
 {
-    if ( m_flashSwitch->getNumChildren() > 0 )
+    if ( _flashSwitch->getNumChildren() > 0 )
     {
-        m_flashSwitch->removeChildren( 0, m_flashSwitch->getNumChildren() );
+        _flashSwitch->removeChildren( 0, _flashSwitch->getNumChildren() );
     }
 
-    m_flashPAT.clear();
+    _flashPAT.clear();
 
     ///////////////
     Entity::load(); // sic!
@@ -223,10 +223,10 @@ void Aircraft::load()
 
     if ( m_model.valid() )
     {
-        m_switch->removeChild( m_model.get() );
+        _switch->removeChild( m_model.get() );
     }
 
-    if ( m_unique || m_ownship )
+    if ( _unique || m_ownship )
     {
         m_model = Models::readNodeFile( getPath( m_modelFile ) );
     }
@@ -237,44 +237,44 @@ void Aircraft::load()
 
     if ( m_model.valid() )
     {
-        m_modelStateSet = m_model->getOrCreateStateSet();
-        m_switch->addChild( m_model.get() );
+        _modelStateSet = m_model->getOrCreateStateSet();
+        _switch->addChild( m_model.get() );
 
-        m_aileronL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "AileronL" ) );
-        m_aileronR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "AileronR" ) );
+        _aileronL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "AileronL" ) );
+        _aileronR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "AileronR" ) );
 
-        m_elevator = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Elevator" ) );
+        _elevator = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Elevator" ) );
 
-        m_rudderL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "RudderL" ) );
-        m_rudderR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "RudderR" ) );
+        _rudderL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "RudderL" ) );
+        _rudderR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "RudderR" ) );
 
-        if ( !m_rudderL.valid() )
+        if ( !_rudderL.valid() )
         {
-            m_rudderL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Rudder" ) );
+            _rudderL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Rudder" ) );
         }
 
-        m_propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller1" ) );
-        m_propeller2 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller2" ) );
-        m_propeller3 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller3" ) );
-        m_propeller4 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller4" ) );
+        _propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller1" ) );
+        _propeller2 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller2" ) );
+        _propeller3 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller3" ) );
+        _propeller4 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller4" ) );
 
-        if ( !m_propeller1.valid() || !m_propeller2.valid() )
+        if ( !_propeller1.valid() || !_propeller2.valid() )
         {
-            m_propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "PropellerL" ) );
-            m_propeller2 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "PropellerR" ) );
+            _propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "PropellerL" ) );
+            _propeller2 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "PropellerR" ) );
         }
 
-        if ( !m_propeller1.valid() )
+        if ( !_propeller1.valid() )
         {
-            m_propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller" ) );
+            _propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller" ) );
         }
     }
 
-    setLivery( m_livery );
+    setLivery( _livery );
 
     if ( m_ownship )
     {
-        createMuzzleFlash( m_flashes, Vec3( 0.5, 0.5, 0.5 ) );
+        createMuzzleFlash( _flashes, Vec3( 0.5, 0.5, 0.5 ) );
     }
 }
 
@@ -286,7 +286,7 @@ void Aircraft::makeAutomatic()
     UnitAerial::makeAutomatic();
     ////////////////////////////
 
-    m_unique = false;
+    _unique = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -297,7 +297,7 @@ void Aircraft::makeOwnship()
     UnitAerial::makeOwnship();
     //////////////////////////
 
-    m_unique = true;
+    _unique = true;
 
     Ownship::instance()->setAircraft( this );
 
@@ -345,12 +345,12 @@ int Aircraft::read( const XmlNode &node )
                   && SIM_SUCCESS == XmlUtils::read( nodeSpeedMax, speed_max )
                   && SIM_SUCCESS == XmlUtils::read( nodeRollMax, roll_max ) )
                 {
-                    m_time_p = time_p;
-                    m_time_q = time_q;
-                    m_time_r = time_r;
-                    m_time_v = time_v;
-                    m_speed_min = speed_min;
-                    m_speed_max = speed_max;
+                    _time_p = time_p;
+                    _time_q = time_q;
+                    _time_r = time_r;
+                    _time_v = time_v;
+                    _speed_min = speed_min;
+                    _speed_max = speed_max;
 
                     roll_max = Convert::deg2rad( roll_max );
 
@@ -359,11 +359,11 @@ int Aircraft::read( const XmlNode &node )
                         roll_max = SIM_AIRCRAFT_MAX_PHI;
                     }
 
-                    m_roll_max = roll_max;
-                    m_turn_max = SIM_GRAVITY_ACC * tan( m_roll_max ) / m_speed_min;
+                    _roll_max = roll_max;
+                    _turn_max = SIM_GRAVITY_ACC * tan( _roll_max ) / _speed_min;
 
-                    m_pid_phi->setMin( -roll_max );
-                    m_pid_phi->setMax(  roll_max );
+                    _pid_phi->setMin( -roll_max );
+                    _pid_phi->setMax(  roll_max );
 
                     XmlNode nodeMaxAilerons = nodeData.getFirstChildElement( "max_ailerons" );
                     XmlNode nodeMaxElevator = nodeData.getFirstChildElement( "max_elevator" );
@@ -375,17 +375,17 @@ int Aircraft::read( const XmlNode &node )
 
                     if ( SIM_SUCCESS == XmlUtils::read( nodeMaxAilerons , maxAilerons ) )
                     {
-                        m_maxAilerons = Convert::deg2rad( maxAilerons );
+                        _maxAilerons = Convert::deg2rad( maxAilerons );
                     }
 
                     if ( SIM_SUCCESS == XmlUtils::read( nodeMaxElevator , maxElevator ) )
                     {
-                        m_maxElevator = Convert::deg2rad( maxElevator );
+                        _maxElevator = Convert::deg2rad( maxElevator );
                     }
 
                     if ( SIM_SUCCESS == XmlUtils::read( nodeMaxRudder, maxRudder ) )
                     {
-                        m_maxRudder = Convert::deg2rad( maxRudder );
+                        _maxRudder = Convert::deg2rad( maxRudder );
                     }
 
                     XmlNode nodeFlash  = nodeData.getFirstChildElement( "flash" );
@@ -402,7 +402,7 @@ int Aircraft::read( const XmlNode &node )
                             flash.pos = pos;
                             flash.light = String::toBool( nodeFlash.getAttribute( "light" ) );
 
-                            m_flashes.push_back( flash );
+                            _flashes.push_back( flash );
                         }
 
                         nodeFlash = nodeFlash.getNextSiblingElement( "flash" );
@@ -417,7 +417,7 @@ int Aircraft::read( const XmlNode &node )
                             muzzle.pos = pos;
                             muzzle.trail = String::toBool( nodeMuzzle.getAttribute( "trail" ) );;
 
-                            m_muzzles.push_back( muzzle );
+                            _muzzles.push_back( muzzle );
                         }
 
                         nodeMuzzle = nodeMuzzle.getNextSiblingElement( "muzzle" );
@@ -446,50 +446,50 @@ void Aircraft::update( double timeStep )
         {
             if ( timeStep > 0.03 )
             {
-                m_flash_devider = 2;
+                _flash_devider = 2;
             }
             else
             {
-                m_flash_devider = 3;
+                _flash_devider = 3;
             }
 
-            float ailerons = m_maxAilerons * m_ctrlRoll;
-            float elevator = m_maxElevator * m_ctrlPitch;
-            float rudder   = m_maxRudder   * m_ctrlYaw;
+            float ailerons = _maxAilerons * _ctrlRoll;
+            float elevator = _maxElevator * _ctrlPitch;
+            float rudder   = _maxRudder   * _ctrlYaw;
 
             // ailerons
-            if ( m_aileronL.valid() && m_aileronR.valid() )
+            if ( _aileronL.valid() && _aileronR.valid() )
             {
-                m_aileronL->setAttitude( Quat( -ailerons, osg::Y_AXIS ) );
-                m_aileronR->setAttitude( Quat(  ailerons, osg::Y_AXIS ) );
+                _aileronL->setAttitude( Quat( -ailerons, osg::Y_AXIS ) );
+                _aileronR->setAttitude( Quat(  ailerons, osg::Y_AXIS ) );
             }
 
             // elevator
-            if ( m_elevator.valid() )
+            if ( _elevator.valid() )
             {
-                m_elevator->setAttitude( Quat( -elevator, osg::Y_AXIS ) );
+                _elevator->setAttitude( Quat( -elevator, osg::Y_AXIS ) );
             }
 
             // rudder
-            if ( m_rudderL.valid() && m_rudderR.valid() )
+            if ( _rudderL.valid() && _rudderR.valid() )
             {
-                m_rudderL->setAttitude( Quat( -rudder, osg::Z_AXIS ) );
-                m_rudderR->setAttitude( Quat( -rudder, osg::Z_AXIS ) );
+                _rudderL->setAttitude( Quat( -rudder, osg::Z_AXIS ) );
+                _rudderR->setAttitude( Quat( -rudder, osg::Z_AXIS ) );
             }
         }
 
         // propellers
-        if ( m_propeller1.valid() ) m_propeller1->setAttitude( Quat( -m_prop_angle, osg::X_AXIS ) );
-        if ( m_propeller2.valid() ) m_propeller2->setAttitude( Quat(  m_prop_angle, osg::X_AXIS ) );
-        if ( m_propeller3.valid() ) m_propeller3->setAttitude( Quat( -m_prop_angle, osg::X_AXIS ) );
-        if ( m_propeller4.valid() ) m_propeller4->setAttitude( Quat(  m_prop_angle, osg::X_AXIS ) );
+        if ( _propeller1.valid() ) _propeller1->setAttitude( Quat( -_prop_angle, osg::X_AXIS ) );
+        if ( _propeller2.valid() ) _propeller2->setAttitude( Quat(  _prop_angle, osg::X_AXIS ) );
+        if ( _propeller3.valid() ) _propeller3->setAttitude( Quat( -_prop_angle, osg::X_AXIS ) );
+        if ( _propeller4.valid() ) _propeller4->setAttitude( Quat(  _prop_angle, osg::X_AXIS ) );
 
         if ( m_ownship && !Data::get()->controls.autopilot )
         {
-            m_ctrlRoll  = Ownship::instance()->getCtrlRoll();
-            m_ctrlPitch = Ownship::instance()->getCtrlPitch();
-            m_ctrlYaw   = Ownship::instance()->getCtrlYaw();
-            m_throttle  = Ownship::instance()->getThrottle();
+            _ctrlRoll  = Ownship::instance()->getCtrlRoll();
+            _ctrlPitch = Ownship::instance()->getCtrlPitch();
+            _ctrlYaw   = Ownship::instance()->getCtrlYaw();
+            _throttle  = Ownship::instance()->getThrottle();
         }
         else
         {
@@ -500,14 +500,14 @@ void Aircraft::update( double timeStep )
         updateDestination();
         updatePropeller();
 
-        if ( m_altitude_agl < 1.0 || ( m_ownship && m_altitude_agl < fabs( sin( m_rollAngle ) ) * m_radius ) )
+        if ( _altitude_agl < 1.0 || ( m_ownship && _altitude_agl < fabs( sin( _rollAngle ) ) * m_radius ) )
         {
             destroy();
         }
 
-        if ( m_smokeTrail.valid() )
+        if ( _smokeTrail.valid() )
         {
-            m_smokeTrail->setPosition( m_pos );
+            _smokeTrail->setPosition( _pos );
         }
     }
 }
@@ -516,16 +516,16 @@ void Aircraft::update( double timeStep )
 
 void Aircraft::wingmenIncrement()
 {
-    m_wingmenCount++;
+    _wingmenCount++;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Aircraft::wingmenDecrement()
 {
-    if ( m_wingmenCount > 0 )
+    if ( _wingmenCount > 0 )
     {
-        m_wingmenCount--;
+        _wingmenCount--;
     }
 }
 
@@ -540,14 +540,14 @@ Unit* Aircraft::getTarget() const
 
 float Aircraft::getSpeed( float throttle )
 {
-    return m_speed_min + ( m_speed_max - m_speed_min ) * throttle;
+    return _speed_min + ( _speed_max - _speed_min ) * throttle;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 float Aircraft::getThrottle( float speed )
 {
-    float throttle = ( speed - m_speed_min ) / ( m_speed_max - m_speed_min );
+    float throttle = ( speed - _speed_min ) / ( _speed_max - _speed_min );
 
     if ( throttle < 0.0f ) throttle = 0.0f;
     if ( throttle > 1.0f ) throttle = 1.0f;
@@ -559,11 +559,11 @@ float Aircraft::getThrottle( float speed )
 
 void Aircraft::setLeader( UInt32 leaderId )
 {
-    if ( m_id != leaderId )
+    if ( _id != leaderId )
     {
-        if ( m_leaderValid )
+        if ( _leaderValid )
         {
-            Aircraft *leader = dynamic_cast< Aircraft* >( Entities::instance()->getEntityById( m_leaderId ) );
+            Aircraft *leader = dynamic_cast< Aircraft* >( Entities::instance()->getEntityById( _leaderId ) );
 
             if ( leader )
             {
@@ -575,14 +575,14 @@ void Aircraft::setLeader( UInt32 leaderId )
 
         if ( leader )
         {
-            m_leaderId = leaderId;
-            m_leaderValid = true;
+            _leaderId = leaderId;
+            _leaderValid = true;
 
             setRoute( &leader->getRoute() );
 
             leader->wingmenIncrement();
 
-            m_wingman = true;
+            _wingman = true;
         }
     }
 }
@@ -591,20 +591,20 @@ void Aircraft::setLeader( UInt32 leaderId )
 
 void Aircraft::setOffset( const Vec3 &offset )
 {
-    m_wingmanOffset = offset;
+    _wingmanOffset = offset;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Aircraft::setLivery( const std::string &livery )
 {
-    m_livery = livery;
+    _livery = livery;
 
-    osg::ref_ptr<osg::Texture2D> texture = Textures::get( getPath( m_livery ), 8.0f );
+    osg::ref_ptr<osg::Texture2D> texture = Textures::get( getPath( _livery ), 8.0f );
 
-    if ( texture.valid() && m_modelStateSet.valid() )
+    if ( texture.valid() && _modelStateSet.valid() )
     {
-        m_modelStateSet->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
+        _modelStateSet->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
     }
 }
 
@@ -612,18 +612,18 @@ void Aircraft::setLivery( const std::string &livery )
 
 void Aircraft::setRoute( const Route *route )
 {
-    m_waypointIndex = 0;
+    _waypointIndex = 0;
 
     if ( route != 0 )
     {
-        m_route = *route;
+        _route = *route;
 
-        if ( m_route.size() > 0 )
+        if ( _route.size() > 0 )
         {
-            m_destination = m_route[ 0 ];
+            _destination = _route[ 0 ];
 
-            m_waypointIndex = 0;
-            m_destValid = true;
+            _waypointIndex = 0;
+            _destValid = true;
         }
     }
 }
@@ -638,11 +638,11 @@ void Aircraft::setHP( UInt16 hp )
 
     if ( m_hp < 25 )
     {
-        if ( !m_smokeTrail.valid() )
+        if ( !_smokeTrail.valid() )
         {
-            m_smokeTrail = Effects::createSmokeTrail();
+            _smokeTrail = Effects::createSmokeTrail();
 
-            m_root->addChild( m_smokeTrail.get() );
+            m_root->addChild( _smokeTrail.get() );
         }
     }
 }
@@ -651,7 +651,7 @@ void Aircraft::setHP( UInt16 hp )
 
 void Aircraft::setUnique( bool unique )
 {
-    m_unique = unique;
+    _unique = unique;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -668,7 +668,7 @@ void Aircraft::createMuzzleFlash( const Flashes &flashes, osg::Vec3 scale )
         for ( unsigned int i = 0; i < flashes.size(); i++ )
         {
             osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-            m_flashSwitch->addChild( pat.get() );
+            _flashSwitch->addChild( pat.get() );
 
             pat->getOrCreateStateSet()->setRenderBinDetails( SIM_DEPTH_SORTED_BIN_OTHER, "DepthSortedBin" );
 
@@ -677,12 +677,12 @@ void Aircraft::createMuzzleFlash( const Flashes &flashes, osg::Vec3 scale )
             pat->setScale( scale );
             pat->setPosition( flashes.at( i ).pos );
 
-            m_flashPAT.push_back( pat.get() );
+            _flashPAT.push_back( pat.get() );
 
             if ( flashes.at( i ).light && lightCount < 2 )
             {
                 osg::ref_ptr<osg::PositionAttitudeTransform> patLight = new osg::PositionAttitudeTransform();
-                m_switch->addChild( patLight.get() );
+                _switch->addChild( patLight.get() );
 
                 osg::ref_ptr<osg::Light> light = new osg::Light();
                 osg::ref_ptr<osg::LightSource> lightSource = new osg::LightSource();
@@ -706,7 +706,7 @@ void Aircraft::createMuzzleFlash( const Flashes &flashes, osg::Vec3 scale )
         }
     }
 
-    m_flashSwitch->setAllChildrenOff();
+    _flashSwitch->setAllChildrenOff();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -728,9 +728,9 @@ void Aircraft::avoidCollisions( float &phi, float &tht )
 
         if ( unit )
         {
-            if ( unit->isActive() && unit->getId() != m_id )
+            if ( unit->isActive() && unit->getId() != _id )
             {
-                float dist2_new = ( unit->getPos() - m_pos ).length2();
+                float dist2_new = ( unit->getPos() - _pos ).length2();
 
                 if ( dist2_new < dist2 )
                 {
@@ -747,7 +747,7 @@ void Aircraft::avoidCollisions( float &phi, float &tht )
     {
         float coef = sqrt( 1.0f - dist2 / dist2_limit );
 
-        Vec3 pos_bas = m_att.inverse() * ( closestUnit->getPos() - m_pos );
+        Vec3 pos_bas = _att.inverse() * ( closestUnit->getPos() - _pos );
 
         if ( pos_bas.y() > 0.0 )
         {
@@ -773,16 +773,16 @@ void Aircraft::avoidCollisions( float &phi, float &tht )
 
 void Aircraft::initOwnship()
 {
-    m_initThrottle = getThrottle( m_vel.length() );
+    _initThrottle = getThrottle( _vel.length() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Aircraft::limitTht( float &tht )
 {
-    if ( m_altitude_agl < 100.0 )
+    if ( _altitude_agl < 100.0 )
     {
-        tht += sqrt( 1.0 - m_altitude_agl / 100.0 ) * SIM_AIRCRAFT_MAX_THT;
+        tht += sqrt( 1.0 - _altitude_agl / 100.0 ) * SIM_AIRCRAFT_MAX_THT;
     }
 
     if      ( tht < -SIM_AIRCRAFT_MAX_THT ) tht = -SIM_AIRCRAFT_MAX_THT;
@@ -805,83 +805,83 @@ void Aircraft::updateControls()
     float setpnt_phi = 0.0f;
     float setpnt_tht = 0.0f;
 
-    float sinPhi = sin( m_angles.phi() );
-    float cosPhi = cos( m_angles.phi() );
+    float sinPhi = sin( _angles.phi() );
+    float cosPhi = cos( _angles.phi() );
 
-    if ( m_destValid )
+    if ( _destValid )
     {
-        float diff_bear = m_destBear - m_angles.psi();
+        float diff_bear = _destBear - _angles.psi();
 
         while ( diff_bear < -M_PI ) diff_bear += 2.0f * M_PI;
         while ( diff_bear >  M_PI ) diff_bear -= 2.0f * M_PI;
 
-        m_pid_phi->update( m_timeStep, diff_bear );
+        _pid_phi->update( _timeStep, diff_bear );
 
-        setpnt_phi = m_pid_phi->getValue();
-        setpnt_tht = m_destElev;
+        setpnt_phi = _pid_phi->getValue();
+        setpnt_tht = _destElev;
     }
 
     limitTht( setpnt_tht );
 
     avoidCollisions( setpnt_phi, setpnt_tht );
 
-    float turnRate = m_angles.phi() * m_turn_max / m_roll_max;
+    float turnRate = _angles.phi() * _turn_max / _roll_max;
 
-    float diff_tht = setpnt_tht - m_angles.tht();
-    float diff_turn = 4.0f * ( turnRate - m_turnRate );
+    float diff_tht = setpnt_tht - _angles.tht();
+    float diff_turn = 4.0f * ( turnRate - _turnRate );
 
-    m_pid_p->update( m_timeStep, setpnt_phi - m_angles.phi() );
-    m_pid_q->update( m_timeStep, sinPhi * diff_turn + cosPhi * diff_tht );
-    m_pid_r->update( m_timeStep, cosPhi * diff_turn - sinPhi * diff_tht );
+    _pid_p->update( _timeStep, setpnt_phi - _angles.phi() );
+    _pid_q->update( _timeStep, sinPhi * diff_turn + cosPhi * diff_tht );
+    _pid_r->update( _timeStep, cosPhi * diff_turn - sinPhi * diff_tht );
 
-    m_ctrlRoll  = Inertia< float >::update( m_timeStep, m_ctrlRoll  , m_pid_p->getValue(), 0.1 );
-    m_ctrlPitch = Inertia< float >::update( m_timeStep, m_ctrlPitch , m_pid_q->getValue(), 0.1 );
-    m_ctrlYaw   = Inertia< float >::update( m_timeStep, m_ctrlYaw   , m_pid_r->getValue(), 0.1 );
-    m_throttle  = getThrottle( m_destination.second );
+    _ctrlRoll  = Inertia< float >::update( _timeStep, _ctrlRoll  , _pid_p->getValue(), 0.1 );
+    _ctrlPitch = Inertia< float >::update( _timeStep, _ctrlPitch , _pid_q->getValue(), 0.1 );
+    _ctrlYaw   = Inertia< float >::update( _timeStep, _ctrlYaw   , _pid_r->getValue(), 0.1 );
+    _throttle  = getThrottle( _destination.second );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Aircraft::updateDestination()
 {
-    if ( m_destValid )
+    if ( _destValid )
     {
-        Vec3 r_enu = m_destination.first - getPos();
+        Vec3 r_enu = _destination.first - getPos();
 
         double r_xy = sqrt( r_enu.x()*r_enu.x() + r_enu.y()*r_enu.y() );
 
-        m_destDist = r_enu.length();
-        m_destBear = atan2( r_enu.y(), r_enu.x() ) - M_PI;
-        m_destElev = atan2( r_enu.z(), r_xy );
+        _destDist = r_enu.length();
+        _destBear = atan2( r_enu.y(), r_enu.x() ) - M_PI;
+        _destElev = atan2( r_enu.z(), r_xy );
 
-        if ( m_enroute && m_route.size() > 0 )
+        if ( _enroute && _route.size() > 0 )
         {
-            float destDist = m_destDist;
+            float destDist = _destDist;
 
-            if ( m_wingman )
+            if ( _wingman )
             {
-                destDist = ( m_route[ m_waypointIndex ].first - getPos() ).length();
+                destDist = ( _route[ _waypointIndex ].first - getPos() ).length();
             }
 
-            if ( destDist < m_waypoint_dist )
+            if ( destDist < _waypoint_dist )
             {
-                m_waypointIndex++;
+                _waypointIndex++;
 
-                if ( m_waypointIndex < m_route.size() )
+                if ( _waypointIndex < _route.size() )
                 {
-                    m_destination = m_route[ m_waypointIndex ];
+                    _destination = _route[ _waypointIndex ];
                 }
                 else
                 {
-                    m_destValid = false;
+                    _destValid = false;
                 }
             }
             else
             {
-                if ( m_waypointIndex + 1 < m_route.size() )
+                if ( _waypointIndex + 1 < _route.size() )
                 {
-                    Vec3 v1 = m_route[ m_waypointIndex + 1 ].first - m_route[ m_waypointIndex ].first;
-                    Vec3 v2 = m_pos - m_route[ m_waypointIndex ].first;
+                    Vec3 v1 = _route[ _waypointIndex + 1 ].first - _route[ _waypointIndex ].first;
+                    Vec3 v2 = _pos - _route[ _waypointIndex ].first;
 
                     float len1 = v1.length();
                     Vec3 v1_norm = v1 * ( 1.0f / len1 );
@@ -889,15 +889,15 @@ void Aircraft::updateDestination()
 
                     if ( proj2 >= 0.0 && proj2 <= len1 )
                     {
-                        m_waypointIndex++;
+                        _waypointIndex++;
 
-                        if ( m_waypointIndex < m_route.size() )
+                        if ( _waypointIndex < _route.size() )
                         {
-                            m_destination = m_route[ m_waypointIndex ];
+                            _destination = _route[ _waypointIndex ];
                         }
                         else
                         {
-                            m_destValid = false;
+                            _destValid = false;
                         }
                     }
                 }
@@ -905,7 +905,7 @@ void Aircraft::updateDestination()
         }
         else
         {
-            if ( m_enroute ) m_destValid = false;
+            if ( _enroute ) _destValid = false;
         }
     }
 }
@@ -918,28 +918,28 @@ void Aircraft::updateElevation()
     UnitAerial::updateElevation();
     //////////////////////////////
 
-    m_elevation = Elevation::instance()->getElevation( m_pos.x(), m_pos.y() );
+    _elevation = Elevation::instance()->getElevation( _pos.x(), _pos.y() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Aircraft::updatePropeller()
 {
-    m_prop_angle = m_prop_angle + m_timeStep * m_prop_speed;
-    m_prop_speed = 2.0f * ( 2.0f * M_PI ) * ( 0.5f + 0.5f * (float)m_throttle );
+    _prop_angle = _prop_angle + _timeStep * _prop_speed;
+    _prop_speed = 2.0f * ( 2.0f * M_PI ) * ( 0.5f + 0.5f * (float)_throttle );
 
-    while ( m_prop_angle > 2.0f * M_PI ) m_prop_angle -= 2.0f * M_PI;
+    while ( _prop_angle > 2.0f * M_PI ) _prop_angle -= 2.0f * M_PI;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Aircraft::updateTrigger()
 {
-    m_trigger = false;
+    _trigger = false;
 
     if ( m_ownship && !Data::get()->controls.autopilot )
     {
-        m_trigger = Ownship::instance()->getTrigger();
+        _trigger = Ownship::instance()->getTrigger();
     }
 }
 
@@ -951,32 +951,32 @@ void Aircraft::updateVariables()
     UnitAerial::updateVariables();
     //////////////////////////////
 
-    m_altitude_asl = m_pos.z();
-    m_altitude_agl = m_altitude_asl - m_elevation;
+    _altitude_asl = _pos.z();
+    _altitude_agl = _altitude_asl - _elevation;
 
-    m_airspeed  = m_vel.length();
-    m_climbRate = ( m_att * m_vel ).z();
+    _airspeed  = _vel.length();
+    _climbRate = ( _att * _vel ).z();
 
-    m_rollAngle  = -m_angles.phi();
-    m_pitchAngle =  m_angles.tht();
-    m_heading    = -m_angles.psi() + 1.5f * M_PI;
+    _rollAngle  = -_angles.phi();
+    _pitchAngle =  _angles.tht();
+    _heading    = -_angles.psi() + 1.5f * M_PI;
 
-    if ( m_heading <        0.0f ) m_heading += 2.0f * M_PI;
-    if ( m_heading > 2.0f * M_PI ) m_heading -= 2.0f * M_PI;
+    if ( _heading <        0.0f ) _heading += 2.0f * M_PI;
+    if ( _heading > 2.0f * M_PI ) _heading -= 2.0f * M_PI;
 
-    double cosTht = cos( m_angles.tht() );
+    double cosTht = cos( _angles.tht() );
 
     if ( fabs( cosTht ) > 1.0e-6 )
     {
-        double sinPhi = sin( m_angles.phi() );
-        double cosPhi = cos( m_angles.phi() );
+        double sinPhi = sin( _angles.phi() );
+        double cosPhi = cos( _angles.phi() );
 
-        m_turnRate = ( sinPhi / cosTht ) * m_omg.y()
-                   + ( cosPhi / cosTht ) * m_omg.z();
+        _turnRate = ( sinPhi / cosTht ) * _omg.y()
+                  + ( cosPhi / cosTht ) * _omg.z();
     }
     else
     {
-        m_turnRate = 0.0;
+        _turnRate = 0.0;
     }
 }
 
@@ -984,7 +984,7 @@ void Aircraft::updateVariables()
 
 void Aircraft::updateVelocity()
 {
-    if ( !m_wingman || !m_formation )
+    if ( !_wingman || !_formation )
     {
         const float gain_p = 1.0f;
         const float gain_q = 1.0f;
@@ -994,24 +994,24 @@ void Aircraft::updateVelocity()
         const float damp_q = 0.1f;
         const float damp_r = 0.1f;
 
-        float coef_u = m_angles.tht() - 1.0;
+        float coef_u = _angles.tht() - 1.0;
 
         if      ( coef_u < -1.2f ) coef_u = -1.2f;
         else if ( coef_u > -0.8f ) coef_u = -0.8f;
 
-        float setpnt_u = getSpeed( m_throttle ) * coef_u;
+        float setpnt_u = getSpeed( _throttle ) * coef_u;
 
-        float setpnt_p = gain_p * m_ctrlRoll  - damp_p * m_omg.x();
-        float setpnt_q = gain_q * m_ctrlPitch - damp_q * m_omg.y();
-        float setpnt_r = gain_r * m_ctrlYaw   - damp_r * m_omg.z();
+        float setpnt_p = gain_p * _ctrlRoll  - damp_p * _omg.x();
+        float setpnt_q = gain_q * _ctrlPitch - damp_q * _omg.y();
+        float setpnt_r = gain_r * _ctrlYaw   - damp_r * _omg.z();
 
-        m_vel.x() = Inertia< double >::update( m_timeStep, m_vel.x(), setpnt_u, m_time_v );
-        m_vel.y() = 0.0;
-        m_vel.z() = 0.0;
+        _vel.x() = Inertia< double >::update( _timeStep, _vel.x(), setpnt_u, _time_v );
+        _vel.y() = 0.0;
+        _vel.z() = 0.0;
 
-        m_omg.x() = Inertia< double >::update( m_timeStep, m_omg.x(), setpnt_p, m_time_p );
-        m_omg.y() = Inertia< double >::update( m_timeStep, m_omg.y(), setpnt_q, m_time_q );
-        m_omg.z() = Inertia< double >::update( m_timeStep, m_omg.z(), setpnt_r, m_time_r );
+        _omg.x() = Inertia< double >::update( _timeStep, _omg.x(), setpnt_p, _time_p );
+        _omg.y() = Inertia< double >::update( _timeStep, _omg.y(), setpnt_q, _time_q );
+        _omg.z() = Inertia< double >::update( _timeStep, _omg.z(), setpnt_r, _time_r );
     }
 }
 
@@ -1021,154 +1021,154 @@ void Aircraft::updateWeapons()
 {
     updateTrigger();
 
-    osg::ref_ptr<osg::StateSet> stateSet = m_switch->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> stateSet = _switch->getOrCreateStateSet();
 
-    if ( m_trigger )
+    if ( _trigger )
     {
-        if ( m_time_shoot > 0.12f )
+        if ( _time_shoot > 0.12f )
         {
-            m_time_shoot = 0.0f;
+            _time_shoot = 0.0f;
 
-            for ( UInt8 i = 0; i < m_muzzles.size(); i++ )
+            for ( UInt8 i = 0; i < _muzzles.size(); i++ )
             {
-                Tracer *tracer = new Tracer( m_id, m_ownship && m_muzzles[ i ].trail );
-                tracer->setPos( m_pos + m_att * m_muzzles[ i ].pos );
-                tracer->setAtt( m_att );
+                Tracer *tracer = new Tracer( _id, m_ownship && _muzzles[ i ].trail );
+                tracer->setPos( _pos + _att * _muzzles[ i ].pos );
+                tracer->setAtt( _att );
             }
         }
 
         if ( m_ownship )
         {
-            if ( m_flash_count % m_flash_devider == 0 )
+            if ( _flash_count % _flash_devider == 0 )
             {
-                m_flashSwitch->setAllChildrenOn();
+                _flashSwitch->setAllChildrenOn();
 
                 stateSet->setMode( GL_LIGHT1, osg::StateAttribute::ON );
                 stateSet->setMode( GL_LIGHT2, osg::StateAttribute::ON );
 
-                osg::Quat q( m_flash_angle, osg::X_AXIS );
+                osg::Quat q( _flash_angle, osg::X_AXIS );
 
-                for ( unsigned int i = 0; i < m_flashPAT.size(); i++ )
+                for ( unsigned int i = 0; i < _flashPAT.size(); i++ )
                 {
-                    m_flashPAT[ i ]->setAttitude( q );
+                    _flashPAT[ i ]->setAttitude( q );
                 }
 
-                m_flash_angle = m_flash_angle + 1.0f;
-                m_flash_count = 0;
+                _flash_angle = _flash_angle + 1.0f;
+                _flash_count = 0;
 
-                if ( m_flash_angle > 2.0f * M_PI ) m_flash_angle = 0.0f;
+                if ( _flash_angle > 2.0f * M_PI ) _flash_angle = 0.0f;
             }
             else
             {
-                m_flashSwitch->setAllChildrenOff();
+                _flashSwitch->setAllChildrenOff();
 
                 stateSet->setMode( GL_LIGHT1, osg::StateAttribute::OFF );
                 stateSet->setMode( GL_LIGHT2, osg::StateAttribute::OFF );
             }
 
-            m_flash_count++;
+            _flash_count++;
         }
         else
         {
-            m_flashSwitch->setAllChildrenOff();
+            _flashSwitch->setAllChildrenOff();
         }
     }
     else
     {
-        m_flashSwitch->setAllChildrenOff();
+        _flashSwitch->setAllChildrenOff();
 
         stateSet->setMode( GL_LIGHT1, osg::StateAttribute::OFF );
         stateSet->setMode( GL_LIGHT2, osg::StateAttribute::OFF );
     }
 
-    m_time_drop   += m_timeStep;
-    m_time_launch += m_timeStep;
-    m_time_shoot  += m_timeStep;
+    _time_drop   += _timeStep;
+    _time_launch += _timeStep;
+    _time_shoot  += _timeStep;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Aircraft::updateWingman()
 {
-    if ( m_wingman && m_leaderValid )
+    if ( _wingman && _leaderValid )
     {
-        m_destValid = true;
+        _destValid = true;
 
-        Aircraft *leader = dynamic_cast< Aircraft* >( Entities::instance()->getEntityById( m_leaderId ) );
+        Aircraft *leader = dynamic_cast< Aircraft* >( Entities::instance()->getEntityById( _leaderId ) );
 
         if ( leader )
         {
-            m_waypointIndex = leader->getWaypointIndex();
+            _waypointIndex = leader->getWaypointIndex();
 
-            Vec3 pos_enu = leader->getPos() + Quat( leader->getAngles().psi(), osg::Z_AXIS ) * m_wingmanOffset;
+            Vec3 pos_enu = leader->getPos() + Quat( leader->getAngles().psi(), osg::Z_AXIS ) * _wingmanOffset;
 
-            if ( m_formation || m_destDist < 100.0f )
+            if ( _formation || _destDist < 100.0f )
             {
-                m_formation = true;
+                _formation = true;
 
                 float tc_pos = 0.5f * 75.0f / leader->getAirspeed();
                 float tc_vel = 1.0f;
                 float tc_att = 1.0f;
 
-                pos_enu.x() = Inertia< double >::update( m_timeStep, m_pos.x(), pos_enu.x(), tc_pos );
-                pos_enu.y() = Inertia< double >::update( m_timeStep, m_pos.y(), pos_enu.y(), tc_pos );
-                pos_enu.z() = Inertia< double >::update( m_timeStep, m_pos.z(), pos_enu.z(), tc_pos );
+                pos_enu.x() = Inertia< double >::update( _timeStep, _pos.x(), pos_enu.x(), tc_pos );
+                pos_enu.y() = Inertia< double >::update( _timeStep, _pos.y(), pos_enu.y(), tc_pos );
+                pos_enu.z() = Inertia< double >::update( _timeStep, _pos.z(), pos_enu.z(), tc_pos );
 
-                Vec3 vel_enu( ( pos_enu.x() - m_pos.x() ) / m_timeStep,
-                              ( pos_enu.y() - m_pos.y() ) / m_timeStep,
-                              ( pos_enu.z() - m_pos.z() ) / m_timeStep );
-                Vec3 vel_bas = m_att.inverse() * vel_enu;
+                Vec3 vel_enu( ( pos_enu.x() - _pos.x() ) / _timeStep,
+                              ( pos_enu.y() - _pos.y() ) / _timeStep,
+                              ( pos_enu.z() - _pos.z() ) / _timeStep );
+                Vec3 vel_bas = _att.inverse() * vel_enu;
 
                 float vel = vel_bas.length();
-                if ( vel > m_speed_max )
+                if ( vel > _speed_max )
                 {
-                    vel_bas *= m_speed_max / vel;
+                    vel_bas *= _speed_max / vel;
                 }
 
-                m_vel.x() = Inertia< double >::update( m_timeStep, m_vel.x(), vel_bas.x(), tc_vel );
-                m_vel.y() = Inertia< double >::update( m_timeStep, m_vel.y(), vel_bas.y(), tc_vel );
-                m_vel.z() = Inertia< double >::update( m_timeStep, m_vel.z(), vel_bas.z(), tc_vel );
+                _vel.x() = Inertia< double >::update( _timeStep, _vel.x(), vel_bas.x(), tc_vel );
+                _vel.y() = Inertia< double >::update( _timeStep, _vel.y(), vel_bas.y(), tc_vel );
+                _vel.z() = Inertia< double >::update( _timeStep, _vel.z(), vel_bas.z(), tc_vel );
 
                 Angles angles = leader->getAngles();
 
-                if ( angles.psi() > 1.5 * M_PI && m_angles.psi() < M_PI_2 )
+                if ( angles.psi() > 1.5 * M_PI && _angles.psi() < M_PI_2 )
                     angles.psi() -= 2.0 * M_PI;
-                else if ( angles.psi() < M_PI_2 && m_angles.psi() > 1.5 * M_PI )
+                else if ( angles.psi() < M_PI_2 && _angles.psi() > 1.5 * M_PI )
                     angles.psi() += 2.0 * M_PI;
 
-                m_angles.phi() = Inertia< double >::update( m_timeStep, m_angles.phi(), angles.phi(), tc_att );
-                m_angles.tht() = Inertia< double >::update( m_timeStep, m_angles.tht(), angles.tht(), tc_att );
-                m_angles.psi() = Inertia< double >::update( m_timeStep, m_angles.psi(), angles.psi(), tc_att );
+                _angles.phi() = Inertia< double >::update( _timeStep, _angles.phi(), angles.phi(), tc_att );
+                _angles.tht() = Inertia< double >::update( _timeStep, _angles.tht(), angles.tht(), tc_att );
+                _angles.psi() = Inertia< double >::update( _timeStep, _angles.psi(), angles.psi(), tc_att );
 
-                m_att = m_angles.getRotate();
+                _att = _angles.getRotate();
 
-                m_omg.x() = 0.0;
-                m_omg.y() = 0.0;
-                m_omg.z() = 0.0;
+                _omg.x() = 0.0;
+                _omg.y() = 0.0;
+                _omg.z() = 0.0;
             }
             else
             {
-                m_formation = false;
+                _formation = false;
 
-                Vec3 vel_bas = m_att.inverse() * ( leader->getAtt() * leader->getVel() );
+                Vec3 vel_bas = _att.inverse() * ( leader->getAtt() * leader->getVel() );
 
-                m_destination.first  = pos_enu;
-                m_destination.second = getSpeed( -vel_bas.x() );
+                _destination.first  = pos_enu;
+                _destination.second = getSpeed( -vel_bas.x() );
 
-                float bear_rel = m_destBear - m_angles.psi();
+                float bear_rel = _destBear - _angles.psi();
 
                 while ( bear_rel < -M_PI ) bear_rel += 2.0f * M_PI;
                 while ( bear_rel >  M_PI ) bear_rel -= 2.0f * M_PI;
 
                 if ( fabs( bear_rel ) < M_PI_4 )
                 {
-                    if ( m_destDist > 100.0f )
+                    if ( _destDist > 100.0f )
                     {
-                        m_destination.second = 1.2f * m_destination.second;
+                        _destination.second = 1.2f * _destination.second;
 
-                        if ( m_destDist > 200.0f )
+                        if ( _destDist > 200.0f )
                         {
-                            m_destination.second = 1.2f * m_destination.second;
+                            _destination.second = 1.2f * _destination.second;
                         }
                     }
                 }
@@ -1176,17 +1176,17 @@ void Aircraft::updateWingman()
         }
         else
         {
-            m_leaderValid = false;
+            _leaderValid = false;
 
-            if ( m_waypointIndex < m_route.size() )
+            if ( _waypointIndex < _route.size() )
             {
-                m_destination = m_route[ m_waypointIndex ];
+                _destination = _route[ _waypointIndex ];
             }
         }
     }
     else
     {
-        m_wingman = false;
-        m_formation = false;
+        _wingman = false;
+        _formation = false;
     }
 }

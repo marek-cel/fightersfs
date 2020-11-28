@@ -31,12 +31,12 @@ class BomberTorpedo : public Bomber
 {
 public:
 
-    static const std::string m_tagName; ///<
+    static const std::string _tagName;  ///< unit tag name
 
-    static const float m_dropAltMin;    ///< [m]
-    static const float m_dropAltMax;    ///< [m]
-    static const float m_dropDistMax;   ///< [m]
-    static const float m_tanMaxTht;     ///<
+    static const float _dropAltMin;     ///< [m]
+    static const float _dropAltMax;     ///< [m]
+    static const float _dropDistMax;    ///< [m]
+    static const float _tanMaxTht;      ///<
 
     /** Constructor. */
     BomberTorpedo( Affiliation affiliation = Unknown );
@@ -52,7 +52,7 @@ public:
 
 protected:
 
-    bool m_attack;          ///< specifies if aircraft is attacking
+    bool _attack;           ///< specifies if aircraft is attacking
 
     virtual void limitTht( float &tht );
 

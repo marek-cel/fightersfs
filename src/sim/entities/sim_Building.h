@@ -31,7 +31,7 @@ class Building : public UnitGround
 {
 public:
 
-    static const std::string m_tagName; ///<
+    static const std::string _tagName;  ///< unit tag name
 
     /** Constructor. */
     Building( Affiliation affiliation = Unknown );

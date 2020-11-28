@@ -32,7 +32,7 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const std::string Fighter::m_tagName = "fighter";
+const std::string Fighter::_tagName = "fighter";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -151,7 +151,7 @@ void Fighter::update( double timeStep )
 
                     if ( fighter )
                     {
-                        if ( fighter->getId() != m_id )
+                        if ( fighter->getId() != _id )
                         {
                             Unit *fighterTarget = fighter->getTarget();
 
@@ -189,11 +189,11 @@ void Fighter::updateControls()
 
     if ( m_engaged )
     {
-        m_pid_phi->setKi( 0.4f );
+        _pid_phi->setKi( 0.4f );
     }
     else
     {
-        m_pid_phi->setKi( 0.2f );
+        _pid_phi->setKi( 0.2f );
     }
 }
 
@@ -205,21 +205,21 @@ void Fighter::updateDestination()
 
     if ( !m_engaged )
     {
-        if ( m_route.size() > 0 && m_waypointIndex < m_route.size() )
+        if ( _route.size() > 0 && _waypointIndex < _route.size() )
         {
-            if ( !m_enroute || m_engaged )
+            if ( !_enroute || m_engaged )
             {
-                m_destination = m_route[ m_waypointIndex ];
-                m_destValid = true;
+                _destination = _route[ _waypointIndex ];
+                _destValid = true;
             }
         }
         else
         {
-            m_destValid = false;
+            _destValid = false;
         }
 
-        m_enroute = true;
-        m_wingman = m_leaderValid;
+        _enroute = true;
+        _wingman = _leaderValid;
         m_engaged = false;
     }
 
@@ -236,29 +236,29 @@ void Fighter::updateTarget()
 
     if ( target )
     {
-        m_enroute = false;
-        m_wingman = false;
+        _enroute = false;
+        _wingman = false;
         m_engaged = true;
 
-        m_destValid = true;
+        _destValid = true;
 
         if ( !m_ownship || Data::get()->controls.autopilot )
         {
-            m_target_dist = ( target->getPos() - m_pos ).length();
+            m_target_dist = ( target->getPos() - _pos ).length();
 
             float time = m_target_dist / Bullet::m_vel_m;
 
             Vec3 pos_est = target->getPos() + ( target->getAtt() * target->getVel() ) * time;
-            Vec3 vel_bas = m_att.inverse() *  ( target->getAtt() * target->getVel() );
+            Vec3 vel_bas = _att.inverse() *   ( target->getAtt() * target->getVel() );
 
-            Vec3 dir_enu = pos_est - m_pos;
+            Vec3 dir_enu = pos_est - _pos;
             dir_enu *= 1.0/dir_enu.length();
 
-            m_target_bear = m_angles.psi() - atan2( -dir_enu.y(), -dir_enu.x() );
+            m_target_bear = _angles.psi() - atan2( -dir_enu.y(), -dir_enu.x() );
             if      ( m_target_bear < -M_PI ) m_target_bear += 2.0f * M_PI;
             else if ( m_target_bear >  M_PI ) m_target_bear -= 2.0f * M_PI;
 
-            Vec3 dir_bas = m_att.inverse() * dir_enu;
+            Vec3 dir_bas = _att.inverse() * dir_enu;
             dir_bas *= 1.0/dir_bas.length();
 
             m_target_psi = atan2( -dir_bas.y(), -dir_bas.x() );
@@ -266,26 +266,26 @@ void Fighter::updateTarget()
 
             m_target_rad = target->getRadius();
 
-            m_destination.first  = pos_est;
-            m_destination.second = -vel_bas.x();
+            _destination.first  = pos_est;
+            _destination.second = -vel_bas.x();
 
             if ( m_target_dist < 500.0f )
             {
-                m_destination.second = 0.8f * m_destination.second;
+                _destination.second = 0.8f * _destination.second;
 
                 if ( m_target_dist < 250.0f )
                 {
-                    m_destination.second = m_speed_min;
+                    _destination.second = _speed_min;
                 }
             }
 
             if ( m_target_dist > 750.0f )
             {
-                m_destination.second = 1.2f * m_destination.second;
+                _destination.second = 1.2f * _destination.second;
 
                 if ( m_target_dist > 1000.0f )
                 {
-                    m_destination.second = m_speed_max;
+                    _destination.second = _speed_max;
                 }
             }
         }
@@ -300,15 +300,15 @@ void Fighter::updateTarget()
 
 void Fighter::updateTrigger()
 {
-    m_trigger = false;
+    _trigger = false;
 
     if ( m_ownship && !Data::get()->controls.autopilot )
     {
-        m_trigger = Ownship::instance()->getTrigger();
+        _trigger = Ownship::instance()->getTrigger();
     }
     else
     {
-        m_trigger = false;
+        _trigger = false;
 
         if ( m_engaged && m_target_dist < 1000.0f )
         {
@@ -316,7 +316,7 @@ void Fighter::updateTrigger()
 
             if ( delta < Misc::max( atan( m_target_rad / m_target_dist ), 0.05 ) )
             {
-                m_trigger = true;
+                _trigger = true;
 
                 // avoid shooting to allies
                 List::iterator it = Entities::instance()->getEntities()->begin();
@@ -329,18 +329,18 @@ void Fighter::updateTrigger()
                     {
                         if ( unit->getAffiliation() == m_affiliation )
                         {
-                            Vec3 dir_enu = unit->getPos() - m_pos;
+                            Vec3 dir_enu = unit->getPos() - _pos;
                             float dist = dir_enu.length();
 
                             if ( dist < m_target_dist )
                             {
-                                Vec3 dir_bas = m_att.inverse() * dir_enu;
+                                Vec3 dir_bas = _att.inverse() * dir_enu;
 
                                 float yz = sqrt( dir_bas.y()*dir_bas.y() + dir_bas.z()*dir_bas.z() );
 
                                 if ( dir_bas.x() < -10.0 && yz < 4.0f * unit->getRadius() )
                                 {
-                                    m_trigger = false;
+                                    _trigger = false;
                                     break;
                                 }
                             }

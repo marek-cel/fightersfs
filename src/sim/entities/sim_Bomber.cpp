@@ -91,7 +91,7 @@ void Bomber::readOrdnance( const XmlNode &node )
 
         while ( nodeOrdnance.isValid() )
         {
-            Bomb *bomb = new Bomb( m_id, this );
+            Bomb *bomb = new Bomb( _id, this );
 
             readOrdnance( nodeOrdnance, bomb );
             m_ordnance.push_back( bomb );
@@ -103,7 +103,7 @@ void Bomber::readOrdnance( const XmlNode &node )
 
         while ( nodeOrdnance.isValid() )
         {
-            Torpedo *torpedo = new Torpedo( m_id, this );
+            Torpedo *torpedo = new Torpedo( _id, this );
 
             readOrdnance( nodeOrdnance, torpedo );
             m_ordnance.push_back( torpedo );
@@ -160,7 +160,7 @@ void Bomber::readOrdnance( const XmlNode &node, Munition *ordnance )
 
 void Bomber::releaseWeapon()
 {
-    m_time_drop = 0.0f;
+    _time_drop = 0.0f;
 
     m_ordnance[ m_ordnanceIndex ]->setParent( this );
     m_ordnance[ m_ordnanceIndex ]->setState( Active );
@@ -177,21 +177,21 @@ void Bomber::updateDestination()
 
     if ( !m_engaged )
     {
-        if ( m_route.size() > 0 )
+        if ( _route.size() > 0 )
         {
-            if ( !m_enroute || m_engaged )
+            if ( !_enroute || m_engaged )
             {
-                m_destination = m_route[ m_waypointIndex ];
-                m_destValid = true;
+                _destination = _route[ _waypointIndex ];
+                _destValid = true;
             }
         }
         else
         {
-            m_destValid = false;
+            _destValid = false;
         }
 
-        m_enroute = true;
-        m_wingman = m_leaderValid;
+        _enroute = true;
+        _wingman = _leaderValid;
         m_engaged = false;
     }
 
@@ -208,27 +208,27 @@ void Bomber::updateTarget()
 
     if ( target && m_ordnanceIndex < m_ordnance.size() )
     {
-        m_enroute = false;
-        m_wingman = false;
+        _enroute = false;
+        _wingman = false;
         m_engaged = true;
 
-        m_destValid = true;
+        _destValid = true;
 
         m_target_pos = target->getPos();
 
-        Vec3 dist_enu = m_target_pos - m_pos;
+        Vec3 dist_enu = m_target_pos - _pos;
         m_target_dist = sqrt( dist_enu.x()*dist_enu.x() + dist_enu.y()*dist_enu.y() );
         m_target_alt  = -dist_enu.z();
 
-        Vec3 dir_bas = m_att.inverse() * ( dist_enu * ( 1.0/dist_enu.length() ) );
+        Vec3 dir_bas = _att.inverse() * ( dist_enu * ( 1.0/dist_enu.length() ) );
         dir_bas *= 1.0/dir_bas.length();
 
         m_target_psi = atan2( -dir_bas.y(), -dir_bas.x() );
         m_target_tht = atan2( dir_bas.z(), sqrt( dir_bas.x()*dir_bas.x() + dir_bas.y()*dir_bas.y() ) );
 
         // mentain level flight
-        m_destination.first  = Vec3( m_target_pos.x(), m_target_pos.y(), m_altitude_asl );
-        m_destination.second = m_speed_max;
+        _destination.first  = Vec3( m_target_pos.x(), m_target_pos.y(), _altitude_asl );
+        _destination.second = _speed_max;
     }
     else
     {

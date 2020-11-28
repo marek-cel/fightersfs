@@ -93,7 +93,6 @@ private:
 
     bool _autopilot;                        ///< specifies if autopilot is enabled
     bool _inited;                           ///< specifies if simulation is initialized
-    bool _paused;                           ///< specifies if simulation is paused
     bool _throttle;                         ///< specifies if throttle is inited
     bool _pending;                          ///< specifies if mission is pending
 

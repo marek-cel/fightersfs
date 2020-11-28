@@ -395,14 +395,14 @@ int Mission::readScenery( const XmlNode &node )
               && SIM_SUCCESS == XmlUtils::read( genericNode, genericFile )
               && SIM_SUCCESS == XmlUtils::read( skyDomeNode, skyDomeFile ) )
             {
-                Scenery::m_objectFiles.clear();
-                Scenery::m_terrainFile = terrainFile;
-                Scenery::m_genericFile = genericFile;
-                SkyDome::m_skyDomeFile = skyDomeFile;
+                Scenery::_objectFiles.clear();
+                Scenery::_terrainFile = terrainFile;
+                Scenery::_genericFile = genericFile;
+                SkyDome::_skyDomeFile = skyDomeFile;
 
                 // default values
-                FogScene::m_visibility = 0.9f * SIM_SKYDOME_RAD;
-                SkyDome::m_sunCoef = 1.0f;
+                FogScene::_visibility = 0.9f * SIM_SKYDOME_RAD;
+                SkyDome::_sunCoef = 1.0f;
 
                 // visibility
                 XmlNode visibilityNode = node.getFirstChildElement( "visibility" );
@@ -413,7 +413,7 @@ int Mission::readScenery( const XmlNode &node )
 
                     if ( SIM_SUCCESS == XmlUtils::read( visibilityNode, visibility ) )
                     {
-                        FogScene::m_visibility = visibility;
+                        FogScene::_visibility = visibility;
                     }
                 }
 
@@ -426,7 +426,7 @@ int Mission::readScenery( const XmlNode &node )
 
                     if ( SIM_SUCCESS == XmlUtils::read( sunCoefNode, sunCoef ) )
                     {
-                        SkyDome::m_sunCoef = sunCoef;
+                        SkyDome::_sunCoef = sunCoef;
                     }
                 }
 
@@ -456,7 +456,7 @@ int Mission::readScenery( const XmlNode &node )
 
                         if ( SIM_SUCCESS == XmlUtils::read( objectNode, objectFile ) )
                         {
-                            Scenery::m_objectFiles.push_back( objectFile );
+                            Scenery::_objectFiles.push_back( objectFile );
                         }
                         else
                         {

@@ -31,40 +31,40 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int FogScene::m_visibility = 7200;
+int FogScene::_visibility = 7200;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 FogScene::FogScene( Module *parent ) :
     Module( new osg::Group(), parent )
 {
-    if ( m_visibility > 0.9f * SIM_SKYDOME_RAD )
+    if ( _visibility > 0.9f * SIM_SKYDOME_RAD )
     {
-        m_visibility = 0.9f * SIM_SKYDOME_RAD;
+        _visibility = 0.9f * SIM_SKYDOME_RAD;
     }
-    else if ( m_visibility < 0.6f * SIM_SKYDOME_RAD )
+    else if ( _visibility < 0.6f * SIM_SKYDOME_RAD )
     {
-        m_visibility = 0.6f * SIM_SKYDOME_RAD;
+        _visibility = 0.6f * SIM_SKYDOME_RAD;
     }
 
-    m_fog = new osg::Fog();
+    _fog = new osg::Fog();
 
     osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
 
     osg::Vec4 color( Color::fog_light, 0.0f );
 
-    if ( m_visibility < 7200 )
+    if ( _visibility < 7200 )
     {
         color = osg::Vec4( Color::fog_heavy, 0.0f );
     }
 
-    m_fog->setMode( osg::Fog::LINEAR );
-    m_fog->setDensity( 0.5f );
-    m_fog->setColor( color );
-    m_fog->setStart( 0.0f );
-    m_fog->setEnd( m_visibility );
+    _fog->setMode( osg::Fog::LINEAR );
+    _fog->setDensity( 0.5f );
+    _fog->setColor( color );
+    _fog->setStart( 0.0f );
+    _fog->setEnd( _visibility );
 
-    stateSet->setAttributeAndModes( m_fog.get(), osg::StateAttribute::ON );
+    stateSet->setAttributeAndModes( _fog.get(), osg::StateAttribute::ON );
     stateSet->setMode( GL_FOG, osg::StateAttribute::ON );
 
     addChild( new Scenery( this ) );

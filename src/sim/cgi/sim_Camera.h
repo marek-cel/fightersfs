@@ -50,7 +50,7 @@ public:
     /** */
     inline osgGA::CameraManipulator* getManipulator()
     {
-        return m_manipulator.get();
+        return _manipulator.get();
     }
 
     /** Returns true if orbit manipulator track node is valid. */
@@ -68,15 +68,15 @@ public:
     /** Sets chase view. */
     inline void setViewChase()
     {
-        m_type = ViewChase;
-        m_manipulator = m_manipulatorShift.get();
+        _type = ViewChase;
+        _manipulator = _manipulatorShift.get();
     }
 
     /** Sets flyby view. */
     inline void setViewFlyby()
     {
-        m_type = ViewFlyby;
-        m_manipulator = m_manipulatorShift.get();
+        _type = ViewFlyby;
+        _manipulator = _manipulatorShift.get();
 
         setFlybyCameraPosition();
     }
@@ -84,59 +84,59 @@ public:
     /** Sets front view. */
     inline void setViewFront()
     {
-        m_type = ViewFront;
-        m_manipulator = m_manipulatorShift.get();
+        _type = ViewFront;
+        _manipulator = _manipulatorShift.get();
     }
 
     /** Sets orbit view. */
     inline void setViewOrbit()
     {
-        m_type = ViewOrbit;
-        m_manipulator = m_manipulatorOrbit.get();
+        _type = ViewOrbit;
+        _manipulator = _manipulatorOrbit.get();
     }
 
     /** Sets pilot view. */
     inline void setViewPilot()
     {
-        m_type = ViewPilot;
-        m_manipulator = m_manipulatorShift.get();
+        _type = ViewPilot;
+        _manipulator = _manipulatorShift.get();
     }
 
     /** Sets shift view. */
     inline void setViewShift()
     {
-        m_type = ViewShift;
-        m_manipulator = m_manipulatorShift.get();
+        _type = ViewShift;
+        _manipulator = _manipulatorShift.get();
     }
 
     /** Sets world view. */
     inline void setViewWorld()
     {
-        m_type = ViewWorld;
-        m_manipulator = m_manipulatorWorld.get();
+        _type = ViewWorld;
+        _manipulator = _manipulatorWorld.get();
     }
 
 private:
 
-    ViewType m_type;    ///< view (manipulator) type
-    osg::ref_ptr<osgGA::CameraManipulator> m_manipulator;   ///< current manipulator
+    ViewType _type;     ///< view (manipulator) type
+    osg::ref_ptr<osgGA::CameraManipulator> _manipulator;    ///< current manipulator
 
-    osg::ref_ptr<ManipulatorOrbit> m_manipulatorOrbit;      ///< orbit view manipulator
-    osg::ref_ptr<ManipulatorShift> m_manipulatorShift;      ///< shift view manipulator
-    osg::ref_ptr<ManipulatorWorld> m_manipulatorWorld;      ///< world view manipulator
+    osg::ref_ptr<ManipulatorOrbit> _manipulatorOrbit;       ///< orbit view manipulator
+    osg::ref_ptr<ManipulatorShift> _manipulatorShift;       ///< shift view manipulator
+    osg::ref_ptr<ManipulatorWorld> _manipulatorWorld;       ///< world view manipulator
 
-    osg::ref_ptr<osg::Node> m_trackNode;    ///< orbit manipulator track node
-    osg::ref_ptr<osg::Node> m_worldNode;    ///< world manipulator node
+    osg::ref_ptr<osg::Node> _trackNode;     ///< orbit manipulator track node
+    osg::ref_ptr<osg::Node> _worldNode;     ///< world manipulator node
 
-    osg::Vec3 m_flyby;  ///< [m] flyby camera position
+    osg::Vec3 _flyby;   ///< [m] flyby camera position
 
-    float m_d_x;        ///< [m] camera x offset
-    float m_d_y;        ///< [m] camera y offset
-    float m_d_z;        ///< [m] camera z offset
+    float _d_x;         ///< [m] camera x offset
+    float _d_y;         ///< [m] camera y offset
+    float _d_z;         ///< [m] camera z offset
 
-    float m_d_phi;      ///< [rad] camera roll offset
-    float m_d_tht;      ///< [rad] camera pitch offset
-    float m_d_psi;      ///< [rad] camera yaw offset
+    float _d_phi;       ///< [rad] camera roll offset
+    float _d_tht;       ///< [rad] camera pitch offset
+    float _d_psi;       ///< [rad] camera yaw offset
 
     void setFlybyCameraPosition();
 };

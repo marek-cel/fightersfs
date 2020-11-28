@@ -59,8 +59,8 @@ public:
 
 private:
 
-    List m_textures;                        ///<
-    std::vector< std::string > m_fileNames; ///<
+    List _textures;                         ///<
+    std::vector< std::string > _fileNames;  ///<
 };
 
 } // end of sim namespace

@@ -47,7 +47,7 @@ public:
 
 private:
 
-    const float m_linesWidth;   ///< [px] lines width
+    const float _linesWidth;    ///< [px] lines width
 };
 
 } // end of sim namespace

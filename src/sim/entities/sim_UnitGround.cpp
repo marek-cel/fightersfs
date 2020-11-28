@@ -37,8 +37,8 @@ void UnitGround::destroy()
     if ( isActive() )
     {
         WreckageSurface *wreckage = new WreckageSurface( m_model.get() );
-        wreckage->setPos( m_pos );
-        wreckage->setAtt( m_att );
+        wreckage->setPos( _pos );
+        wreckage->setAtt( _att );
 
         if ( m_ownship )
         {

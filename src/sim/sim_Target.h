@@ -42,14 +42,14 @@ public:
     Target( Entity *parent, Affiliation affiliation,
             float rangeForward = 5000.0f,
             float rangeNearest = 5000.0f ) :
-        m_rangeForward ( rangeForward ),
-        m_rangeNearest ( rangeNearest ),
+        _rangeForward ( rangeForward ),
+        _rangeNearest ( rangeNearest ),
 
-        m_parent ( parent ),
-        m_target ( 0 ),
-        m_affiliation ( affiliation ),
-        m_id ( 0 ),
-        m_valid ( false )
+        _parent ( parent ),
+        _target ( 0 ),
+        _affiliation ( affiliation ),
+        _id ( 0 ),
+        _valid ( false )
     {}
 
     /** Destructor. */
@@ -71,8 +71,8 @@ public:
      */
     void findForward( TYPE* excluded, float max_a = M_PI )
     {
-        m_target = 0;
-        m_valid = false;
+        _target = 0;
+        _valid = false;
 
         Group::List *entities = Entities::instance()->getEntities();
         Group::List::iterator it = entities->begin();
@@ -88,10 +88,10 @@ public:
         float a_new = 0.0f;
         float a_old = std::numeric_limits< float >::max();
 
-        float limit2 = m_rangeForward * m_rangeForward;
+        float limit2 = _rangeForward * _rangeForward;
 
-        const Vec3 pos_abs = m_parent->getAbsPos();
-        const Quat att_abs = m_parent->getAbsAtt();
+        const Vec3 pos_abs = _parent->getAbsPos();
+        const Quat att_abs = _parent->getAbsAtt();
 
         while ( it != entities->end() )
         {
@@ -99,7 +99,7 @@ public:
 
             if ( target )
             {
-                if ( target->getAffiliation() == m_affiliation && target->isActive() )
+                if ( target->getAffiliation() == _affiliation && target->isActive() )
                 {
                     if ( excluded == 0 || excludedId != target->getId() )
                     {
@@ -116,12 +116,12 @@ public:
 
                             if ( a_new < max_a )
                             {
-                                if ( m_valid )
+                                if ( _valid )
                                 {
                                     if ( a_new < a_old )
                                     {
-                                        m_target = target;
-                                        m_id = m_target->getId();
+                                        _target = target;
+                                        _id = _target->getId();
 
                                         v_old = v_new;
                                         n_old = n_new;
@@ -130,14 +130,14 @@ public:
                                 }
                                 else
                                 {
-                                    m_target = target;
-                                    m_id = m_target->getId();
+                                    _target = target;
+                                    _id = _target->getId();
 
                                     v_old = v_new;
                                     n_old = n_new;
                                     a_old = a_new;
 
-                                    m_valid = true;
+                                    _valid = true;
                                 }
                             }
                         }
@@ -165,8 +165,8 @@ public:
      */
     void findNearest( TYPE* excluded, float max_a = M_PI )
     {
-        m_target = 0;
-        m_valid = false;
+        _target = 0;
+        _valid = false;
 
         Group::List *entities = Entities::instance()->getEntities();
         Group::List::iterator it = entities->begin();
@@ -181,10 +181,10 @@ public:
         float d2_new = 0.0f;
         float d2_old = std::numeric_limits< float >::max();
 
-        float limit2 = m_rangeNearest * m_rangeNearest;
+        float limit2 = _rangeNearest * _rangeNearest;
 
-        const Vec3 pos_abs = m_parent->getAbsPos();
-        const Quat att_abs = m_parent->getAbsAtt();
+        const Vec3 pos_abs = _parent->getAbsPos();
+        const Quat att_abs = _parent->getAbsAtt();
 
         while ( it != entities->end() )
         {
@@ -192,7 +192,7 @@ public:
 
             if ( target )
             {
-                if ( target->getAffiliation() == m_affiliation && target->isActive() )
+                if ( target->getAffiliation() == _affiliation && target->isActive() )
                 {
                     if ( excluded == 0 || excludedId != target->getId() )
                     {
@@ -211,24 +211,24 @@ public:
 
                             if ( fabs( a ) < max_a )
                             {
-                                if ( m_valid )
+                                if ( _valid )
                                 {
                                     if ( d2_new < d2_old )
                                     {
-                                        m_target = target;
-                                        m_id = m_target->getId();
+                                        _target = target;
+                                        _id = _target->getId();
 
                                         d2_old = d2_new;
                                     }
                                 }
                                 else
                                 {
-                                    m_target = target;
-                                    m_id = m_target->getId();
+                                    _target = target;
+                                    _id = _target->getId();
 
                                     d2_old = d2_new;
 
-                                    m_valid = true;
+                                    _valid = true;
                                 }
                             }
                         }
@@ -243,66 +243,66 @@ public:
     /** Updates target. */
     void update()
     {
-        if ( m_valid )
+        if ( _valid )
         {
-            m_target = dynamic_cast< TYPE* >( Entities::instance()->getEntityById( m_id ) );
+            _target = dynamic_cast< TYPE* >( Entities::instance()->getEntityById( _id ) );
 
-            if ( m_target == 0 )
+            if ( _target == 0 )
             {
-                m_target = 0;
-                m_valid = false;
+                _target = 0;
+                _valid = false;
             }
             else
             {
-                if ( !m_target->isActive() )
+                if ( !_target->isActive() )
                 {
-                    m_target = 0;
-                    m_valid = false;
+                    _target = 0;
+                    _valid = false;
                 }
             }
         }
         else
         {
-            m_target = 0;
-            m_valid = false;
+            _target = 0;
+            _valid = false;
         }
     }
 
     /** Returns true if target is valid. */
-    inline bool isValid() const { return m_valid; }
+    inline bool isValid() const { return _valid; }
 
     /** Returns target unit if exists, otherwise returns 0. */
-    inline TYPE* getTarget() const { return m_target; }
+    inline TYPE* getTarget() const { return _target; }
 
     /** Sets target unit. */
     inline void setTarget( TYPE *target )
     {
-        m_target = target;
+        _target = target;
 
-        if ( m_target )
+        if ( _target )
         {
-            m_id = m_target->getId();
-            m_valid = true;
+            _id = _target->getId();
+            _valid = true;
         }
         else
         {
-            m_valid = false;
+            _valid = false;
         }
     }
 
 private:
 
-    const float m_rangeForward; ///< [m] maximum distance when looking for most in front target
-    const float m_rangeNearest; ///< [m] maximum distance when looking for nearest target
+    const float _rangeForward;  ///< [m] maximum distance when looking for most in front target
+    const float _rangeNearest;  ///< [m] maximum distance when looking for nearest target
 
-    Entity *m_parent;           ///< parent entity
-    TYPE   *m_target;           ///< target unit
+    Entity *_parent;            ///< parent entity
+    TYPE   *_target;            ///< target unit
 
-    Affiliation m_affiliation;  ///< target affiliation
+    Affiliation _affiliation;   ///< target affiliation
 
-    UInt32 m_id;                ///< target ID
+    UInt32 _id;                 ///< target ID
 
-    bool m_valid;               ///< specifies if target is valid
+    bool _valid;                ///< specifies if target is valid
 };
 
 } // end of sim namespace

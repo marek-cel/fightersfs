@@ -61,10 +61,10 @@ public:
     typedef std::vector< Flash  > Flashes;
     typedef std::vector< Muzzle > Muzzles;
 
-    static const std::string m_tagName; ///<
+    static const std::string _tagName;  ///< unit tag name
 
-    static const float m_threshold_vel; ///< [m/s] threshold velocity
-    static const float m_waypoint_dist; ///< [m] maximum distance of reaching waypoint
+    static const float _threshold_vel;  ///< [m/s] threshold velocity
+    static const float _waypoint_dist;  ///< [m] maximum distance of reaching waypoint
 
     /** Constructor. */
     Aircraft( Affiliation affiliation = Unknown );
@@ -102,12 +102,12 @@ public:
     /** Decrements the number of following aircrafts. */
     virtual void wingmenDecrement();
 
-    inline WreckageAircraft* getWreckage() const { return m_wreckage; }
+    inline WreckageAircraft* getWreckage() const { return _wreckage; }
 
-    inline float getSpeedMin() const { return m_speed_min; }
-    inline float getSpeedMax() const { return m_speed_max; }
-    inline float getRollMax() const { return m_roll_max; }
-    inline float getTurnMax() const { return m_turn_max; }
+    inline float getSpeedMin() const { return _speed_min; }
+    inline float getSpeedMax() const { return _speed_max; }
+    inline float getRollMax() const { return _roll_max; }
+    inline float getTurnMax() const { return _turn_max; }
 
     /** Returns aircraft target unit pointer. */
     virtual Unit* getTarget() const;
@@ -116,56 +116,56 @@ public:
      * Returns aircraft current destination (waypoint, target,
      * wingman position, etc.).
      */
-    inline WaypointData getDestination() const { return m_destination; }
+    inline WaypointData getDestination() const { return _destination; }
 
     /**
      * @brief Returns distance to the current destination.
      * @return [m] destination distance
      */
-    inline float getDestinationDistance() const { return m_destDist; }
+    inline float getDestinationDistance() const { return _destDist; }
 
     /** Returns aircraft route. */
-    inline const Route& getRoute() const { return m_route; }
+    inline const Route& getRoute() const { return _route; }
 
     /** Returns current waypoint index. */
-    inline UInt32 getWaypointIndex() const { return m_waypointIndex; }
+    inline UInt32 getWaypointIndex() const { return _waypointIndex; }
 
     /**
      * Returns true if aircraft has valid destination (waypoint, target,
      * wingman position, etc.).
      */
-    inline bool getDestValid() const { return m_destValid; }
+    inline bool getDestValid() const { return _destValid; }
 
     /** Returns true if aircraft is enroute. */
-    inline bool getEnroute() const { return m_enroute; }
+    inline bool getEnroute() const { return _enroute; }
 
     /** Returns true if aircraft is wingman. */
-    inline bool getWingman() const { return m_wingman; }
+    inline bool getWingman() const { return _wingman; }
 
     /**
      * @brief Returns aircraft leader ID.
      * @return unit ID
      */
-    inline UInt32 getLeaderId() const { return m_leaderId; }
+    inline UInt32 getLeaderId() const { return _leaderId; }
 
-    inline float getInitThrottle() const { return m_initThrottle; }
+    inline float getInitThrottle() const { return _initThrottle; }
 
-    inline float getTimeDrop()   const { return m_time_drop;   }
-    inline float getTimeLaunch() const { return m_time_launch; }
-    inline float getTimeShoot()  const { return m_time_shoot;  }
+    inline float getTimeDrop()   const { return _time_drop;   }
+    inline float getTimeLaunch() const { return _time_launch; }
+    inline float getTimeShoot()  const { return _time_shoot;  }
 
-    inline float getAltitudeASL()   const { return m_altitude_asl;  }
-    inline float getAltitudeAGL()   const { return m_altitude_agl;  }
-    inline float getAirspeed()      const { return m_airspeed;      }
-    inline float getClimbRate()     const { return m_climbRate;     }
-    inline float getMachNumber()    const { return m_machNumber;    }
-    inline float getAngleOfAttack() const { return m_angleOfAttack; }
-    inline float getSideslipAngle() const { return m_sideslipAngle; }
-    inline float getPathAngle()     const { return m_pathAngle;     }
-    inline float getRollAngle()     const { return m_rollAngle;     }
-    inline float getPitchAngle()    const { return m_pitchAngle;    }
-    inline float getHeading()       const { return m_heading;       }
-    inline float getTurnRate()      const { return m_turnRate;      }
+    inline float getAltitudeASL()   const { return _altitude_asl;  }
+    inline float getAltitudeAGL()   const { return _altitude_agl;  }
+    inline float getAirspeed()      const { return _airspeed;      }
+    inline float getClimbRate()     const { return _climbRate;     }
+    inline float getMachNumber()    const { return _machNumber;    }
+    inline float getAngleOfAttack() const { return _angleOfAttack; }
+    inline float getSideslipAngle() const { return _sideslipAngle; }
+    inline float getPathAngle()     const { return _pathAngle;     }
+    inline float getRollAngle()     const { return _rollAngle;     }
+    inline float getPitchAngle()    const { return _pitchAngle;    }
+    inline float getHeading()       const { return _heading;       }
+    inline float getTurnRate()      const { return _turnRate;      }
 
     /** Returns aircraft speed corresponding to the given throttle position. */
     virtual float getSpeed( float throttle );
@@ -193,113 +193,113 @@ public:
 
 protected:
 
-    WreckageAircraft *m_wreckage;   ///< aircraft wreckage entity
+    WreckageAircraft *_wreckage;    ///< aircraft wreckage entity
 
-    osg::ref_ptr<osg::Node> m_model;                ///< aircraft model node
-    osg::ref_ptr<osg::StateSet> m_modelStateSet;    ///< aircraft model node state set
+    osg::ref_ptr<osg::Node> _model;                 ///< aircraft model node
+    osg::ref_ptr<osg::StateSet> _modelStateSet;     ///< aircraft model node state set
 
-    osg::ref_ptr<Effects::Smoke> m_smokeTrail;      ///< smoke trail
+    osg::ref_ptr<Effects::Smoke> _smokeTrail;       ///< smoke trail
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_aileronL;    ///< left aileron deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_aileronR;    ///< right aileron deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_elevator;    ///< elevator deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_rudderL;     ///<
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_rudderR;     ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _aileronL;     ///< left aileron deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _aileronR;     ///< right aileron deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _elevator;     ///< elevator deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _rudderL;      ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _rudderR;      ///<
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_propeller1;  ///<
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_propeller2;  ///<
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_propeller3;  ///<
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_propeller4;  ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _propeller1;   ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _propeller2;   ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _propeller3;   ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _propeller4;   ///<
 
-    osg::ref_ptr<osg::Switch> m_flashSwitch;                                ///< fighter muzzle flash switch node
-    std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > m_flashPAT; ///< fighter muzzle flash PAT
+    osg::ref_ptr<osg::Switch> _flashSwitch;                                 ///< fighter muzzle flash switch node
+    std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > _flashPAT;  ///< fighter muzzle flash PAT
 
-    Flashes m_flashes;              ///< gun flashes data
-    Muzzles m_muzzles;              ///< gun muzzles data (projectile start point)
+    Flashes _flashes;               ///< gun flashes data
+    Muzzles _muzzles;               ///< gun muzzles data (projectile start point)
 
-    float m_time_p;                 ///< [s] roll inertia time constant
-    float m_time_q;                 ///< [s] pitch inertia time constant
-    float m_time_r;                 ///< [s] yaw inertia time constant
-    float m_time_v;                 ///< [s] speed inertia time constant
+    float _time_p;                  ///< [s] roll inertia time constant
+    float _time_q;                  ///< [s] pitch inertia time constant
+    float _time_r;                  ///< [s] yaw inertia time constant
+    float _time_v;                  ///< [s] speed inertia time constant
 
-    float m_speed_min;              ///< [m/s] min speed
-    float m_speed_max;              ///< [m/s] max speed
+    float _speed_min;               ///< [m/s] min speed
+    float _speed_max;               ///< [m/s] max speed
 
-    float m_roll_max;               ///< [rad] max roll angle
-    float m_turn_max;               ///< [rad/s] max turn rate
+    float _roll_max;                ///< [rad] max roll angle
+    float _turn_max;                ///< [rad/s] max turn rate
 
-    PID *m_pid_phi;                 ///< roll PID controller
+    PID *_pid_phi;                  ///< roll PID controller
 
-    PID *m_pid_p;                   ///< roll rate PID controller
-    PID *m_pid_q;                   ///< pitch rate PID controller
-    PID *m_pid_r;                   ///< yaw rate PID controller
+    PID *_pid_p;                    ///< roll rate PID controller
+    PID *_pid_q;                    ///< pitch rate PID controller
+    PID *_pid_r;                    ///< yaw rate PID controller
 
-    bool m_enroute;                 ///< specifies if aircraft is enroute
-    bool m_wingman;                 ///< specifies if aircraft is a wingman
+    bool _enroute;                  ///< specifies if aircraft is enroute
+    bool _wingman;                  ///< specifies if aircraft is a wingman
 
-    UInt32 m_wingmenCount;          ///< number of aircraft following wingmen
+    UInt32 _wingmenCount;           ///< number of aircraft following wingmen
 
-    UInt32 m_leaderId;              ///< leader ID
+    UInt32 _leaderId;               ///< leader ID
 
-    Vec3 m_wingmanOffset;           ///< [m] offset to leader
+    Vec3 _wingmanOffset;            ///< [m] offset to leader
 
-    bool m_leaderValid;             ///< specifies if formation leader is valid
-    bool m_formation;               ///< specifief if aircraft is in formation
+    bool _leaderValid;              ///< specifies if formation leader is valid
+    bool _formation;                ///< specifief if aircraft is in formation
 
-    WaypointData m_destination;     ///< current destination (e.i.: true waypoint, target position, etc.)
+    WaypointData _destination;      ///< current destination (e.i.: true waypoint, target position, etc.)
 
-    UInt32 m_waypointIndex;         ///< current waypoint index
+    UInt32 _waypointIndex;          ///< current waypoint index
 
-    float m_destDist;               ///< [m] distance to the current destination
-    float m_destBear;               ///< [rad] bearing of the current destination
-    float m_destElev;               ///< [rad] elevation of the current destination
+    float _destDist;                ///< [m] distance to the current destination
+    float _destBear;                ///< [rad] bearing of the current destination
+    float _destElev;                ///< [rad] elevation of the current destination
 
-    bool m_destValid;               ///< specifies if destination is valid
+    bool _destValid;                ///< specifies if destination is valid
 
-    Route m_route;                  ///< route (waypoints list)
+    Route _route;                   ///< route (waypoints list)
 
-    float m_ctrlRoll;               ///< [-] roll control
-    float m_ctrlPitch;              ///< [-] pitch control
-    float m_ctrlYaw;                ///< [-] yaw control
-    float m_throttle;               ///< [-] throttle
+    float _ctrlRoll;                ///< [-] roll control
+    float _ctrlPitch;               ///< [-] pitch control
+    float _ctrlYaw;                 ///< [-] yaw control
+    float _throttle;                ///< [-] throttle
 
-    float m_initThrottle;           ///< [-] initial throttle position
+    float _initThrottle;            ///< [-] initial throttle position
 
-    float m_prop_angle;             ///< [rad]   propeller angle
-    float m_prop_speed;             ///< [rad/s] propeller speed
+    float _prop_angle;              ///< [rad]   propeller angle
+    float _prop_speed;              ///< [rad/s] propeller speed
 
-    float m_maxAilerons;            ///< [rad] maximum ailerons deflection
-    float m_maxElevator;            ///< [rad] maximum elevator deflection
-    float m_maxRudder;              ///< [rad] maximum rudder deflection
+    float _maxAilerons;             ///< [rad] maximum ailerons deflection
+    float _maxElevator;             ///< [rad] maximum elevator deflection
+    float _maxRudder;               ///< [rad] maximum rudder deflection
 
-    std::string m_livery;           ///< livery path
+    std::string _livery;            ///< livery path
 
-    bool m_unique;                  ///< specifies if aircraft is unique (e.i. has unique painting)
+    bool _unique;                   ///< specifies if aircraft is unique (e.i. has unique painting)
 
-    bool m_trigger;                 ///< trigger
+    bool _trigger;                  ///< trigger
 
-    short m_flash_count;            ///< muzzle flash counter
-    short m_flash_devider;          ///< muzzle flash devider
-    float m_flash_angle;            ///< [rad] muzzle flash "roll" angle
+    short _flash_count;             ///< muzzle flash counter
+    short _flash_devider;           ///< muzzle flash devider
+    float _flash_angle;             ///< [rad] muzzle flash "roll" angle
 
-    float m_time_drop;              ///< [s] time since last bomb dropped
-    float m_time_launch;            ///< [s] time since last rocket launched
-    float m_time_shoot;             ///< [s] time since last shot
+    float _time_drop;               ///< [s] time since last bomb dropped
+    float _time_launch;             ///< [s] time since last rocket launched
+    float _time_shoot;              ///< [s] time since last shot
 
-    float m_elevation;              ///< [m] terrain elevation
+    float _elevation;               ///< [m] terrain elevation
 
-    float m_altitude_asl;           ///< [m] altitude above sea level
-    float m_altitude_agl;           ///< [m] altitude above ground level
-    float m_airspeed;               ///< [m/s] true airspeed
-    float m_climbRate;              ///< [m/s] climb rate
-    float m_machNumber;             ///< [-] Mach number (not computed in simplified flight model)
-    float m_angleOfAttack;          ///< [rad] angle of attack (not computed in simplified flight model)
-    float m_sideslipAngle;          ///< [rad] sideslip angle (not computed in simplified flight model)
-    float m_pathAngle;              ///< [rad] flight path angle (not computed in simplified flight model)
-    float m_rollAngle;              ///< [rad]
-    float m_pitchAngle;             ///< [rad]
-    float m_heading;                ///< [rad] true heading
-    float m_turnRate;               ///< [rad/s] turn rate
+    float _altitude_asl;            ///< [m] altitude above sea level
+    float _altitude_agl;            ///< [m] altitude above ground level
+    float _airspeed;                ///< [m/s] true airspeed
+    float _climbRate;               ///< [m/s] climb rate
+    float _machNumber;              ///< [-] Mach number (not computed in simplified flight model)
+    float _angleOfAttack;           ///< [rad] angle of attack (not computed in simplified flight model)
+    float _sideslipAngle;           ///< [rad] sideslip angle (not computed in simplified flight model)
+    float _pathAngle;               ///< [rad] flight path angle (not computed in simplified flight model)
+    float _rollAngle;               ///< [rad]
+    float _pitchAngle;              ///< [rad]
+    float _heading;                 ///< [rad] true heading
+    float _turnRate;                ///< [rad/s] turn rate
 
     /**
      * @brief Creates muzzle flashes.

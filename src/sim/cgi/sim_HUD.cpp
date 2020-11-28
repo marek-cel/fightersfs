@@ -42,34 +42,34 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const UInt16 HUD::m_maxRadarMarks = 16;
+const UInt16 HUD::_maxRadarMarks = 16;
 
-const float HUD::m_sizeCaptions  = 17.50f;
-const float HUD::m_sizePlayerBar =  8.75f;
-const float HUD::m_sizeMessage   =  8.75f;
+const float HUD::_sizeCaptions  = 17.50f;
+const float HUD::_sizePlayerBar =  8.75f;
+const float HUD::_sizeMessage   =  8.75f;
 
-const float HUD::m_deg2px = 600.0f / 90.0f;
-const float HUD::m_rad2px = Convert::rad2deg( HUD::m_deg2px );
+const float HUD::_deg2px = 600.0f / 90.0f;
+const float HUD::_rad2px = Convert::rad2deg( HUD::_deg2px );
 
-const float HUD::m_rad11deg = Convert::deg2rad( 11.0f );
+const float HUD::_rad11deg = Convert::deg2rad( 11.0f );
 
 ////////////////////////////////////////////////////////////////////////////////
 
 HUD::HUD( float linesWidth, int width, int height ) :
-    m_linesWidth ( linesWidth ),
+    _linesWidth ( linesWidth ),
 
-    m_width  ( width ),
-    m_height ( height ),
+    _width  ( width ),
+    _height ( height ),
 
-    m_maxX ( floor( 100.0f * (float)( m_width ) / (float)( m_height ) + 0.5f ) ),
+    _maxX ( floor( 100.0f * (float)( _width ) / (float)( _height ) + 0.5f ) ),
 
-    m_tutorial ( false ),
+    _tutorial ( false ),
 
-    m_timerTutorial ( 0.0f )
+    _timerTutorial ( 0.0f )
 {
-    m_root = new osg::Group();
+    _root = new osg::Group();
 
-    osg::ref_ptr<osg::StateSet> stateSet = m_root->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
 
     stateSet->setMode( GL_RESCALE_NORMAL , osg::StateAttribute::ON  );
     stateSet->setMode( GL_LIGHTING       , osg::StateAttribute::OFF );
@@ -81,7 +81,7 @@ HUD::HUD( float linesWidth, int width, int height ) :
     stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
     stateSet->setRenderBinDetails( SIM_DEPTH_SORTED_BIN_HUD, "RenderBin" );
 
-    m_root->addChild( SplashScreen::create( width, height ) );
+    _root->addChild( SplashScreen::create( width, height ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -92,19 +92,19 @@ HUD::~HUD() {}
 
 void HUD::init( bool tutorial )
 {
-    m_tutorial = tutorial;
+    _tutorial = tutorial;
 
-    if ( m_root->getNumChildren() > 0 )
+    if ( _root->getNumChildren() > 0 )
     {
-        m_root->removeChildren( 0, m_root->getNumChildren() );
+        _root->removeChildren( 0, _root->getNumChildren() );
     }
 
-    m_switch = new osg::Switch();
-    m_root->addChild( m_switch.get() );
+    _switch = new osg::Switch();
+    _root->addChild( _switch.get() );
 
     Fonts::reset();
 
-    m_font = Fonts::get( getPath( "fonts/fsg_stencil.ttf" ) );
+    _font = Fonts::get( getPath( "fonts/fsg_stencil.ttf" ) );
 
 #   ifndef SIM_DESKTOP
     createControls();
@@ -120,7 +120,7 @@ void HUD::init( bool tutorial )
     createCaption();
     createMessage();
 
-    if ( m_tutorial )
+    if ( _tutorial )
     {
         createTutorialSymbols();
     }
@@ -139,7 +139,7 @@ void HUD::update()
     {
         if ( !Data::get()->message.visible || !Data::get()->message.overlay )
         {
-            m_switch->setAllChildrenOn();
+            _switch->setAllChildrenOn();
 
             updateControls();
             updateCrosshair();
@@ -149,19 +149,19 @@ void HUD::update()
             updateTargetIndicators();
             updateWaypointIndicators();
 
-            if ( m_tutorial )
+            if ( _tutorial )
             {
                 updateTutorialSymbols();
             }
         }
         else
         {
-            m_switch->setAllChildrenOff();
+            _switch->setAllChildrenOff();
         }
     }
     else
     {
-        m_switch->setAllChildrenOff();
+        _switch->setAllChildrenOff();
     }
 
     updateCaption();
@@ -229,29 +229,29 @@ void HUD::createBox( osg::Geode *geode, osg::Vec4 color, float width )
 
 void HUD::createCaption()
 {
-    m_patCaption = new osg::PositionAttitudeTransform();
-    m_root->addChild( m_patCaption.get() );
+    _patCaption = new osg::PositionAttitudeTransform();
+    _root->addChild( _patCaption.get() );
 
-    m_patCaption->setPosition( osg::Vec3( 0.0, 25.0f, -1.0 ) );
+    _patCaption->setPosition( osg::Vec3( 0.0, 25.0f, -1.0 ) );
 
-    m_switchCaption = new osg::Switch();
-    m_patCaption->addChild( m_switchCaption.get() );
+    _switchCaption = new osg::Switch();
+    _patCaption->addChild( _switchCaption.get() );
 
-    m_textCaption = new osgText::Text();
+    _textCaption = new osgText::Text();
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_switchCaption->addChild( geode.get() );
+    _switchCaption->addChild( geode.get() );
 
-    if ( m_font.valid() ) m_textCaption->setFont( m_font );
-    m_textCaption->setColor( osg::Vec4( Color::red, 0.8f ) );
-    m_textCaption->setCharacterSize( m_sizeCaptions );
-    m_textCaption->setAxisAlignment( osgText::TextBase::XY_PLANE );
-    m_textCaption->setPosition( osg::Vec3( 0.0f, 0.0f, 0.0f ) );
-    m_textCaption->setLayout( osgText::Text::LEFT_TO_RIGHT );
-    m_textCaption->setAlignment( osgText::Text::CENTER_CENTER );
-    m_textCaption->setText( "CAPTION" );
+    if ( _font.valid() ) _textCaption->setFont( _font );
+    _textCaption->setColor( osg::Vec4( Color::red, 0.8f ) );
+    _textCaption->setCharacterSize( _sizeCaptions );
+    _textCaption->setAxisAlignment( osgText::TextBase::XY_PLANE );
+    _textCaption->setPosition( osg::Vec3( 0.0f, 0.0f, 0.0f ) );
+    _textCaption->setLayout( osgText::Text::LEFT_TO_RIGHT );
+    _textCaption->setAlignment( osgText::Text::CENTER_CENTER );
+    _textCaption->setText( "CAPTION" );
 
-    geode->addDrawable( m_textCaption );
+    geode->addDrawable( _textCaption );
 
     osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
@@ -261,9 +261,9 @@ void HUD::createCaption()
     stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
     stateSet->setRenderBinDetails( SIM_DEPTH_SORTED_BIN_MSG, "RenderBin" );
 
-    geode->addDrawable( m_textMessage );
+    geode->addDrawable( _textMessage );
 
-    m_switchCaption->setAllChildrenOff();
+    _switchCaption->setAllChildrenOff();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -272,9 +272,9 @@ void HUD::createCaption()
 void HUD::createControls()
 {
     // material
-    m_materialControls = new osg::Material();
-    m_materialControls->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4( Color::white, 0.4f ) );
-    m_materialControls->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4( Color::white, 0.4f ) );
+    _materialControls = new osg::Material();
+    _materialControls->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4( Color::white, 0.4f ) );
+    _materialControls->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4( Color::white, 0.4f ) );
 
     createControlsThrottle();
     createControlsTrigger();
@@ -285,14 +285,14 @@ void HUD::createControls()
 void HUD::createControlsThrottle()
 {
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-    m_switch->addChild( pat.get() );
+    _switch->addChild( pat.get() );
 
-    m_patControlsThrottle = new osg::PositionAttitudeTransform();
-    pat->addChild( m_patControlsThrottle.get() );
+    _patControlsThrottle = new osg::PositionAttitudeTransform();
+    pat->addChild( _patControlsThrottle.get() );
 
-    pat->setPosition( osg::Vec3( -m_maxX, 10.0, 0.0 ) );
+    pat->setPosition( osg::Vec3( -_maxX, 10.0, 0.0 ) );
 
-    createControlsThrottleGrip( m_patControlsThrottle.get(), 0.4f );
+    createControlsThrottleGrip( _patControlsThrottle.get(), 0.4f );
 
     // base
     {
@@ -338,7 +338,7 @@ void HUD::createControlsThrottle()
 
         osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
-        stateSet->setAttribute( m_materialControls.get() );
+        stateSet->setAttribute( _materialControls.get() );
         stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
         stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
         stateSet->setRenderBinDetails( SIM_DEPTH_SORTED_BIN_HUD, "RenderBin" );
@@ -348,25 +348,25 @@ void HUD::createControlsThrottle()
     }
 
     // pointer
-    if ( m_tutorial )
+    if ( _tutorial )
     {
-        m_switchPointerRpm = new osg::Switch();
-        pat->addChild( m_switchPointerRpm.get() );
+        _switchPointerRpm = new osg::Switch();
+        pat->addChild( _switchPointerRpm.get() );
 
-        m_patPointerRpm = new osg::PositionAttitudeTransform();
-        m_switchPointerRpm->addChild( m_patPointerRpm.get() );
+        _patPointerRpm = new osg::PositionAttitudeTransform();
+        _switchPointerRpm->addChild( _patPointerRpm.get() );
 
-        createControlsThrottleGrip( m_patPointerRpm.get(), 0.2f, -1.0f );
+        createControlsThrottleGrip( _patPointerRpm.get(), 0.2f, -1.0f );
 
         osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-        m_patPointerRpm->addChild( pat.get() );
+        _patPointerRpm->addChild( pat.get() );
 
         createPointer( pat.get() );
 
         pat->setAttitude( osg::Quat( M_PI_2, osg::Z_AXIS ) );
         pat->setPosition( osg::Vec3( 52.0f, 0.0f, 0.0f ) );
 
-        m_switchPointerRpm->setAllChildrenOff();
+        _switchPointerRpm->setAllChildrenOff();
     }
 }
 
@@ -417,7 +417,7 @@ void HUD::createControlsThrottleGrip( osg::Group *parent, float alpha, float z_o
 
     osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
-    stateSet->setAttribute( m_materialControls.get() );
+    stateSet->setAttribute( _materialControls.get() );
     stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
     stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
     stateSet->setRenderBinDetails( SIM_DEPTH_SORTED_BIN_HUD + (int)z_offset, "RenderBin" );
@@ -434,26 +434,26 @@ void HUD::createControlsTrigger()
     const float dx =  5.0f;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-    m_switch->addChild( pat.get() );
+    _switch->addChild( pat.get() );
 
-    pat->setPosition( osg::Vec3( m_maxX - dx - r, 0.0, 0.0 ) );
+    pat->setPosition( osg::Vec3( _maxX - dx - r, 0.0, 0.0 ) );
 
-    m_switchTrigger = new osg::Switch();
-    pat->addChild( m_switchTrigger.get() );
+    _switchTrigger = new osg::Switch();
+    pat->addChild( _switchTrigger.get() );
 
-    createFace( m_switchTrigger.get(), r, m_materialControls.get(), "textures/hud_trigger_0.rgb", 0.4f );
-    createFace( m_switchTrigger.get(), r, m_materialControls.get(), "textures/hud_trigger_1.rgb", 0.4f );
+    createFace( _switchTrigger.get(), r, _materialControls.get(), "textures/hud_trigger_0.rgb", 0.4f );
+    createFace( _switchTrigger.get(), r, _materialControls.get(), "textures/hud_trigger_1.rgb", 0.4f );
 
-    m_switchTrigger->setSingleChildOn( 0 );
+    _switchTrigger->setSingleChildOn( 0 );
 
-    if ( m_tutorial )
+    if ( _tutorial )
     {
-        m_switchPointerTrigger = new osg::Switch();
-        pat->addChild( m_switchPointerTrigger.get() );
+        _switchPointerTrigger = new osg::Switch();
+        pat->addChild( _switchPointerTrigger.get() );
 
         osg::ref_ptr<osg::PositionAttitudeTransform> patPointer = new osg::PositionAttitudeTransform();
 
-        m_switchPointerTrigger->addChild( patPointer.get() );
+        _switchPointerTrigger->addChild( patPointer.get() );
 
         patPointer->setPosition( osg::Vec3( -33.0f, 0.0f, 0.0f ) );
         patPointer->setAttitude( osg::Quat( -M_PI_2, osg::Z_AXIS ) );
@@ -461,7 +461,7 @@ void HUD::createControlsTrigger()
         createPointer( patPointer.get() );
 
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_switchPointerTrigger->addChild( geode.get() );
+        _switchPointerTrigger->addChild( geode.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
         geode->addDrawable( geometry.get() );
@@ -502,7 +502,7 @@ void HUD::createControlsTrigger()
         geometry->setColorArray( c.get() );
         geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
-        m_switchPointerTrigger->setAllChildrenOff();
+        _switchPointerTrigger->setAllChildrenOff();
     }
 }
 #endif
@@ -513,11 +513,11 @@ void HUD::createCrosshair()
 {
     const float r = 10.0f;
 
-    m_patCrosshair = new osg::PositionAttitudeTransform();
-    m_switch->addChild( m_patCrosshair.get() );
+    _patCrosshair = new osg::PositionAttitudeTransform();
+    _switch->addChild( _patCrosshair.get() );
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_patCrosshair->addChild( geode.get() );
+    _patCrosshair->addChild( geode.get() );
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -553,7 +553,7 @@ void HUD::createCrosshair()
 
     osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
-    stateSet->setAttribute( m_materialIndicators.get() );
+    stateSet->setAttribute( _materialIndicators.get() );
     stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
     stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
     stateSet->setRenderBinDetails( SIM_DEPTH_SORTED_BIN_HUD + 1, "RenderBin" );
@@ -625,16 +625,16 @@ void HUD::createHitIndicator()
 
     const float step = ( a_max - a_min ) / ( steps - 1 );
 
-    m_patHitIndicator = new osg::PositionAttitudeTransform();
-    m_switch->addChild( m_patHitIndicator.get() );
+    _patHitIndicator = new osg::PositionAttitudeTransform();
+    _switch->addChild( _patHitIndicator.get() );
 
-    m_patHitIndicator->setPosition( osg::Vec3( 0.0f, -40.0f, 0.0f ) );
+    _patHitIndicator->setPosition( osg::Vec3( 0.0f, -40.0f, 0.0f ) );
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_patHitIndicator->addChild( geode.get() );
+    _patHitIndicator->addChild( geode.get() );
 
-    m_hitIndicator = new osg::Geometry();
-    geode->addDrawable( m_hitIndicator.get() );
+    _hitIndicator = new osg::Geometry();
+    geode->addDrawable( _hitIndicator.get() );
 
     osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
     osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
@@ -658,14 +658,14 @@ void HUD::createHitIndicator()
 
     n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-    m_hitIndicator->setVertexArray( v.get() );
-    m_hitIndicator->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLE_STRIP, 0, v->size() ) );
+    _hitIndicator->setVertexArray( v.get() );
+    _hitIndicator->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLE_STRIP, 0, v->size() ) );
 
-    m_hitIndicator->setColorArray( c.get() );
-    m_hitIndicator->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
+    _hitIndicator->setColorArray( c.get() );
+    _hitIndicator->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 
-    m_hitIndicator->setNormalArray( n.get() );
-    m_hitIndicator->setNormalBinding( osg::Geometry::BIND_OVERALL );
+    _hitIndicator->setNormalArray( n.get() );
+    _hitIndicator->setNormalBinding( osg::Geometry::BIND_OVERALL );
 
     osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
@@ -680,8 +680,8 @@ void HUD::createHitIndicator()
 
 void HUD::createEnemyIndicators()
 {
-    m_switchEnemyIndicators = new osg::Switch();
-    m_switch->addChild( m_switchEnemyIndicators.get() );
+    _switchEnemyIndicators = new osg::Switch();
+    _switch->addChild( _switchEnemyIndicators.get() );
 
     osg::ref_ptr< osg::Geode > geodeBox = new osg::Geode();
     osg::ref_ptr< osg::Geode > geodeDir = new osg::Geode();
@@ -689,23 +689,23 @@ void HUD::createEnemyIndicators()
     createBox( geodeBox.get(), osg::Vec4( Color::red, 0.7f ), 0.5f );
     createDir( geodeDir.get(), osg::Vec4( Color::red, 0.7f ) );
 
-    for ( UInt16 i = 0; i < m_maxRadarMarks; i++ )
+    for ( UInt16 i = 0; i < _maxRadarMarks; i++ )
     {
         osg::ref_ptr<osg::PositionAttitudeTransform> patEnemyBox = new osg::PositionAttitudeTransform();
-        m_switchEnemyIndicators->addChild( patEnemyBox.get() );
+        _switchEnemyIndicators->addChild( patEnemyBox.get() );
 
-        m_patEnemyBox.push_back( patEnemyBox.get() );
+        _patEnemyBox.push_back( patEnemyBox.get() );
 
         osg::ref_ptr<osg::PositionAttitudeTransform> patEnemyDir = new osg::PositionAttitudeTransform();
-        m_switchEnemyIndicators->addChild( patEnemyDir.get() );
+        _switchEnemyIndicators->addChild( patEnemyDir.get() );
 
-        m_patEnemyDir.push_back( patEnemyDir.get() );
+        _patEnemyDir.push_back( patEnemyDir.get() );
 
         patEnemyBox->addChild( geodeBox );
         patEnemyDir->addChild( geodeDir );
     }
 
-    m_switchEnemyIndicators->setAllChildrenOff();
+    _switchEnemyIndicators->setAllChildrenOff();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -776,16 +776,16 @@ void HUD::createFace( osg::Group *parent, float radius,
 
 void HUD::createIndicators()
 {
-    m_geodeRadarMarkEnemy  = new osg::Geode();
-    m_geodeRadarMarkFriend = new osg::Geode();
+    _geodeRadarMarkEnemy  = new osg::Geode();
+    _geodeRadarMarkFriend = new osg::Geode();
 
-    createRadarMark( m_geodeRadarMarkEnemy.get()  , osg::Vec4( Color::red  , 1.0f ) );
-    createRadarMark( m_geodeRadarMarkFriend.get() , osg::Vec4( Color::lime , 1.0f ) );
+    createRadarMark( _geodeRadarMarkEnemy.get()  , osg::Vec4( Color::red  , 1.0f ) );
+    createRadarMark( _geodeRadarMarkFriend.get() , osg::Vec4( Color::lime , 1.0f ) );
 
     // material
-    m_materialIndicators = new osg::Material();
-    m_materialIndicators->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4( Color::white, 0.7f ) );
-    m_materialIndicators->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4( Color::white, 0.7f ) );
+    _materialIndicators = new osg::Material();
+    _materialIndicators->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4( Color::white, 0.7f ) );
+    _materialIndicators->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4( Color::white, 0.7f ) );
 
     createIndicatorALT();
     createIndicatorASI();
@@ -838,24 +838,24 @@ void HUD::createIndicatorALT()
     const float r =  20.0f;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-    m_switch->addChild( pat.get() );
+    _switch->addChild( pat.get() );
 
     pat->setPosition( osg::Vec3( x, y, -1.0f ) );
 
-    createFace( pat.get(), r, m_materialIndicators.get(), "textures/hud_altitude.rgb", 0.7f );
+    createFace( pat.get(), r, _materialIndicators.get(), "textures/hud_altitude.rgb", 0.7f );
 
-    m_patIndicatorALT1 = new osg::PositionAttitudeTransform();
-    m_patIndicatorALT2 = new osg::PositionAttitudeTransform();
+    _patIndicatorALT1 = new osg::PositionAttitudeTransform();
+    _patIndicatorALT2 = new osg::PositionAttitudeTransform();
 
-    pat->addChild( m_patIndicatorALT1.get() );
-    pat->addChild( m_patIndicatorALT2.get() );
+    pat->addChild( _patIndicatorALT1.get() );
+    pat->addChild( _patIndicatorALT2.get() );
 
     // arrow 1
     {
         const float l = 10.0f;
         const float w =  2.5f;
 
-        createIndicatorHand( m_patIndicatorALT1.get(), l, w );
+        createIndicatorHand( _patIndicatorALT1.get(), l, w );
     }
 
     // arrow 2
@@ -863,7 +863,7 @@ void HUD::createIndicatorALT()
         const float l = 15.0f;
         const float w =  1.5f;
 
-        createIndicatorHand( m_patIndicatorALT2.get(), l, w );
+        createIndicatorHand( _patIndicatorALT2.get(), l, w );
     }
 }
 
@@ -876,19 +876,19 @@ void HUD::createIndicatorASI()
     const float r =  15.0f;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-    m_switch->addChild( pat.get() );
+    _switch->addChild( pat.get() );
 
     pat->setPosition( osg::Vec3( x, y, -1.0f ) );
 
-    createFace( pat.get(), r, m_materialIndicators.get(), "textures/hud_airspeed.rgb", 0.7f );
+    createFace( pat.get(), r, _materialIndicators.get(), "textures/hud_airspeed.rgb", 0.7f );
 
-    m_patIndicatorASI = new osg::PositionAttitudeTransform();
-    pat->addChild( m_patIndicatorASI.get() );
+    _patIndicatorASI = new osg::PositionAttitudeTransform();
+    pat->addChild( _patIndicatorASI.get() );
 
     const float l = 11.0f;
     const float w =  1.5f;
 
-    createIndicatorHand( m_patIndicatorASI.get(), l, w );
+    createIndicatorHand( _patIndicatorASI.get(), l, w );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -900,35 +900,35 @@ void HUD::createIndicatorRadar()
     const float r =  20.0f;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-    m_switch->addChild( pat.get() );
+    _switch->addChild( pat.get() );
 
     pat->setPosition( osg::Vec3( x, y, -1.0f ) );
 
-    m_patIndicatorRadar = new osg::PositionAttitudeTransform();
-    pat->addChild( m_patIndicatorRadar.get() );
+    _patIndicatorRadar = new osg::PositionAttitudeTransform();
+    pat->addChild( _patIndicatorRadar.get() );
 
-    m_switchRadarMarksEnemy  = new osg::Switch();
-    m_switchRadarMarksFriend = new osg::Switch();
+    _switchRadarMarksEnemy  = new osg::Switch();
+    _switchRadarMarksFriend = new osg::Switch();
 
-    m_patIndicatorRadar->addChild( m_switchRadarMarksEnemy.get() );
-    m_patIndicatorRadar->addChild( m_switchRadarMarksFriend.get() );
+    _patIndicatorRadar->addChild( _switchRadarMarksEnemy.get() );
+    _patIndicatorRadar->addChild( _switchRadarMarksFriend.get() );
 
-    for ( UInt16 i = 0; i < m_maxRadarMarks; i++ )
+    for ( UInt16 i = 0; i < _maxRadarMarks; i++ )
     {
         osg::ref_ptr<osg::PositionAttitudeTransform> patE = new osg::PositionAttitudeTransform();
         osg::ref_ptr<osg::PositionAttitudeTransform> patF = new osg::PositionAttitudeTransform();
 
-        m_switchRadarMarksEnemy->addChild( patE.get() );
-        m_switchRadarMarksFriend->addChild( patF.get() );
+        _switchRadarMarksEnemy  ->addChild( patE.get() );
+        _switchRadarMarksFriend ->addChild( patF.get() );
 
-        patE->addChild( m_geodeRadarMarkEnemy.get() );
-        patF->addChild( m_geodeRadarMarkFriend.get() );
+        patE->addChild( _geodeRadarMarkEnemy.get() );
+        patF->addChild( _geodeRadarMarkFriend.get() );
 
-        m_patRadarMarksEnemy.push_back( patE.get() );
-        m_patRadarMarksFriend.push_back( patF.get() );
+        _patRadarMarksEnemy.push_back( patE.get() );
+        _patRadarMarksFriend.push_back( patF.get() );
     }
 
-    createFace( pat.get(), r, m_materialIndicators.get(), "textures/hud_radar.rgb", 0.7f );
+    createFace( pat.get(), r, _materialIndicators.get(), "textures/hud_radar.rgb", 0.7f );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -940,29 +940,29 @@ void HUD::createIndicatorVSI()
     const float r =  15.0f;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-    m_switch->addChild( pat.get() );
+    _switch->addChild( pat.get() );
 
     pat->setPosition( osg::Vec3( x, y, -1.0f ) );
 
-    createFace( pat.get(), r, m_materialIndicators.get(), "textures/hud_climb_rate.rgb", 0.7f );
+    createFace( pat.get(), r, _materialIndicators.get(), "textures/hud_climb_rate.rgb", 0.7f );
 
-    m_patIndicatorVSI = new osg::PositionAttitudeTransform();
-    pat->addChild( m_patIndicatorVSI.get() );
+    _patIndicatorVSI = new osg::PositionAttitudeTransform();
+    pat->addChild( _patIndicatorVSI.get() );
 
     const float l = 11.0f;
     const float w =  1.5f;
 
-    createIndicatorHand( m_patIndicatorVSI.get(), l, w );
+    createIndicatorHand( _patIndicatorVSI.get(), l, w );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void HUD::createMessage()
 {
-    m_switchMessage = new osg::Switch();
-    m_root->addChild( m_switchMessage.get() );
+    _switchMessage = new osg::Switch();
+    _root->addChild( _switchMessage.get() );
 
-    m_switchMessage->setAllChildrenOff();
+    _switchMessage->setAllChildrenOff();
 
     const float dy = 60.0f;
 
@@ -976,18 +976,18 @@ void HUD::createMessage()
     // text
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_switchMessage->addChild( geode.get() );
+        _switchMessage->addChild( geode.get() );
 
-        m_textMessage = new osgText::Text();
+        _textMessage = new osgText::Text();
 
-        if ( m_font.valid() ) m_textMessage->setFont( m_font );
-        m_textMessage->setColor( osg::Vec4( Color::white, 1.0f ) );
-        m_textMessage->setCharacterSize( m_sizeMessage );
-        m_textMessage->setAxisAlignment( osgText::TextBase::XY_PLANE );
-        m_textMessage->setPosition( osg::Vec3( 0.0, dy, -0.5f ) );
-        m_textMessage->setLayout( osgText::Text::LEFT_TO_RIGHT );
-        m_textMessage->setAlignment( osgText::Text::CENTER_CENTER );
-        m_textMessage->setText( "" );
+        if ( _font.valid() ) _textMessage->setFont( _font );
+        _textMessage->setColor( osg::Vec4( Color::white, 1.0f ) );
+        _textMessage->setCharacterSize( _sizeMessage );
+        _textMessage->setAxisAlignment( osgText::TextBase::XY_PLANE );
+        _textMessage->setPosition( osg::Vec3( 0.0, dy, -0.5f ) );
+        _textMessage->setLayout( osgText::Text::LEFT_TO_RIGHT );
+        _textMessage->setAlignment( osgText::Text::CENTER_CENTER );
+        _textMessage->setText( "" );
 
         osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
@@ -997,13 +997,13 @@ void HUD::createMessage()
         stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
         stateSet->setRenderBinDetails( SIM_DEPTH_SORTED_BIN_MSG, "RenderBin" );
 
-        geode->addDrawable( m_textMessage );
+        geode->addDrawable( _textMessage );
     }
 
     // box
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_switchMessage->addChild( geode.get() );
+        _switchMessage->addChild( geode.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
         geode->addDrawable( geometry.get() );
@@ -1053,7 +1053,7 @@ void HUD::createMessage()
     // overlay
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_switchMessage->addChild( geode.get() );
+        _switchMessage->addChild( geode.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
         geode->addDrawable( geometry.get() );
@@ -1094,8 +1094,8 @@ void HUD::createMessage()
 
 void HUD::createPlayerBar()
 {
-    m_patPlayerBar = new osg::PositionAttitudeTransform();
-    m_switch->addChild( m_patPlayerBar.get() );
+    _patPlayerBar = new osg::PositionAttitudeTransform();
+    _switch->addChild( _patPlayerBar.get() );
 
     const float del = 1.0f;
 
@@ -1109,7 +1109,7 @@ void HUD::createPlayerBar()
     // box
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_switch->addChild( geode.get() );
+        _switch->addChild( geode.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -1151,10 +1151,10 @@ void HUD::createPlayerBar()
     // bar
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_patPlayerBar->addChild( geode.get() );
+        _patPlayerBar->addChild( geode.get() );
 
         //osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-        m_playerLifeBar = new osg::Geometry();
+        _playerLifeBar = new osg::Geometry();
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
@@ -1176,25 +1176,25 @@ void HUD::createPlayerBar()
         c->push_back( osg::Vec4( upper, 1.0f ) );
         c->push_back( osg::Vec4( lower, 1.0f ) );
 
-        m_playerLifeBar->setVertexArray( v.get() );
-        m_playerLifeBar->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, v->size() ) );
+        _playerLifeBar->setVertexArray( v.get() );
+        _playerLifeBar->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, v->size() ) );
 
-        m_playerLifeBar->setNormalArray( n.get() );
-        m_playerLifeBar->setNormalBinding( osg::Geometry::BIND_OVERALL );
+        _playerLifeBar->setNormalArray( n.get() );
+        _playerLifeBar->setNormalBinding( osg::Geometry::BIND_OVERALL );
 
-//        m_playerLifeBar->setColorArray( c.get() );
-//        m_playerLifeBar->setColorBinding( osg::Geometry::BIND_OVERALL );
+//        _playerLifeBar->setColorArray( c.get() );
+//        _playerLifeBar->setColorBinding( osg::Geometry::BIND_OVERALL );
 
-        m_playerLifeBar->setColorArray( c.get() );
-        m_playerLifeBar->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
+        _playerLifeBar->setColorArray( c.get() );
+        _playerLifeBar->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 
-        geode->addDrawable( m_playerLifeBar.get() );
+        geode->addDrawable( _playerLifeBar.get() );
     }
 
     // heart
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_switch->addChild( geode.get() );
+        _switch->addChild( geode.get() );
 
         const float hh = 10.0f;
         const float ww = 10.0f;
@@ -1238,7 +1238,7 @@ void HUD::createPlayerBar()
 
         osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
-        stateSet->setAttribute( m_materialIndicators.get() );
+        stateSet->setAttribute( _materialIndicators.get() );
         stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
         stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
         stateSet->setRenderBinDetails( SIM_DEPTH_SORTED_BIN_HUD + 1, "RenderBin" );
@@ -1250,20 +1250,20 @@ void HUD::createPlayerBar()
     // text - right
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_switch->addChild( geode.get() );
+        _switch->addChild( geode.get() );
 
-        m_textPlayerHP = new osgText::Text();
+        _textPlayerHP = new osgText::Text();
 
-        if ( m_font.valid() ) m_textPlayerHP->setFont( m_font );
-        m_textPlayerHP->setColor( osg::Vec4( Color::black, 1.0f ) );
-        m_textPlayerHP->setCharacterSize( m_sizePlayerBar );
-        m_textPlayerHP->setAxisAlignment( osgText::TextBase::XY_PLANE );
-        m_textPlayerHP->setPosition( osg::Vec3(  w_2 + 4.0f, d - 3.0f, -1.0f ) );
-        m_textPlayerHP->setLayout( osgText::Text::LEFT_TO_RIGHT );
-        m_textPlayerHP->setAlignment( osgText::Text::LEFT_BASE_LINE );
-        m_textPlayerHP->setText( "100" );
+        if ( _font.valid() ) _textPlayerHP->setFont( _font );
+        _textPlayerHP->setColor( osg::Vec4( Color::black, 1.0f ) );
+        _textPlayerHP->setCharacterSize( _sizePlayerBar );
+        _textPlayerHP->setAxisAlignment( osgText::TextBase::XY_PLANE );
+        _textPlayerHP->setPosition( osg::Vec3(  w_2 + 4.0f, d - 3.0f, -1.0f ) );
+        _textPlayerHP->setLayout( osgText::Text::LEFT_TO_RIGHT );
+        _textPlayerHP->setAlignment( osgText::Text::LEFT_BASE_LINE );
+        _textPlayerHP->setText( "100" );
 
-        geode->addDrawable( m_textPlayerHP );
+        geode->addDrawable( _textPlayerHP );
     }
 }
 
@@ -1345,12 +1345,12 @@ void HUD::createRadarMark( osg::Geode *geode, osg::Vec4 color )
     geometry->setColorArray( c.get() );
     geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
-    geode->setInitialBound( osg::BoundingSphere( osg::Vec3(0.0f,0.0f,0.0f), m_linesWidth ) );
+    geode->setInitialBound( osg::BoundingSphere( osg::Vec3(0.0f,0.0f,0.0f), _linesWidth ) );
 
     osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
     osg::ref_ptr<osg::Point> point = new osg::Point();
-    point->setSize( m_linesWidth );
+    point->setSize( _linesWidth );
 
     stateSet->setAttribute( point );
 //    stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
@@ -1362,27 +1362,27 @@ void HUD::createRadarMark( osg::Geode *geode, osg::Vec4 color )
 
 void HUD::createTargetIndicators()
 {
-    m_switchTargetIndicators = new osg::Switch();
-    m_switch->addChild( m_switchTargetIndicators.get() );
+    _switchTargetIndicators = new osg::Switch();
+    _switch->addChild( _switchTargetIndicators.get() );
 
-    m_patTargetBox = new osg::PositionAttitudeTransform();
-    m_switchTargetIndicators->addChild( m_patTargetBox.get() );
+    _patTargetBox = new osg::PositionAttitudeTransform();
+    _switchTargetIndicators->addChild( _patTargetBox.get() );
 
-    m_patTargetBar = new osg::PositionAttitudeTransform();
-    m_patTargetBox->addChild( m_patTargetBar.get() );
+    _patTargetBar = new osg::PositionAttitudeTransform();
+    _patTargetBox->addChild( _patTargetBar.get() );
 
-    m_patTargetCue = new osg::PositionAttitudeTransform();
-    m_switchTargetIndicators->addChild( m_patTargetCue.get() );
+    _patTargetCue = new osg::PositionAttitudeTransform();
+    _switchTargetIndicators->addChild( _patTargetCue.get() );
 
-    m_patTargetDir = new osg::PositionAttitudeTransform();
-    m_switchTargetIndicators->addChild( m_patTargetDir.get() );
+    _patTargetDir = new osg::PositionAttitudeTransform();
+    _switchTargetIndicators->addChild( _patTargetDir.get() );
 
     createTargetIndicatorBar();
     createTargetIndicatorBox();
     createTargetIndicatorCue();
     createTargetIndicatorDir();
 
-    m_switchTargetIndicators->setAllChildrenOff();
+    _switchTargetIndicators->setAllChildrenOff();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1401,7 +1401,7 @@ void HUD::createTargetIndicatorBar()
     // box
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_patTargetBox->addChild( geode.get() );
+        _patTargetBox->addChild( geode.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -1451,10 +1451,10 @@ void HUD::createTargetIndicatorBar()
     // bar
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_patTargetBar->addChild( geode.get() );
+        _patTargetBar->addChild( geode.get() );
 
         //osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-        m_targetLifeBar = new osg::Geometry();
+        _targetLifeBar = new osg::Geometry();
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
@@ -1470,16 +1470,16 @@ void HUD::createTargetIndicatorBar()
 
         c->push_back( osg::Vec4( Color::lime, 1.0f ) );
 
-        m_targetLifeBar->setVertexArray( v.get() );
-        m_targetLifeBar->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, v->size() ) );
+        _targetLifeBar->setVertexArray( v.get() );
+        _targetLifeBar->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, v->size() ) );
 
-        m_targetLifeBar->setNormalArray( n.get() );
-        m_targetLifeBar->setNormalBinding( osg::Geometry::BIND_OVERALL );
+        _targetLifeBar->setNormalArray( n.get() );
+        _targetLifeBar->setNormalBinding( osg::Geometry::BIND_OVERALL );
 
-        m_targetLifeBar->setColorArray( c.get() );
-        m_targetLifeBar->setColorBinding( osg::Geometry::BIND_OVERALL );
+        _targetLifeBar->setColorArray( c.get() );
+        _targetLifeBar->setColorBinding( osg::Geometry::BIND_OVERALL );
 
-        geode->addDrawable( m_targetLifeBar.get() );
+        geode->addDrawable( _targetLifeBar.get() );
 
         osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
@@ -1496,7 +1496,7 @@ void HUD::createTargetIndicatorBar()
 void HUD::createTargetIndicatorBox()
 {
     osg::ref_ptr< osg::Geode > geode = new osg::Geode();
-    m_patTargetBox->addChild( geode.get() );
+    _patTargetBox->addChild( geode.get() );
 
     createBox( geode.get(), osg::Vec4( Color::red, 0.7f ) );
 }
@@ -1509,7 +1509,7 @@ void HUD::createTargetIndicatorCue()
     const float ri = 1.0f;
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_patTargetCue->addChild( geode.get() );
+    _patTargetCue->addChild( geode.get() );
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -1547,7 +1547,7 @@ void HUD::createTargetIndicatorCue()
     osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
     osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
-    lineWidth->setWidth( m_linesWidth );
+    lineWidth->setWidth( _linesWidth );
 
     stateSet->setAttributeAndModes( lineWidth, osg::StateAttribute::ON );
 
@@ -1557,19 +1557,19 @@ void HUD::createTargetIndicatorCue()
     stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
     stateSet->setRenderBinDetails( SIM_DEPTH_SORTED_BIN_HUD, "RenderBin" );
 
-    if ( m_tutorial )
+    if ( _tutorial )
     {
-        m_switchPointerTarget = new osg::Switch();
-        m_patTargetCue->addChild( m_switchPointerTarget.get() );
+        _switchPointerTarget = new osg::Switch();
+        _patTargetCue->addChild( _switchPointerTarget.get() );
 
         osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-        m_switchPointerTarget->addChild( pat.get() );
+        _switchPointerTarget->addChild( pat.get() );
 
         pat->setPosition( osg::Vec3( 0.0f, -10.0f, 0.0f ) );
 
         createPointer( pat.get() );
 
-        m_switchPointerTarget->setAllChildrenOff();
+        _switchPointerTarget->setAllChildrenOff();
     }
 }
 
@@ -1578,7 +1578,7 @@ void HUD::createTargetIndicatorCue()
 void HUD::createTargetIndicatorDir()
 {
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_patTargetDir->addChild( geode.get() );
+    _patTargetDir->addChild( geode.get() );
 
     createDir( geode.get(), osg::Vec4( Color::red, 0.7f ) );
 }
@@ -1587,15 +1587,15 @@ void HUD::createTargetIndicatorDir()
 
 void HUD::createTutorialSymbols()
 {
-    m_switchPointerCustom = new osg::Switch();
-    m_switch->addChild( m_switchPointerCustom.get() );
+    _switchPointerCustom = new osg::Switch();
+    _switch->addChild( _switchPointerCustom.get() );
 
-    m_patPointerCustom = new osg::PositionAttitudeTransform();
-    m_switchPointerCustom->addChild( m_patPointerCustom.get() );
+    _patPointerCustom = new osg::PositionAttitudeTransform();
+    _switchPointerCustom->addChild( _patPointerCustom.get() );
 
-    createPointer( m_patPointerCustom.get() );
+    createPointer( _patPointerCustom.get() );
 
-    m_switchPointerCustom->setAllChildrenOff();
+    _switchPointerCustom->setAllChildrenOff();
 
 #   ifndef SIM_DESKTOP
     createTutorialTips();
@@ -1607,11 +1607,11 @@ void HUD::createTutorialSymbols()
 #ifndef SIM_DESKTOP
 void HUD::createTutorialTips()
 {
-    m_switchTutorialTips = new osg::Switch();
-    m_switch->addChild( m_switchTutorialTips.get() );
+    _switchTutorialTips = new osg::Switch();
+    _switch->addChild( _switchTutorialTips.get() );
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_switchTutorialTips->addChild( geode.get() );
+    _switchTutorialTips->addChild( geode.get() );
 
     const float d_y = -36.0f;
     const float w_2 =  36.0f;
@@ -1659,8 +1659,8 @@ void HUD::createTutorialTips()
 
     // tip
     {
-        m_tutorialTip = new osg::Geometry();
-        geode->addDrawable( m_tutorialTip.get() );
+        _tutorialTip = new osg::Geometry();
+        geode->addDrawable( _tutorialTip.get() );
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec2Array> t = new osg::Vec2Array();  // texcoords
@@ -1681,16 +1681,16 @@ void HUD::createTutorialTips()
 
         c->push_back( osg::Vec4( Color::white, 1.0f ) );
 
-        m_tutorialTip->setVertexArray( v.get() );
-        m_tutorialTip->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLE_FAN, 0, v->size() ) );
+        _tutorialTip->setVertexArray( v.get() );
+        _tutorialTip->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLE_FAN, 0, v->size() ) );
 
-        m_tutorialTip->setTexCoordArray( 0, t.get() );
+        _tutorialTip->setTexCoordArray( 0, t.get() );
 
-        m_tutorialTip->setNormalArray( n.get() );
-        m_tutorialTip->setNormalBinding( osg::Geometry::BIND_OVERALL );
+        _tutorialTip->setNormalArray( n.get() );
+        _tutorialTip->setNormalBinding( osg::Geometry::BIND_OVERALL );
 
-        m_tutorialTip->setColorArray( c.get() );
-        m_tutorialTip->setColorBinding( osg::Geometry::BIND_OVERALL );
+        _tutorialTip->setColorArray( c.get() );
+        _tutorialTip->setColorBinding( osg::Geometry::BIND_OVERALL );
     }
 
     osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
@@ -1701,7 +1701,7 @@ void HUD::createTutorialTips()
     stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
     stateSet->setRenderBinDetails( SIM_DEPTH_SORTED_BIN_HUD, "RenderBin" );
 
-    m_switchTutorialTips->setAllChildrenOff();
+    _switchTutorialTips->setAllChildrenOff();
 }
 #endif
 
@@ -1709,29 +1709,29 @@ void HUD::createTutorialTips()
 
 void HUD::createWaypointIndicators()
 {
-    m_switchWaypointIndicators = new osg::Switch();
-    m_switch->addChild( m_switchWaypointIndicators.get() );
+    _switchWaypointIndicators = new osg::Switch();
+    _switch->addChild( _switchWaypointIndicators.get() );
 
-    m_patWaypointBox = new osg::PositionAttitudeTransform();
-    m_switchWaypointIndicators->addChild( m_patWaypointBox.get() );
+    _patWaypointBox = new osg::PositionAttitudeTransform();
+    _switchWaypointIndicators->addChild( _patWaypointBox.get() );
 
-    m_patWaypointDir = new osg::PositionAttitudeTransform();
-    m_switchWaypointIndicators->addChild( m_patWaypointDir.get() );
+    _patWaypointDir = new osg::PositionAttitudeTransform();
+    _switchWaypointIndicators->addChild( _patWaypointDir.get() );
 
     createWaypointIndicatorBox();
     createWaypointIndicatorDir();
 
-    m_switchWaypointIndicators->setAllChildrenOff();
+    _switchWaypointIndicators->setAllChildrenOff();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void HUD::createWaypointIndicatorBox()
 {
-    const float size = Convert::rad2deg( atan( Gates::m_size / ( 2.0f * Gates::m_distScale ) ) ) * 1200.0f / 90.0f;
+    const float size = Convert::rad2deg( atan( Gates::_size / ( 2.0f * Gates::_distScale ) ) ) * 1200.0f / 90.0f;
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_patWaypointBox->addChild( geode.get() );
+    _patWaypointBox->addChild( geode.get() );
 
     const float w_2 = size / 2.0f;
     const float h_2 = size / 2.0f;
@@ -1764,7 +1764,7 @@ void HUD::createWaypointIndicatorBox()
     osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
     osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
-    lineWidth->setWidth( m_linesWidth );
+    lineWidth->setWidth( _linesWidth );
 
     stateSet->setAttributeAndModes( lineWidth, osg::StateAttribute::ON );
 
@@ -1780,7 +1780,7 @@ void HUD::createWaypointIndicatorBox()
 void HUD::createWaypointIndicatorDir()
 {
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_patWaypointDir->addChild( geode.get() );
+    _patWaypointDir->addChild( geode.get() );
 
     createDir( geode.get(), osg::Vec4( Color::lime, 0.8f ) );
 }
@@ -1795,13 +1795,13 @@ void HUD::updateCaption()
     {
         if ( Data::get()->mission.status == Success )
         {
-            m_switchCaption->setAllChildrenOn();
-            m_textCaption->setText( osgText::String( Captions::instance()->getMissionAccomplished(), osgText::String::ENCODING_UTF8 ) );
+            _switchCaption->setAllChildrenOn();
+            _textCaption->setText( osgText::String( Captions::instance()->getMissionSuccess(), osgText::String::ENCODING_UTF8 ) );
         }
         else if ( Data::get()->mission.status == Failure )
         {
-            m_switchCaption->setAllChildrenOn();
-            m_textCaption->setText( osgText::String( Captions::instance()->getMissionFailed(), osgText::String::ENCODING_UTF8 ) );
+            _switchCaption->setAllChildrenOn();
+            _textCaption->setText( osgText::String( Captions::instance()->getMissionFailure(), osgText::String::ENCODING_UTF8 ) );
         }
 
         coef = Data::get()->mission.time_end;
@@ -1814,28 +1814,28 @@ void HUD::updateCaption()
 
         if ( Data::get()->ownship.friend_hit < 1.0f )
         {
-            m_switchCaption->setAllChildrenOn();
-            m_textCaption->setText( osgText::String( Captions::instance()->getFriendlyFire(), osgText::String::ENCODING_UTF8 ) );
+            _switchCaption->setAllChildrenOn();
+            _textCaption->setText( osgText::String( Captions::instance()->getFriendlyFire(), osgText::String::ENCODING_UTF8 ) );
 
             time = Data::get()->ownship.friend_hit;
         }
         else if ( Data::get()->ownship.target_kill < 1.0f )
         {
-            m_switchCaption->setAllChildrenOn();
-            m_textCaption->setText( osgText::String( Captions::instance()->getTargetKilled(), osgText::String::ENCODING_UTF8 ) );
+            _switchCaption->setAllChildrenOn();
+            _textCaption->setText( osgText::String( Captions::instance()->getTargetKilled(), osgText::String::ENCODING_UTF8 ) );
 
             time = Data::get()->ownship.target_kill;
         }
         else if ( Data::get()->ownship.target_hit < 1.0f )
         {
-            m_switchCaption->setAllChildrenOn();
-            m_textCaption->setText( osgText::String( Captions::instance()->getTargetHit(), osgText::String::ENCODING_UTF8 ) );
+            _switchCaption->setAllChildrenOn();
+            _textCaption->setText( osgText::String( Captions::instance()->getTargetHit(), osgText::String::ENCODING_UTF8 ) );
 
             time = Data::get()->ownship.target_hit;
         }
         else if ( Data::get()->mission.time_left < 30.0f && Data::get()->mission.time_left > 0.0f )
         {
-            m_switchCaption->setAllChildrenOn();
+            _switchCaption->setAllChildrenOn();
 
             int s = floor( Data::get()->mission.time_left );
             int m = std::max( 0, std::min( 999, (int)( 1000 * ( Data::get()->mission.time_left - (float)s ) ) ) );
@@ -1847,18 +1847,18 @@ void HUD::updateCaption()
 
             sprintf( text, "00:%02d.%03d", s, m );
 
-            m_textCaption->setText( text );
+            _textCaption->setText( text );
         }
         else
         {
-            m_switchCaption->setAllChildrenOff();
+            _switchCaption->setAllChildrenOff();
         }
 
         coef = 1.0f - time;
     }
     else
     {
-        m_switchCaption->setAllChildrenOff();
+        _switchCaption->setAllChildrenOff();
     }
 
     if ( coef < 0.0f ) coef = 0.0f;
@@ -1876,8 +1876,8 @@ void HUD::updateCaption()
 
     float scale = 0.5f + 0.5f * coef;
 
-    m_textCaption->setColor( osg::Vec4( Color::red, 0.8f * coef ) );
-    m_patCaption->setScale( osg::Vec3( scale, scale, scale ) );
+    _textCaption->setColor( osg::Vec4( Color::red, 0.8f * coef ) );
+    _patCaption->setScale( osg::Vec3( scale, scale, scale ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1887,14 +1887,14 @@ void HUD::updateControls()
 #   ifndef SIM_DESKTOP
     if ( Data::get()->controls.trigger )
     {
-        m_switchTrigger->setSingleChildOn( 1 );
+        _switchTrigger->setSingleChildOn( 1 );
     }
     else
     {
-        m_switchTrigger->setSingleChildOn( 0 );
+        _switchTrigger->setSingleChildOn( 0 );
     }
 
-    m_patControlsThrottle->setPosition( osg::Vec3( 0.0f, -50.0f + Data::get()->controls.throttle * 100.0f, 0.0f ) );
+    _patControlsThrottle->setPosition( osg::Vec3( 0.0f, -50.0f + Data::get()->controls.throttle * 100.0f, 0.0f ) );
 #   endif
 }
 
@@ -1902,11 +1902,11 @@ void HUD::updateControls()
 
 void HUD::updateCrosshair()
 {
-    osg::Vec3 r( m_rad2px * Data::get()->camera.d_psi,
-                -m_rad2px * Data::get()->camera.d_tht,
+    osg::Vec3 r( _rad2px * Data::get()->camera.d_psi,
+                -_rad2px * Data::get()->camera.d_tht,
                  0.0f );
 
-    m_patCrosshair->setPosition( r );
+    _patCrosshair->setPosition( r );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1917,7 +1917,7 @@ void HUD::updateHitIndicator()
 
     if ( coef < 0.0f ) coef = 0.0f;
 
-    osg::ref_ptr<osg::Vec4Array> c = dynamic_cast< osg::Vec4Array* >( m_hitIndicator->getColorArray() );
+    osg::ref_ptr<osg::Vec4Array> c = dynamic_cast< osg::Vec4Array* >( _hitIndicator->getColorArray() );
 
     if ( c.valid() )
     {
@@ -1932,16 +1932,16 @@ void HUD::updateHitIndicator()
             c->push_back( outer );
         }
 
-        m_hitIndicator->setColorArray( c.get() );
+        _hitIndicator->setColorArray( c.get() );
     }
 
     float scale = 0.8f + 0.2f * coef;
 
-    osg::Vec3 pos( 1.2 * m_rad2px * Data::get()->camera.d_psi, -40.0f, 0.0f );
+    osg::Vec3 pos( 1.2 * _rad2px * Data::get()->camera.d_psi, -40.0f, 0.0f );
 
-    m_patHitIndicator->setPosition( pos );
-    m_patHitIndicator->setAttitude( osg::Quat( Data::get()->ownship.hit_direction, osg::Z_AXIS ) );
-    m_patHitIndicator->setScale( osg::Vec3( scale, scale, scale ) );
+    _patHitIndicator->setPosition( pos );
+    _patHitIndicator->setAttitude( osg::Quat( Data::get()->ownship.hit_direction, osg::Z_AXIS ) );
+    _patHitIndicator->setScale( osg::Vec3( scale, scale, scale ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1955,14 +1955,14 @@ void HUD::updateIndicators()
     altitude1 *= 2.0f * M_PI;
     altitude2 *= 2.0f * M_PI;
 
-    m_patIndicatorALT1->setAttitude( osg::Quat( -altitude1, osg::Z_AXIS ) );
-    m_patIndicatorALT2->setAttitude( osg::Quat( -altitude2, osg::Z_AXIS ) );
+    _patIndicatorALT1->setAttitude( osg::Quat( -altitude1, osg::Z_AXIS ) );
+    _patIndicatorALT2->setAttitude( osg::Quat( -altitude2, osg::Z_AXIS ) );
 
     // ASI
     float airspeed = Convert::mps2kts( Data::get()->ownship.airspeed ) / 100.0;
     airspeed *= M_PI_2;
 
-    m_patIndicatorASI->setAttitude( osg::Quat( -airspeed, osg::Z_AXIS ) );
+    _patIndicatorASI->setAttitude( osg::Quat( -airspeed, osg::Z_AXIS ) );
 
     // VSI
     float climbRate = Convert::mps2fpm( Data::get()->ownship.climbRate ) / 1000.0;
@@ -1970,7 +1970,7 @@ void HUD::updateIndicators()
     if ( climbRate < -4.3f ) climbRate = -4.3f;
     climbRate *= Convert::deg2rad( 40.0 );
 
-    m_patIndicatorVSI->setAttitude( osg::Quat( M_PI_2 - climbRate, osg::Z_AXIS ) );
+    _patIndicatorVSI->setAttitude( osg::Quat( M_PI_2 - climbRate, osg::Z_AXIS ) );
 
     // radar
     updateIndicatorRadar();
@@ -1984,11 +1984,11 @@ void HUD::updateIndicatorRadar()
     // 3 nm = 5556 m
     const float dist_coef = 16.0f / 5556.0f;
 
-    m_patIndicatorRadar->setAttitude( osg::Quat( Data::get()->ownship.heading, osg::Z_AXIS ) );
+    _patIndicatorRadar->setAttitude( osg::Quat( Data::get()->ownship.heading, osg::Z_AXIS ) );
 
-    m_switchRadarMarksEnemy->setAllChildrenOff();
-    m_switchRadarMarksFriend->setAllChildrenOff();
-    m_switchEnemyIndicators->setAllChildrenOff();
+    _switchRadarMarksEnemy  ->setAllChildrenOff();
+    _switchRadarMarksFriend ->setAllChildrenOff();
+    _switchEnemyIndicators  ->setAllChildrenOff();
 
     Vec3 pos_own( Data::get()->ownship.pos_x,
                   Data::get()->ownship.pos_y,
@@ -2016,7 +2016,7 @@ void HUD::updateIndicatorRadar()
     Group::List *entities = Entities::instance()->getEntities();
     Group::List::iterator it = entities->begin();
 
-    while ( it != entities->end() && indexE < m_maxRadarMarks && indexF < m_maxRadarMarks )
+    while ( it != entities->end() && indexE < _maxRadarMarks && indexF < _maxRadarMarks )
     {
         Unit *unit = dynamic_cast< Unit* >(*it);
 
@@ -2037,8 +2037,8 @@ void HUD::updateIndicatorRadar()
 
                     if ( Hostile == unit->getAffiliation() )
                     {
-                        m_switchRadarMarksEnemy->setValue( indexE, true );
-                        m_patRadarMarksEnemy[ indexE ]->setPosition( osg::Vec3( x, y, 0.0f ) );
+                        _switchRadarMarksEnemy->setValue( indexE, true );
+                        _patRadarMarksEnemy[ indexE ]->setPosition( osg::Vec3( x, y, 0.0f ) );
 
                         UnitAerial *aerialUnit = dynamic_cast< UnitAerial* >( unit );
 
@@ -2055,26 +2055,26 @@ void HUD::updateIndicatorRadar()
                             float box_psi = atan2( -n_box.y(), -n_box.x() );
                             float box_tht = atan2(  n_box.z(), -n_box.x() );
 
-                            if ( box_tht * box_tht + box_psi * box_psi < Ownship::m_target_fov_max_2 )
+                            if ( box_tht * box_tht + box_psi * box_psi < Ownship::_target_fov_max_2 )
                             {
-                                m_switchEnemyIndicators->setValue( 2 * indexE     , true  );
-                                m_switchEnemyIndicators->setValue( 2 * indexE + 1 , false );
+                                _switchEnemyIndicators->setValue( 2 * indexE     , true  );
+                                _switchEnemyIndicators->setValue( 2 * indexE + 1 , false );
 
                                 // box
-                                osg::Vec3 r_box( m_rad2px * -box_psi,
-                                                -m_rad2px * -box_tht,
+                                osg::Vec3 r_box( _rad2px * -box_psi,
+                                                -_rad2px * -box_tht,
                                                  0.0f );
 
-                                m_patEnemyBox.at( indexE )->setPosition( r_box );
+                                _patEnemyBox.at( indexE )->setPosition( r_box );
                             }
                             else
                             {
-                                m_switchEnemyIndicators->setValue( 2 * indexE     , false );
-                                m_switchEnemyIndicators->setValue( 2 * indexE + 1 , true  );
+                                _switchEnemyIndicators->setValue( 2 * indexE     , false );
+                                _switchEnemyIndicators->setValue( 2 * indexE + 1 , true  );
 
                                 float dir_phi = atan2( -n_box.y(),  n_box.z() );
 
-                                m_patEnemyDir.at( indexE )->setAttitude( osg::Quat( dir_phi, osg::Z_AXIS ) );
+                                _patEnemyDir.at( indexE )->setAttitude( osg::Quat( dir_phi, osg::Z_AXIS ) );
                             }
                         }
 
@@ -2082,8 +2082,8 @@ void HUD::updateIndicatorRadar()
                     }
                     else
                     {
-                        m_switchRadarMarksFriend->setValue( indexF, true );
-                        m_patRadarMarksFriend[ indexF ]->setPosition( osg::Vec3( x, y, 0.0f ) );
+                        _switchRadarMarksFriend->setValue( indexF, true );
+                        _patRadarMarksFriend[ indexF ]->setPosition( osg::Vec3( x, y, 0.0f ) );
 
                         indexF++;
                     }
@@ -2101,16 +2101,16 @@ void HUD::updateMessage()
 {
     if ( Data::get()->message.visible && ( Data::get()->mission.status == Pending || Data::get()->paused ) )
     {
-        m_switchMessage->setValue( 0, true );
-        m_switchMessage->setValue( Data::get()->message.overlay ? 1 : 2, false );
-        m_switchMessage->setValue( Data::get()->message.overlay ? 2 : 1, true  );
+        _switchMessage->setValue( 0, true );
+        _switchMessage->setValue( Data::get()->message.overlay ? 1 : 2, false );
+        _switchMessage->setValue( Data::get()->message.overlay ? 2 : 1, true  );
 
-        //m_textMessage->setText( osgText::String( String::toUpper( Data::get()->message.text ).c_str() ) );
-        m_textMessage->setText( osgText::String( Data::get()->message.text, osgText::String::ENCODING_UTF8 ) );
+        //_textMessage->setText( osgText::String( String::toUpper( Data::get()->message.text ).c_str() ) );
+        _textMessage->setText( osgText::String( Data::get()->message.text, osgText::String::ENCODING_UTF8 ) );
     }
     else
     {
-        m_switchMessage->setAllChildrenOff();
+        _switchMessage->setAllChildrenOff();
     }
 }
 
@@ -2121,10 +2121,10 @@ void HUD::updatePlayerBar()
     float sx = (float)Data::get()->ownship.hit_points / 100.0f;
     float dx = 60.0f * sx - 60.0;
 
-    m_patPlayerBar->setPosition( osg::Vec3( dx, 0.0f, 0.0f ) );
-    m_patPlayerBar->setScale( osg::Vec3( sx, 1.0f, 1.0f ) );
+    _patPlayerBar->setPosition( osg::Vec3( dx, 0.0f, 0.0f ) );
+    _patPlayerBar->setScale( osg::Vec3( sx, 1.0f, 1.0f ) );
 
-    osg::ref_ptr<osg::Vec4Array> c = dynamic_cast< osg::Vec4Array* >( m_playerLifeBar->getColorArray() );
+    osg::ref_ptr<osg::Vec4Array> c = dynamic_cast< osg::Vec4Array* >( _playerLifeBar->getColorArray() );
 
     if ( c.valid() )
     {
@@ -2149,10 +2149,10 @@ void HUD::updatePlayerBar()
         c->push_back( osg::Vec4( upper, 1.0f ) );
         c->push_back( osg::Vec4( lower, 1.0f ) );
 
-        m_playerLifeBar->setColorArray( c.get() );
+        _playerLifeBar->setColorArray( c.get() );
     }
 
-    m_textPlayerHP->setText( String::toString( Data::get()->ownship.hit_points ) );
+    _textPlayerHP->setText( String::toString( Data::get()->ownship.hit_points ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2163,17 +2163,17 @@ void HUD::updateTargetIndicators()
     {
         if ( Data::get()->ownship.target_box || Data::get()->ownship.target_cue )
         {
-            m_switchTargetIndicators->setValue( 0, Data::get()->ownship.target_box );
-            m_switchTargetIndicators->setValue( 1, Data::get()->ownship.target_cue );
+            _switchTargetIndicators->setValue( 0, Data::get()->ownship.target_box );
+            _switchTargetIndicators->setValue( 1, Data::get()->ownship.target_cue );
 
             // bar
             float sx = (float)Data::get()->ownship.target_hp / 100.0f;
             float dx = 5.0f * sx - 5.0;
 
-            m_patTargetBar->setPosition( osg::Vec3( dx, 0.0f, 0.0f ) );
-            m_patTargetBar->setScale( osg::Vec3( sx, 1.0f, 1.0f ) );
+            _patTargetBar->setPosition( osg::Vec3( dx, 0.0f, 0.0f ) );
+            _patTargetBar->setScale( osg::Vec3( sx, 1.0f, 1.0f ) );
 
-            osg::ref_ptr<osg::Vec4Array> c = dynamic_cast< osg::Vec4Array* >( m_targetLifeBar->getColorArray() );
+            osg::ref_ptr<osg::Vec4Array> c = dynamic_cast< osg::Vec4Array* >( _targetLifeBar->getColorArray() );
 
             if ( c.valid() )
             {
@@ -2192,42 +2192,42 @@ void HUD::updateTargetIndicators()
                     c->push_back( osg::Vec4( Color::lime, 1.0f ) );
                 }
 
-                m_targetLifeBar->setColorArray( c.get() );
+                _targetLifeBar->setColorArray( c.get() );
             }
 
             // box
-            osg::Vec3 r_box( m_rad2px * -Data::get()->ownship.target_box_psi,
-                            -m_rad2px * -Data::get()->ownship.target_box_tht,
+            osg::Vec3 r_box( _rad2px * -Data::get()->ownship.target_box_psi,
+                            -_rad2px * -Data::get()->ownship.target_box_tht,
                              0.0f );
 
-            m_patTargetBox->setPosition( r_box );
+            _patTargetBox->setPosition( r_box );
 
             // cue
-            osg::Vec3 r_cue( m_rad2px * -Data::get()->ownship.target_cue_psi,
-                            -m_rad2px * -Data::get()->ownship.target_cue_tht,
+            osg::Vec3 r_cue( _rad2px * -Data::get()->ownship.target_cue_psi,
+                            -_rad2px * -Data::get()->ownship.target_cue_tht,
                              0.0f );
 
-            m_patTargetCue->setPosition( r_cue );
+            _patTargetCue->setPosition( r_cue );
         }
         else
         {
-            m_switchTargetIndicators->setValue( 0, false );
-            m_switchTargetIndicators->setValue( 1, false );
+            _switchTargetIndicators->setValue( 0, false );
+            _switchTargetIndicators->setValue( 1, false );
         }
 
         if ( !Data::get()->ownship.target_cue )
         {
-            m_switchTargetIndicators->setValue( 2, true );
-            m_patTargetDir->setAttitude( osg::Quat( Data::get()->ownship.target_dir_phi, osg::Z_AXIS ) );
+            _switchTargetIndicators->setValue( 2, true );
+            _patTargetDir->setAttitude( osg::Quat( Data::get()->ownship.target_dir_phi, osg::Z_AXIS ) );
         }
         else
         {
-            m_switchTargetIndicators->setValue( 2, false );
+            _switchTargetIndicators->setValue( 2, false );
         }
     }
     else
     {
-        m_switchTargetIndicators->setAllChildrenOff();
+        _switchTargetIndicators->setAllChildrenOff();
     }
 }
 
@@ -2240,17 +2240,17 @@ void HUD::updateTutorialSymbols()
         // custom pointer
         if ( Data::get()->message.pointer_custom )
         {
-            m_switchPointerCustom->setAllChildrenOn();
+            _switchPointerCustom->setAllChildrenOn();
 
-            m_patPointerCustom->setPosition( osg::Vec3( Data::get()->message.pointer_x,
-                                                        Data::get()->message.pointer_y,
-                                                        0.0f ) );
-            m_patPointerCustom->setAttitude( osg::Quat( Data::get()->message.pointer_phi,
-                                                        osg::Z_AXIS ) );
+            _patPointerCustom->setPosition( osg::Vec3( Data::get()->message.pointer_x,
+                                                       Data::get()->message.pointer_y,
+                                                       0.0f ) );
+            _patPointerCustom->setAttitude( osg::Quat( Data::get()->message.pointer_phi,
+                                                       osg::Z_AXIS ) );
         }
         else
         {
-            m_switchPointerCustom->setAllChildrenOff();
+            _switchPointerCustom->setAllChildrenOff();
         }
 
 #       ifndef SIM_DESKTOP
@@ -2258,9 +2258,9 @@ void HUD::updateTutorialSymbols()
         if ( Data::get()->message.pointer_rpm_dec
           || Data::get()->message.pointer_rpm_inc )
         {
-            m_switchPointerRpm->setAllChildrenOn();
+            _switchPointerRpm->setAllChildrenOn();
 
-            float time = m_timerTutorial;
+            float time = _timerTutorial;
 
             while ( time > 4.0f )
             {
@@ -2299,39 +2299,39 @@ void HUD::updateTutorialSymbols()
                 pos = pos0;
             }
 
-            m_patPointerRpm->setPosition( pos );
+            _patPointerRpm->setPosition( pos );
         }
         else
         {
-            m_switchPointerRpm->setAllChildrenOff();
+            _switchPointerRpm->setAllChildrenOff();
         }
 #       endif
 
         // target pointer
         if ( Data::get()->message.pointer_target )
         {
-            m_switchPointerTarget->setAllChildrenOn();
+            _switchPointerTarget->setAllChildrenOn();
         }
         else
         {
-            m_switchPointerTarget->setAllChildrenOff();
+            _switchPointerTarget->setAllChildrenOff();
         }
 
 #       ifndef SIM_DESKTOP
         // trigger pointer
         if ( Data::get()->message.pointer_trigger )
         {
-            m_switchPointerTrigger->setAllChildrenOn();
+            _switchPointerTrigger->setAllChildrenOn();
         }
         else
         {
-            m_switchPointerTrigger->setAllChildrenOff();
+            _switchPointerTrigger->setAllChildrenOff();
         }
 
         // tutorial tip
         if ( Data::get()->message.tip != NoTip )
         {
-            m_switchTutorialTips->setAllChildrenOn();
+            _switchTutorialTips->setAllChildrenOn();
 
             std::string textureFile = "";
 
@@ -2355,36 +2355,36 @@ void HUD::updateTutorialSymbols()
 
             default:
                 textureFile = "";
-                m_switchTutorialTips->setAllChildrenOff();
+                _switchTutorialTips->setAllChildrenOff();
                 break;
             }
 
             if ( textureFile.length() > 0 )
             {
-                osg::ref_ptr<osg::StateSet> stateSet = m_tutorialTip->getOrCreateStateSet();
+                osg::ref_ptr<osg::StateSet> stateSet = _tutorialTip->getOrCreateStateSet();
 
                 stateSet->setTextureAttributeAndModes( 0, Textures::get( textureFile ), osg::StateAttribute::ON );
             }
         }
         else
         {
-            m_switchTutorialTips->setAllChildrenOff();
+            _switchTutorialTips->setAllChildrenOff();
         }
 #       endif
 
-        m_timerTutorial += Data::get()->mission.time_step;
+        _timerTutorial += Data::get()->mission.time_step;
     }
     else
     {
-        m_switchPointerCustom->setAllChildrenOff();
-        m_switchPointerTarget->setAllChildrenOff();
+        _switchPointerCustom->setAllChildrenOff();
+        _switchPointerTarget->setAllChildrenOff();
 #       ifndef SIM_DESKTOP
-        m_switchPointerRpm->setAllChildrenOff();
-        m_switchPointerTrigger->setAllChildrenOff();
-        m_switchTutorialTips->setAllChildrenOff();
+        _switchPointerRpm->setAllChildrenOff();
+        _switchPointerTrigger->setAllChildrenOff();
+        _switchTutorialTips->setAllChildrenOff();
 #       endif
 
-        m_timerTutorial = 0.0;
+        _timerTutorial = 0.0;
     }
 }
 
@@ -2395,37 +2395,37 @@ void HUD::updateWaypointIndicators()
     if ( Data::get()->ownship.waypoint && Data::get()->mission.status == Pending )
     {
         // waypoint box
-        if ( Data::get()->ownship.waypoint_dist >= Gates::m_distMax )
+        if ( Data::get()->ownship.waypoint_dist >= Gates::_distMax )
         {
-            m_switchWaypointIndicators->setValue( 0, true );
+            _switchWaypointIndicators->setValue( 0, true );
 
-            osg::Vec3 r_box( m_rad2px * -Data::get()->ownship.waypoint_psi,
-                            -m_rad2px * -Data::get()->ownship.waypoint_tht,
+            osg::Vec3 r_box( _rad2px * -Data::get()->ownship.waypoint_psi,
+                            -_rad2px * -Data::get()->ownship.waypoint_tht,
                              0.0f );
 
-            m_patWaypointBox->setPosition( r_box );
-            m_patWaypointBox->setAttitude( osg::Quat( Data::get()->ownship.rollAngle, osg::Z_AXIS ) );
+            _patWaypointBox->setPosition( r_box );
+            _patWaypointBox->setAttitude( osg::Quat( Data::get()->ownship.rollAngle, osg::Z_AXIS ) );
         }
         else
         {
-            m_switchWaypointIndicators->setValue( 0, false );
+            _switchWaypointIndicators->setValue( 0, false );
         }
 
         // waypoint dir
-        if ( ( fabs( Data::get()->ownship.waypoint_tht ) < m_rad11deg && fabs( Data::get()->ownship.waypoint_psi ) < m_rad11deg )
+        if ( ( fabs( Data::get()->ownship.waypoint_tht ) < _rad11deg && fabs( Data::get()->ownship.waypoint_psi ) < _rad11deg )
           || Data::get()->ownship.waypoint_dist < 50.0f )
         {
-            m_switchWaypointIndicators->setValue( 1, false );
+            _switchWaypointIndicators->setValue( 1, false );
         }
         else
         {
-            m_switchWaypointIndicators->setValue( 1, true );
+            _switchWaypointIndicators->setValue( 1, true );
 
-            m_patWaypointDir->setAttitude( osg::Quat( Data::get()->ownship.waypoint_phi, osg::Z_AXIS ) );
+            _patWaypointDir->setAttitude( osg::Quat( Data::get()->ownship.waypoint_phi, osg::Z_AXIS ) );
         }
     }
     else
     {
-        m_switchWaypointIndicators->setAllChildrenOff();
+        _switchWaypointIndicators->setAllChildrenOff();
     }
 }

@@ -75,39 +75,39 @@ Unit* Creator::createUnit( const std::string &type, const std::string &file,
 {
     Unit *unit = 0;
 
-    if ( 0 == String::icompare( type, Aircraft::m_tagName ) )
+    if ( 0 == String::icompare( type, Aircraft::_tagName ) )
     {
         unit = new Aircraft( affiliation );
     }
-    else if ( 0 == String::icompare( type, Balloon::m_tagName ) )
+    else if ( 0 == String::icompare( type, Balloon::_tagName ) )
     {
         unit = new Balloon( affiliation );
     }
-    else if ( 0 == String::icompare( type, BomberLevel::m_tagName ) )
+    else if ( 0 == String::icompare( type, BomberLevel::_tagName ) )
     {
         unit = new BomberLevel( affiliation );
     }
-    else if ( 0 == String::icompare( type, BomberDive::m_tagName ) )
+    else if ( 0 == String::icompare( type, BomberDive::_tagName ) )
     {
         unit = new BomberDive( affiliation );
     }
-    else if ( 0 == String::icompare( type, BomberTorpedo::m_tagName ) )
+    else if ( 0 == String::icompare( type, BomberTorpedo::_tagName ) )
     {
         unit = new BomberTorpedo( affiliation );
     }
-    else if ( 0 == String::icompare( type, Building::m_tagName ) )
+    else if ( 0 == String::icompare( type, Building::_tagName ) )
     {
         unit = new Building( affiliation );
     }
-    else if ( 0 == String::icompare( type, Fighter::m_tagName ) )
+    else if ( 0 == String::icompare( type, Fighter::_tagName ) )
     {
         unit = new Fighter( affiliation );
     }
-    else if ( 0 == String::icompare( type, Kamikaze::m_tagName ) )
+    else if ( 0 == String::icompare( type, Kamikaze::_tagName ) )
     {
         unit = new Kamikaze( affiliation );
     }
-    else if ( 0 == String::icompare( type, Warship::m_tagName ) )
+    else if ( 0 == String::icompare( type, Warship::_tagName ) )
     {
         unit = new Warship( affiliation );
     }

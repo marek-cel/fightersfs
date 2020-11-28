@@ -26,6 +26,7 @@
 
 #include <sim/utils/sim_Singleton.h>
 #include <sim/utils/sim_Text.h>
+#include <sim/utils/sim_XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -50,27 +51,29 @@ public:
     /** Destructor. */
     virtual ~Captions();
 
-    inline std::string getLoading() const { return m_loading.get(); }
-    inline std::string getResume() const { return m_resume.get(); }
-    inline std::string getBegin() const { return m_begin.get(); }
-    inline std::string getMissionAccomplished() const { return m_mission_accomplished.get(); }
-    inline std::string getMissionFailed() const { return m_mission_failed.get(); }
-    inline std::string getFriendlyFire() const { return m_friendly_fire.get(); }
-    inline std::string getTargetKilled() const { return m_target_killed.get(); }
-    inline std::string getTargetHit() const { return m_target_hit.get(); }
+    inline std::string getLoading        () const { return _loading         .get(); }
+    inline std::string getResume         () const { return _resume          .get(); }
+    inline std::string getBegin          () const { return _begin           .get(); }
+    inline std::string getMissionSuccess () const { return _mission_success .get(); }
+    inline std::string getMissionFailure () const { return _mission_failure .get(); }
+    inline std::string getFriendlyFire   () const { return _friendly_fire   .get(); }
+    inline std::string getTargetKilled   () const { return _target_killed   .get(); }
+    inline std::string getTargetHit      () const { return _target_hit      .get(); }
 
 private:
 
-    Text m_loading;
-    Text m_resume;
-    Text m_begin;
-    Text m_mission_accomplished;
-    Text m_mission_failed;
-    Text m_friendly_fire;
-    Text m_target_killed;
-    Text m_target_hit;
+    Text _loading;          ///<
+    Text _resume;           ///<
+    Text _begin;            ///<
+    Text _mission_success;  ///<
+    Text _mission_failure;  ///<
+    Text _friendly_fire;    ///<
+    Text _target_killed;    ///<
+    Text _target_hit;       ///<
 
     void readCaptions();
+
+    void readText( XmlNode &node, Text &text, const char *name );
 };
 
 } // end of sim namespace

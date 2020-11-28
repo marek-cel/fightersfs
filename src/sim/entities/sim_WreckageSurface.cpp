@@ -39,10 +39,10 @@ WreckageSurface::WreckageSurface( osg::Node *model , osg::Group *smoke ) :
         smokeTmp = Effects::createSmoke( 60.0f, 10.0f, 150.0f, 1.0f, 0.04f, 0.5f );
     }
 
-    m_switch->addChild( smokeTmp.get() );
+    _switch->addChild( smokeTmp.get() );
 
 #   ifdef SIM_TEST
-    UnitMarine::createReflection( model, m_switch.get() );
+    UnitMarine::createReflection( model, _switch.get() );
 #   endif
 }
 

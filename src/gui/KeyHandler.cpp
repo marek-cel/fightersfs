@@ -15,24 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  ******************************************************************************/
 
-#include <gui/WidgetPlay.h>
+#include <gui/KeyHandler.h>
+
+#include <defs.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-WidgetPlay::KeyHandler::KeyHandler( WidgetCGI *widgetCGI ) :
-    _widgetCGI ( widgetCGI )
+KeyHandler::KeyHandler( WidgetCGI *widgetCGI ) :
+    _widgetCGI ( widgetCGI ),
+    _keyPressCallback ( NULLPTR )
 {
     for ( int i = 0; i < HID_MAX_KEYS; i++ ) _keysState[ i ] = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool WidgetPlay::KeyHandler::handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter & )
+bool KeyHandler::handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter & )
 {
 #   ifndef SIM_NOKEYINPUT
     switch( ea.getEventType() )
     {
     case osgGA::GUIEventAdapter::KEYDOWN:
+        if ( _keyPressCallback ) (*_keyPressCallback)();
         return handleKeyDn( ea );
         break;
 
@@ -50,7 +54,14 @@ bool WidgetPlay::KeyHandler::handle( const osgGA::GUIEventAdapter &ea, osgGA::GU
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool WidgetPlay::KeyHandler::handleKeyDn( const osgGA::GUIEventAdapter &ea )
+void KeyHandler::registerKeyPressCallback( void(*fun)() )
+{
+    _keyPressCallback = fun;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+bool KeyHandler::handleKeyDn( const osgGA::GUIEventAdapter &ea )
 {
     switch ( ea.getKey() )
     {
@@ -391,7 +402,7 @@ bool WidgetPlay::KeyHandler::handleKeyDn( const osgGA::GUIEventAdapter &ea )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool WidgetPlay::KeyHandler::handleKeyUp( const osgGA::GUIEventAdapter &ea )
+bool KeyHandler::handleKeyUp( const osgGA::GUIEventAdapter &ea )
 {
     switch ( ea.getKey() )
     {

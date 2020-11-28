@@ -37,9 +37,9 @@ class Gates : public Module
 {
 public:
 
-    static const float m_distMax;   ///< [m] maximum visibility distance
-    static const float m_distScale; ///< [m] minimum scaling distance
-    static const float m_size;      ///< [m] waypoint box size
+    static const float _distMax;    ///< [m] maximum visibility distance
+    static const float _distScale;  ///< [m] minimum scaling distance
+    static const float _size;       ///< [m] waypoint box size
 
     /** Constructor. */
     Gates( float linesWidth, Module *parent = NULLPTR );
@@ -52,17 +52,17 @@ public:
 
 private:
 
-    const float m_linesWidth;               ///< [px] lines width
+    const float _linesWidth;                ///< [px] lines width
 
-    osg::ref_ptr<osg::Switch> m_switch;     ///< gates visibility switch
+    osg::ref_ptr<osg::Switch> _switch;      ///< gates visibility switch
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_pat0;    ///< current gate PAT
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_pat1;    ///< next gate PAT
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_pat2;    ///< next next gate PAT
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat0;     ///< current gate PAT
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat1;     ///< next gate PAT
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat2;     ///< next next gate PAT
 
-    osg::ref_ptr<osg::Geometry> m_geom0;    ///< current waypoint geometry
-    osg::ref_ptr<osg::Geometry> m_geom1;    ///< next waypoint geometry
-    osg::ref_ptr<osg::Geometry> m_geom2;    ///< next next waypoint geometry
+    osg::ref_ptr<osg::Geometry> _geom0;     ///< current waypoint geometry
+    osg::ref_ptr<osg::Geometry> _geom1;     ///< next waypoint geometry
+    osg::ref_ptr<osg::Geometry> _geom2;     ///< next next waypoint geometry
 
     osg::Geometry* createGate( osg::Group *parent );
 

@@ -52,110 +52,37 @@ void Captions::readCaptions()
         {
             if ( 0 == String::icompare( rootNode.getName(), "captions" ) )
             {
-                // loading
-                XmlNode node_loading = rootNode.getFirstChildElement( "loading" );
-
-                if ( node_loading.isValid() )
-                {
-                    Text temp;
-
-                    if ( SIM_SUCCESS == XmlUtils::read( node_loading, temp ) )
-                    {
-                        m_loading = temp;
-                    }
-                }
-
-                // resume
-                XmlNode node_resume = rootNode.getFirstChildElement( "resume" );
-
-                if ( node_resume.isValid() )
-                {
-                    Text temp;
-
-                    if ( SIM_SUCCESS == XmlUtils::read( node_resume, temp ) )
-                    {
-                        m_resume = temp;
-                    }
-                }
-
-                // begin
-                XmlNode node_begin = rootNode.getFirstChildElement( "begin" );
-
-                if ( node_begin.isValid() )
-                {
-                    Text temp;
-
-                    if ( SIM_SUCCESS == XmlUtils::read( node_begin, temp ) )
-                    {
-                        m_begin = temp;
-                    }
-                }
-
-                // mission_accomplished
-                XmlNode node_mission_accomplished = rootNode.getFirstChildElement( "mission_accomplished" );
-
-                if ( node_mission_accomplished.isValid() )
-                {
-                    Text temp;
-
-                    if ( SIM_SUCCESS == XmlUtils::read( node_mission_accomplished, temp ) )
-                    {
-                        m_mission_accomplished = temp;
-                    }
-                }
-
-                // mission_failed
-                XmlNode node_mission_failed = rootNode.getFirstChildElement( "mission_failed" );
-
-                if ( node_mission_failed.isValid() )
-                {
-                    Text temp;
-
-                    if ( SIM_SUCCESS == XmlUtils::read( node_mission_failed, temp ) )
-                    {
-                        m_mission_failed = temp;
-                    }
-                }
-
-                // friendly_fire
-                XmlNode node_friendly_fire = rootNode.getFirstChildElement( "friendly_fire" );
-
-                if ( node_friendly_fire.isValid() )
-                {
-                    Text temp;
-
-                    if ( SIM_SUCCESS == XmlUtils::read( node_friendly_fire, temp ) )
-                    {
-                        m_friendly_fire = temp;
-                    }
-                }
-
-                // target_killed
-                XmlNode node_target_killed = rootNode.getFirstChildElement( "target_killed" );
-
-                if ( node_target_killed.isValid() )
-                {
-                    Text temp;
-
-                    if ( SIM_SUCCESS == XmlUtils::read( node_target_killed, temp ) )
-                    {
-                        m_target_killed = temp;
-                    }
-                }
-
-                // target_hit
-                XmlNode node_target_hit = rootNode.getFirstChildElement( "target_hit" );
-
-                if ( node_target_hit.isValid() )
-                {
-                    Text temp;
-
-                    if ( SIM_SUCCESS == XmlUtils::read( node_target_hit, temp ) )
-                    {
-                        m_target_hit = temp;
-                    }
-                }
+                readText( rootNode, _loading         , "loading"         );
+#               ifdef SIM_DESKTOP
+                readText( rootNode, _resume          , "resume_desktop"  );
+                readText( rootNode, _begin           , "begin_desktop"   );
+#               else
+                readText( rootNode, _resume          , "resume_mobile"   );
+                readText( rootNode, _begin           , "begin_mobile"    );
+#               endif
+                readText( rootNode, _mission_success , "mission_success" );
+                readText( rootNode, _mission_failure , "mission_failure" );
+                readText( rootNode, _friendly_fire   , "friendly_fire"   );
+                readText( rootNode, _target_killed   , "target_killed"   );
+                readText( rootNode, _target_hit      , "target_hit"      );
             }
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Captions::readText( XmlNode &node, Text &text, const char *name )
+{
+    XmlNode textNode = node.getFirstChildElement( name );
+
+    if ( textNode.isValid() )
+    {
+        Text temp;
+
+        if ( SIM_SUCCESS == XmlUtils::read( textNode, temp ) )
+        {
+            text = temp;
         }
     }
 }

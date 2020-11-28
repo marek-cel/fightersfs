@@ -31,7 +31,7 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-osg::ref_ptr<osg::LOD> Models::m_tracer;
+osg::ref_ptr<osg::LOD> Models::_tracer;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -70,19 +70,19 @@ void Models::createTracer( float linesWidth )
 {
     const float range = 500.0f;
 
-    m_tracer = 0;
+    _tracer = 0;
 
-    m_tracer = new osg::LOD();
+    _tracer = new osg::LOD();
 
-    m_tracer->setCenterMode( osg::LOD::USER_DEFINED_CENTER );
-    m_tracer->setCenter( osg::Vec3( 0.0f, 0.0f, 0.0f ) );
-    m_tracer->setRadius( 5.0f );
-    m_tracer->setRangeMode( osg::LOD::DISTANCE_FROM_EYE_POINT );
+    _tracer->setCenterMode( osg::LOD::USER_DEFINED_CENTER );
+    _tracer->setCenter( osg::Vec3( 0.0f, 0.0f, 0.0f ) );
+    _tracer->setRadius( 5.0f );
+    _tracer->setRangeMode( osg::LOD::DISTANCE_FROM_EYE_POINT );
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 
-    m_tracer->addChild( geode.get(), 0.0f, range );
-    m_tracer->setRange( 0, 0.0f, range );
+    _tracer->addChild( geode.get(), 0.0f, range );
+    _tracer->setRange( 0, 0.0f, range );
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -125,11 +125,11 @@ void Models::createTracer( float linesWidth )
 
 osg::Node* Models::get( const std::string &objectFile, bool straight )
 {
-    for ( unsigned int i = 0; i < instance()->m_fileNames.size(); i++ )
+    for ( unsigned int i = 0; i < instance()->_fileNames.size(); i++ )
     {
-        if ( objectFile == instance()->m_fileNames.at( i ) )
+        if ( objectFile == instance()->_fileNames.at( i ) )
         {
-            return instance()->m_objects.at( i );
+            return instance()->_objects.at( i );
         }
     }
 
@@ -137,8 +137,8 @@ osg::Node* Models::get( const std::string &objectFile, bool straight )
 
     if ( object.valid() )
     {
-        instance()->m_objects.push_back( object.get() );
-        instance()->m_fileNames.push_back( objectFile );
+        instance()->_objects.push_back( object.get() );
+        instance()->_fileNames.push_back( objectFile );
 
         return object.get();
     }
@@ -175,16 +175,16 @@ osg::Node* Models::readNodeFile( std::string objectFile )
 
 void Models::reset()
 {
-    instance()->m_fileNames.clear();
-    instance()->m_objects.clear();
+    instance()->_fileNames.clear();
+    instance()->_objects.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Models::Models()
 {
-    m_fileNames.clear();
-    m_objects.clear();
+    _fileNames.clear();
+    _objects.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

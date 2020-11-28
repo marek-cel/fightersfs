@@ -54,15 +54,15 @@ public:
 
 private:
 
-    bool m_valid;   ///< specifies if elevation data is valid
+    bool _valid;    ///< specifies if elevation data is valid
 
-    int m_num;      ///< number of nodes along side
+    int _num;       ///< number of nodes along side
 
-    float m_half;   ///< [m] half size (maximum valid range)
-    float m_side;   ///< [m] side length
-    float m_step;   ///< [m] nodes step
+    float _half;    ///< [m] half size (maximum valid range)
+    float _side;    ///< [m] side length
+    float _step;    ///< [m] nodes step
 
-    float *m_elev;  ///< [m] ground elevation data array
+    float *_elev;   ///< [m] ground elevation data array
 };
 
 } // end of sim namespace

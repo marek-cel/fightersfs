@@ -42,18 +42,18 @@ public:
 
     typedef std::vector< std::string > ObjectFiles;
 
-    static const float m_size_2;        ///< [m]
-    static const float m_size;          ///< [m]
-    static const float m_limit;         ///< [m] minimum distance in main directions from scenery center when generic terrain tiles are visible
+    static const float _size_2;         ///< [m]
+    static const float _size;           ///< [m]
+    static const float _limit;          ///< [m] minimum distance in main directions from scenery center when generic terrain tiles are visible
 
-    static std::string m_terrainFile;   ///< terrain file
-    static std::string m_genericFile;   ///< generic terrain file
-    static ObjectFiles m_objectFiles;   ///< object files
+    static std::string _terrainFile;    ///< terrain file
+    static std::string _genericFile;    ///< generic terrain file
+    static ObjectFiles _objectFiles;    ///< object files
 
     /** */
     inline static osg::Node* getTerrainNode()
     {
-        return m_terrainNode.get();
+        return _terrainNode.get();
     }
 
     /** Constructor. */
@@ -71,20 +71,20 @@ public:
 private:
 
 #   ifdef SIM_DESKTOP
-    osg::ref_ptr<osgSim::OverlayNode> m_overlayNode;        ///< aircraft shadow
-    osg::ref_ptr<osg::MatrixTransform> m_mt;                ///<
+    osg::ref_ptr<osgSim::OverlayNode> _overlayNode;         ///< aircraft shadow
+    osg::ref_ptr<osg::MatrixTransform> _mt;                 ///<
 #   endif
 
-    static osg::ref_ptr<osg::Node> m_terrainNode;           ///< static terrain node for world view camera manipulator
+    static osg::ref_ptr<osg::Node> _terrainNode;            ///< static terrain node for world view camera manipulator
 
-    osg::ref_ptr<osg::Switch> m_switchGeneric;              ///< generic terrain tile switch
+    osg::ref_ptr<osg::Switch> _switchGeneric;               ///< generic terrain tile switch
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_pat_0;   ///< center
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_pat_x;   ///< EW (x) horizontal
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_pat_y;   ///< NS (y) vertical
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_pat_c;   ///< NE/NW/SE/SW (xy) corner
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat_0;    ///< center
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat_x;    ///< EW (x) horizontal
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat_y;    ///< NS (y) vertical
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat_c;    ///< NE/NW/SE/SW (xy) corner
 
-    UInt16 m_counter;                                       ///< generic terrain update counter
+    UInt16 _counter;                                        ///< generic terrain update counter
 
     void createGeneric();
     void createObjects();

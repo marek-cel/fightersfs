@@ -25,17 +25,17 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const std::string BomberDive::m_tagName = "bomber_dive";
+const std::string BomberDive::_tagName = "bomber_dive";
 
-const float BomberDive::m_dropAltMin = 300.0f;
-const float BomberDive::m_dropAltMax = 400.0f;
+const float BomberDive::_dropAltMin = 300.0f;
+const float BomberDive::_dropAltMax = 400.0f;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 BomberDive::BomberDive( Affiliation affiliation ) :
     Bomber( affiliation ),
 
-    m_attack ( false )
+    _attack ( false )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +65,7 @@ int BomberDive::read( const XmlNode &node )
 
 void BomberDive::limitTht( float &tht )
 {
-    if ( m_attack )
+    if ( _attack )
     {
         if ( tht < -m_target_tht ) tht = -m_target_tht;
         if ( tht >  m_target_tht ) tht =  m_target_tht;
@@ -86,27 +86,27 @@ void BomberDive::updateTarget()
     Bomber::updateTarget();
     ///////////////////////
 
-    m_attack = false;
+    _attack = false;
 
     if ( m_engaged )
     {
-        if ( m_target_alt > m_dropAltMin )
+        if ( m_target_alt > _dropAltMin )
         {
-            float max_range = ( m_airspeed / SIM_GRAVITY_ACC ) * sqrt( 2.0f*SIM_GRAVITY_ACC*m_target_alt );
+            float max_range = ( _airspeed / SIM_GRAVITY_ACC ) * sqrt( 2.0f*SIM_GRAVITY_ACC*m_target_alt );
 
             if ( m_target_dist < 0.8f*max_range )
             {
-                m_attack = true;
+                _attack = true;
 
-                float v_2 = m_airspeed * m_airspeed;
+                float v_2 = _airspeed * _airspeed;
                 float num = v_2 - sqrt( v_2*v_2 - SIM_GRAVITY_ACC*(SIM_GRAVITY_ACC*m_target_dist*m_target_dist - 2.0f*m_target_alt*v_2) );
                 float den = SIM_GRAVITY_ACC * m_target_dist;
 
                 m_target_tht = atan2( num, den );
 
 
-                m_destination.first  = m_target_pos;
-                m_destination.second = m_speed_min;
+                _destination.first  = m_target_pos;
+                _destination.second = _speed_min;
             }
         }
         else
@@ -126,7 +126,7 @@ void BomberDive::updateWeapons()
 
     if ( m_engaged )
     {
-        if ( m_target_alt < m_dropAltMax  )
+        if ( m_target_alt < _dropAltMax  )
         {
             m_trigger = true;
         }
@@ -138,7 +138,7 @@ void BomberDive::updateWeapons()
 
     if ( m_trigger && m_ordnanceIndex < m_ordnance.size() )
     {
-        if ( m_time_drop > 0.5f )
+        if ( _time_drop > 0.5f )
         {
             releaseWeapon();
         }

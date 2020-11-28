@@ -82,13 +82,13 @@ public:
     /** */
     inline osgGA::CameraManipulator* getCameraManipulator()
     {
-        return m_camera->getManipulator();
+        return _camera->getManipulator();
     }
 
-    inline osg::Group* getNodeHUD() { return m_hud->getNode(); }
-    inline osg::Group* getNodeOTW() { return m_otw->getNode(); }
+    inline osg::Group* getNodeHUD() { return _hud->getNode(); }
+    inline osg::Group* getNodeOTW() { return _otw->getNode(); }
 
-    inline UInt32 getOrbitedUnitId() const { return m_orbitedUnitId; }
+    inline UInt32 getOrbitedUnitId() const { return _orbitedUnitId; }
 
     void setViewChase();
     void setViewFlyby();
@@ -105,16 +105,16 @@ private:
 
     typedef std::vector< std::string > Missions;
 
-    Missions m_missions;        ///< missions files list
+    Missions _missions;         ///< missions files list
 
-    OTW *m_otw;                 ///< Out-the-Window
-    HUD *m_hud;                 ///< Head-up-Display
-    SFX *m_sfx;                 ///< sound effects
+    OTW *_otw;                  ///< Out-the-Window
+    HUD *_hud;                  ///< Head-up-Display
+    SFX *_sfx;                  ///< sound effects
 
-    Camera  *m_camera;          ///< camera control
-    Mission *m_mission;         ///< mission management
+    Camera  *_camera;           ///< camera control
+    Mission *_mission;          ///< mission management
 
-    UInt32 m_orbitedUnitId;     ///< current orbited unit ID
+    UInt32 _orbitedUnitId;      ///< current orbited unit ID
 
     /** Using this constructor is forbidden. */
     Simulation( const Simulation & ) {}

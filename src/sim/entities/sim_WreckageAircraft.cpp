@@ -57,11 +57,11 @@ WreckageAircraft::WreckageAircraft( const std::string &modelFile, const std::str
     m_root->addChild( m_smokeTrail.get() );
 
     m_switchFire = new osg::Switch();
-    m_pat->addChild( m_switchFire.get() );
+    _pat->addChild( m_switchFire.get() );
 
     createFire();
 
-    m_omg.x() = 0.2 * M_PI_2;
+    _omg.x() = 0.2 * M_PI_2;
 
 //    osg::ref_ptr<osg::Node> modelNode = model;
 
@@ -92,7 +92,7 @@ void WreckageAircraft::init( const Vec3 &pos,
     setVel( vel );
     setOmg( omg );
 
-    m_rollRate = ( m_angles.phi() > 0.0 ) ? 0.5f : -0.5f;
+    m_rollRate = ( _angles.phi() > 0.0 ) ? 0.5f : -0.5f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -105,7 +105,7 @@ void WreckageAircraft::load()
 
     if ( m_model.valid() )
     {
-        m_switch->removeChild( m_model.get() );
+        _switch->removeChild( m_model.get() );
     }
 
     loadModel();
@@ -123,16 +123,16 @@ void WreckageAircraft::update( double timeStep )
 
     if ( isActive() )
     {
-        float altitude_agl = m_pos.z() - m_elevation;
+        float altitude_agl = _pos.z() - m_elevation;
 
         if ( altitude_agl <= 0.0f && m_altitude_agl > 0.0f )
         {
-            m_switch->setValue( 0, false );
+            _switch->setValue( 0, false );
             m_switchFire->setAllChildrenOff();
 
             Explosion *explosion = new Explosion( 20.0f );
-            explosion->setPos( m_pos );
-            explosion->setAtt( m_att );
+            explosion->setPos( _pos );
+            explosion->setAtt( _att );
 
             if ( m_smokeTrail.valid() )
             {
@@ -149,7 +149,7 @@ void WreckageAircraft::update( double timeStep )
 
         if ( m_smokeTrail.valid() )
         {
-            m_smokeTrail->setPosition( m_pos );
+            m_smokeTrail->setPosition( _pos );
         }
     }
 }
@@ -162,9 +162,9 @@ void WreckageAircraft::setState( State state )
     Entity::setState( state );
     //////////////////////////
 
-    m_state = state;
+    _state = state;
 
-    if ( m_state == Active )
+    if ( _state == Active )
     {
         m_switchFire->setAllChildrenOn();
     }
@@ -178,7 +178,7 @@ void WreckageAircraft::setState( State state )
 
 void WreckageAircraft::updateElevation()
 {
-    m_elevation = Elevation::instance()->getElevation( m_pos.x(), m_pos.y() );
+    m_elevation = Elevation::instance()->getElevation( _pos.x(), _pos.y() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -187,28 +187,28 @@ void WreckageAircraft::updateVelocity()
 {
     if ( m_altitude_agl > 0.0f )
     {
-        float v = m_vel.length();
+        float v = _vel.length();
 
-        Vec3 acc = m_att.inverse() * Vec3( 0.0, 0.0, -SIM_GRAVITY_ACC )
-                 - ( m_vel * ( 1.0f/v ) ) * 0.01f * ( v*v );
+        Vec3 acc = _att.inverse() * Vec3( 0.0, 0.0, -SIM_GRAVITY_ACC )
+                 - ( _vel * ( 1.0f/v ) ) * 0.01f * ( v*v );
 
-        m_vel += ( acc - ( m_omg ^ m_vel ) ) * m_timeStep;
+        _vel += ( acc - ( _omg ^ _vel ) ) * _timeStep;
 
-        m_omg.x() = Inertia< float >::update( m_timeStep, m_omg.x(), m_rollRate, 0.5f );
+        _omg.x() = Inertia< float >::update( _timeStep, _omg.x(), m_rollRate, 0.5f );
 
         // tangent to velocity vector
-        m_omg.y() = -atan2( -m_vel.z(), -m_vel.x() ) / m_timeStep;
-        m_omg.z() = -atan2(  m_vel.y(), -m_vel.x() ) / m_timeStep;
+        _omg.y() = -atan2( -_vel.z(), -_vel.x() ) / _timeStep;
+        _omg.z() = -atan2(  _vel.y(), -_vel.x() ) / _timeStep;
     }
     else
     {
-        m_vel.x() = 0.0;
-        m_vel.y() = 0.0;
-        m_vel.z() = 0.0;
+        _vel.x() = 0.0;
+        _vel.y() = 0.0;
+        _vel.z() = 0.0;
 
-        m_omg.x() = 0.0;
-        m_omg.y() = 0.0;
-        m_omg.z() = 0.0;
+        _omg.x() = 0.0;
+        _omg.y() = 0.0;
+        _omg.z() = 0.0;
     }
 }
 
@@ -276,7 +276,7 @@ void WreckageAircraft::loadModel()
 
     if ( m_model.valid() )
     {
-        m_switch->addChild( m_model.get() );
+        _switch->addChild( m_model.get() );
     }
     else
     {

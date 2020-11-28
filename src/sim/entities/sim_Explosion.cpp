@@ -44,7 +44,7 @@ Explosion::~Explosion() {}
 void Explosion::createExplosionFire( float scale )
 {
     osg::ref_ptr<osg::Group> group = new osg::Group();
-    m_switch->addChild( group.get() );
+    _switch->addChild( group.get() );
 
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
     group->addChild( pat.get() );
@@ -94,7 +94,7 @@ void Explosion::createExplosionFire( float scale )
 void Explosion::createExplosionSmoke( float scale )
 {
     osg::ref_ptr<osg::Group> group = new osg::Group();
-    m_switch->addChild( group.get() );
+    _switch->addChild( group.get() );
 
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
     group->addChild( pat.get() );

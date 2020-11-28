@@ -42,7 +42,7 @@ ListUnits::~ListUnits() {}
 
 ListUnits::UnitData ListUnits::getData( UInt32 index )
 {
-    return m_data[ index ];
+    return _data[ index ];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -174,5 +174,5 @@ void ListUnits::readUnit( UnitType type, const XmlNode &node )
         }
     }
 
-    m_data.push_back( data );
+    _data.push_back( data );
 }

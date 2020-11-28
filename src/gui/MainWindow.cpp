@@ -23,6 +23,7 @@
 #include <QCloseEvent>
 #include <QSettings>
 
+#include <gui/KeyMap.h>
 #include <gui/MessageBox.h>
 #include <gui/ScreenSaver.h>
 
@@ -57,7 +58,6 @@ MainWindow::MainWindow( QWidget *parent ) :
 
     _autopilot ( false ),
     _inited    ( false ),
-    _paused    ( false ),
     _throttle  ( false ),
     _pending   ( true  )
 {
@@ -227,7 +227,6 @@ void MainWindow::timerEvent( QTimerEvent *event )
 
 void MainWindow::askIfAbort()
 {
-    _paused = true;
     sim::Manager::instance()->pause();
 
     QString title = windowTitle();
@@ -276,7 +275,6 @@ void MainWindow::simulationStart( int missionIndex )
     if ( !_inited )
     {
         _inited   = true;
-        _paused   = true;
         _throttle = false;
         _pending  = true;
 
@@ -302,9 +300,9 @@ void MainWindow::simulationPause()
 {
     if ( _inited )
     {
-        _paused = !sim::Manager::instance()->isPaused();
+        bool paused = !sim::Manager::instance()->isPaused();
 
-        if ( _paused )
+        if ( paused )
         {
             sim::Manager::instance()->pause();
         }
@@ -325,7 +323,6 @@ void MainWindow::simulationAbort()
     }
 
     _inited   = false;
-    _paused   = false;
     _throttle = false;
     _pending  = true;
 

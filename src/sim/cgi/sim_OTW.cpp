@@ -30,7 +30,7 @@ using namespace sim;
 OTW::OTW( float linesWidth, Module *parent ) :
     Module( new osg::Group(), parent ),
 
-    m_linesWidth ( linesWidth )
+    _linesWidth ( linesWidth )
 {
     osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
 
@@ -52,6 +52,6 @@ OTW::~OTW() {}
 void OTW::init()
 {
     addChild( new FogScene( this ) );
-    addChild( new Gates( m_linesWidth, this ) );
+    addChild( new Gates( _linesWidth, this ) );
     addChild( new SkyDome( this ) );
 }

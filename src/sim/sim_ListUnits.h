@@ -75,13 +75,13 @@ public:
 
     virtual ~ListUnits();
 
-    inline UInt32 getCount() const { return m_data.size(); }
+    inline UInt32 getCount() const { return _data.size(); }
 
     UnitData getData( UInt32 index );
 
 private:
 
-    UnitsList m_data;       ///< list of all units
+    UnitsList _data;        ///< list of all units
 
     void readUnits();
     void readUnits( UnitType type, const XmlNode &node );

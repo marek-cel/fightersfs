@@ -50,7 +50,7 @@ public:
 
 private:
 
-    osg::Matrixd m_matrix;
+    osg::Matrixd _matrix;
 
     /** */
     void updateMatrix();

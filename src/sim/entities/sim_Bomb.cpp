@@ -27,15 +27,15 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const float Bomb::m_r_limit = 30.0f;
-const float Bomb::m_r_limit_2 = Bomb::m_r_limit * Bomb::m_r_limit;
+const float Bomb::_r_limit = 30.0f;
+const float Bomb::_r_limit_2 = Bomb::_r_limit * Bomb::_r_limit;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Bomb::Bomb( UInt32 shooterId, Group *parent ) :
     Munition( 50000, shooterId, 60.0f, parent ),
 
-    m_elevation ( 0.0f )
+    _elevation ( 0.0f )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ void Bomb::update( double timeStep )
     {
         if ( isTopLevel() )
         {
-            if ( m_pos.z() < m_elevation )
+            if ( _pos.z() < _elevation )
             {
                 rangeDamage();
                 setState( Inactive );
@@ -89,15 +89,15 @@ void Bomb::rangeDamage()
         {
             if ( target->isActive() )
             {
-                float r2 = ( target->getPos() - m_pos ).length2() - target->getRadius2();
+                float r2 = ( target->getPos() - _pos ).length2() - target->getRadius2();
 
-                if ( r2 < m_r_limit_2 )
+                if ( r2 < _r_limit_2 )
                 {
                     UInt16 dp = m_dp;
 
                     if ( r2 > 0.0f )
                     {
-                        dp = (float)m_dp * ( 1.0f - r2 / m_r_limit_2 );
+                        dp = (float)m_dp * ( 1.0f - r2 / _r_limit_2 );
                     }
 
                     target->hit( dp, this );
@@ -110,7 +110,7 @@ void Bomb::rangeDamage()
     }
 
     Explosion *explosion = new Explosion( 15.0f );
-    explosion->setPos( m_pos );
+    explosion->setPos( _pos );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -123,7 +123,7 @@ void Bomb::updateElevation()
         Munition::updateElevation();
         ////////////////////////////
 
-        m_elevation = Elevation::instance()->getElevation( m_pos.x(), m_pos.y() );
+        _elevation = Elevation::instance()->getElevation( _pos.x(), _pos.y() );
     }
 }
 
@@ -133,23 +133,23 @@ void Bomb::updateVelocity()
 {
     if ( isTopLevel() )
     {
-        float v = m_vel.length();
+        float v = _vel.length();
 
         if ( v < 200.0f )
         {
-            Vec3 acc = m_att.inverse() * Vec3( 0.0, 0.0, -SIM_GRAVITY_ACC );
-            m_vel += ( acc - ( m_omg ^ m_vel ) ) * m_timeStep;
+            Vec3 acc = _att.inverse() * Vec3( 0.0, 0.0, -SIM_GRAVITY_ACC );
+            _vel += ( acc - ( _omg ^ _vel ) ) * _timeStep;
         }
 
         float alpha = 0.0f;
 
         if ( v > 0.01 )
         {
-            float vel_xy = sqrt( m_vel.x()*m_vel.x() + m_vel.y()*m_vel.y() );
-            alpha = atan2( -m_vel.z(), vel_xy );
+            float vel_xy = sqrt( _vel.x()*_vel.x() + _vel.y()*_vel.y() );
+            alpha = atan2( -_vel.z(), vel_xy );
         }
 
-        m_omg.x() = -m_angles.phi() / m_timeStep;
-        m_omg.y() = -alpha / m_timeStep;
+        _omg.x() = -_angles.phi() / _timeStep;
+        _omg.y() = -alpha / _timeStep;
     }
 }

@@ -31,7 +31,7 @@ class BomberLevel : public Bomber
 {
 public:
 
-    static const std::string m_tagName; ///<
+    static const std::string _tagName;  ///< unit tag name
 
     /** Constructor. */
     BomberLevel( Affiliation affiliation = Unknown );

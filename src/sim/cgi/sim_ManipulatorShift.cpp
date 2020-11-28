@@ -32,14 +32,14 @@ ManipulatorShift::ManipulatorShift() :
 ManipulatorShift::ManipulatorShift( const ManipulatorShift &cmi, const osg::CopyOp &copyOp ) :
     osg::Object( cmi, copyOp ),
     inherited( cmi, copyOp ),
-    m_matrix( cmi.m_matrix )
+    _matrix( cmi._matrix )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void ManipulatorShift::setByMatrix( const osg::Matrixd &matrix )
 {
-    m_matrix = matrix;
+    _matrix = matrix;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,14 +53,14 @@ void ManipulatorShift::setByInverseMatrix( const osg::Matrixd &matrix )
 
 osg::Matrixd ManipulatorShift::getMatrix() const
 {
-    return m_matrix;
+    return _matrix;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 osg::Matrixd ManipulatorShift::getInverseMatrix() const
 {
-    return osg::Matrixd::inverse( m_matrix );
+    return osg::Matrixd::inverse( _matrix );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
