@@ -28,7 +28,7 @@
 namespace sim
 {
 
-/** Tracer bullet class. */
+/** @brief Tracer bullet class. */
 class Tracer : public Bullet
 {
 public:
@@ -47,14 +47,14 @@ public:
 
 private:
 
-//    static UInt8 m_counter_trail;
-//    static UInt8 m_quantity;
+//    static UInt8 _counter_trail;
+//    static UInt8 _quantity;
 
-    float m_elevation;  ///< [m] terrain elevation
+    float _elevation;  ///< [m] terrain elevation
 
-//    bool m_trail;       ///< specifies if tracer is a smoke trail
-//    unsigned int m_counter_update;
-//    osg::ref_ptr<osgParticle::SmokeTrailEffect> m_smokeTrail;
+//    bool _trail;        ///< specifies if tracer is a smoke trail
+//    unsigned int _counter_update;
+//    osg::ref_ptr<osgParticle::SmokeTrailEffect> _smokeTrail;
 
     /** */
     void updateElevation();

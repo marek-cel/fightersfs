@@ -29,20 +29,20 @@
 namespace sim
 {
 
-/** Text class. */
+/** @brief Text class. */
 class Text
 {
 public:
 
     typedef std::map< UInt8, std::string > Strings;
 
-    /** Default constructor. */
+    /** @brief Default constructor. */
     Text();
 
-    /** Cppy constructor. */
+    /** @brief Copy constructor. */
     Text( const Text &text );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Text();
 
     void append( const char *str );

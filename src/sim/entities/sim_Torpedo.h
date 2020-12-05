@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Torpedo class. */
+/** @brief Torpedo class. */
 class Torpedo : public Munition
 {
 public:
@@ -42,7 +42,7 @@ public:
 
 protected:
 
-    float m_elevation;  ///< [m] terrain elevation
+    float _elevation;   ///< [m] terrain elevation
 
     virtual void hit( Unit *target );
 

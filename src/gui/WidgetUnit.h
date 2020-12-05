@@ -27,17 +27,17 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** This is widget wrapper for database CGI. */
+/** @brief Widget wrapper for database CGI. */
 class WidgetUnit : public WidgetCGI
 {
     Q_OBJECT
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     WidgetUnit( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~WidgetUnit();
 
     void update();

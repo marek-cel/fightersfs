@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Torpedo bomber class. */
+/** @brief Torpedo bomber class. */
 class BomberTorpedo : public Bomber
 {
 public:

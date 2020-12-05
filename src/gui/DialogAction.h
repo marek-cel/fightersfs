@@ -34,7 +34,7 @@ namespace Ui
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Input action change dialog box class. */
+/** @brief Input action change dialog box class. */
 class DialogAction : public QDialog
 {
     Q_OBJECT
@@ -45,10 +45,10 @@ public:
     static hid::Assignment getJoyButtAssignment( QWidget *parent = 0, hid::Assignment assignment = hid::Assignment(), short joystickId = 0 );
     static hid::Assignment getKeyAssignment( QWidget *parent = 0, hid::Assignment assignment = hid::Assignment() );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit DialogAction( QWidget *parent = NULLPTR, short joystickId = -1 );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     ~DialogAction();
 
 protected:

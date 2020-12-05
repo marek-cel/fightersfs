@@ -30,97 +30,99 @@
 namespace sim
 {
 
-/** XML node class. */
+/** @brief XML node class. */
 class XmlNode
 {
 public:
 
     typedef std::map<std::string,std::string> Attributes;
 
-    /** Constructor. */
+    /** @brief Constructor. */
     XmlNode();
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     XmlNode( const XmlNode &node );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     XmlNode( xmlNodePtr node, const std::string &file );
 
-    /** Destrcutor. */
+    /** @brief Destrcutor. */
     virtual ~XmlNode() {}
 
-    /** Returns error info dtring. */
+    /** R@brief eturns error info dtring. */
     std::string getErrorInfo() const;
 
     /**
+     * @brief Returns the value of the attribute.
      * Returns the value of the attribute or an empty string if the attribute
      * has not been specified.
      */
     std::string getAttribute( const std::string &name ) const;
 
     /**
+     * @brief Returns element attributes list.
      * Returns element attributes list or empty list if the node is not
      * an element or element does not has any attributes.
      */
     Attributes getAttributes() const;
 
     /**
-     * Returns first child node.
+     * @brief Returns first child node.
      */
     XmlNode getFirstChild() const;
 
     /**
-     * Returns first child element node of the given name.
+     * @brief Returns first child element node of the given name.
      * @param name element name
      */
     XmlNode getFirstChildElement( const std::string &name = std::string() ) const;
 
     /**
-     * Returns file name.
+     * @brief Returns file name.
      */
     inline std::string getFile() const
     {
-        return m_file;
+        return _file;
     }
 
     /**
-     * Returns file name and line number.
+     * @brief Returns file name and line number.
      */
     std::string getFileAndLine() const;
 
     /**
-     * Returns line number.
+     * @brief Returns line number.
      */
     inline int getLine() const
     {
         if ( isValid() )
         {
-            return (int)m_node->line;
+            return (int)_node->line;
         }
 
         return std::numeric_limits< int >::quiet_NaN();
     }
 
     /**
-     * Returns node name.
+     * @brief Returns node name.
      */
     std::string getName() const
     {
         if ( isValid() )
         {
-            return std::string( (const char*)m_node->name );
+            return std::string( (const char*)_node->name );
         }
 
         return std::string();
     }
 
     /**
-     * Returns next sibling node.
+     * @brief Returns next sibling node.
      */
     XmlNode getNextSibling() const;
 
     /**
-     * Returns next sibling element node of the given name.
+     * @brief Returns next sibling element node of the given name.
      * @param name element name
      */
     XmlNode getNextSiblingElement( const std::string &name = std::string() ) const;
@@ -129,95 +131,95 @@ public:
     std::string getText() const;
 
     /**
-     * Returns true if node has attributes.
+     * @brief Returns true if node has attributes.
      */
     inline bool hasAttributes() const
     {
         if ( isValid() )
         {
-            return ( m_node->properties != 0 );
+            return ( _node->properties != 0 );
         }
 
         return false;
     }
 
     /**
-     * Returns true if node has children.
+     * @brief Returns true if node has children.
      */
     inline bool hasChildren() const
     {
         if ( isValid() )
         {
-            return ( m_node->children != 0 );
+            return ( _node->children != 0 );
         }
 
         return false;
     }
 
     /**
-     * Returns true if node is attribute.
+     * @brief Returns true if node is attribute.
      */
     inline bool isAttribute() const
     {
         if ( isValid() )
         {
-            return ( m_node->type == XML_ATTRIBUTE_NODE );
+            return ( _node->type == XML_ATTRIBUTE_NODE );
         }
 
         return false;
     }
 
     /**
-     * Returns true if node is comment.
+     * @brief Returns true if node is comment.
      */
     inline bool isComment() const
     {
         if ( isValid() )
         {
-            return ( m_node->type == XML_COMMENT_NODE );
+            return ( _node->type == XML_COMMENT_NODE );
         }
 
         return false;
     }
 
     /**
-     * Returns true if node is element.
+     * @brief Returns true if node is element.
      */
     inline bool isElement() const
     {
         if ( isValid() )
         {
-            return ( m_node->type == XML_ELEMENT_NODE );
+            return ( _node->type == XML_ELEMENT_NODE );
         }
 
         return false;
     }
 
     /**
-     * Returns true if node is text.
+     * @brief Returns true if node is text.
      */
     inline bool isText() const
     {
         if ( isValid() )
         {
-            return ( m_node->type == XML_TEXT_NODE );
+            return ( _node->type == XML_TEXT_NODE );
         }
 
         return false;
     }
 
     /**
-     * Returns true if node is valid.
+     * @brief Returns true if node is valid.
      */
     inline bool isValid() const
     {
-        return ( m_node ) ? true : false;
+        return ( _node ) ? true : false;
     }
 
 private:
 
-    std::string m_file; ///< XML file name
-    xmlNodePtr  m_node; ///< libxml XML node pointer
+    std::string _file;  ///< XML file name
+    xmlNodePtr  _node;  ///< libxml XML node pointer
 };
 
 } // end of sim namespace

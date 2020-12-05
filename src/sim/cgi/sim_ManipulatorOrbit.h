@@ -26,12 +26,12 @@
 namespace sim
 {
 
-/** Orbit view camera manipulator class. */
+/** @brief Orbit view camera manipulator class. */
 class ManipulatorOrbit : public osgGA::NodeTrackerManipulator
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     ManipulatorOrbit();
 
 protected:

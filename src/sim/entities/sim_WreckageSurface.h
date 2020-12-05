@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Surface unit wreckage effect class. */
+/** @brief Surface unit wreckage effect class. */
 class WreckageSurface : public Wreckage
 {
 public:

@@ -26,12 +26,12 @@
 namespace sim
 {
 
-/** Bullet base class. */
+/** @brief Bullet base class. */
 class Bullet : public Munition
 {
 public:
 
-    static const float m_vel_m;     ///< [m/s] muzzle velocity
+    static const float _vel_m;      ///< [m/s] muzzle velocity
 
     /** Constructor. */
     Bullet( UInt16 dp, UInt32 shooterId, float life_span, Group *parent );

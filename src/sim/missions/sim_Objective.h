@@ -28,7 +28,7 @@
 namespace sim
 {
 
-/** Mission objective base class. */
+/** @brief Mission objective base class. */
 class Objective : public Base
 {
 public:
@@ -37,7 +37,7 @@ public:
     static Objective* read( const XmlNode &node );
 
     /** Constructor. */
-    Objective() : m_status( Pending ) {}
+    Objective() : _status( Pending ) {}
 
     /** Destructor. */
     virtual ~Objective() {}
@@ -45,11 +45,11 @@ public:
     /** Updates objective state. */
     virtual void update() = 0;
 
-    inline Status getStatus() const { return m_status; }
+    inline Status getStatus() const { return _status; }
 
 protected:
 
-    Status m_status;    ///< objective status
+    Status _status;     ///< objective status
 };
 
 } // end of sim namespace

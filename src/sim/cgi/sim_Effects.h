@@ -30,27 +30,27 @@
 namespace sim
 {
 
-/** Effects class. */
+/** @brief Effects class. */
 class Effects : public Base
 {
 public:
 
     typedef osgParticle::SmokeEffect Smoke;
 
-    /** Creates explosion effect. */
+    /** @brief Creates explosion effect. */
     static osg::Group* createExplosion( float scale );
 
-    /** Creates flames effect. */
+    /** @brief Creates flames effect. */
     static osg::Group* createFlames( const char *texture );
 
-    /** Creates smoke effect. */
+    /** @brief Creates smoke effect. */
     static osg::Group* createSmoke( float lifeTime = 1.5f,
                                     float size0 = 1.0f, float size1 = 0.2f,
                                     float spread = 1.0f,
                                     float intensity = 1.0f,
                                     float speed = 1.0f );
 
-    /** Creates smoke trail effect. */
+    /** @brief Creates smoke trail effect. */
     static Smoke* createSmokeTrail();
 
 };

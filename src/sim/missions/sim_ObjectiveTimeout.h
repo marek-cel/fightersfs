@@ -28,7 +28,8 @@ namespace sim
 
 /**
  * @brief Timeout objective class.
- * <p>This objective is completed after specified time.</p>
+ *
+ * This objective is completed after specified time.
  */
 class ObjectiveTimeout : public Objective
 {
@@ -50,9 +51,9 @@ public:
 
 private:
 
-    bool m_inited;  ///< specifies if objective has been inited
+    bool _inited;   ///< specifies if objective has been inited
 
-    float m_limit;  ///< [s] time limit
+    float _limit;   ///< [s] time limit
 };
 
 } // end of sim namespace

@@ -26,13 +26,13 @@
 namespace sim
 {
 
-/** Units converter class. */
+/** @brief Units converter class. */
 class Convert
 {
 public:
 
     /**
-     * Converts given angle from degrees to radians.
+     * @brief Converts given angle from degrees to radians.
      * @param angle angle expressed in degrees
      * @return angle expressed in radians
      */
@@ -42,7 +42,7 @@ public:
     }
 
     /**
-     * Converts given angle from radians to degrees.
+     * @brief Converts given angle from radians to degrees.
      * @param angle angle expressed in radians
      * @return angle expressed in degrees
      */
@@ -52,7 +52,7 @@ public:
     }
 
     /**
-     * Converts given length from feet to metres.
+     * @brief Converts given length from feet to metres.
      * @param length length expressed in feet
      * @return length expressed in metres
      */
@@ -62,7 +62,7 @@ public:
     }
 
     /**
-     * Converts given velocity from km/h to knots.
+     * @brief Converts given velocity from km/h to knots.
      * @param vel velocity expressed in km/h
      * @return velocity expressed in knots
      */
@@ -72,7 +72,7 @@ public:
     }
 
     /**
-     * Converts given velocity from kntos to km/h.
+     * @brief Converts given velocity from kntos to km/h.
      * @param vel velocity expressed in knots
      * @return velocity expressed in km/h
      */
@@ -82,7 +82,7 @@ public:
     }
 
     /**
-     * Converts given length from kilometres to nautical miles.
+     * @brief Converts given length from kilometres to nautical miles.
      * @param len length expressed in kilometres
      * @return length expressed in nautical miles
      */
@@ -92,7 +92,7 @@ public:
     }
 
     /**
-     * Converts given length from metres to feet.
+     * @brief Converts given length from metres to feet.
      * @param length length expressed in metres
      * @return length expressed in feet
      */
@@ -102,7 +102,7 @@ public:
     }
 
     /**
-     * Converts given length from metres to nautical miles.
+     * @brief Converts given length from metres to nautical miles.
      * @param length length expressed in metres
      * @return length expressed in nautical miles
      */
@@ -112,7 +112,7 @@ public:
     }
 
     /**
-     * Converts given length from nautical miles to metres.
+     * @brief Converts given length from nautical miles to metres.
      * @param length length expressed in nautical miles
      * @return length expressed in metres
      */
@@ -122,7 +122,7 @@ public:
     }
 
     /**
-     * Converts given velocity from m/s to ft/min.
+     * @brief Converts given velocity from m/s to ft/min.
      * @param velocity velocity expressed in m/s
      * @return velocity expressed in ft/min
      */
@@ -132,7 +132,7 @@ public:
     }
 
     /**
-     * Converts given velocity from m/s to knots.
+     * @brief Converts given velocity from m/s to knots.
      * @param velocity velocity expressed in m/s
      * @return velocity expressed in knots
      */
@@ -142,7 +142,7 @@ public:
     }
 
     /**
-     * Converts given velocity from kntos to m/s.
+     * @brief Converts given velocity from kntos to m/s.
      * @param velocity velocity expressed in knots
      * @return velocity expressed in m/s
      */
@@ -152,7 +152,7 @@ public:
     }
 
     /**
-     * Converts given mass from kilograms to pounds.
+     * @brief Converts given mass from kilograms to pounds.
      * @param mass mass expressed in kilograms
      * @return mass expressed in pounds
      */
@@ -162,7 +162,7 @@ public:
     }
 
     /**
-     * Converts given mass from pounds to kilograms.
+     * @brief Converts given mass from pounds to kilograms.
      * @param mass mass expressed in pounds
      * @return mass expressed in kilograms
      */
@@ -172,7 +172,7 @@ public:
     }
 
     /**
-     * Converts given pressure from pascals to in Hg.
+     * @brief Converts given pressure from pascals to in Hg.
      * @param press pressure expressed in pascals
      * @return  pressure expressed in in Hg
      */

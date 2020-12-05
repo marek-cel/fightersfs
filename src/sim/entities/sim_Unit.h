@@ -31,7 +31,8 @@ namespace sim
 class Munition;
 
 /**
- * Unit base class.
+ * @brief Unit base class.
+ *
  * Unlike other entities, units initial state is Standby.
  */
 class Unit : public Entity
@@ -91,31 +92,31 @@ public:
     virtual void update( double timeStep );
 
     /** Returns unit affiliation. */
-    inline Affiliation getAffiliation() const { return m_affiliation; }
+    inline Affiliation getAffiliation() const { return _affiliation; }
 
     /** Returns unit hit points. */
-    inline UInt16 getHP() const { return m_hp; }
+    inline UInt16 getHP() const { return _hp; }
 
     /** Returns unit armor points. */
-    inline UInt16 getAP() const { return m_ap; }
+    inline UInt16 getAP() const { return _ap; }
 
     /**
      * @brief Returns unit bounding sphere radius.
      * @return [m] bounding sphere radius
      */
-    inline float getRadius()  const { return m_radius; }
+    inline float getRadius()  const { return _radius; }
 
     /**
      * @brief Returns unit bounding sphere squared radius.
      * @return [m^2] bounding sphere squared radius
      */
-    inline float getRadius2() const { return m_radius2; }
+    inline float getRadius2() const { return _radius2; }
 
     /** Returns true if unit is ownship (controlled by player). */
-    inline bool isOwnship() const { return m_ownship; }
+    inline bool isOwnship() const { return _ownship; }
 
     /** Returns true if unit has not been destroyed. */
-    inline bool isAlive() const { return m_hp > 0; }
+    inline bool isAlive() const { return _hp > 0; }
 
     /** Sets unit armor points. */
     virtual void setAP( UInt16 ap );
@@ -131,18 +132,18 @@ public:
 
 protected:
 
-    Affiliation m_affiliation;          ///< unit affiliation
+    Affiliation _affiliation;           ///< unit affiliation
 
-    osg::ref_ptr<osg::Node> m_model;    ///< unit model node
-    std::string m_modelFile;            ///< unit model file
+    osg::ref_ptr<osg::Node> _model;     ///< unit model node
+    std::string _modelFile;             ///< unit model file
 
-    UInt16 m_ap;                        ///< armor points
-    UInt16 m_hp;                        ///< hit points (max. 100)
+    UInt16 _ap;                         ///< armor points
+    UInt16 _hp;                         ///< hit points (max. 100)
 
-    float m_radius;                     ///< [m] entity radius for the purpose of collisions detections
-    float m_radius2;                    ///< [m^2] entity radius squared
+    float _radius;                      ///< [m] entity radius for the purpose of collisions detections
+    float _radius2;                     ///< [m^2] entity radius squared
 
-    bool m_ownship;                     ///< specifies if unit is ownship
+    bool _ownship;                      ///< specifies if unit is ownship
 
     /** Reads gunners. */
     virtual void readGunners( const XmlNode &node );

@@ -28,12 +28,14 @@ namespace sim
 
 /**
  * @brief Distance objective class.
- * <p>Objective is completed if ownship distance to the specified unit
- * is less than given limit.</p>
- * <p>This objective should be used with another type of objective, because
- * it is assumed to be completed as long as ownship is closer to the specified
- * unit than given distance so if there were no other objective mission stage
- * would be immediately completed.</p>
+ *
+ * Objective is completed if ownship distance to the specified unit
+ * is less than given limit.
+ *
+ * This objective should be used with another type of objective, because it is
+ * assumed to be completed as long as ownship is closer to the specified unit
+ * than given distance so if there were no other objective mission stage would
+ * be immediately completed.
  */
 class ObjectiveDistance : public Objective
 {
@@ -53,10 +55,10 @@ public:
 
 private:
 
-    UInt32 m_unitId;    ///< unit ID
+    UInt32 _unitId;     ///< unit ID
 
-    float m_limit;      ///< [m] maximum distance
-    float m_limit_2;    ///< [m] maximum distance squared
+    float _limit;       ///< [m] maximum distance
+    float _limit_2;     ///< [m] maximum distance squared
 };
 
 } // end of sim namespace

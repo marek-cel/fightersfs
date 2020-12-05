@@ -26,12 +26,12 @@
 namespace sim
 {
 
-/** World view camera manipulator class. */
+/** @brief World view camera manipulator class. */
 class ManipulatorWorld : public osgGA::TerrainManipulator
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     ManipulatorWorld();
 
 protected:

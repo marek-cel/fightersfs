@@ -38,22 +38,22 @@ using namespace sim;
 Unit::Unit( Affiliation affiliation ) :
     Entity(),
 
-    m_affiliation ( affiliation ),
+    _affiliation ( affiliation ),
 
-    m_ap ( 0 ),
-    m_hp ( 100 ),
+    _ap ( 0 ),
+    _hp ( 100 ),
 
-    m_radius  ( 0.0 ),
-    m_radius2 ( 0.0 ),
+    _radius  ( 0.0 ),
+    _radius2 ( 0.0 ),
 
-    m_ownship ( false )
+    _ownship ( false )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Unit::~Unit()
 {
-    if ( m_ownship )
+    if ( _ownship )
     {
         Ownship::instance()->reportDestroyed();
     }
@@ -65,7 +65,7 @@ void Unit::activate()
 {
     if ( _state == Standby )
     {
-        Statistics::instance()->reportActivated( m_affiliation );
+        Statistics::instance()->reportActivated( _affiliation );
 
         setState( Active );
     }
@@ -75,32 +75,32 @@ void Unit::activate()
 
 void Unit::collide( Unit *unit )
 {
-    unit->damage( 180 * m_ap );
+    unit->damage( 180 * _ap );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Unit::damage( UInt16 dp )
 {
-    if ( m_ap > 0 )
+    if ( _ap > 0 )
     {
-        dp = (float)dp / (float)m_ap;
+        dp = (float)dp / (float)_ap;
     }
     else
     {
-        dp = m_hp;
+        dp = _hp;
     }
 
-    if ( dp < m_hp )
+    if ( dp < _hp )
     {
-        setHP( m_hp - dp );
+        setHP( _hp - dp );
     }
     else
     {
         setHP( 0 );
     }
 
-    if ( m_hp == 0 )
+    if ( _hp == 0 )
     {
         if ( isActive() ) destroy();
     }
@@ -112,12 +112,12 @@ void Unit::destroy()
 {
     if ( _state == Active )
     {
-        Statistics::instance()->reportDestroyed( m_affiliation );
+        Statistics::instance()->reportDestroyed( _affiliation );
 
-        m_hp = 0;
+        _hp = 0;
         setState( Inactive );
 
-        if ( m_ownship )
+        if ( _ownship )
         {
             Ownship::instance()->reportDestroyed();
         }
@@ -130,7 +130,7 @@ void Unit::hit( UInt16 dp, const Munition *munition )
 {
     damage( dp );
 
-    if ( m_ownship )
+    if ( _ownship )
     {
         Ownship::instance()->reportHit( munition );
     }
@@ -144,16 +144,16 @@ void Unit::load()
     Entity::load();
     ///////////////
 
-    if ( m_model.valid() )
+    if ( _model.valid() )
     {
-        _switch->removeChild( m_model.get() );
+        _switch->removeChild( _model.get() );
     }
 
-    m_model = Models::get( getPath( m_modelFile ) );
+    _model = Models::get( getPath( _modelFile ) );
 
-    if ( m_model.valid() )
+    if ( _model.valid() )
     {
-        _switch->addChild( m_model.get() );
+        _switch->addChild( _model.get() );
     }
 }
 
@@ -162,7 +162,7 @@ void Unit::load()
 void Unit::makeAutomatic()
 {
     _switch->setName( _name.c_str() );
-    m_ownship = false;
+    _ownship = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -180,9 +180,9 @@ void Unit::makeOwnship()
 
     _switch->setName( "ownship" );
 
-    /////////////////
-    m_ownship = true;
-    /////////////////
+    ////////////////
+    _ownship = true;
+    ////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -211,10 +211,10 @@ int Unit::read( const XmlNode &node )
 
                 if ( result == SIM_SUCCESS )
                 {
-                    m_modelFile = model;
-                    m_ap = (UInt16)ap;
-                    m_radius = radius;
-                    m_radius2 = m_radius * m_radius;
+                    _modelFile = model;
+                    _ap = (UInt16)ap;
+                    _radius = radius;
+                    _radius2 = _radius * _radius;
 
                     readGunners( node );
                 }
@@ -231,7 +231,7 @@ int Unit::read( const XmlNode &node )
 
 void Unit::reportTargetHit( Unit *target )
 {
-    if ( m_ownship )
+    if ( _ownship )
     {
         if ( target->getHP() > 0 )
             Ownship::instance()->reportTargetHit( target );
@@ -250,7 +250,7 @@ void Unit::update( double timeStep )
 
     if ( isActive() )
     {
-        if ( m_ownship && Data::get()->camera.type == ViewPilot )
+        if ( _ownship && Data::get()->camera.type == ViewPilot )
         {
             _switch->setAllChildrenOff();
         }
@@ -268,24 +268,24 @@ void Unit::update( double timeStep )
 
 void Unit::setAP( UInt16 ap )
 {
-    m_ap = ap;
+    _ap = ap;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Unit::setHP( UInt16 hp )
 {
-    m_hp = hp;
+    _hp = hp;
 
-    if ( m_hp > 100 ) m_hp = 100;
+    if ( _hp > 100 ) _hp = 100;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Unit::setRadius( float radius )
 {
-    m_radius = radius;
-    m_radius2 = m_radius * m_radius;
+    _radius = radius;
+    _radius2 = _radius * _radius;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -308,33 +308,33 @@ void Unit::readGunners( const XmlNode &node )
 
                 std::string name = nodeGunner.getName();
 
-                if ( 0 == String::icompare( name, "gunner" ) )
+                if      ( 0 == String::icompare( name, "gunner"       ) )
                 {
-                    gunner = new Gunner( m_affiliation, this );
+                    gunner = new Gunner      ( _affiliation, this );
                 }
-                else if ( 0 == String::icompare( name, "gunner_flak" ) )
+                else if ( 0 == String::icompare( name, "gunner_flak"  ) )
                 {
-                    gunner = new GunnerFlak( m_affiliation, this );
+                    gunner = new GunnerFlak  ( _affiliation, this );
                 }
-                else if ( 0 == String::icompare( name, "gunner_back" ) )
+                else if ( 0 == String::icompare( name, "gunner_back"  ) )
                 {
-                    gunner = new GunnerBack( m_affiliation, this );
+                    gunner = new GunnerBack  ( _affiliation, this );
                 }
                 else if ( 0 == String::icompare( name, "gunner_front" ) )
                 {
-                    gunner = new GunnerFront( m_affiliation, this );
+                    gunner = new GunnerFront ( _affiliation, this );
                 }
-                else if ( 0 == String::icompare( name, "gunner_left" ) )
+                else if ( 0 == String::icompare( name, "gunner_left"  ) )
                 {
-                    gunner = new GunnerLeft( m_affiliation, this );
+                    gunner = new GunnerLeft  ( _affiliation, this );
                 }
-                else if ( 0 == String::icompare( name, "gunner_rear" ) )
+                else if ( 0 == String::icompare( name, "gunner_rear"  ) )
                 {
-                    gunner = new GunnerRear( m_affiliation, this );
+                    gunner = new GunnerRear  ( _affiliation, this );
                 }
-                else if ( 0 == String::icompare( name, "gunner_right" ) )
+                else if ( 0 == String::icompare( name, "gunner_right"  ) )
                 {
-                    gunner = new GunnerRight( m_affiliation, this );
+                    gunner = new GunnerRight ( _affiliation, this );
                 }
 
                 if ( gunner )
@@ -367,7 +367,7 @@ void Unit::updateCollisions()
             {
                 r = unit->getPos() - _pos;
 
-                if ( r.length2() < m_radius2 + unit->getRadius2() )
+                if ( r.length2() < _radius2 + unit->getRadius2() )
                 {
                     unit->collide( this );
                     collide( unit );

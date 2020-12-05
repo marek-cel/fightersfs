@@ -36,7 +36,7 @@ ObjectiveDefend* ObjectiveDefend::read( const XmlNode &node )
 
         if ( minimum.length() )
         {
-            objective->m_minimum = String::toInt( minimum );
+            objective->_minimum = String::toInt( minimum );
         }
 
         XmlNode unitNode = node.getFirstChildElement( "unit" );
@@ -51,7 +51,7 @@ ObjectiveDefend* ObjectiveDefend::read( const XmlNode &node )
 
                 if ( unit )
                 {
-                    objective->m_unitsId.push_back( unit->getId() );
+                    objective->_unitsId.push_back( unit->getId() );
                 }
             }
             else
@@ -66,9 +66,9 @@ ObjectiveDefend* ObjectiveDefend::read( const XmlNode &node )
             unitNode = unitNode.getNextSiblingElement( "unit" );
         }
 
-        if ( objective->m_minimum > objective->m_unitsId.size() )
+        if ( objective->_minimum > objective->_unitsId.size() )
         {
-            objective->m_minimum = objective->m_unitsId.size();
+            objective->_minimum = objective->_unitsId.size();
         }
 
         return objective;
@@ -91,16 +91,16 @@ ObjectiveDefend::~ObjectiveDefend() {}
 
 void ObjectiveDefend::update()
 {
-    m_status = Success;
+    _status = Success;
 
     // faillure if unit destroyed
-    if ( m_unitsId.size() > 0 )
+    if ( _unitsId.size() > 0 )
     {
-        UnitsId::iterator it = m_unitsId.begin();
+        UnitsId::iterator it = _unitsId.begin();
 
         unsigned int count = 0;
 
-        while ( it != m_unitsId.end() )
+        while ( it != _unitsId.end() )
         {
             Unit *unit = dynamic_cast< Unit* >( Entities::instance()->getEntityById( *it ) );
 
@@ -115,9 +115,9 @@ void ObjectiveDefend::update()
             ++it;
         }
 
-        if ( count < m_minimum )
+        if ( count < _minimum )
         {
-            m_status = Failure;
+            _status = Failure;
         }
     }
 }

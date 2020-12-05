@@ -28,7 +28,7 @@
 namespace sim
 {
 
-/** Fonts container class. */
+/** @brief Fonts container class. */
 class Fonts : public Singleton< Fonts >
 {
     friend class Singleton< Fonts >;
@@ -40,7 +40,7 @@ public:
     /** */
     static osgText::Font* get( const std::string &fontFile );
 
-    /** Resets fonts list. */
+    /** @brief Resets fonts list. */
     static void reset();
 
 private:
@@ -56,7 +56,7 @@ private:
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Fonts();
 
 private:

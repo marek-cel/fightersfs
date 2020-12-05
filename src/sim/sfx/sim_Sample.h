@@ -34,10 +34,10 @@ class Sample
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Sample( const std::string &file, bool looping = false );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Sample();
 
     void play();

@@ -21,14 +21,15 @@
 
 /**
  * @mainpage
- * <h1>FSG - Flight Simulation Game</h1>
  *
- * <p>FSG is an arcade style combat flight simulation video game engine written
+ * @section FSG - Flight Simulation Game
+ *
+ * FSG is an arcade style combat flight simulation video game engine written
  * in C++ intended to be used with PC's, mobile devices such as smartphones and
- * tablets as well as smart TVs and set-top boxes.</p>
+ * tablets as well as smart TVs and set-top boxes.
  *
- * <p>OpenGL ES or GLES for short and OpenSceneGraph or OSG are used
- * as rendering engine base and math library.</p>
+ * OpenGL ES or GLES for short and OpenSceneGraph or OSG are used as rendering
+ * engine base and math library.
  */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +45,8 @@ namespace sim
 
 /**
  * @brief Simulation manager singleton class.
- * <p>This class should be used as the only interface to use FSG.</p>
+ *`
+ * This class should be used as the only interface to use FSG.
  *
  * @see Simulation
  * @see UnitViewer
@@ -66,57 +68,57 @@ private:
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Manager();
 
     /**
-     * Initializes mission.
+     * @brief Initializes mission.
      * @param width viewport width in pixels
      * @param height viewport height in pixels
      * @param mission_index mission file index as defined in missions/campaign.xml
      */
     void init( int width, int height, UInt32 mission_index );
 
-    /** Reloads model view or simulation (reloads models, textures, etc). */
+    /** @brief Reloads model view or simulation (reloads models, textures, etc). */
     void reload();
 
     /**
-     * Updates model view or simulation. This function should be called every step.
+     * @brief Updates model view or simulation. This function should be called every step.
      * @param timeStep [s] simulation time step
      */
     void update( double timeStep );
 
-    /** Pauses simulation. */
+    /** @brief Pauses simulation. */
     void pause();
 
-    /** Unpauses simulation. */
+    /** @brief Unpauses simulation. */
     void unpause();
 
-    /** Restarts simulation. */
+    /** @brief Restarts simulation. */
     void restart();
 
     /**
-     * Destroys simulation object, resets data, etc.
+     * @brief Destroys simulation object, resets data, etc.
      * This function is not thread safe!
      */
     void destroy();
 
-    /** Returns current camera manipulator. */
+    /** @brief Returns current camera manipulator. */
     inline osgGA::CameraManipulator* getCameraManipulator()
     {
         return _cameraManipulator.get();
     }
 
-    /** Returns HUD (Head-up-Display) scene node. */
+    /** @brief Returns HUD (Head-up-Display) scene node. */
     inline osg::Group* getNodeHUD() { return _nodeHUD.get(); }
 
-    /** Returns OTW (Out-the-Window) scene node. */
+    /** @brief Returns OTW (Out-the-Window) scene node. */
     inline osg::Group* getNodeOTW() { return _nodeOTW.get(); }
 
-    /** Returns mission status. */
+    /** @brief Returns mission status. */
     inline Status getStatus() const { return _status; }
 
-    /** Returns Id of the currently orbited (by camera) unit. */
+    /** @brief Returns Id of the currently orbited (by camera) unit. */
     inline UInt32 getOrbitedUnitId() const
     {
         if ( _simulation )
@@ -125,32 +127,32 @@ public:
         return 0;
     }
 
-    /** Returns true if mission is finished due to success ot failure. */
+    /** @brief Returns true if mission is finished due to success ot failure. */
     inline bool isFinished() const { return _finished; }
 
-    /** Returns true if simulation is inited. */
+    /** @brief Returns true if simulation is inited. */
     inline bool isInited() const
     {
         return _simulation != 0;
     }
 
-    /** Returns true if simulation is inited and ready. */
+    /** @brief Returns true if simulation is inited and ready. */
     inline bool isReady() const { return _simulation != 0 && _inited; }
 
-    /** Returns true if simulation is paused. */
+    /** @brief Returns true if simulation is paused. */
     inline bool isPaused() const { return _paused; }
 
-    /** Returns true if mission is not finished. */
+    /** @brief Returns true if mission is not finished. */
     inline bool isPending() const { return _pending; }
 
-    /** Sets autopilot state. */
+    /** @brief Sets autopilot state. */
     inline void setAutopilot( bool autopilot )
     {
         _autopilot = autopilot;
     }
 
     /**
-     * Sets controls input.
+     * @brief Sets controls input.
      * @param trigger basic trigger
      * @param ctrlRoll <-1;1> roll control
      * @param ctrlPitch <-1;1> pitch control
@@ -164,33 +166,33 @@ public:
                       float throttle );
 
     /**
-     * Sets current language.
+     * @brief Sets current language.
      * @param index
      */
     void setLanguage( int index );
 
-    /** Sets chase view. */
+    /** @brief Sets chase view. */
     void setViewChase();
 
-    /** Sets flyby view. */
+    /** @brief Sets flyby view. */
     void setViewFlyby();
 
-    /** Sets front view. */
+    /** @brief Sets front view. */
     void setViewFront();
 
-    /** Sets orbit view. */
+    /** @brief Sets orbit view. */
     void setViewOrbit();
 
-    /** Sets pilot view. */
+    /** @brief Sets pilot view. */
     void setViewPilot();
 
-    /** Sets shift view. */
+    /** @brief Sets shift view. */
     void setViewShift();
 
-    /** Sets world view. */
+    /** @brief Sets world view. */
     void setViewWorld();
 
-    /** Toggles through units to be orbited. */
+    /** @brief Toggles through units to be orbited. */
     void toggleOrbitUnit();
 
 private:
@@ -216,7 +218,7 @@ private:
     bool _pending;                      ///< specifies if mission is pending
     bool _started;                      ///< specifies if simulation have been started after initial pause
 
-    /** Destroys simulation object, resets data, etc. */
+    /** @brief Destroys simulation object, resets data, etc. */
     void reset();
 };
 

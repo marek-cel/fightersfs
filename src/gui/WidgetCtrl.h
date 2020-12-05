@@ -35,17 +35,17 @@ namespace Ui
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Controls configuration widget class. */
+/** @brief Controls configuration widget class. */
 class WidgetCtrl : public QWidget
 {
     Q_OBJECT
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit WidgetCtrl( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     ~WidgetCtrl();
 
     void getAssignments( hid::Assignment assignments[] );

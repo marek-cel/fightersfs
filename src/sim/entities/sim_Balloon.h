@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Balloon class. */
+/** @brief Balloon class. */
 class Balloon : public UnitAerial
 {
 public:

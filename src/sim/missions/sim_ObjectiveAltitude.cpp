@@ -39,8 +39,8 @@ ObjectiveAltitude* ObjectiveAltitude::read( const XmlNode &node )
 
         if ( above.length() > 0 && below.length() > 0 )
         {
-            objective->m_above = String::toFloat( above );
-            objective->m_below = String::toFloat( below );
+            objective->_above = String::toFloat( above );
+            objective->_below = String::toFloat( below );
 
             return objective;
         }
@@ -54,8 +54,8 @@ ObjectiveAltitude* ObjectiveAltitude::read( const XmlNode &node )
 ////////////////////////////////////////////////////////////////////////////////
 
 ObjectiveAltitude::ObjectiveAltitude() :
-    m_above ( 0.0f ),
-    m_below ( 0.0f )
+    _above ( 0.0f ),
+    _below ( 0.0f )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -72,9 +72,9 @@ void ObjectiveAltitude::update()
     {
         float altitude = aircraft->getAltitudeASL();
 
-        if ( altitude > m_above && altitude < m_below )
+        if ( altitude > _above && altitude < _below )
         {
-            m_status = Success;
+            _status = Success;
         }
     }
 }

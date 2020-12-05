@@ -523,7 +523,7 @@ void Ownship::updateTarget()
             _target_hp = target->getHP();
 
             float dist = ( target->getPos() - _aircraft->getPos() ).length();
-            float time = dist / Bullet::m_vel_m;
+            float time = dist / Bullet::_vel_m;
 
             Vec3 r_enu = target->getPos() - _pos_cam;
             Vec3 e_enu = target->getPos() + ( target->getAtt() * target->getVel() ) * time - _pos_cam;

@@ -26,20 +26,20 @@
 namespace sim
 {
 
-/** Splash screen class. */
+/** @brief Splash screen class. */
 class SplashScreen
 {
 public:
 
-    /** Returns splash sreen node.  */
+    /** @brief Returns splash sreen node.  */
     static osg::Group* create( int width, int height );
 
 private:
 
-    /** Creates background. */
+    /** @brief Creates background. */
     static void createBack( osg::Group *parent, float maxX );
 
-    /** Creates text. */
+    /** @brief Creates text. */
     static void createText( osg::Group *parent );
 };
 

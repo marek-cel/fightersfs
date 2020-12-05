@@ -27,7 +27,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Units data class. */
+/** @brief Units data class. */
 class Units : public Singleton< Units >
 {
     friend class sim::Singleton< Units >;
@@ -111,7 +111,7 @@ public:
 
 private:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Units();
 
     QVector< Data > _units;         ///< units data

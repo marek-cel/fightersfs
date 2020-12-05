@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Wreckage effect base class. */
+/** @brief Wreckage effect base class. */
 class Wreckage : public Entity
 {
 public:

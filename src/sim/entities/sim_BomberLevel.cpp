@@ -60,21 +60,21 @@ void BomberLevel::updateWeapons()
     Bomber::updateWeapons();
     ////////////////////////
 
-    if ( m_engaged )
+    if ( _engaged )
     {
-        float drop_dist = ( _airspeed / SIM_GRAVITY_ACC ) * sqrt( 2.0f*SIM_GRAVITY_ACC*m_target_alt );
+        float drop_dist = ( _airspeed / SIM_GRAVITY_ACC ) * sqrt( 2.0f*SIM_GRAVITY_ACC*_target_alt );
 
-        if ( fabs( drop_dist - m_target_dist ) < 30.0f )
+        if ( fabs( drop_dist - _target_dist ) < 30.0f )
         {
-            m_trigger = true;
+            _trigger = true;
         }
     }
     else
     {
-        m_trigger = false;
+        _trigger = false;
     }
 
-    if ( m_trigger && m_ordnanceIndex < m_ordnance.size() )
+    if ( _trigger && _ordnanceIndex < _ordnance.size() )
     {
         if ( _time_drop > 0.2f )
         {

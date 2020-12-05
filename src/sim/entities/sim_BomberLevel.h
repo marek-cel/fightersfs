@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Level bomber base class. */
+/** @brief Level bomber base class. */
 class BomberLevel : public Bomber
 {
 public:

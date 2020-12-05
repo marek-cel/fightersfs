@@ -31,7 +31,7 @@ using namespace sim;
 Torpedo::Torpedo( UInt32 shooterId, Group *parent ) :
     Munition( 50000, shooterId, 60.0f, parent ),
 
-    m_elevation ( 0.0f )
+    _elevation ( 0.0f )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +50,7 @@ void Torpedo::update( double timeStep )
     {
         if ( isTopLevel() )
         {
-            if ( _pos.z() < m_elevation )
+            if ( _pos.z() < _elevation )
             {
                 if ( fabs( _angles.phi() ) < 1.0e-3 )
                 {
@@ -87,7 +87,7 @@ void Torpedo::updateElevation()
         Munition::updateElevation();
         ////////////////////////////
 
-        m_elevation = Elevation::instance()->getElevation( _pos.x(), _pos.y() );
+        _elevation = Elevation::instance()->getElevation( _pos.x(), _pos.y() );
     }
 }
 

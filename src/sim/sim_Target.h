@@ -26,14 +26,14 @@
 namespace sim
 {
 
-/** Target accquisition class template. */
+/** @brief Target accquisition class template. */
 template < class TYPE >
 class Target
 {
 public:
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param parent parent entity
      * @param target affiliation
      * @param rangeForward [m] maximum distance when looking for most in front target
@@ -52,11 +52,11 @@ public:
         _valid ( false )
     {}
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Target() {}
 
     /**
-     * Finds target most in front of parent.
+     * @brief Finds target most in front of parent.
      * @param max_a [rad] maximum angle from parent front
      */
     inline void findForward( float max_a = M_PI )
@@ -65,7 +65,7 @@ public:
     }
 
     /**
-     * Finds target most in front of parent.
+     * @brief Finds target most in front of parent.
      * @param excluded unit excluded from search
      * @param max_a [rad] maximum angle from parent front
      */
@@ -150,7 +150,7 @@ public:
     }
 
     /**
-     * Finds target nearest to parent.
+     * @brief Finds target nearest to parent.
      * @param max_a [rad] maximum angle from parent front
      */
     inline void findNearest( float max_a = M_PI )
@@ -159,7 +159,7 @@ public:
     }
 
     /**
-     * Finds target nearest to parent.
+     * @brief Finds target nearest to parent.
      * @param excluded unit excluded from search
      * @param max_a [rad] maximum angle from parent front
      */
@@ -240,7 +240,7 @@ public:
         }
     }
 
-    /** Updates target. */
+    /** @brief Updates target. */
     void update()
     {
         if ( _valid )
@@ -268,13 +268,13 @@ public:
         }
     }
 
-    /** Returns true if target is valid. */
+    /** @brief Returns true if target is valid. */
     inline bool isValid() const { return _valid; }
 
-    /** Returns target unit if exists, otherwise returns 0. */
+    /** @brief Returns target unit if exists, otherwise returns 0. */
     inline TYPE* getTarget() const { return _target; }
 
-    /** Sets target unit. */
+    /** @brief Sets target unit. */
     inline void setTarget( TYPE *target )
     {
         _target = target;

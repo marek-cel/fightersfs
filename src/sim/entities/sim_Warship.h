@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Warship class. */
+/** @brief Warship class. */
 class Warship : public UnitMarine
 {
 public:

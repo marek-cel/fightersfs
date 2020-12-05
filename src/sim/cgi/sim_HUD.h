@@ -33,7 +33,7 @@
 namespace sim
 {
 
-/** Head-up-Display view class. */
+/** @brief Head-up-Display view class. */
 class HUD : public Base
 {
 public:
@@ -49,22 +49,22 @@ public:
 
     static const float _rad11deg;           ///< [rad] 11 deg
 
-    /** Constructor. */
+    /** @brief Constructor. */
     HUD( float linesWidth, int width, int height );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~HUD();
 
-    /** Initializes HUD. */
+    /** @brief Initializes HUD. */
     void init( bool tutorial );
 
     /** */
     void load();
 
-    /** Updates HUD. */
+    /** @brief Updates HUD. */
     void update();
 
-    /** Returns OSG node.  */
+    /** @brief Returns OSG node.  */
     inline osg::Group* getNode() { return _root.get(); }
 
 private:

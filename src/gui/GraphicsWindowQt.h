@@ -32,6 +32,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+/** @brief Graphics window class for use OpenSceneGraph with Qt. */
 class GraphicsWindowQt : public osgViewer::GraphicsWindow
 {
     class GLWidget;
@@ -52,12 +53,12 @@ public:
     };
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param traits
      */
     GraphicsWindowQt( osg::GraphicsContext::Traits *traits );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~GraphicsWindowQt();
 
     virtual bool setWindowRectangleImplementation( int x, int y, int w, int h );

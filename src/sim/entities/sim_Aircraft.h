@@ -39,7 +39,7 @@
 namespace sim
 {
 
-/** Aircraft class. */
+/** @brief Aircraft class. */
 class Aircraft : public UnitAerial
 {
 public:
@@ -326,7 +326,8 @@ protected:
 
     /**
      * @brief Equations of motion time integration.
-     * <p>Position and attitude are computed by this function.</p>
+     *
+     * Position and attitude are computed by this function.
      */
     virtual void timeIntegration();
 

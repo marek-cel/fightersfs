@@ -30,39 +30,33 @@
 namespace sim
 {
 
-/** XML document class. */
+/** @brief XML document class. */
 class XmlDoc
 {
 public:
 
-    /** Constrcutor. */
+    /** @brief Constrcutor. */
     XmlDoc( const std::string &fileName );
 
-    /** Destrcutor. */
+    /** @brief Destrcutor. */
     virtual ~XmlDoc();
 
-    /** Returns XML document root element. */
-    inline XmlNode getRootNode()
-    {
-        return XmlNode( *m_root );
-    }
+    /** @brief Returns XML document root element. */
+    inline XmlNode getRootNode() { return XmlNode( *_root ); }
 
-    /** Returns true if XML document is open. */
-    inline bool isOpen() const
-    {
-        return m_open;
-    }
+    /** @brief Returns true if XML document is open. */
+    inline bool isOpen() const { return _open; }
 
     /** @return SIM_SUCCESS on success, SIM_FAILURE on failure. */
     int readFile( const std::string &fileName );
 
 private:
 
-    xmlDocPtr m_doc;    ///< libxml document pointer
+    xmlDocPtr _doc;     ///< libxml document pointer
 
-    bool m_open;        ///< specifies if document is open
+    bool _open;         ///< specifies if document is open
 
-    XmlNode *m_root;    ///< XML document root element pointer
+    XmlNode *_root;     ///< XML document root element pointer
 };
 
 } // end of sim namespace

@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Bomb class. */
+/** @brief Bomb class. */
 class Bomb : public Munition
 {
 public:

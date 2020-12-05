@@ -34,30 +34,30 @@ WreckageAircraft::WreckageAircraft( const std::string &modelFile, const std::str
                                     osgParticle::SmokeEffect *smokeTrail, bool ownship ) :
     Wreckage( 0, 10.0f ),
 
-    m_ownship ( ownship ),
+    _ownship ( ownship ),
 
-    m_smokeTrail ( smokeTrail ),
+    _smokeTrail ( smokeTrail ),
 
-    m_livery ( livery ),
-    m_modelFile ( modelFile ),
+    _livery ( livery ),
+    _modelFile ( modelFile ),
 
-    m_rollRate ( 0.5f ),
+    _rollRate ( 0.5f ),
 
-    m_altitude_agl ( std::numeric_limits< float >::max() ),
-    m_elevation    ( 0.0f )
+    _altitude_agl ( std::numeric_limits< float >::max() ),
+    _elevation    ( 0.0f )
 {
     loadModel();
     loadLivery();
 
-    if ( !m_smokeTrail.valid() )
+    if ( !_smokeTrail.valid() )
     {
-        m_smokeTrail = Effects::createSmokeTrail();
+        _smokeTrail = Effects::createSmokeTrail();
     }
 
-    m_root->addChild( m_smokeTrail.get() );
+    _root->addChild( _smokeTrail.get() );
 
-    m_switchFire = new osg::Switch();
-    _pat->addChild( m_switchFire.get() );
+    _switchFire = new osg::Switch();
+    _pat->addChild( _switchFire.get() );
 
     createFire();
 
@@ -67,10 +67,10 @@ WreckageAircraft::WreckageAircraft( const std::string &modelFile, const std::str
 
 //    if ( modelNode.valid() )
 //    {
-//        m_switch->addChild( modelNode.get() );
+//        _switch->addChild( modelNode.get() );
 
 //        osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-//        m_switch->addChild( pat.get() );
+//        _switch->addChild( pat.get() );
 
 //        pat->setAttitude( osg::Quat( M_PI_2, osg::Y_AXIS ) );
 //    }
@@ -92,7 +92,7 @@ void WreckageAircraft::init( const Vec3 &pos,
     setVel( vel );
     setOmg( omg );
 
-    m_rollRate = ( _angles.phi() > 0.0 ) ? 0.5f : -0.5f;
+    _rollRate = ( _angles.phi() > 0.0 ) ? 0.5f : -0.5f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -103,9 +103,9 @@ void WreckageAircraft::load()
     Wreckage::load();
     /////////////////
 
-    if ( m_model.valid() )
+    if ( _model.valid() )
     {
-        _switch->removeChild( m_model.get() );
+        _switch->removeChild( _model.get() );
     }
 
     loadModel();
@@ -123,33 +123,33 @@ void WreckageAircraft::update( double timeStep )
 
     if ( isActive() )
     {
-        float altitude_agl = _pos.z() - m_elevation;
+        float altitude_agl = _pos.z() - _elevation;
 
-        if ( altitude_agl <= 0.0f && m_altitude_agl > 0.0f )
+        if ( altitude_agl <= 0.0f && _altitude_agl > 0.0f )
         {
             _switch->setValue( 0, false );
-            m_switchFire->setAllChildrenOff();
+            _switchFire->setAllChildrenOff();
 
             Explosion *explosion = new Explosion( 20.0f );
             explosion->setPos( _pos );
             explosion->setAtt( _att );
 
-            if ( m_smokeTrail.valid() )
+            if ( _smokeTrail.valid() )
             {
-                m_smokeTrail->setEmitterDuration( 0.0 );
+                _smokeTrail->setEmitterDuration( 0.0 );
             }
         }
 
-        m_altitude_agl = altitude_agl;
+        _altitude_agl = altitude_agl;
 
-        if ( m_altitude_agl > 0.0 )
+        if ( _altitude_agl > 0.0 )
         {
             resetLifeTime();
         }
 
-        if ( m_smokeTrail.valid() )
+        if ( _smokeTrail.valid() )
         {
-            m_smokeTrail->setPosition( _pos );
+            _smokeTrail->setPosition( _pos );
         }
     }
 }
@@ -166,11 +166,11 @@ void WreckageAircraft::setState( State state )
 
     if ( _state == Active )
     {
-        m_switchFire->setAllChildrenOn();
+        _switchFire->setAllChildrenOn();
     }
     else
     {
-        m_switchFire->setAllChildrenOff();
+        _switchFire->setAllChildrenOff();
     }
 }
 
@@ -178,14 +178,14 @@ void WreckageAircraft::setState( State state )
 
 void WreckageAircraft::updateElevation()
 {
-    m_elevation = Elevation::instance()->getElevation( _pos.x(), _pos.y() );
+    _elevation = Elevation::instance()->getElevation( _pos.x(), _pos.y() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void WreckageAircraft::updateVelocity()
 {
-    if ( m_altitude_agl > 0.0f )
+    if ( _altitude_agl > 0.0f )
     {
         float v = _vel.length();
 
@@ -194,7 +194,7 @@ void WreckageAircraft::updateVelocity()
 
         _vel += ( acc - ( _omg ^ _vel ) ) * _timeStep;
 
-        _omg.x() = Inertia< float >::update( _timeStep, _omg.x(), m_rollRate, 0.5f );
+        _omg.x() = Inertia< float >::update( _timeStep, _omg.x(), _rollRate, 0.5f );
 
         // tangent to velocity vector
         _omg.y() = -atan2( -_vel.z(), -_vel.x() ) / _timeStep;
@@ -216,13 +216,13 @@ void WreckageAircraft::updateVelocity()
 
 void WreckageAircraft::createFire()
 {
-    if ( m_switchFire->getNumChildren() > 0 )
+    if ( _switchFire->getNumChildren() > 0 )
     {
-        m_switchFire->removeChildren( 0, m_switchFire->getNumChildren() );
+        _switchFire->removeChildren( 0, _switchFire->getNumChildren() );
     }
 
     osg::ref_ptr<osg::PositionAttitudeTransform> patFire = new osg::PositionAttitudeTransform();
-    m_switchFire->addChild( patFire.get() );
+    _switchFire->addChild( patFire.get() );
 
     patFire->setAttitude( osg::Quat( M_PI_2, osg::Y_AXIS ) );
     patFire->addChild( Effects::createSmoke( 3.0f, 1.2f, 0.4f, 0.1f ) );
@@ -231,7 +231,7 @@ void WreckageAircraft::createFire()
     patFire->addChild( Effects::createFlames( getPath( "textures/fire_1.rgb" ).c_str() ) );
     patFire->addChild( Effects::createFlames( getPath( "textures/fire_2.rgb" ).c_str() ) );
 #   else
-    if ( m_ownship )
+    if ( _ownship )
     {
         patFire->addChild( Effects::createFlames( getPath( "textures/fire_1.rgb" ).c_str() ) );
         patFire->addChild( Effects::createFlames( getPath( "textures/fire_2.rgb" ).c_str() ) );
@@ -250,13 +250,13 @@ osg::Node* WreckageAircraft::getModel( const std::string &modelFile )
 
 void WreckageAircraft::loadLivery()
 {
-    if ( m_model.valid() )
+    if ( _model.valid() )
     {
-        osg::ref_ptr<osg::Texture2D> texture = Textures::get( getPath( m_livery ), 8.0f );
+        osg::ref_ptr<osg::Texture2D> texture = Textures::get( getPath( _livery ), 8.0f );
 
         if ( texture.valid() )
         {
-            osg::ref_ptr<osg::StateSet> stateSet = m_model->getOrCreateStateSet();
+            osg::ref_ptr<osg::StateSet> stateSet = _model->getOrCreateStateSet();
             stateSet->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
         }
     }
@@ -270,13 +270,13 @@ void WreckageAircraft::loadLivery()
 
 void WreckageAircraft::loadModel()
 {
-    std::string aircraftFile = getPath( m_modelFile );
+    std::string aircraftFile = getPath( _modelFile );
 
-    m_model = Models::readNodeFile( aircraftFile );
+    _model = Models::readNodeFile( aircraftFile );
 
-    if ( m_model.valid() )
+    if ( _model.valid() )
     {
-        _switch->addChild( m_model.get() );
+        _switch->addChild( _model.get() );
     }
     else
     {

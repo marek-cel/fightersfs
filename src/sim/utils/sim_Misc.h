@@ -32,13 +32,13 @@
 namespace sim
 {
 
-/** Miscellaneous utilities. */
+/** @brief Miscellaneous utilities. */
 class Misc
 {
 public:
 
     /**
-     * Checks if given varaible is Infinite.
+     * @brief Checks if given varaible is Infinite.
      * @param val double precision value to test
      * @return function returns TRUE if tested value is Infinite
      */
@@ -52,7 +52,7 @@ public:
     }
 
     /**
-     * Checks if given varaible is NaN.
+     * @brief Checks if given varaible is NaN.
      * @param val double precision value to test
      * @return function returns TRUE if tested value is NaN
      */
@@ -62,7 +62,7 @@ public:
     }
 
     /**
-     * Checks if given varaible is Infinite or NaN.
+     * @brief Checks if given varaible is Infinite or NaN.
      * @param val double precision value to test
      * @return function returns FALSE if tested value is Infinite or NaN
      */
@@ -72,7 +72,7 @@ public:
     }
 
     /**
-     * Checks if given array is Infinite or NaN.
+     * @brief Checks if given array is Infinite or NaN.
      * @param array double precision array to test
      * @param size the size of given array
      * @return function returns FALSE if tested array is Infinite or NaN
@@ -92,7 +92,7 @@ public:
         return ( val1 > val2 ) ? val1 : val2;
     }
 
-    /** Multiplication operator (by vector). */
+    /** @brief Multiplication operator (by vector). */
     template < typename MAT, typename VEC >
     static VEC multiplyMatrixByVector( const MAT &mat, const VEC &vec )
     {
@@ -112,7 +112,7 @@ public:
     }
 
     /**
-     * Saturation function. Returns value limited to the given range.
+     * @brief Saturation function. Returns value limited to the given range.
      * @param min minimum possible value
      * @param max maximum possible value
      * @param val variable to test
@@ -127,7 +127,7 @@ public:
     }
 
     /**
-     * Signum function.
+     * @brief Signum function.
      * @param val input value
      * @return 1 if val is possitive, -1 when val is negative, 0 if val is zero
      */
@@ -140,7 +140,7 @@ public:
     }
 
     /**
-     * Period of 2.0 fast sine wave approximation.
+     * @brief Period of 2.0 fast sine wave approximation.
      * Valid range is -1.0 to 1.0.
      * @param x normalized input value <-1.0;1.0>
      * @return approximated sine wave

@@ -29,7 +29,7 @@
 namespace sim
 {
 
-/** XML utilities class. */
+/** @brief XML utilities class. */
 class XmlUtils
 {
 public:

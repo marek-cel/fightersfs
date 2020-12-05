@@ -26,13 +26,13 @@
 namespace sim
 {
 
-/** Flak bullet class. */
+/** @brief Flak bullet class. */
 class Flak : public Bullet
 {
 public:
 
-    static const float m_r_limit;   ///< [m] range damage limit
-    static const float m_r_limit_2; ///< [m^2] range damage limit squared
+    static const float _r_limit;    ///< [m] range damage limit
+    static const float _r_limit_2;  ///< [m^2] range damage limit squared
 
     /** Constructor. */
     Flak( UInt32 shooterId, float fuse_time );
@@ -45,9 +45,9 @@ public:
 
 private:
 
-    float m_fuse_time;  ///< [s]
+    float _fuse_time;   ///< [s] fuse time delay
 
-    bool m_exploded;    ///<
+    bool _exploded;     ///<
 
     void hit( Unit *target );
 

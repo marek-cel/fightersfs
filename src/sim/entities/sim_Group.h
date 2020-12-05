@@ -29,7 +29,7 @@ namespace sim
 {
 class Entity;
 
-/** Entities group class. */
+/** @brief Entities group class. */
 class Group : public Base
 {
 public:
@@ -64,10 +64,10 @@ public:
     virtual Entity* getEntityById( UInt32 id );
 
     /** Returns parent node. */
-    inline Group* getParent() { return m_parent; }
+    inline Group* getParent() { return _parent; }
 
     /** Returns OSG node.  */
-    inline osg::Group* getNode() { return m_root.get(); }
+    inline osg::Group* getNode() { return _root.get(); }
 
     /** Loads entities. */
     virtual void load();
@@ -77,10 +77,10 @@ public:
 
 protected:
 
-    Group *m_parent;    ///< parent node
-    List m_children;    ///< children nodes
+    Group *_parent;     ///< parent node
+    List _children;     ///< children nodes
 
-    osg::ref_ptr<osg::Group> m_root;    ///< root group node
+    osg::ref_ptr<osg::Group> _root;     ///< root group node
 };
 
 }

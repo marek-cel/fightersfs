@@ -26,17 +26,17 @@
 namespace sim
 {
 
-/** Shift view camera manipulator class. */
+/** @brief Shift view camera manipulator class. */
 class ManipulatorShift : public osgGA::CameraManipulator
 {
     typedef CameraManipulator inherited;
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     ManipulatorShift();
 
-    /** Constructor. */
+    /** @brief Constructor. */
     ManipulatorShift( const ManipulatorShift &cmi,
                       const osg::CopyOp &copyOp = osg::CopyOp::SHALLOW_COPY );
 

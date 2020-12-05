@@ -28,7 +28,7 @@
 namespace sim
 {
 
-/** Fighter aircraft class. */
+/** @brief Fighter aircraft class. */
 class Fighter : public Aircraft
 {
 public:
@@ -70,15 +70,15 @@ public:
 
 protected:
 
-    Target< UnitAerial > *m_target;         ///< target
+    Target< UnitAerial > *_target;          ///< target
 
-    float m_target_dist;    ///< [m] distance to the current target
-    float m_target_bear;    ///< [rad] bearing of the current target
-    float m_target_tht;     ///< [rad] relative elevation of the current target
-    float m_target_psi;     ///< [rad] relative azimuth of the current target
-    float m_target_rad;     ///< [m] target radius
+    float _target_dist;     ///< [m] distance to the current target
+    float _target_bear;     ///< [rad] bearing of the current target
+    float _target_tht;      ///< [rad] relative elevation of the current target
+    float _target_psi;      ///< [rad] relative azimuth of the current target
+    float _target_rad;      ///< [m] target radius
 
-    bool m_engaged;         ///< specifies if aircraft is engaged into combat
+    bool _engaged;          ///< specifies if aircraft is engaged into combat
 
     virtual void updateControls();
     virtual void updateDestination();

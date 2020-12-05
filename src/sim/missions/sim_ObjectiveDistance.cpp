@@ -39,14 +39,14 @@ ObjectiveDistance* ObjectiveDistance::read( const XmlNode &node )
 
         if ( limit.length() > 0 && unitName.length() > 0 )
         {
-            objective->m_limit = String::toFloat( limit );
-            objective->m_limit_2 = objective->m_limit * objective->m_limit;
+            objective->_limit = String::toFloat( limit );
+            objective->_limit_2 = objective->_limit * objective->_limit;
 
             Unit *unit = Entities::instance()->getUnitByName( unitName );
 
-            if ( unit && objective->m_limit > 0.0f )
+            if ( unit && objective->_limit > 0.0f )
             {
-                objective->m_unitId = unit->getId();
+                objective->_unitId = unit->getId();
 
                 return objective;
             }
@@ -61,9 +61,9 @@ ObjectiveDistance* ObjectiveDistance::read( const XmlNode &node )
 ////////////////////////////////////////////////////////////////////////////////
 
 ObjectiveDistance::ObjectiveDistance() :
-    m_unitId ( 0 ),
-    m_limit ( 0.0f ),
-    m_limit_2 ( 0.0f )
+    _unitId ( 0 ),
+    _limit ( 0.0f ),
+    _limit_2 ( 0.0f )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -74,26 +74,26 @@ ObjectiveDistance::~ObjectiveDistance() {}
 
 void ObjectiveDistance::update()
 {
-    if ( m_status != Failure )
+    if ( _status != Failure )
     {
-        Unit *unit = dynamic_cast< Unit* >( Entities::instance()->getEntityById( m_unitId ) );
+        Unit *unit = dynamic_cast< Unit* >( Entities::instance()->getEntityById( _unitId ) );
 
         Aircraft *ownship = Ownship::instance()->getAircraft();
 
         if ( unit && ownship )
         {
-            if ( ( unit->getAbsPos() - ownship->getAbsPos() ).length2() < m_limit_2 )
+            if ( ( unit->getAbsPos() - ownship->getAbsPos() ).length2() < _limit_2 )
             {
-                m_status = Success;
+                _status = Success;
             }
             else
             {
-                m_status = Failure;
+                _status = Failure;
             }
         }
         else
         {
-            m_status = Failure;
+            _status = Failure;
         }
     }
 }

@@ -159,10 +159,10 @@ void Aircraft::destroy()
         explosion->setPos( _pos );
         explosion->setAtt( _att );
 
-        _wreckage = new WreckageAircraft( m_modelFile, _livery, _smokeTrail.get(), m_ownship );
+        _wreckage = new WreckageAircraft( _modelFile, _livery, _smokeTrail.get(), _ownship );
         _wreckage->init( _pos, _att, _vel, _omg );
 
-        if ( m_ownship )
+        if ( _ownship )
         {
             Ownship::instance()->setWreckage( _wreckage );
         }
@@ -221,58 +221,58 @@ void Aircraft::load()
     Entity::load(); // sic!
     ///////////////
 
-    if ( m_model.valid() )
+    if ( _model.valid() )
     {
-        _switch->removeChild( m_model.get() );
+        _switch->removeChild( _model.get() );
     }
 
-    if ( _unique || m_ownship )
+    if ( _unique || _ownship )
     {
-        m_model = Models::readNodeFile( getPath( m_modelFile ) );
+        _model = Models::readNodeFile( getPath( _modelFile ) );
     }
     else
     {
-        m_model = Models::get( getPath( m_modelFile ) );
+        _model = Models::get( getPath( _modelFile ) );
     }
 
-    if ( m_model.valid() )
+    if ( _model.valid() )
     {
-        _modelStateSet = m_model->getOrCreateStateSet();
-        _switch->addChild( m_model.get() );
+        _modelStateSet = _model->getOrCreateStateSet();
+        _switch->addChild( _model.get() );
 
-        _aileronL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "AileronL" ) );
-        _aileronR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "AileronR" ) );
+        _aileronL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( _model, "AileronL" ) );
+        _aileronR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( _model, "AileronR" ) );
 
-        _elevator = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Elevator" ) );
+        _elevator = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( _model, "Elevator" ) );
 
-        _rudderL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "RudderL" ) );
-        _rudderR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "RudderR" ) );
+        _rudderL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( _model, "RudderL" ) );
+        _rudderR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( _model, "RudderR" ) );
 
         if ( !_rudderL.valid() )
         {
-            _rudderL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Rudder" ) );
+            _rudderL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( _model, "Rudder" ) );
         }
 
-        _propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller1" ) );
-        _propeller2 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller2" ) );
-        _propeller3 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller3" ) );
-        _propeller4 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller4" ) );
+        _propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( _model, "Propeller1" ) );
+        _propeller2 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( _model, "Propeller2" ) );
+        _propeller3 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( _model, "Propeller3" ) );
+        _propeller4 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( _model, "Propeller4" ) );
 
         if ( !_propeller1.valid() || !_propeller2.valid() )
         {
-            _propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "PropellerL" ) );
-            _propeller2 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "PropellerR" ) );
+            _propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( _model, "PropellerL" ) );
+            _propeller2 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( _model, "PropellerR" ) );
         }
 
         if ( !_propeller1.valid() )
         {
-            _propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( m_model, "Propeller" ) );
+            _propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( _model, "Propeller" ) );
         }
     }
 
     setLivery( _livery );
 
-    if ( m_ownship )
+    if ( _ownship )
     {
         createMuzzleFlash( _flashes, Vec3( 0.5, 0.5, 0.5 ) );
     }
@@ -442,7 +442,7 @@ void Aircraft::update( double timeStep )
 
     if ( isActive() )
     {
-        if ( m_ownship )
+        if ( _ownship )
         {
             if ( timeStep > 0.03 )
             {
@@ -484,7 +484,7 @@ void Aircraft::update( double timeStep )
         if ( _propeller3.valid() ) _propeller3->setAttitude( Quat( -_prop_angle, osg::X_AXIS ) );
         if ( _propeller4.valid() ) _propeller4->setAttitude( Quat(  _prop_angle, osg::X_AXIS ) );
 
-        if ( m_ownship && !Data::get()->controls.autopilot )
+        if ( _ownship && !Data::get()->controls.autopilot )
         {
             _ctrlRoll  = Ownship::instance()->getCtrlRoll();
             _ctrlPitch = Ownship::instance()->getCtrlPitch();
@@ -500,7 +500,7 @@ void Aircraft::update( double timeStep )
         updateDestination();
         updatePropeller();
 
-        if ( _altitude_agl < 1.0 || ( m_ownship && _altitude_agl < fabs( sin( _rollAngle ) ) * m_radius ) )
+        if ( _altitude_agl < 1.0 || ( _ownship && _altitude_agl < fabs( sin( _rollAngle ) ) * _radius ) )
         {
             destroy();
         }
@@ -636,13 +636,13 @@ void Aircraft::setHP( UInt16 hp )
     UnitAerial::setHP( hp );
     ////////////////////////
 
-    if ( m_hp < 25 )
+    if ( _hp < 25 )
     {
         if ( !_smokeTrail.valid() )
         {
             _smokeTrail = Effects::createSmokeTrail();
 
-            m_root->addChild( _smokeTrail.get() );
+            _root->addChild( _smokeTrail.get() );
         }
     }
 }
@@ -713,7 +713,7 @@ void Aircraft::createMuzzleFlash( const Flashes &flashes, osg::Vec3 scale )
 
 void Aircraft::avoidCollisions( float &phi, float &tht )
 {
-    const float dist2_limit = 16.0f * m_radius2;
+    const float dist2_limit = 16.0f * _radius2;
 
     float dist2 = std::numeric_limits< float >::max();
 
@@ -937,7 +937,7 @@ void Aircraft::updateTrigger()
 {
     _trigger = false;
 
-    if ( m_ownship && !Data::get()->controls.autopilot )
+    if ( _ownship && !Data::get()->controls.autopilot )
     {
         _trigger = Ownship::instance()->getTrigger();
     }
@@ -1031,13 +1031,13 @@ void Aircraft::updateWeapons()
 
             for ( UInt8 i = 0; i < _muzzles.size(); i++ )
             {
-                Tracer *tracer = new Tracer( _id, m_ownship && _muzzles[ i ].trail );
+                Tracer *tracer = new Tracer( _id, _ownship && _muzzles[ i ].trail );
                 tracer->setPos( _pos + _att * _muzzles[ i ].pos );
                 tracer->setAtt( _att );
             }
         }
 
-        if ( m_ownship )
+        if ( _ownship )
         {
             if ( _flash_count % _flash_devider == 0 )
             {

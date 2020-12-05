@@ -39,29 +39,31 @@ public:
     typedef std::vector< Module* > List;
 
     /**
-     * Constructor.
-     * <p>root parameter is intended to make possible using osg::Group derived
+     * @brief Constructor.
+     *
+     * root parameter is intended to make possible using osg::Group derived
      * object type instead of pure osg::Group type (e.i. osg::LOD, osg::Switch,
      * osg::PositionAttitudeTransform, etc.) as root node without need
-     * to create another scene graph level.</p>
+     * to create another scene graph level.
+     *
      * @param root OSG module root node object
      * @param parent parent module
      */
     Module( osg::Group *root, Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Module();
 
-    /** Adds child to the module. */
+    /** @brief Adds child to the module. */
     virtual void addChild( Module *child );
 
-    /** Initializes module and all its children. */
+    /** @brief Initializes module and all its children. */
     virtual void load();
 
-    /** Updates module and all its children. */
+    /** @brief Updates module and all its children. */
     virtual void update();
 
-    /** Returns module OSG node.  */
+    /** @brief Returns module OSG node.  */
     inline osg::Group* getNode() { return _root.get(); }
 
 protected:
@@ -72,7 +74,7 @@ protected:
 
     Module *_parent;                    ///< parent node
 
-    /** Removes all children. */
+    /** @brief Removes all children. */
     virtual void removeAllChildren();
 };
 

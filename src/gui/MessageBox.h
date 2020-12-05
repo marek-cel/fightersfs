@@ -25,23 +25,23 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Custom message box class. */
+/** @brief Custom message box class. */
 class MessageBox : public QMessageBox
 {
     Q_OBJECT
 
 public:
 
-    /** Shows question box with yes and no buttons. */
+    /** @brief Shows question box with yes and no buttons. */
     static StandardButton question( QWidget *parent,
                                     const QString &title,
                                     const QString& text );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit MessageBox( const QString &title, const QString &text,
                          StandardButtons buttons = NoButton, QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~MessageBox();
 };
 

@@ -28,7 +28,8 @@ namespace sim
 
 /**
  * @brief Altitude objective class.
- * <p>Objective is completed if ownship altitude is in the given range.</p>
+ *
+ * Objective is completed if ownship altitude is in the given range.
  */
 class ObjectiveAltitude : public Objective
 {
@@ -48,8 +49,8 @@ public:
 
 private:
 
-    float m_above;  ///< [m] minimum altitude
-    float m_below;  ///< [m] maximum altitude
+    float _above;   ///< [m] minimum altitude
+    float _below;   ///< [m] maximum altitude
 };
 
 } // end of sim namespace

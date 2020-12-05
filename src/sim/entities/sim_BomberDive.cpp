@@ -67,8 +67,8 @@ void BomberDive::limitTht( float &tht )
 {
     if ( _attack )
     {
-        if ( tht < -m_target_tht ) tht = -m_target_tht;
-        if ( tht >  m_target_tht ) tht =  m_target_tht;
+        if ( tht < -_target_tht ) tht = -_target_tht;
+        if ( tht >  _target_tht ) tht =  _target_tht;
     }
     else
     {
@@ -88,30 +88,30 @@ void BomberDive::updateTarget()
 
     _attack = false;
 
-    if ( m_engaged )
+    if ( _engaged )
     {
-        if ( m_target_alt > _dropAltMin )
+        if ( _target_alt > _dropAltMin )
         {
-            float max_range = ( _airspeed / SIM_GRAVITY_ACC ) * sqrt( 2.0f*SIM_GRAVITY_ACC*m_target_alt );
+            float max_range = ( _airspeed / SIM_GRAVITY_ACC ) * sqrt( 2.0f*SIM_GRAVITY_ACC*_target_alt );
 
-            if ( m_target_dist < 0.8f*max_range )
+            if ( _target_dist < 0.8f*max_range )
             {
                 _attack = true;
 
                 float v_2 = _airspeed * _airspeed;
-                float num = v_2 - sqrt( v_2*v_2 - SIM_GRAVITY_ACC*(SIM_GRAVITY_ACC*m_target_dist*m_target_dist - 2.0f*m_target_alt*v_2) );
-                float den = SIM_GRAVITY_ACC * m_target_dist;
+                float num = v_2 - sqrt( v_2*v_2 - SIM_GRAVITY_ACC*(SIM_GRAVITY_ACC*_target_dist*_target_dist - 2.0f*_target_alt*v_2) );
+                float den = SIM_GRAVITY_ACC * _target_dist;
 
-                m_target_tht = atan2( num, den );
+                _target_tht = atan2( num, den );
 
 
-                _destination.first  = m_target_pos;
+                _destination.first  = _target_pos;
                 _destination.second = _speed_min;
             }
         }
         else
         {
-            m_engaged = false;
+            _engaged = false;
         }
     }
 }
@@ -124,19 +124,19 @@ void BomberDive::updateWeapons()
     Bomber::updateWeapons();
     ////////////////////////
 
-    if ( m_engaged )
+    if ( _engaged )
     {
-        if ( m_target_alt < _dropAltMax  )
+        if ( _target_alt < _dropAltMax  )
         {
-            m_trigger = true;
+            _trigger = true;
         }
     }
     else
     {
-        m_trigger = false;
+        _trigger = false;
     }
 
-    if ( m_trigger && m_ordnanceIndex < m_ordnance.size() )
+    if ( _trigger && _ordnanceIndex < _ordnance.size() )
     {
         if ( _time_drop > 0.5f )
         {

@@ -36,11 +36,11 @@ void UnitGround::destroy()
 {
     if ( isActive() )
     {
-        WreckageSurface *wreckage = new WreckageSurface( m_model.get() );
+        WreckageSurface *wreckage = new WreckageSurface( _model.get() );
         wreckage->setPos( _pos );
         wreckage->setAtt( _att );
 
-        if ( m_ownship )
+        if ( _ownship )
         {
             wreckage->setName( "ownship" );
         }

@@ -36,9 +36,11 @@ namespace sim
 
 /**
  * @brief Mission stage class.
- * <p>Mission stage is completed when all objectiven related to this stage are
- * completed.</p>
- * <p>Units that are not ownship should be initialized in stages.</p>
+ *
+ * Mission stage is completed when all objectiven related to this stage are
+ * completed.
+ *
+ * Units that are not ownship should be initialized in stages.
  */
 class Stage : public Base
 {
@@ -105,28 +107,28 @@ public:
     void update( double timeStep );
 
     /** */
-    const Messages& getMessages() const { return m_messages; }
+    const Messages& getMessages() const { return _messages; }
 
     /** */
-    const Objectives& getObjectives() const { return m_objectives; }
+    const Objectives& getObjectives() const { return _objectives; }
 
     /** */
-    inline Status getStatus() const { return m_status; }
+    inline Status getStatus() const { return _status; }
 
-    inline float getStageTime() const { return m_stageTime; }
-    inline float getTimeLimit() const { return m_timeLimit; }
+    inline float getStageTime() const { return _stageTime; }
+    inline float getTimeLimit() const { return _timeLimit; }
 
 private:
 
-    InitUnits m_initUnits;          ///< init units
-    Messages m_messages;            ///< stage messages
-    Objectives m_objectives;        ///< stage objectives
-    Status m_status;                ///< stage status
+    InitUnits _initUnits;           ///< init units
+    Messages _messages;             ///< stage messages
+    Objectives _objectives;         ///< stage objectives
+    Status _status;                 ///< stage status
 
-    float m_timeLimit;              ///< [s] stage time limit
-    float m_stageTime;              ///< [s] stage time (time since stage beginning)
+    float _timeLimit;               ///< [s] stage time limit
+    float _stageTime;               ///< [s] stage time (time since stage beginning)
 
-    bool m_inited;                  ///< specifies if stage has been inited
+    bool _inited;                   ///< specifies if stage has been inited
 };
 
 } // end of sim namespace

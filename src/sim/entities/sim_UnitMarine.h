@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Marine unit base class. */
+/** @brief Marine unit base class. */
 class UnitMarine : public UnitSurface
 {
 public:
@@ -55,7 +55,7 @@ public:
 
 protected:
 
-    osg::ref_ptr<osg::Group> m_smoke;   ///< damaged unit smoke group
+    osg::ref_ptr<osg::Group> _smoke;    ///< damaged unit smoke group
 };
 
 } // end of sim namespace

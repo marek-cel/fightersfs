@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Ground unit base class. */
+/** @brief Ground unit base class. */
 class UnitGround : public UnitSurface
 {
 public:

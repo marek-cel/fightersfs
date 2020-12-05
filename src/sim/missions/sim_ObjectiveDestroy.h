@@ -30,7 +30,8 @@ namespace sim
 
 /**
  * @brief Destroy objective class.
- * <p>Objective is completed if all specified units are destroyed.</p>
+ *
+ * Objective is completed if all specified units are destroyed.
  */
 class ObjectiveDestroy : public Objective
 {
@@ -55,7 +56,7 @@ public:
 
 private:
 
-    UnitsId m_unitsId;  ///< IDs of units to be destroyed
+    UnitsId _unitsId;   ///< IDs of units to be destroyed
 };
 
 } // end of sim namespace

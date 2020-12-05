@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Aerial unit base class. */
+/** @brief Aerial unit base class. */
 class UnitAerial : public Unit
 {
 public:

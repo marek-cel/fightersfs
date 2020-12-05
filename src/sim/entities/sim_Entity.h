@@ -37,17 +37,18 @@ namespace sim
 
 /**
  * @brief Entity base class.
- * <p>All individual objects within simulation (units, aircrafts, ships,
- * projectiles, wrecks, some kind of effects, etc.) are entities.</p>
  *
- * <p>Entity can be top level which means it is independent object within
+ * All individual objects within simulation (units, aircrafts, ships,
+ * projectiles, wrecks, some kind of effects, etc.) are entities.
+ *
+ * Entity can be top level which means it is independent object within
  * simulation, or it can be a child of a parent entity (e.i. bomb carrier
- * by a plane).</p>
+ * by a plane).
  *
- * <p>Any entity can be make top level in any time.</p>
+ * Any entity can be make top level in any time.
  *
- * <p>When an entity is created without specifies parent it is assumed that
- * this is top level entity.</p>
+ * When an entity is created without specifies parent it is assumed that
+ * this is top level entity.
  *
  * @see Entities
  * @see Group
@@ -80,8 +81,11 @@ public:
 
     /**
      * @brief Updates entity.
-     * <p>Updates entity state, velocity, position, attitude, etc.</p>
-     * <p>Motion equations time integration function is called here.</p>
+     *
+     * Updates entity state, velocity, position, attitude, etc.
+     *
+     * Motion equations time integration function is called here.
+     *
      * @param timeStep [s] time step
      */
     virtual void update( double timeStep );
@@ -94,7 +98,9 @@ public:
 
     /**
      * @brief Returns entity scene node.
-     * <p>This node position corresponds to the entity position.</p>
+     *
+     * This node position corresponds to the entity position.
+     *
      * @return entity node
      */
     inline osg::Node* getEntityNode() const { return _switch.get(); }
@@ -168,7 +174,8 @@ protected:
 
     /**
      * @brief Equations of motion time integration.
-     * <p>Position and attitude are computed by this function.</p>
+     *
+     * Position and attitude are computed by this function.
      */
     virtual void timeIntegration();
 

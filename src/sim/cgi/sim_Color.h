@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Colors class. */
+/** @brief Colors class. */
 class Color
 {
 public:

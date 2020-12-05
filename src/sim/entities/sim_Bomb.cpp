@@ -93,11 +93,11 @@ void Bomb::rangeDamage()
 
                 if ( r2 < _r_limit_2 )
                 {
-                    UInt16 dp = m_dp;
+                    UInt16 dp = _dp;
 
                     if ( r2 > 0.0f )
                     {
-                        dp = (float)m_dp * ( 1.0f - r2 / _r_limit_2 );
+                        dp = (float)_dp * ( 1.0f - r2 / _r_limit_2 );
                     }
 
                     target->hit( dp, this );

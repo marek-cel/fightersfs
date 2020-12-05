@@ -33,44 +33,44 @@
 namespace sim
 {
 
-/** Sound effects class. */
+/** @brief Sound effects class. */
 class SFX
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     SFX();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~SFX();
 
-    /** Initializes sound effects. */
+    /** @brief Initializes sound effects. */
     void init();
 
-    /** Pauses sounds replaying. */
+    /** @brief Pauses sounds replaying. */
     void pause();
 
-    /** Unpauses sounds replaying. */
+    /** @brief Unpauses sounds replaying. */
     void unpause();
 
-    /** Stops sound effects. */
+    /** @brief Stops sound effects. */
     void stop();
 
-    /** Updates sound effects. */
+    /** @brief Updates sound effects. */
     void update();
 
 private:
 
-    bool m_inited;              ///<
-    bool m_paused;              ///<
+    bool _inited;               ///<
+    bool _paused;               ///<
 
-    Inertia< float > *m_rpm;    ///< engine RPM inertia
+    Inertia< float > *_rpm;     ///< engine RPM inertia
 
-    bool m_destroyed;           ///< ownship destroy flag (to play explosion only once)
+    bool _destroyed;            ///< ownship destroy flag (to play explosion only once)
 
-    UInt8 m_ownship_hits;       ///< number of ownship hits
+    UInt8 _ownship_hits;        ///< number of ownship hits
 
-    float m_hit_time;           ///< [s] until when hit sound should be played
+    float _hit_time;            ///< [s] until when hit sound should be played
 };
 
 } // end of sim namespace

@@ -30,19 +30,20 @@ namespace sim
 
 /**
  * @brief Out-the-Window view class.
- * <p>This is parent module for all world sub-modules.</p>
+ *
+ * This is parent module for all world sub-modules.
  */
 class OTW : public Module
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     OTW( float linesWidth, Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~OTW();
 
-    /** Initializes OTW. */
+    /** @brief Initializes OTW. */
     void init();
 
 private:

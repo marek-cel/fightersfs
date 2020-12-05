@@ -33,33 +33,33 @@ using namespace sim;
 Bomber::Bomber( Affiliation affiliation ) :
     Aircraft( affiliation ),
 
-    m_target ( 0 ),
+    _target ( 0 ),
 
-    m_ordnanceIndex ( 0 ),
+    _ordnanceIndex ( 0 ),
 
-    m_target_dist ( 0.0f ),
-    m_target_alt  ( 0.0f ),
-    m_target_tht  ( 0.0f ),
-    m_target_psi  ( 0.0f ),
+    _target_dist ( 0.0f ),
+    _target_alt  ( 0.0f ),
+    _target_tht  ( 0.0f ),
+    _target_psi  ( 0.0f ),
 
-    m_engaged ( false ),
-    m_trigger ( false )
+    _engaged ( false ),
+    _trigger ( false )
 {
-    m_target = new Target< UnitSurface >( this, ( m_affiliation == Hostile ) ? Friend : Hostile );
+    _target = new Target< UnitSurface >( this, ( _affiliation == Hostile ) ? Friend : Hostile );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Bomber::~Bomber()
 {
-    DELPTR( m_target );
+    DELPTR( _target );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Bomber::update( double timeStep )
 {
-    if ( isActive() ) m_target->update();
+    if ( isActive() ) _target->update();
 
     /////////////////////////////
     Aircraft::update( timeStep );
@@ -67,9 +67,9 @@ void Bomber::update( double timeStep )
 
     if ( isActive() )
     {
-        if ( !m_target->getTarget() )
+        if ( !_target->getTarget() )
         {
-            m_target->findForward( M_PI_2 );
+            _target->findForward( M_PI_2 );
         }
     }
 }
@@ -78,7 +78,7 @@ void Bomber::update( double timeStep )
 
 UnitSurface* Bomber::getTarget() const
 {
-    return m_target->getTarget();
+    return _target->getTarget();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +94,7 @@ void Bomber::readOrdnance( const XmlNode &node )
             Bomb *bomb = new Bomb( _id, this );
 
             readOrdnance( nodeOrdnance, bomb );
-            m_ordnance.push_back( bomb );
+            _ordnance.push_back( bomb );
 
             nodeOrdnance = nodeOrdnance.getNextSiblingElement( "bomb" );
         }
@@ -106,7 +106,7 @@ void Bomber::readOrdnance( const XmlNode &node )
             Torpedo *torpedo = new Torpedo( _id, this );
 
             readOrdnance( nodeOrdnance, torpedo );
-            m_ordnance.push_back( torpedo );
+            _ordnance.push_back( torpedo );
 
             nodeOrdnance = nodeOrdnance.getNextSiblingElement( "torpedo" );
         }
@@ -162,11 +162,11 @@ void Bomber::releaseWeapon()
 {
     _time_drop = 0.0f;
 
-    m_ordnance[ m_ordnanceIndex ]->setParent( this );
-    m_ordnance[ m_ordnanceIndex ]->setState( Active );
-    m_ordnance[ m_ordnanceIndex ]->makeTopLevel();
+    _ordnance[ _ordnanceIndex ]->setParent( this );
+    _ordnance[ _ordnanceIndex ]->setState( Active );
+    _ordnance[ _ordnanceIndex ]->makeTopLevel();
 
-    m_ordnanceIndex++;
+    _ordnanceIndex++;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -175,11 +175,11 @@ void Bomber::updateDestination()
 {
     updateTarget();
 
-    if ( !m_engaged )
+    if ( !_engaged )
     {
         if ( _route.size() > 0 )
         {
-            if ( !_enroute || m_engaged )
+            if ( !_enroute || _engaged )
             {
                 _destination = _route[ _waypointIndex ];
                 _destValid = true;
@@ -192,7 +192,7 @@ void Bomber::updateDestination()
 
         _enroute = true;
         _wingman = _leaderValid;
-        m_engaged = false;
+        _engaged = false;
     }
 
     //////////////////////////////
@@ -204,34 +204,34 @@ void Bomber::updateDestination()
 
 void Bomber::updateTarget()
 {
-    UnitSurface *target = m_target->getTarget();
+    UnitSurface *target = _target->getTarget();
 
-    if ( target && m_ordnanceIndex < m_ordnance.size() )
+    if ( target && _ordnanceIndex < _ordnance.size() )
     {
         _enroute = false;
         _wingman = false;
-        m_engaged = true;
+        _engaged = true;
 
         _destValid = true;
 
-        m_target_pos = target->getPos();
+        _target_pos = target->getPos();
 
-        Vec3 dist_enu = m_target_pos - _pos;
-        m_target_dist = sqrt( dist_enu.x()*dist_enu.x() + dist_enu.y()*dist_enu.y() );
-        m_target_alt  = -dist_enu.z();
+        Vec3 dist_enu = _target_pos - _pos;
+        _target_dist = sqrt( dist_enu.x()*dist_enu.x() + dist_enu.y()*dist_enu.y() );
+        _target_alt  = -dist_enu.z();
 
         Vec3 dir_bas = _att.inverse() * ( dist_enu * ( 1.0/dist_enu.length() ) );
         dir_bas *= 1.0/dir_bas.length();
 
-        m_target_psi = atan2( -dir_bas.y(), -dir_bas.x() );
-        m_target_tht = atan2( dir_bas.z(), sqrt( dir_bas.x()*dir_bas.x() + dir_bas.y()*dir_bas.y() ) );
+        _target_psi = atan2( -dir_bas.y(), -dir_bas.x() );
+        _target_tht = atan2( dir_bas.z(), sqrt( dir_bas.x()*dir_bas.x() + dir_bas.y()*dir_bas.y() ) );
 
         // mentain level flight
-        _destination.first  = Vec3( m_target_pos.x(), m_target_pos.y(), _altitude_asl );
+        _destination.first  = Vec3( _target_pos.x(), _target_pos.y(), _altitude_asl );
         _destination.second = _speed_max;
     }
     else
     {
-        m_engaged = false;
+        _engaged = false;
     }
 }

@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Building class. */
+/** @brief Building class. */
 class Building : public UnitGround
 {
 public:

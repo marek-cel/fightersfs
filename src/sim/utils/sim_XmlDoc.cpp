@@ -26,9 +26,9 @@ using namespace sim;
 ////////////////////////////////////////////////////////////////////////////////
 
 XmlDoc::XmlDoc( const std::string &fileName ) :
-    m_doc  ( 0 ),
-    m_open ( false ),
-    m_root ( 0 )
+    _doc  ( 0 ),
+    _open ( false ),
+    _root ( 0 )
 {
     readFile( fileName );
 }
@@ -37,35 +37,35 @@ XmlDoc::XmlDoc( const std::string &fileName ) :
 
 XmlDoc::~XmlDoc()
 {
-    DELPTR( m_root );
+    DELPTR( _root );
 
-    xmlFreeDoc( m_doc );
+    xmlFreeDoc( _doc );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 int XmlDoc::readFile( const std::string &fileName )
 {
-    m_doc = xmlParseFile( fileName.c_str() );
+    _doc = xmlParseFile( fileName.c_str() );
 
-    if ( m_doc == 0 )
+    if ( _doc == 0 )
     {
-        xmlFreeDoc( m_doc );
+        xmlFreeDoc( _doc );
         return SIM_FAILURE;
     }
 
-    xmlNodePtr root = xmlDocGetRootElement( m_doc );
+    xmlNodePtr root = xmlDocGetRootElement( _doc );
 
     if ( root == 0 )
     {
         xmlFreeNode( root );
-        xmlFreeDoc( m_doc );
+        xmlFreeDoc( _doc );
         return SIM_FAILURE;
     }
 
-    m_root = new XmlNode( root, fileName );
+    _root = new XmlNode( root, fileName );
 
-    m_open = true;
+    _open = true;
 
     return SIM_SUCCESS;
 }

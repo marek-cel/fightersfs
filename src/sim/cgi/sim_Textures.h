@@ -28,7 +28,7 @@
 namespace sim
 {
 
-/** Textures container class. */
+/** @brief Textures container class. */
 class Textures : public Singleton< Textures >
 {
     friend class Singleton< Textures >;
@@ -54,7 +54,7 @@ private:
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Textures();
 
 private:

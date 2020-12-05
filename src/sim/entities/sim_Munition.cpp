@@ -29,8 +29,8 @@ using namespace sim;
 Munition::Munition( UInt16 dp, UInt32 shooterId, float life_span, Group *parent ) :
     Entity( parent, Active, life_span ),
 
-    m_dp ( dp ),
-    m_shooterId ( shooterId )
+    _dp ( dp ),
+    _shooterId ( shooterId )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,16 +41,16 @@ Munition::~Munition() {}
 
 void Munition::load()
 {
-    if ( m_model.valid() )
+    if ( _model.valid() )
     {
-        _switch->removeChild( m_model.get() );
+        _switch->removeChild( _model.get() );
     }
 
-    m_model = Models::get( m_modelFile );
+    _model = Models::get( _modelFile );
 
-    if ( m_model.valid() )
+    if ( _model.valid() )
     {
-        _switch->addChild( m_model.get() );
+        _switch->addChild( _model.get() );
     }
 }
 
@@ -89,7 +89,7 @@ void Munition::update( double timeStep )
                         {
                             float dist2 = ( v2 - v1_norm * proj2 ).length2();
 
-                            if ( dist2 < target->getRadius2() && m_shooterId != target->getId() )
+                            if ( dist2 < target->getRadius2() && _shooterId != target->getId() )
                             {
                                 hit( target );
                                 setState( Inactive );
@@ -109,7 +109,7 @@ void Munition::update( double timeStep )
 
 void Munition::setModelFile( const std::string &modelFile )
 {
-    m_modelFile = modelFile;
+    _modelFile = modelFile;
     load();
 }
 
@@ -117,7 +117,7 @@ void Munition::setModelFile( const std::string &modelFile )
 
 void Munition::hit( Unit *target )
 {
-    target->hit( m_dp, this );
+    target->hit( _dp, this );
     reportTargetHit( target );
 }
 
@@ -125,7 +125,7 @@ void Munition::hit( Unit *target )
 
 void Munition::reportTargetHit( Unit *target )
 {
-    Unit *shooter = dynamic_cast< Unit* >( Entities::instance()->getEntityById( m_shooterId ) );
+    Unit *shooter = dynamic_cast< Unit* >( Entities::instance()->getEntityById( _shooterId ) );
 
     if ( shooter )
     {

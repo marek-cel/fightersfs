@@ -70,7 +70,7 @@
 namespace hid
 {
 
-/** This class handles joystick like input devices. */
+/** @brief This class handles joystick like input devices. */
 class Joysticks : public sim::Singleton< Joysticks >
 {
     friend class sim::Singleton< Joysticks >;
@@ -160,13 +160,13 @@ public:
 
     static const std::string _axisNames[ HID_MAX_AXES ];
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Joysticks();
 
-    /** This function initiate Joystick object. */
+    /** @brief Initializes Joystick object. */
     void init();
     
-    /** This function updates Joystick object. */
+    /** @brief Updates Joystick object. */
     void update();
 
     /** @return number of active joysticks */

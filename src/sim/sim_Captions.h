@@ -40,15 +40,15 @@ class Captions : public sim::Singleton< Captions >
 
 private:
 
-    /** Default constructor. */
+    /** @brief Default constructor. */
     Captions();
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Captions( const Captions & ) : sim::Singleton< Captions >() {}
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Captions();
 
     inline std::string getLoading        () const { return _loading         .get(); }

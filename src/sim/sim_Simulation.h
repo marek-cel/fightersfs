@@ -35,46 +35,46 @@
 namespace sim
 {
 
-/** Main simulation class. */
+/** @brief Main simulation class. */
 class Simulation : public Base
 {
 public:
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param width viewport width in pixels
      * @param height viewport height in pixels
      */
     Simulation( int width, int height );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Simulation();
 
     /**
-     * Initialized simulation (reads config files, creates scene, etc.).
+     * @brief Initialized simulation (reads config files, creates scene, etc.).
      */
     void init();
 
     /**
-     * Initialized simulation (reads config files, creates scene, etc.).
+     * @brief Initialized simulation (reads config files, creates scene, etc.).
      * @param mission_index mission file index
      */
     void init( UInt32 mission_index );
 
-    /** Loads and reloads simulation (models, textures, etc.). */
+    /** @brief Loads and reloads simulation (models, textures, etc.). */
     void load();
 
-    /** Pauses simulation. */
+    /** @brief Pauses simulation. */
     void pause();
 
-    /** Unpauses simulation. */
+    /** @brief Unpauses simulation. */
     void unpause();
 
-    /** Restarts simulation after freeze (resumes sound replaying, etc.). */
+    /** @brief Restarts simulation after freeze (resumes sound replaying, etc.). */
     void restart();
 
     /**
-     * Updates simulation.
+     * @brief Updates simulation.
      * @param timeStep [s] simulation time step
      */
     void update( double timeStep );
@@ -127,7 +127,7 @@ private:
      */
     void createSimulation( int width, int height );
 
-    /** Reads campaign XML file and initializes missions files list.*/
+    /** @brief Reads campaign XML file and initializes missions files list.*/
     void readMissions();
 };
 

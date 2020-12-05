@@ -36,7 +36,7 @@ namespace Ui
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** This is main window class. */
+/** @brief Main window class. */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -50,13 +50,13 @@ public:
         PagePlay = 2        ///< simulation page index
     };
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit MainWindow( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~MainWindow();
 
-    /** */
+    /** @brief Initializes main window. */
     void init();
 
 protected:

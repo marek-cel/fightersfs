@@ -101,7 +101,7 @@ Entity::Entity( Group *parent, State state, float life_span ) :
     _life_span ( life_span )
 {
     _pat = new osg::PositionAttitudeTransform();
-    m_root->addChild( _pat.get() );
+    _root->addChild( _pat.get() );
 
     _switch = new osg::Switch();
     _pat->addChild( _switch.get() );
@@ -110,12 +110,12 @@ Entity::Entity( Group *parent, State state, float life_span ) :
 
     _att.zeroRotation();
 
-    if ( m_parent == 0 )
+    if ( _parent == 0 )
     {
-        m_parent = Entities::instance();
+        _parent = Entities::instance();
     }
 
-    setParent( m_parent );
+    setParent( _parent );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +124,7 @@ Entity::~Entity()
 {
     if ( _parentGroup.valid() )
     {
-        _parentGroup->removeChild( m_root.get() );
+        _parentGroup->removeChild( _root.get() );
     }
 
     ////////////////
@@ -136,9 +136,9 @@ Entity::~Entity()
 
 void Entity::makeTopLevel()
 {
-    if ( m_parent )
+    if ( _parent )
     {
-        Entity *entity = dynamic_cast< Entity* >( m_parent );
+        Entity *entity = dynamic_cast< Entity* >( _parent );
 
         _pos = getAbsPos();
         _att = getAbsAtt();
@@ -203,7 +203,7 @@ Vec3 Entity::getAbsPos() const
 {
     if ( !isTopLevel() )
     {
-        Entity *entity = dynamic_cast< Entity* >( m_parent );
+        Entity *entity = dynamic_cast< Entity* >( _parent );
 
         if ( entity )
         {
@@ -220,7 +220,7 @@ Quat Entity::getAbsAtt() const
 {
     if ( !isTopLevel() )
     {
-        Entity *entity = dynamic_cast< Entity* >( m_parent );
+        Entity *entity = dynamic_cast< Entity* >( _parent );
 
         if ( entity )
         {
@@ -237,7 +237,7 @@ Quat Entity::getAbsAtt() const
 
 bool Entity::isTopLevel() const
 {
-    return ( m_parent == Entities::instance() );
+    return ( _parent == Entities::instance() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -299,24 +299,24 @@ void Entity::setParent( Group *parent )
 {
     if ( _parentGroup.valid() )
     {
-        _parentGroup->removeChild( m_root.get() );
+        _parentGroup->removeChild( _root.get() );
         _parentGroup = 0;
     }
 
-    if ( m_parent )
+    if ( _parent )
     {
-        m_parent->dettachEntity( this );
-        m_parent = 0;
+        _parent->dettachEntity( this );
+        _parent = 0;
     }
 
     if ( parent )
     {
-        m_parent = parent;
+        _parent = parent;
 
         parent->attachEntity( this );
-        m_parent = parent;
+        _parent = parent;
 
-        Entity *entity = dynamic_cast< Entity* >( m_parent );
+        Entity *entity = dynamic_cast< Entity* >( _parent );
 
         if ( entity )
         {
@@ -324,10 +324,10 @@ void Entity::setParent( Group *parent )
         }
         else
         {
-            _parentGroup = m_parent->getNode();
+            _parentGroup = _parent->getNode();
         }
 
-        if ( _parentGroup.valid() ) _parentGroup->addChild( m_root.get() );
+        if ( _parentGroup.valid() ) _parentGroup->addChild( _root.get() );
     }
 }
 
@@ -348,9 +348,9 @@ void Entity::setState( State state )
         _switch->setAllChildrenOff();
     }
 
-    List::iterator it = m_children.begin();
+    List::iterator it = _children.begin();
 
-    while ( it != m_children.end() )
+    while ( it != _children.end() )
     {
         (*it)->setState( _state );
         ++it;

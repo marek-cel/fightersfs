@@ -28,7 +28,7 @@
 namespace sim
 {
 
-/** Mission statistics class. */
+/** @brief Mission statistics class. */
 class Statistics : public Singleton< Statistics >
 {
     friend class Singleton< Statistics >;
@@ -40,7 +40,7 @@ private:
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Statistics();
 
     inline void update( float realTime )
@@ -48,13 +48,13 @@ public:
         _flightTime += realTime;
     }
 
-    /** Resets statistics data. */
+    /** @brief Resets statistics data. */
     void reset();
 
-    /** This function should be called whenever unit is activated. */
+    /** @brief This function should be called whenever unit is activated. */
     void reportActivated( Affiliation affiliation );
 
-    /** This function should be called whenever unit is destroyed. */
+    /** @brief This function should be called whenever unit is destroyed. */
     void reportDestroyed( Affiliation affiliation );
 
     /** */

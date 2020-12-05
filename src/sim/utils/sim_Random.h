@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Random number generator class. */
+/** @brief Random number generator class. */
 class Random : public Singleton< Random >
 {
     friend class Singleton< Random >;

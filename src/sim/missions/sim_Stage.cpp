@@ -47,7 +47,7 @@ Stage* Stage::read( const XmlNode &node, bool tutorial )
             {
                 if ( timeLimit > 0.0f )
                 {
-                    stage->m_timeLimit = timeLimit;
+                    stage->_timeLimit = timeLimit;
                 }
             }
 
@@ -58,7 +58,7 @@ Stage* Stage::read( const XmlNode &node, bool tutorial )
 
             if ( SIM_SUCCESS == readInitUnits( initUnitsNode, initUnits ) )
             {
-                stage->m_initUnits = initUnits;
+                stage->_initUnits = initUnits;
             }
 
             // message            
@@ -70,7 +70,7 @@ Stage* Stage::read( const XmlNode &node, bool tutorial )
 
                 if ( SIM_SUCCESS == readMessage( messageNode, message, tutorial ) )
                 {
-                    stage->m_messages.push_back( message );
+                    stage->_messages.push_back( message );
                 }
 
                 messageNode = messageNode.getNextSiblingElement( "message" );
@@ -83,7 +83,7 @@ Stage* Stage::read( const XmlNode &node, bool tutorial )
 
             if ( SIM_SUCCESS == readObjectives( objectivesNode, objectives ) )
             {
-                stage->m_objectives = objectives;
+                stage->_objectives = objectives;
             }
 
             return stage;
@@ -326,49 +326,49 @@ int Stage::readObjectives( const XmlNode &node, Objectives &objectives )
 ////////////////////////////////////////////////////////////////////////////////
 
 Stage::Stage() :
-    m_status ( Pending ),
+    _status ( Pending ),
 
-    m_timeLimit ( 0.0f ),
-    m_stageTime ( 0.0f ),
+    _timeLimit ( 0.0f ),
+    _stageTime ( 0.0f ),
 
-    m_inited ( false )
+    _inited ( false )
 {
-    m_objectives.clear();
+    _objectives.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Stage::~Stage()
 {
-    for ( Objectives::iterator it = m_objectives.begin(); it != m_objectives.end(); ++it )
+    for ( Objectives::iterator it = _objectives.begin(); it != _objectives.end(); ++it )
     {
         DELPTR( *it );
     }
 
-    m_objectives.clear();
+    _objectives.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Stage::addInitUnit( const std::string &unitName )
 {
-    m_initUnits.push_back( unitName );
+    _initUnits.push_back( unitName );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Stage::addObjective( Objective *objective )
 {
-    m_objectives.push_back( objective );
+    _objectives.push_back( objective );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Stage::init()
 {
-    if ( !m_inited )
+    if ( !_inited )
     {
-        for ( InitUnits::iterator it = m_initUnits.begin(); it != m_initUnits.end(); ++it )
+        for ( InitUnits::iterator it = _initUnits.begin(); it != _initUnits.end(); ++it )
         {
             Unit *unit = Entities::instance()->getUnitByName( *it );
 
@@ -381,7 +381,7 @@ void Stage::init()
             }
         }
 
-        m_inited = true;
+        _inited = true;
     }
 }
 
@@ -389,18 +389,18 @@ void Stage::init()
 
 void Stage::update( double timeStep )
 {
-    m_stageTime += (float)timeStep;
+    _stageTime += (float)timeStep;
 
-    if ( m_status == Pending )
+    if ( _status == Pending )
     {
-        if ( m_objectives.size() > 0 )
+        if ( _objectives.size() > 0 )
         {
             bool failure = false;
             bool success = true;
 
-            Objectives::iterator it = m_objectives.begin();
+            Objectives::iterator it = _objectives.begin();
 
-            while( it != m_objectives.end() )
+            while( it != _objectives.end() )
             {
                 if ( (*it) )
                 {
@@ -416,17 +416,17 @@ void Stage::update( double timeStep )
                 ++it;
             }
 
-            if ( m_stageTime > m_timeLimit && m_timeLimit > 0.0f )
+            if ( _stageTime > _timeLimit && _timeLimit > 0.0f )
             {
                 failure = true;
             }
 
-            if ( success ) m_status = Success;
-            if ( failure ) m_status = Failure;
+            if ( success ) _status = Success;
+            if ( failure ) _status = Failure;
         }
         else
         {
-            m_status = Success;
+            _status = Success;
         }
     }
 }

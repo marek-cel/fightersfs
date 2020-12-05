@@ -31,20 +31,20 @@
 namespace sim
 {
 
-/** Camera control class. */
+/** @brief Camera control class. */
 class Camera : public Base
 {
 public:
 
-    static const double m_downAngle;    ///< [rad]
+    static const double _downAngle;     ///< [rad]
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Camera();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Camera();
 
-    /** Updates camera position and attitude. */
+    /** @brief Updates camera position and attitude. */
     void update();
 
     /** */
@@ -53,26 +53,26 @@ public:
         return _manipulator.get();
     }
 
-    /** Returns true if orbit manipulator track node is valid. */
+    /** @brief Returns true if orbit manipulator track node is valid. */
     bool isTrackNodeValid();
 
-    /** Returns true if world manipulator node is valid. */
+    /** @brief Returns true if world manipulator node is valid. */
     bool isWorldNodeValid();
 
-    /** Sets orbit manipulator track node. */
+    /** @brief Sets orbit manipulator track node. */
     void setTrackNode( osg::Node *node );
 
-    /** Sets world manipulator node. */
+    /** @brief Sets world manipulator node. */
     void setWorldNode( osg::Node *node );
 
-    /** Sets chase view. */
+    /** @brief Sets chase view. */
     inline void setViewChase()
     {
         _type = ViewChase;
         _manipulator = _manipulatorShift.get();
     }
 
-    /** Sets flyby view. */
+    /** @brief Sets flyby view. */
     inline void setViewFlyby()
     {
         _type = ViewFlyby;
@@ -81,35 +81,35 @@ public:
         setFlybyCameraPosition();
     }
 
-    /** Sets front view. */
+    /** @brief Sets front view. */
     inline void setViewFront()
     {
         _type = ViewFront;
         _manipulator = _manipulatorShift.get();
     }
 
-    /** Sets orbit view. */
+    /** @brief Sets orbit view. */
     inline void setViewOrbit()
     {
         _type = ViewOrbit;
         _manipulator = _manipulatorOrbit.get();
     }
 
-    /** Sets pilot view. */
+    /** @brief Sets pilot view. */
     inline void setViewPilot()
     {
         _type = ViewPilot;
         _manipulator = _manipulatorShift.get();
     }
 
-    /** Sets shift view. */
+    /** @brief Sets shift view. */
     inline void setViewShift()
     {
         _type = ViewShift;
         _manipulator = _manipulatorShift.get();
     }
 
-    /** Sets world view. */
+    /** @brief Sets world view. */
     inline void setViewWorld()
     {
         _type = ViewWorld;

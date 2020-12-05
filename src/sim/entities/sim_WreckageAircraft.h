@@ -27,7 +27,7 @@
 namespace sim
 {
 
-/** Aircraft wreckage effect class. */
+/** @brief Aircraft wreckage effect class. */
 class WreckageAircraft : public Wreckage
 {
 public:
@@ -56,21 +56,21 @@ public:
 
 private:
 
-    const bool m_ownship;
+    const bool _ownship;
 
-    osg::ref_ptr<osg::Node> m_model;
+    osg::ref_ptr<osg::Node> _model;
 
-    osg::ref_ptr<Effects::Smoke> m_smokeTrail;  ///< smoke trail
+    osg::ref_ptr<Effects::Smoke> _smokeTrail;   ///< smoke trail
 
-    osg::ref_ptr<osg::Switch> m_switchFire;     ///<
+    osg::ref_ptr<osg::Switch> _switchFire;      ///<
 
-    std::string m_livery;       ///< livery path
-    std::string m_modelFile;    ///< model file path
+    std::string _livery;        ///< livery path
+    std::string _modelFile;     ///< model file path
 
-    float m_rollRate;           ///< [rad/s] roll rate
+    float _rollRate;            ///< [rad/s] roll rate
 
-    float m_altitude_agl;       ///< [m] altitude above ground level
-    float m_elevation;          ///< [m] terrain elevation
+    float _altitude_agl;        ///< [m] altitude above ground level
+    float _elevation;           ///< [m] terrain elevation
 
     /** */
     void updateElevation();

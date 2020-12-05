@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Surface (ground or marine) unit base class. */
+/** @brief Surface (ground or marine) unit base class. */
 class UnitSurface : public Unit
 {
 public:

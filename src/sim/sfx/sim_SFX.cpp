@@ -30,14 +30,14 @@ using namespace sim;
 ////////////////////////////////////////////////////////////////////////////////
 
 SFX::SFX() :
-    m_inited ( false ),
-    m_paused ( false ),
-    m_rpm ( 0 ),
-    m_destroyed ( false ),
-    m_ownship_hits ( 0 ),
-    m_hit_time ( 0.0f )
+    _inited ( false ),
+    _paused ( false ),
+    _rpm ( 0 ),
+    _destroyed ( false ),
+    _ownship_hits ( 0 ),
+    _hit_time ( 0.0f )
 {
-    m_rpm = new Inertia< float >( 0.5f, 0.85f );
+    _rpm = new Inertia< float >( 0.5f, 0.85f );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,14 +46,14 @@ SFX::~SFX()
 {
     stop();
 
-    DELPTR( m_rpm );
+    DELPTR( _rpm );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void SFX::init()
 {
-    if ( !m_inited )
+    if ( !_inited )
     {
 #       ifdef SIM_SFX_OPENSLES
         EngineOpenSLES::instance()->init();
@@ -61,8 +61,8 @@ void SFX::init()
         EngineOpenAL::instance()->init();
 #       endif
 
-        m_inited = true;
-        m_paused = true;
+        _inited = true;
+        _paused = true;
     }
 }
 
@@ -70,22 +70,22 @@ void SFX::init()
 
 void SFX::pause()
 {
-    m_paused = true;
+    _paused = true;
 
 #   ifdef SIM_SFX_OPENSLES
-    EngineOpenSLES::instance()->setPlayerCrash( false );
-    EngineOpenSLES::instance()->setPlayerEngine( false );
-    EngineOpenSLES::instance()->setPlayerGunfire( false );
-    EngineOpenSLES::instance()->setPlayerHeartbeat( false );
-    EngineOpenSLES::instance()->setPlayerHit( false );
-    EngineOpenSLES::instance()->setPlayerWaypoint( false );
+    EngineOpenSLES::instance()->setPlayerCrash     ( false );
+    EngineOpenSLES::instance()->setPlayerEngine    ( false );
+    EngineOpenSLES::instance()->setPlayerGunfire   ( false );
+    EngineOpenSLES::instance()->setPlayerHeartbeat ( false );
+    EngineOpenSLES::instance()->setPlayerHit       ( false );
+    EngineOpenSLES::instance()->setPlayerWaypoint  ( false );
 #   else
-    EngineOpenAL::instance()->setCrash( false );
-    EngineOpenAL::instance()->setEngine( false );
-    EngineOpenAL::instance()->setGunfire( false );
-    EngineOpenAL::instance()->setHeartbeat( false );
-    EngineOpenAL::instance()->setHit( false );
-    EngineOpenAL::instance()->setWaypoint( false );
+    EngineOpenAL::instance()->setCrash     ( false );
+    EngineOpenAL::instance()->setEngine    ( false );
+    EngineOpenAL::instance()->setGunfire   ( false );
+    EngineOpenAL::instance()->setHeartbeat ( false );
+    EngineOpenAL::instance()->setHit       ( false );
+    EngineOpenAL::instance()->setWaypoint  ( false );
 #   endif
 }
 
@@ -93,14 +93,14 @@ void SFX::pause()
 
 void SFX::unpause()
 {
-    m_paused = false;
+    _paused = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void SFX::stop()
 {
-    if ( m_inited )
+    if ( _inited )
     {
 #       ifdef SIM_SFX_OPENSLES
         EngineOpenSLES::instance()->stop();
@@ -108,7 +108,7 @@ void SFX::stop()
         EngineOpenAL::instance()->stop();
 #       endif
 
-        m_inited = false;
+        _inited = false;
     }
 }
 
@@ -116,16 +116,16 @@ void SFX::stop()
 
 void SFX::update()
 {
-    m_rpm->update( 0.016f, 0.7f + 0.3f * Data::get()->controls.throttle );
+    _rpm->update( 0.016f, 0.7f + 0.3f * Data::get()->controls.throttle );
 
 #   ifdef SIM_SFX_OPENSLES
-    if ( !m_paused )
+    if ( !_paused )
     {
         if ( !Data::get()->ownship.destroyed )
         {
             // engine
             EngineOpenSLES::instance()->setPlayerEngine( true );
-            EngineOpenSLES::instance()->setPlayerEngineRPM( m_rpm->getValue() );
+            EngineOpenSLES::instance()->setPlayerEngineRPM( _rpm->getValue() );
 
             // gunfire
             EngineOpenSLES::instance()->setPlayerGunfire( Data::get()->ownship.gunfire );
@@ -145,26 +145,26 @@ void SFX::update()
         else
         {
             // crash
-            if ( !m_destroyed )
+            if ( !_destroyed )
             {
                 EngineOpenSLES::instance()->setPlayerCrash( true );
             }
 
-            EngineOpenSLES::instance()->setPlayerEngine( false );
-            EngineOpenSLES::instance()->setPlayerGunfire( false );
-            EngineOpenSLES::instance()->setPlayerHeartbeat( false );
-            EngineOpenSLES::instance()->setPlayerHit( false );
-            EngineOpenSLES::instance()->setPlayerWaypoint( false );
+            EngineOpenSLES::instance()->setPlayerEngine    ( false );
+            EngineOpenSLES::instance()->setPlayerGunfire   ( false );
+            EngineOpenSLES::instance()->setPlayerHeartbeat ( false );
+            EngineOpenSLES::instance()->setPlayerHit       ( false );
+            EngineOpenSLES::instance()->setPlayerWaypoint  ( false );
         }
     }
 #   else
-    if ( !m_paused )
+    if ( !_paused )
     {
         if ( !Data::get()->ownship.destroyed )
         {
             // engine
             EngineOpenAL::instance()->setEngine( true );
-            EngineOpenAL::instance()->setEngineRPM( m_rpm->getValue() );
+            EngineOpenAL::instance()->setEngineRPM( _rpm->getValue() );
 
             // gunfire
             EngineOpenAL::instance()->setGunfire( Data::get()->ownship.gunfire );
@@ -184,7 +184,7 @@ void SFX::update()
         else
         {
             // crash
-            if ( !m_destroyed )
+            if ( !_destroyed )
             {
                 EngineOpenAL::instance()->setCrash( true );
             }
@@ -198,5 +198,5 @@ void SFX::update()
     }
 #   endif
 
-    m_destroyed = Data::get()->ownship.destroyed;
+    _destroyed = Data::get()->ownship.destroyed;
 }

@@ -29,7 +29,7 @@
 namespace sim
 {
 
-/** Kamikaze class. */
+/** @brief Kamikaze class. */
 class Kamikaze : public Aircraft
 {
 public:
@@ -53,9 +53,9 @@ public:
 
 protected:
 
-    Target< UnitMarine > *m_target;     ///< target
+    Target< UnitMarine > *_target;      ///< target
 
-    bool m_engaged;                     ///< specifies if aircraft is engaged into kamikaze attack
+    bool _engaged;                      ///< specifies if aircraft is engaged into kamikaze attack
 
     virtual void limitTht( float &tht );
 

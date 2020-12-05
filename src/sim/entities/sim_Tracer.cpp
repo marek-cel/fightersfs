@@ -34,22 +34,22 @@ using namespace sim;
 
 Tracer::Tracer( UInt32 shooterId, bool trail ) :
     Bullet( 25, shooterId, 5.0f, 0 ),
-    m_elevation ( 0.0f )
-//    m_trail ( false ),
-//    m_counter_update ( 0 )
+    _elevation ( 0.0f )
+//    _trail ( false ),
+//    _counter_update ( 0 )
 {
     load();
 
-//    if ( trail ) m_counter_trail++;
+//    if ( trail ) _counter_trail++;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Tracer::~Tracer()
 {
-//    if ( m_trail && m_quantity > 0 )
+//    if ( _trail && _quantity > 0 )
 //    {
-//        m_quantity--;
+//        _quantity--;
 //    }
 }
 
@@ -62,38 +62,38 @@ void Tracer::load()
         _switch->removeChildren( 0, _switch->getNumChildren() );
     }
 
-    m_model = Models::getTracer();
+    _model = Models::getTracer();
 
-    if ( m_model.valid() )
+    if ( _model.valid() )
     {
-        _switch->addChild( m_model.get() );
+        _switch->addChild( _model.get() );
     }
 
-//    if ( trail && m_quantity < 50 && m_counter_trail % 5 == 0 )
+//    if ( trail && _quantity < 50 && _counter_trail % 5 == 0 )
 //    {
-//        m_trail = true;
+//        _trail = true;
 
-//        m_counter_trail = 0;
+//        _counter_trail = 0;
 
-//        m_smokeTrail = new osgParticle::SmokeTrailEffect();
-//        m_root->addChild( m_smokeTrail.get() );
+//        _smokeTrail = new osgParticle::SmokeTrailEffect();
+//        _root->addChild( _smokeTrail.get() );
 
-//        m_smokeTrail->setTextureFileName( getPath( "textures/smoke_trail.rgb" ) );
-//        m_smokeTrail->setScale( 0.2f );
-//        m_smokeTrail->setEmitterDuration( 1.0f );
-//        m_smokeTrail->setIntensity( 0.01f );
-//        m_smokeTrail->setUseLocalParticleSystem( true );
-//        m_smokeTrail->setParticleDuration( 1.0f );
+//        _smokeTrail->setTextureFileName( getPath( "textures/smoke_trail.rgb" ) );
+//        _smokeTrail->setScale( 0.2f );
+//        _smokeTrail->setEmitterDuration( 1.0f );
+//        _smokeTrail->setIntensity( 0.01f );
+//        _smokeTrail->setUseLocalParticleSystem( true );
+//        _smokeTrail->setParticleDuration( 1.0f );
 
-//        osg::ref_ptr<osg::StateSet> stateSet = m_smokeTrail->getOrCreateStateSet();
+//        osg::ref_ptr<osg::StateSet> stateSet = _smokeTrail->getOrCreateStateSet();
 //        stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
 //        stateSet->setRenderBinDetails( SIM_DEPTH_SORTED_BIN_TRAIL, "DepthSortedBin" );
 
-//        m_quantity++;
+//        _quantity++;
 //    }
 //    else
 //    {
-//        m_trail = false;
+//        _trail = false;
 //    }
 }
 
@@ -105,27 +105,27 @@ void Tracer::update( double timeStep )
     Munition::update( timeStep );
     /////////////////////////////
 
-    if ( _pos.z() < m_elevation )
+    if ( _pos.z() < _elevation )
     {
         setState( Inactive );
     }
 
-//    if ( m_trail && m_smokeTrail.valid() )
+//    if ( _trail && _smokeTrail.valid() )
 //    {
-//        if ( m_counter_update % ( m_counter_update <= 5 ? 5 : 20 ) == 0 )
+//        if ( _counter_update % ( _counter_update <= 5 ? 5 : 20 ) == 0 )
 //        {
-//            if ( m_life_time < 1.5f )
+//            if ( _life_time < 1.5f )
 //            {
-//                m_smokeTrail->setPosition( m_pos );
+//                _smokeTrail->setPosition( _pos );
 //            }
 //            else
 //            {
-//                m_root->removeChild( m_smokeTrail.get() );
-//                m_smokeTrail.release();
+//                _root->removeChild( _smokeTrail.get() );
+//                _smokeTrail.release();
 //            }
 //        }
 
-//        m_counter_update++;
+//        _counter_update++;
 //    }
 }
 
@@ -139,6 +139,6 @@ void Tracer::updateElevation()
         Munition::updateElevation();
         ////////////////////////////
 
-        m_elevation = Elevation::instance()->getElevation( _pos.x(), _pos.y() );
+        _elevation = Elevation::instance()->getElevation( _pos.x(), _pos.y() );
     }
 }

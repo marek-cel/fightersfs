@@ -29,48 +29,48 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const float Gunner::m_10deg_rad = Convert::deg2rad( 10.0f );
-const float Gunner::m_20deg_rad = Convert::deg2rad( 20.0f );
-const float Gunner::m_40deg_rad = Convert::deg2rad( 40.0f );
-const float Gunner::m_45deg_rad = M_PI_4;
-const float Gunner::m_60deg_rad = Convert::deg2rad( 60.0f );
-const float Gunner::m_80deg_rad = Convert::deg2rad( 80.0f );
+const float Gunner::_10deg_rad = Convert::deg2rad( 10.0f );
+const float Gunner::_20deg_rad = Convert::deg2rad( 20.0f );
+const float Gunner::_40deg_rad = Convert::deg2rad( 40.0f );
+const float Gunner::_45deg_rad = M_PI_4;
+const float Gunner::_60deg_rad = Convert::deg2rad( 60.0f );
+const float Gunner::_80deg_rad = Convert::deg2rad( 80.0f );
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Gunner::Gunner( Affiliation affiliation, Group *parent, float range ) :
     Entity ( parent ),
 
-    m_affiliation ( affiliation ),
+    _affiliation ( affiliation ),
 
-    m_parent_valid ( false ),
-    m_parent_id ( 0 ),
+    _parent_valid ( false ),
+    _parent_id ( 0 ),
 
-    m_range ( range ),
+    _range ( range ),
 
-    m_inertia  ( 0.5f ),
-    m_advanced ( true ),
+    _inertia  ( 0.5f ),
+    _advanced ( true ),
 
-    m_target ( 0 ),
+    _target ( 0 ),
 
-    m_target_tht ( 0.0f ),
-    m_target_psi ( 0.0f ),
+    _target_tht ( 0.0f ),
+    _target_psi ( 0.0f ),
 
-    m_trigger ( false ),
+    _trigger ( false ),
 
-    m_target_valid ( false ),
+    _target_valid ( false ),
 
-    m_shoot_time ( 0.0f )
+    _shoot_time ( 0.0f )
 {
-    m_target = new Target< UnitAerial >( this, ( m_affiliation == Hostile ) ? Friend : Hostile,
-                                         m_range, m_range );
+    _target = new Target< UnitAerial >( this, ( _affiliation == Hostile ) ? Friend : Hostile,
+                                        _range, _range );
 
-    Unit *parentUnit = dynamic_cast< Unit* >( m_parent );
+    Unit *parentUnit = dynamic_cast< Unit* >( _parent );
 
     if ( parentUnit )
     {
-        m_parent_valid = true;
-        m_parent_id = parentUnit->getId();
+        _parent_valid = true;
+        _parent_id = parentUnit->getId();
     }
 }
 
@@ -78,7 +78,7 @@ Gunner::Gunner( Affiliation affiliation, Group *parent, float range ) :
 
 Gunner::~Gunner()
 {
-    DELPTR( m_target );
+    DELPTR( _target );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,74 +89,74 @@ void Gunner::update( double timeStep )
     Entity::update( timeStep );
     ///////////////////////////
 
-    m_trigger = false;
+    _trigger = false;
 
     if ( isActive() )
     {
-        ///////////////////
-        m_target->update();
-        ///////////////////
+        //////////////////
+        _target->update();
+        //////////////////
 
-        m_pos_abs = getAbsPos();
-        m_att_abs = getAbsAtt();
+        _pos_abs = getAbsPos();
+        _att_abs = getAbsAtt();
 
-        m_target_valid = false;
+        _target_valid = false;
 
-        Unit *target = m_target->getTarget();
+        Unit *target = _target->getTarget();
 
         if ( target )
         {
             Vec3 pos_est = target->getPos();
 
             // estimated future position
-            if ( m_advanced )
+            if ( _advanced )
             {
-                float time = m_target_dist / Bullet::m_vel_m;
+                float time = _target_dist / Bullet::_vel_m;
                 pos_est += ( target->getAtt() * target->getVel() ) * time;
             }
 
-            m_target_dist = ( pos_est - getAbsPos() ).length();
+            _target_dist = ( pos_est - getAbsPos() ).length();
 
-            if ( m_target_dist < m_range )
+            if ( _target_dist < _range )
             {
-                Vec3 dir_enu = pos_est - m_pos_abs;
+                Vec3 dir_enu = pos_est - _pos_abs;
                 dir_enu *= 1.0/dir_enu.length();
 
-                Vec3 dir_bas = m_att_abs.inverse() * dir_enu;
+                Vec3 dir_bas = _att_abs.inverse() * dir_enu;
                 dir_bas *= 1.0/dir_bas.length();
 
                 double psi = atan2( -dir_bas.y(), -dir_bas.x() );
                 double tht = atan2( dir_bas.z(), sqrt( dir_bas.x()*dir_bas.x() + dir_bas.y()*dir_bas.y() ) );
 
-                m_target_psi = Inertia< float >::update( _timeStep, m_target_psi, psi, m_inertia );
-                m_target_tht = Inertia< float >::update( _timeStep, m_target_tht, tht, m_inertia );
+                _target_psi = Inertia< float >::update( _timeStep, _target_psi, psi, _inertia );
+                _target_tht = Inertia< float >::update( _timeStep, _target_tht, tht, _inertia );
 
-                Quat q_att( 0.0          , osg::X_AXIS,
-                            m_target_tht , osg::Y_AXIS,
-                            m_target_psi , osg::Z_AXIS );
+                Quat q_att( 0.0         , osg::X_AXIS,
+                            _target_tht , osg::Y_AXIS,
+                            _target_psi , osg::Z_AXIS );
 
-                m_target_dir = q_att * m_att_abs;
+                _target_dir = q_att * _att_abs;
 
-                float delta_psi = m_target_psi - psi;
-                float delta_tht = m_target_tht - tht;
+                float delta_psi = _target_psi - psi;
+                float delta_tht = _target_tht - tht;
 
-                m_trigger = sqrt( delta_psi*delta_psi + delta_tht*delta_tht ) < 0.05;
+                _trigger = sqrt( delta_psi*delta_psi + delta_tht*delta_tht ) < 0.05;
 
-                m_target_valid = true;
+                _target_valid = true;
             }
             else
             {
-                m_target->findForward( M_PI );
+                _target->findForward( M_PI );
             }
         }
         else
         {
-            m_target->findForward( M_PI );
+            _target->findForward( M_PI );
         }
 
         updateWeapons();
 
-        m_shoot_time += _timeStep;
+        _shoot_time += _timeStep;
     }
 }
 
@@ -164,18 +164,18 @@ void Gunner::update( double timeStep )
 
 void Gunner::updateWeapons()
 {
-    if ( m_target_valid )
+    if ( _target_valid )
     {
-        if ( m_trigger && m_target_dist < m_range )
+        if ( _trigger && _target_dist < _range )
         {
-            if ( m_shoot_time > 0.2f )
+            if ( _shoot_time > 0.2f )
             {
-                m_shoot_time = 0.0f;
+                _shoot_time = 0.0f;
 
-                Tracer *bullet = new Tracer( m_parent_valid ? m_parent_id : _id );
+                Tracer *bullet = new Tracer( _parent_valid ? _parent_id : _id );
 
-                bullet->setPos( m_pos_abs + m_target_dir * Vec3( -1.0, 0.0, 0.0 ) * 20.0f );
-                bullet->setAtt( m_target_dir );
+                bullet->setPos( _pos_abs + _target_dir * Vec3( -1.0, 0.0, 0.0 ) * 20.0f );
+                bullet->setAtt( _target_dir );
             }
         }
     }
@@ -186,8 +186,8 @@ void Gunner::updateWeapons()
 GunnerFlak::GunnerFlak( Affiliation affiliation, Group *parent ) :
     Gunner( affiliation, parent, 2000.0f ),
 
-    m_burst_count ( 0 ),
-    m_burst_time ( 0.0f )
+    _burst_count ( 0 ),
+    _burst_time ( 0.0f )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -198,28 +198,28 @@ GunnerFlak::~GunnerFlak() {}
 
 void GunnerFlak::updateWeapons()
 {
-    m_burst_time += _timeStep;
+    _burst_time += _timeStep;
 
-    if ( m_target_valid )
+    if ( _target_valid )
     {
-        if ( m_target_dist < m_range && m_target_dist > 300.0 )
+        if ( _target_dist < _range && _target_dist > 300.0 )
         {
-            if ( m_burst_time > 5.0f )
+            if ( _burst_time > 5.0f )
             {
-                if ( m_burst_count < 4 )
+                if ( _burst_count < 4 )
                 {
-                    if ( m_shoot_time > 0.1f )
+                    if ( _shoot_time > 0.1f )
                     {
-                        m_shoot_time = 0.0f;
+                        _shoot_time = 0.0f;
 
                         float offset = 20.0;
-                        float fuse_time = ( m_target_dist - offset ) / Bullet::m_vel_m;
+                        float fuse_time = ( _target_dist - offset ) / Bullet::_vel_m;
 
-                        Quat dir = m_target_dir;
+                        Quat dir = _target_dir;
 
                         float ang = Convert::deg2rad( 1.0 );
 
-                        switch ( m_burst_count )
+                        switch ( _burst_count )
                         {
                         case 1:
                             dir += derivAtt( dir, Vec3( 0.0f,  ang, 0.0f ) );
@@ -242,18 +242,18 @@ void GunnerFlak::updateWeapons()
                             break;
                         }
 
-                        Flak *bullet = new Flak( m_parent_valid ? m_parent_id : _id, fuse_time );
+                        Flak *bullet = new Flak( _parent_valid ? _parent_id : _id, fuse_time );
 
-                        bullet->setPos( m_pos_abs + dir * Vec3( -1.0, 0.0, 0.0 ) * offset );
+                        bullet->setPos( _pos_abs + dir * Vec3( -1.0, 0.0, 0.0 ) * offset );
                         bullet->setAtt( dir );
 
-                        m_burst_count++;
+                        _burst_count++;
                     }
                 }
                 else
                 {
-                    m_burst_time = 0.0f;
-                    m_burst_count = 0;
+                    _burst_time = 0.0f;
+                    _burst_count = 0;
                 }
             }
         }
@@ -276,10 +276,10 @@ GunnerRear::~GunnerRear() {}
 
 void GunnerRear::updateWeapons()
 {
-    float f_psi = fabs( m_target_psi );
+    float f_psi = fabs( _target_psi );
 
-    if ( ( f_psi < m_45deg_rad && ( f_psi > m_10deg_rad || m_target_tht >  m_20deg_rad ) )
-      && ( m_target_tht > 0.0f || ( f_psi > m_40deg_rad && m_target_tht > -m_20deg_rad ) )
+    if ( ( f_psi < _45deg_rad && ( f_psi > _10deg_rad || _target_tht >  _20deg_rad ) )
+      && ( _target_tht > 0.0f || ( f_psi > _40deg_rad && _target_tht > -_20deg_rad ) )
        )
     {
         ////////////////////////
@@ -294,8 +294,8 @@ GunnerZone::GunnerZone( Affiliation affiliation, float psi_min, float psi_max,
                         Group *parent ) :
     Gunner ( affiliation, parent ),
 
-    m_psi_min ( psi_min ),
-    m_psi_max ( psi_max )
+    _psi_min ( psi_min ),
+    _psi_max ( psi_max )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -306,8 +306,8 @@ GunnerZone::~GunnerZone() {}
 
 void GunnerZone::updateWeapons()
 {
-    if ( m_target_psi > m_psi_min && m_target_psi < m_psi_max
-      && m_target_tht > -m_80deg_rad && m_target_tht < m_80deg_rad )
+    if ( _target_psi > _psi_min && _target_psi < _psi_max
+      && _target_tht > -_80deg_rad && _target_tht < _80deg_rad )
     {
         ////////////////////////
         Gunner::updateWeapons();
@@ -318,7 +318,7 @@ void GunnerZone::updateWeapons()
 ////////////////////////////////////////////////////////////////////////////////
 
 GunnerBack::GunnerBack( Affiliation affiliation, Group *parent ) :
-    GunnerZone( affiliation, -m_60deg_rad, m_60deg_rad, parent )
+    GunnerZone( affiliation, -_60deg_rad, _60deg_rad, parent )
 {
     _att.makeRotate( M_PI, osg::Z_AXIS );
 }
@@ -330,7 +330,7 @@ GunnerBack::~GunnerBack() {}
 ////////////////////////////////////////////////////////////////////////////////
 
 GunnerFront::GunnerFront( Affiliation affiliation, Group *parent ) :
-    GunnerZone( affiliation, -m_60deg_rad, m_60deg_rad, parent )
+    GunnerZone( affiliation, -_60deg_rad, _60deg_rad, parent )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -340,7 +340,7 @@ GunnerFront::~GunnerFront() {}
 ////////////////////////////////////////////////////////////////////////////////
 
 GunnerLeft::GunnerLeft( Affiliation affiliation, Group *parent ) :
-    GunnerZone( affiliation, -m_60deg_rad, m_60deg_rad, parent )
+    GunnerZone( affiliation, -_60deg_rad, _60deg_rad, parent )
 {
     _att.makeRotate( M_PI_2, osg::Z_AXIS );
 }
@@ -352,7 +352,7 @@ GunnerLeft::~GunnerLeft() {}
 ////////////////////////////////////////////////////////////////////////////////
 
 GunnerRight::GunnerRight( Affiliation affiliation, Group *parent ) :
-    GunnerZone( affiliation, -m_60deg_rad, m_60deg_rad, parent )
+    GunnerZone( affiliation, -_60deg_rad, _60deg_rad, parent )
 {
     _att.makeRotate( -M_PI_2, osg::Z_AXIS );
 }

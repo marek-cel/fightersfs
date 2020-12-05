@@ -32,7 +32,7 @@
 namespace sim
 {
 
-/** Waypoint gates module class. */
+/** @brief Waypoint gates module class. */
 class Gates : public Module
 {
 public:
@@ -41,13 +41,13 @@ public:
     static const float _distScale;  ///< [m] minimum scaling distance
     static const float _size;       ///< [m] waypoint box size
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Gates( float linesWidth, Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Gates();
 
-    /** Updates gates module. */
+    /** @brief Updates gates module. */
     void update();
 
 private:

@@ -51,12 +51,12 @@ private:
     /** Using this constructor is forbidden. */
     Manager( const Manager & ) : sim::Singleton< Manager >() {}
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Manager();
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Manager();
 
     /** */

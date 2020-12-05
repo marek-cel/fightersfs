@@ -28,25 +28,25 @@
 namespace sim
 {
 
-/** OpenAL sound engine singleton class. */
+/** @brief OpenAL sound engine singleton class. */
 class EngineOpenAL : public Singleton< EngineOpenAL >
 {
     friend class Singleton< EngineOpenAL >;
 
 private:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     EngineOpenAL();
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~EngineOpenAL();
 
-    /** Initializes sound engine. */
+    /** @brief Initializes sound engine. */
     void init();
 
-    /** Stops sound engine. */
+    /** @brief Stops sound engine. */
     void stop();
 
     void setBombs     ( bool play );

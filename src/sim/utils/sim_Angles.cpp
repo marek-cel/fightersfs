@@ -25,16 +25,16 @@ using namespace sim;
 
 Angles::Angles()
 {
-    m_phi = 0.0f;
-    m_tht = 0.0f;
-    m_psi = 0.0f;
+    _phi = 0.0f;
+    _tht = 0.0f;
+    _psi = 0.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Angles::Angles( const Angles &angl )
 {
-    set( angl.m_phi, angl.m_tht, angl.m_psi );
+    set( angl._phi, angl._tht, angl._psi );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -55,25 +55,25 @@ Angles::Angles( const osg::Quat &quat )
 
 void Angles::normalize()
 {
-    while ( m_tht >  M_PI_2 )
+    while ( _tht >  M_PI_2 )
     {
-        m_phi += M_PI;
-        m_tht =  M_PI_2 - ( m_tht - M_PI_2 );
-        m_psi += M_PI;
+        _phi += M_PI;
+        _tht =  M_PI_2 - ( _tht - M_PI_2 );
+        _psi += M_PI;
     }
 
-    while ( m_tht < -M_PI_2 )
+    while ( _tht < -M_PI_2 )
     {
-        m_phi += M_PI;
-        m_tht = -M_PI_2 - ( m_tht + M_PI_2 );
-        m_psi += M_PI;
+        _phi += M_PI;
+        _tht = -M_PI_2 - ( _tht + M_PI_2 );
+        _psi += M_PI;
     }
 
-    while ( m_phi >  M_PI ) m_phi -= 2.0 * M_PI;
-    while ( m_phi < -M_PI ) m_phi += 2.0 * M_PI;
+    while ( _phi >  M_PI ) _phi -= 2.0 * M_PI;
+    while ( _phi < -M_PI ) _phi += 2.0 * M_PI;
 
-    while ( m_psi > 2.0 * M_PI ) m_psi -= 2.0 * M_PI;
-    while ( m_psi < 0.0        ) m_psi += 2.0 * M_PI;
+    while ( _psi > 2.0 * M_PI ) _psi -= 2.0 * M_PI;
+    while ( _psi < 0.0        ) _psi += 2.0 * M_PI;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,9 +82,9 @@ osg::Quat Angles::getRotate() const
 {
     osg::Quat result;
 
-    double phi2 = m_phi / 2.0f;
-    double tht2 = m_tht / 2.0f;
-    double psi2 = m_psi / 2.0f;
+    double phi2 = _phi / 2.0f;
+    double tht2 = _tht / 2.0f;
+    double psi2 = _psi / 2.0f;
 
     double sinPhi2 = sin( phi2 );
     double cosPhi2 = cos( phi2 );
@@ -114,9 +114,9 @@ osg::Quat Angles::getRotate() const
 
 void Angles::set( double phi, double tht, double psi )
 {
-    m_phi = phi;
-    m_tht = tht;
-    m_psi = psi;
+    _phi = phi;
+    _tht = tht;
+    _psi = psi;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -127,23 +127,23 @@ void Angles::set( const osg::Quat &quat )
 
     if( sinTht2 >= 0.5f )
     {
-        m_phi =  2.0f * asin( quat.x() / cos( M_PI_4 ) );
-        m_tht =  M_PI_2;
-        m_psi =  0.0f;
+        _phi =  2.0f * asin( quat.x() / cos( M_PI_4 ) );
+        _tht =  M_PI_2;
+        _psi =  0.0f;
     }
     else if ( sinTht2 <= -0.5f )
     {
-        m_phi =  2.0f * asin( quat.x() / cos( M_PI_4 ) );
-        m_tht = -M_PI_2;
-        m_psi =  0.0f;
+        _phi =  2.0f * asin( quat.x() / cos( M_PI_4 ) );
+        _tht = -M_PI_2;
+        _psi =  0.0f;
     }
     else
     {
-        m_phi = atan2( 2.0f*( quat.w()*quat.x() + quat.y()*quat.z() ),
-                1.0f - 2.0f*( quat.x()*quat.x() + quat.y()*quat.y() ) );
-        m_tht =  asin( 2.0f*sinTht2 );
-        m_psi = atan2( 2.0f*( quat.w()*quat.z() + quat.x()*quat.y() ),
-                1.0f - 2.0f*( quat.y()*quat.y() + quat.z()*quat.z() ) );
+        _phi = atan2( 2.0f*( quat.w()*quat.x() + quat.y()*quat.z() ),
+               1.0f - 2.0f*( quat.x()*quat.x() + quat.y()*quat.y() ) );
+        _tht =  asin( 2.0f*sinTht2 );
+        _psi = atan2( 2.0f*( quat.w()*quat.z() + quat.x()*quat.y() ),
+               1.0f - 2.0f*( quat.y()*quat.y() + quat.z()*quat.z() ) );
     }
 
     normalize();
@@ -153,7 +153,7 @@ void Angles::set( const osg::Quat &quat )
 
 Angles& Angles::operator= ( const Angles &angl )
 {
-    set( angl.m_phi, angl.m_tht, angl.m_psi );
+    set( angl._phi, angl._tht, angl._psi );
 
     return (*this);
 }
@@ -162,9 +162,9 @@ Angles& Angles::operator= ( const Angles &angl )
 
 bool Angles::operator== ( const Angles &angl ) const
 {
-    return ( ( m_phi == angl.m_phi )
-          && ( m_tht == angl.m_tht )
-          && ( m_psi == angl.m_psi ) );
+    return ( ( _phi == angl._phi )
+          && ( _tht == angl._tht )
+          && ( _psi == angl._psi ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

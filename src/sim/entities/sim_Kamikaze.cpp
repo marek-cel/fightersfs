@@ -30,17 +30,17 @@ const std::string Kamikaze::_tagName = "kamikaze";
 Kamikaze::Kamikaze( Affiliation affiliation ) :
     Aircraft( affiliation ),
 
-    m_target ( 0 ),
-    m_engaged ( false )
+    _target ( 0 ),
+    _engaged ( false )
 {
-    m_target = new Target< UnitMarine >( this, ( m_affiliation == Hostile ) ? Friend : Hostile );
+    _target = new Target< UnitMarine >( this, ( _affiliation == Hostile ) ? Friend : Hostile );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Kamikaze::~Kamikaze()
 {
-    DELPTR( m_target );
+    DELPTR( _target );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ void Kamikaze::collide( Unit *unit )
 
 void Kamikaze::update( double timeStep )
 {
-    if ( isActive() ) m_target->update();
+    if ( isActive() ) _target->update();
 
     /////////////////////////////
     Aircraft::update( timeStep );
@@ -62,9 +62,9 @@ void Kamikaze::update( double timeStep )
 
     if ( isActive() )
     {
-        if ( !m_target->getTarget() )
+        if ( !_target->getTarget() )
         {
-            m_target->findForward( M_PI_2 );
+            _target->findForward( M_PI_2 );
         }
     }
 }
@@ -73,14 +73,14 @@ void Kamikaze::update( double timeStep )
 
 UnitMarine *Kamikaze::getTarget() const
 {
-    return m_target->getTarget();
+    return _target->getTarget();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Kamikaze::limitTht( float &tht )
 {
-    if ( m_engaged )
+    if ( _engaged )
     {
         if ( tht < -SIM_AIRCRAFT_MAX_THT ) tht = -SIM_AIRCRAFT_MAX_THT;
         if ( tht >  SIM_AIRCRAFT_MAX_THT ) tht =  SIM_AIRCRAFT_MAX_THT;
@@ -99,11 +99,11 @@ void Kamikaze::updateDestination()
 {
     updateTarget();
 
-    if ( !m_engaged )
+    if ( !_engaged )
     {
         if ( _route.size() > 0 )
         {
-            if ( !_enroute || m_engaged )
+            if ( !_enroute || _engaged )
             {
                 _destination = _route[ _waypointIndex ];
                 _destValid = true;
@@ -116,7 +116,7 @@ void Kamikaze::updateDestination()
 
         _enroute = true;
         _wingman = _leaderValid;
-        m_engaged = false;
+        _engaged = false;
     }
 
     //////////////////////////////
@@ -128,13 +128,13 @@ void Kamikaze::updateDestination()
 
 void Kamikaze::updateTarget()
 {
-    UnitMarine *target = m_target->getTarget();
+    UnitMarine *target = _target->getTarget();
 
     if ( target )
     {
         _enroute = false;
         _wingman = false;
-        m_engaged = true;
+        _engaged = true;
 
         _destValid = true;
 
@@ -146,7 +146,7 @@ void Kamikaze::updateTarget()
     }
     else
     {
-        m_engaged = false;
+        _engaged = false;
     }
 }
 

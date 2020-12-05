@@ -26,17 +26,17 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** This is widget wrapper for simulation CGI. */
+/** @brief Widget wrapper for simulation CGI. */
 class WidgetPlay : public WidgetCGI
 {
     Q_OBJECT
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     WidgetPlay( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~WidgetPlay();
 
     /** */
@@ -49,6 +49,9 @@ public:
     void update();
 
 protected:
+
+    /** */
+    void mousePressEvent( QMouseEvent *event );
 
     /** */
     void resizeEvent( QResizeEvent *event );

@@ -37,7 +37,12 @@ namespace sim
 
 /**
  * @brief Mission class.
- * <p>Mission is completed when all stages are completed.</p>
+ *
+ * Each mission is divided into stages. New stage starts only when the previous
+ * one is accomplished. Each stage has a set of objectives. To accomplish a
+ * stage all of its objectives have to be achieved. There are different types of
+ * objectives, e.g. defending units, destroying targets, getting to location
+ * (waypoint), or just timeout.
  */
 class Mission : public Base
 {
@@ -71,29 +76,29 @@ public:
     void update( double timeStep );
 
     /** Returns true if mission is a tutorial. */
-    bool isTutorial() const { return m_tutorial; }
+    bool isTutorial() const { return _tutorial; }
 
 private:
 
-    Routes m_routes;                ///< all routes
-    Stages m_stages;                ///< mission stages
+    Routes _routes;                 ///< all routes
+    Stages _stages;                 ///< mission stages
 
-    Route *m_ownshipRoute;          ///< ownship route
+    Route *_ownshipRoute;           ///< ownship route
 
-    UInt32 m_stageIndex;            ///< current stage index
-    UInt32 m_messageIndex;          ///< current message index
+    UInt32 _stageIndex;             ///< current stage index
+    UInt32 _messageIndex;           ///< current message index
 
-    Status m_status;                ///< mission status
+    Status _status;                 ///< mission status
 
-    bool m_tutorial;                ///< specified if mission is tutorial
+    bool _tutorial;                 ///< specified if mission is tutorial
 
-    bool m_tutorialRoute;           ///< specifies if tutorial route has been inited
+    bool _tutorialRoute;            ///< specifies if tutorial route has been inited
 
-    bool m_ready;                   ///< specifies if mission is ready
+    bool _ready;                    ///< specifies if mission is ready
 
-    float m_realTime;               ///< [s] mission real time
-    float m_timeEnd;                ///< [s] time since mission end
-    float m_timeLeft;               ///< [s] time left to finish stage
+    float _realTime;                ///< [s] mission real time
+    float _timeEnd;                 ///< [s] time since mission end
+    float _timeLeft;                ///< [s] time left to finish stage
 
     /** Returns route of a given name, if not exists returns 0. */
     Route* getRouteByName( const std::string &name );

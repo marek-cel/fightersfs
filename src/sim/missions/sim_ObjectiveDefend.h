@@ -30,12 +30,14 @@ namespace sim
 
 /**
  * @brief Defend objective class.
- * <p>Objective is completed if there are at least minimum not destroyed
- * specified units.</p>
- * <p>This objective should be used with another type of objective, because
- * it is assumed to be completed as long as there are minimum not destroyed
- * units so if there were no other objective mission stage would be immediately
- * completed.</p>
+ *
+ * Objective is completed if there are at least minimum not destroyed
+ * specified units.
+ *
+ * This objective should be used with another type of objective, because it is
+ * assumed to be completed as long as there are minimum not destroyed units so
+ * if there were no other objective mission stage would be immediately
+ * completed.
  */
 class ObjectiveDefend : public Objective
 {
@@ -57,9 +59,9 @@ public:
 
 private:
 
-    UnitsId m_unitsId;      ///< IDs of units to be defended
+    UnitsId _unitsId;       ///< IDs of units to be defended
 
-    unsigned int m_minimum; ///< minimum number of units
+    unsigned int _minimum;  ///< minimum number of units
 };
 
 } // end of sim namespace

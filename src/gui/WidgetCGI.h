@@ -33,7 +33,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** This is widget wrapper for CGI. */
+/** @brief Widget wrapper for CGI. */
 class WidgetCGI : public QWidget, public osgViewer::Viewer
 {
     Q_OBJECT
@@ -43,10 +43,10 @@ public:
     static const double _zNear;
     static const double _zFar;
 
-    /** Constructor. */
+    /** @brief Constructor. */
     WidgetCGI( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~WidgetCGI();
 
 protected:

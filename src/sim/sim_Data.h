@@ -207,16 +207,16 @@ private:
 
 public:
 
-    /** Returns pointer to the common data object. */
+    /** @brief Returns pointer to the common data object. */
     static inline SimulationData* get() { return &_data; }
 
-    /** Zeroes common data. */
+    /** @brief Zeroes common data. */
     static inline void reset()
     {
         memset( &_data, 0, sizeof(SimulationData) );
     }
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Data() {}
 
 private:

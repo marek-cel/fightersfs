@@ -28,13 +28,13 @@
 namespace sim
 {
 
-/** Base class. */
+/** @brief Base class. */
 class Base
 {
 public:
 
     /**
-     * Returns file path prefixed with base path.
+     * @brief Returns file path prefixed with base path.
      * @param path file path relative to the base path.
      */
     inline static std::string getPath( const std::string &path )

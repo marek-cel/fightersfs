@@ -28,7 +28,8 @@ namespace sim
 
 /**
  * @brief Heading objective class.
- * <p>Objective is completed if ownship heading is in the given range.</p>
+ *
+ * Objective is completed if ownship heading is in the given range.
  */
 class ObjectiveHeading : public Objective
 {
@@ -48,8 +49,8 @@ public:
 
 private:
 
-    float m_above;  ///< [rad] minimum heading
-    float m_below;  ///< [rad] maximum heading
+    float _above;   ///< [rad] minimum heading
+    float _below;   ///< [rad] maximum heading
 };
 
 } // end of sim namespace

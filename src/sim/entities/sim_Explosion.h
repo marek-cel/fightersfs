@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Explosion effect class. */
+/** @brief Explosion effect class. */
 class Explosion : public Entity
 {
 public:

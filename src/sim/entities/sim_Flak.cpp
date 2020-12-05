@@ -33,16 +33,16 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const float Flak::m_r_limit = 30.0f;
-const float Flak::m_r_limit_2 = Flak::m_r_limit * Flak::m_r_limit;
+const float Flak::_r_limit = 30.0f;
+const float Flak::_r_limit_2 = Flak::_r_limit * Flak::_r_limit;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Flak::Flak( UInt32 shooterId, float fuse_time ) :
     Bullet( 10, shooterId, 15.0f, 0 ),
 
-    m_fuse_time ( fuse_time ),
-    m_exploded ( false )
+    _fuse_time ( fuse_time ),
+    _exploded ( false )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -61,9 +61,9 @@ void Flak::update( double timeStep )
     {
         if ( isTopLevel() )
         {
-            if ( !m_exploded )
+            if ( !_exploded )
             {
-                if ( _life_time > m_fuse_time )
+                if ( _life_time > _fuse_time )
                 {
                     rangeDamage();
                     resetLifeTime();
@@ -84,9 +84,9 @@ void Flak::hit( Unit* )
 
 void Flak::rangeDamage()
 {
-    if ( !m_exploded )
+    if ( !_exploded )
     {
-        m_exploded = true;
+        _exploded = true;
 
         _vel.x() = 0.0;
 
@@ -103,9 +103,9 @@ void Flak::rangeDamage()
                 {
                     float r2 = ( target->getPos() - _pos ).length2() - target->getRadius2();
 
-                    if ( r2 < m_r_limit_2 )
+                    if ( r2 < _r_limit_2 )
                     {
-                        UInt16 dp = (float)m_dp * ( 1.0f - r2 / m_r_limit_2 );
+                        UInt16 dp = (float)_dp * ( 1.0f - r2 / _r_limit_2 );
 
                         target->hit( dp, this );
                         reportTargetHit( target );

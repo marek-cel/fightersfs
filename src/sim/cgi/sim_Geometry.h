@@ -28,7 +28,7 @@
 namespace sim
 {
 
-/** CGI geometry class. */
+/** @brief CGI geometry class. */
 class Geometry
 {
 public:
@@ -41,7 +41,7 @@ public:
     };
 
     /**
-     * Creates dome.
+     * @brief Creates dome.
      * @param geom
      * @param radius
      * @param texCoords
@@ -54,7 +54,7 @@ public:
                             int lat_segments = 18, int lon_segments = 36 );
 
     /**
-     * Creates round face.
+     * @brief Creates round face.
      * @param geom
      * @param radius
      * @param texCoords
@@ -64,7 +64,7 @@ public:
                             int segments = 32 );
 
     /**
-     * Creates flat square plane.
+     * @brief Creates flat square plane.
      * @param geom
      * @param size
      * @param segments
@@ -78,7 +78,7 @@ public:
                              bool texCoords = false, int segmentsPerTexture = 1 );
 
     /**
-     * Creates quad.
+     * @brief Creates quad.
      * @param geom
      * @param v
      * @param texCoords

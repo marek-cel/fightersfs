@@ -34,6 +34,7 @@ namespace Ui
 
 ////////////////////////////////////////////////////////////////////////////////
 
+/** @brief Data widget class. */
 class WidgetData : public QWidget
 {
     Q_OBJECT

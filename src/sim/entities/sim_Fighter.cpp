@@ -39,25 +39,25 @@ const std::string Fighter::_tagName = "fighter";
 Fighter::Fighter( Affiliation affiliation ) :
     Aircraft( affiliation ),
 
-    m_target ( 0 ),
+    _target ( 0 ),
 
-    m_target_dist ( 0.0f ),
-    m_target_bear ( 0.0f ),
-    m_target_tht  ( 0.0f ),
-    m_target_psi  ( 0.0f ),
-    m_target_rad  ( 0.0f ),
+    _target_dist ( 0.0f ),
+    _target_bear ( 0.0f ),
+    _target_tht  ( 0.0f ),
+    _target_psi  ( 0.0f ),
+    _target_rad  ( 0.0f ),
 
-    m_engaged ( false )
+    _engaged ( false )
 {
-    m_target = new Target< UnitAerial >( this, ( m_affiliation == Hostile ) ? Friend : Hostile,
-                                         3000.0f, Convert::nmi2m( 3.0f ) );
+    _target = new Target< UnitAerial >( this, ( _affiliation == Hostile ) ? Friend : Hostile,
+                                        3000.0f, Convert::nmi2m( 3.0f ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Fighter::~Fighter()
 {
-    DELPTR( m_target );
+    DELPTR( _target );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -68,15 +68,15 @@ void Fighter::hit( UInt16 dp, const Munition *munition )
     Aircraft::hit( dp, munition );
     //////////////////////////////
 
-    if ( !m_ownship && ( m_target_dist > 5000.0f || fabs( m_target_bear ) > M_PI_2 ) )
+    if ( !_ownship && ( _target_dist > 5000.0f || fabs( _target_bear ) > M_PI_2 ) )
     {
         Aircraft *shooter = dynamic_cast< Aircraft* >( Entities::instance()->getEntityById( munition->getShooterId() ) );
 
         if ( shooter )
         {
-            if ( m_affiliation != shooter->getAffiliation() )
+            if ( _affiliation != shooter->getAffiliation() )
             {
-                m_target->setTarget( shooter );
+                _target->setTarget( shooter );
             }
         }
     }
@@ -90,7 +90,7 @@ void Fighter::reportTargetHit( Unit *target )
     Aircraft::reportTargetHit( target );
     ////////////////////////////////////
 
-    if ( m_affiliation != target->getAffiliation() )
+    if ( _affiliation != target->getAffiliation() )
     {
         UnitAerial *unitAerial = dynamic_cast< UnitAerial* >( target );
 
@@ -105,14 +105,14 @@ void Fighter::reportTargetHit( Unit *target )
 
 UnitAerial* Fighter::getTarget() const
 {
-    return m_target->getTarget();
+    return _target->getTarget();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Fighter::setTarget( UnitAerial *target )
 {
-    m_target->setTarget( target );
+    _target->setTarget( target );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -121,7 +121,7 @@ void Fighter::update( double timeStep )
 {
     if ( isActive() )
     {
-        m_target->update();
+        _target->update();
     }
 
     /////////////////////////////
@@ -130,18 +130,18 @@ void Fighter::update( double timeStep )
 
     if ( isActive() )
     {
-        if ( !m_target->getTarget() )
+        if ( !_target->getTarget() )
         {
-            m_target->findNearest( M_PI_4 );
+            _target->findNearest( M_PI_4 );
 
-            if ( !m_target->getTarget() )
+            if ( !_target->getTarget() )
             {
-                m_target->findNearest();
+                _target->findNearest();
             }
 
-            UnitAerial *target = m_target->getTarget();
+            UnitAerial *target = _target->getTarget();
 
-            if ( target && !m_ownship )
+            if ( target && !_ownship )
             {
                 List::iterator it = Entities::instance()->getEntities()->begin();
 
@@ -159,11 +159,11 @@ void Fighter::update( double timeStep )
                             {
                                 if ( fighterTarget->getId() == target->getId() )
                                 {
-                                    m_target->findNearest( target );
+                                    _target->findNearest( target );
 
-                                    if ( !m_target->isValid() )
+                                    if ( !_target->isValid() )
                                     {
-                                        m_target->setTarget( target );
+                                        _target->setTarget( target );
                                     }
 
                                     break;
@@ -187,7 +187,7 @@ void Fighter::updateControls()
     Aircraft::updateControls();
     ///////////////////////////
 
-    if ( m_engaged )
+    if ( _engaged )
     {
         _pid_phi->setKi( 0.4f );
     }
@@ -203,11 +203,11 @@ void Fighter::updateDestination()
 {
     updateTarget();
 
-    if ( !m_engaged )
+    if ( !_engaged )
     {
         if ( _route.size() > 0 && _waypointIndex < _route.size() )
         {
-            if ( !_enroute || m_engaged )
+            if ( !_enroute || _engaged )
             {
                 _destination = _route[ _waypointIndex ];
                 _destValid = true;
@@ -220,7 +220,7 @@ void Fighter::updateDestination()
 
         _enroute = true;
         _wingman = _leaderValid;
-        m_engaged = false;
+        _engaged = false;
     }
 
     //////////////////////////////
@@ -232,21 +232,21 @@ void Fighter::updateDestination()
 
 void Fighter::updateTarget()
 {
-    UnitAerial *target = m_target->getTarget();
+    UnitAerial *target = _target->getTarget();
 
     if ( target )
     {
         _enroute = false;
         _wingman = false;
-        m_engaged = true;
+        _engaged = true;
 
         _destValid = true;
 
-        if ( !m_ownship || Data::get()->controls.autopilot )
+        if ( !_ownship || Data::get()->controls.autopilot )
         {
-            m_target_dist = ( target->getPos() - _pos ).length();
+            _target_dist = ( target->getPos() - _pos ).length();
 
-            float time = m_target_dist / Bullet::m_vel_m;
+            float time = _target_dist / Bullet::_vel_m;
 
             Vec3 pos_est = target->getPos() + ( target->getAtt() * target->getVel() ) * time;
             Vec3 vel_bas = _att.inverse() *   ( target->getAtt() * target->getVel() );
@@ -254,36 +254,36 @@ void Fighter::updateTarget()
             Vec3 dir_enu = pos_est - _pos;
             dir_enu *= 1.0/dir_enu.length();
 
-            m_target_bear = _angles.psi() - atan2( -dir_enu.y(), -dir_enu.x() );
-            if      ( m_target_bear < -M_PI ) m_target_bear += 2.0f * M_PI;
-            else if ( m_target_bear >  M_PI ) m_target_bear -= 2.0f * M_PI;
+            _target_bear = _angles.psi() - atan2( -dir_enu.y(), -dir_enu.x() );
+            if      ( _target_bear < -M_PI ) _target_bear += 2.0f * M_PI;
+            else if ( _target_bear >  M_PI ) _target_bear -= 2.0f * M_PI;
 
             Vec3 dir_bas = _att.inverse() * dir_enu;
             dir_bas *= 1.0/dir_bas.length();
 
-            m_target_psi = atan2( -dir_bas.y(), -dir_bas.x() );
-            m_target_tht = atan2( dir_bas.z(), sqrt( dir_bas.x()*dir_bas.x() + dir_bas.y()*dir_bas.y() ) );
+            _target_psi = atan2( -dir_bas.y(), -dir_bas.x() );
+            _target_tht = atan2( dir_bas.z(), sqrt( dir_bas.x()*dir_bas.x() + dir_bas.y()*dir_bas.y() ) );
 
-            m_target_rad = target->getRadius();
+            _target_rad = target->getRadius();
 
             _destination.first  = pos_est;
             _destination.second = -vel_bas.x();
 
-            if ( m_target_dist < 500.0f )
+            if ( _target_dist < 500.0f )
             {
                 _destination.second = 0.8f * _destination.second;
 
-                if ( m_target_dist < 250.0f )
+                if ( _target_dist < 250.0f )
                 {
                     _destination.second = _speed_min;
                 }
             }
 
-            if ( m_target_dist > 750.0f )
+            if ( _target_dist > 750.0f )
             {
                 _destination.second = 1.2f * _destination.second;
 
-                if ( m_target_dist > 1000.0f )
+                if ( _target_dist > 1000.0f )
                 {
                     _destination.second = _speed_max;
                 }
@@ -292,7 +292,7 @@ void Fighter::updateTarget()
     }
     else
     {
-        m_engaged = false;
+        _engaged = false;
     }
 }
 
@@ -302,7 +302,7 @@ void Fighter::updateTrigger()
 {
     _trigger = false;
 
-    if ( m_ownship && !Data::get()->controls.autopilot )
+    if ( _ownship && !Data::get()->controls.autopilot )
     {
         _trigger = Ownship::instance()->getTrigger();
     }
@@ -310,11 +310,11 @@ void Fighter::updateTrigger()
     {
         _trigger = false;
 
-        if ( m_engaged && m_target_dist < 1000.0f )
+        if ( _engaged && _target_dist < 1000.0f )
         {
-            float delta = sqrt( m_target_tht*m_target_tht + m_target_psi*m_target_psi );
+            float delta = sqrt( _target_tht*_target_tht + _target_psi*_target_psi );
 
-            if ( delta < Misc::max( atan( m_target_rad / m_target_dist ), 0.05 ) )
+            if ( delta < Misc::max( atan( _target_rad / _target_dist ), 0.05 ) )
             {
                 _trigger = true;
 
@@ -327,12 +327,12 @@ void Fighter::updateTrigger()
 
                     if ( unit )
                     {
-                        if ( unit->getAffiliation() == m_affiliation )
+                        if ( unit->getAffiliation() == _affiliation )
                         {
                             Vec3 dir_enu = unit->getPos() - _pos;
                             float dist = dir_enu.length();
 
-                            if ( dist < m_target_dist )
+                            if ( dist < _target_dist )
                             {
                                 Vec3 dir_bas = _att.inverse() * dir_enu;
 

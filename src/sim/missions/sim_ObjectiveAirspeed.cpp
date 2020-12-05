@@ -39,8 +39,8 @@ ObjectiveAirspeed* ObjectiveAirspeed::read( const XmlNode &node )
 
         if ( above.length() > 0 && below.length() > 0 )
         {
-            objective->m_above = String::toFloat( above );
-            objective->m_below = String::toFloat( below );
+            objective->_above = String::toFloat( above );
+            objective->_below = String::toFloat( below );
 
             return objective;
         }
@@ -54,8 +54,8 @@ ObjectiveAirspeed* ObjectiveAirspeed::read( const XmlNode &node )
 ////////////////////////////////////////////////////////////////////////////////
 
 ObjectiveAirspeed::ObjectiveAirspeed() :
-    m_above ( 0.0f ),
-    m_below ( 0.0f )
+    _above ( 0.0f ),
+    _below ( 0.0f )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -72,9 +72,9 @@ void ObjectiveAirspeed::update()
     {
         float airspeed = aircraft->getAirspeed();
 
-        if ( airspeed > m_above && airspeed < m_below )
+        if ( airspeed > _above && airspeed < _below )
         {
-            m_status = Success;
+            _status = Success;
         }
     }
 }

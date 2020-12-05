@@ -223,11 +223,11 @@ void UnitMarine::destroy()
         explosion->setPos( _pos );
         explosion->setAtt( _att );
 
-        WreckageSurface *wreckage = new WreckageSurface( m_model.get(), m_smoke.get() );
+        WreckageSurface *wreckage = new WreckageSurface( _model.get(), _smoke.get() );
         wreckage->setPos( _pos );
         wreckage->setAtt( _att );
 
-        if ( m_ownship )
+        if ( _ownship )
         {
             wreckage->setName( "ownship" );
         }
@@ -247,9 +247,9 @@ void UnitMarine::load()
     ////////////////////
 
 #   ifdef SIM_TEST
-    if ( m_model.valid() )
+    if ( _model.valid() )
     {
-        createReflection( m_model.get(), _switch.get() );
+        createReflection( _model.get(), _switch.get() );
     }
 #   endif
 }
@@ -262,12 +262,12 @@ void UnitMarine::setHP( UInt16 hp )
     UnitSurface::setHP( hp );
     /////////////////////////
 
-    if ( m_hp < 50 )
+    if ( _hp < 50 )
     {
-        if ( !m_smoke.valid() )
+        if ( !_smoke.valid() )
         {
-            m_smoke = Effects::createSmoke( 60.0f, 10.0f, 150.0f, 1.0f, 0.04f, 0.5f );
-            _switch->addChild( m_smoke.get() );
+            _smoke = Effects::createSmoke( 60.0f, 10.0f, 150.0f, 1.0f, 0.04f, 0.5f );
+            _switch->addChild( _smoke.get() );
         }
     }
 }

@@ -26,7 +26,7 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const double Camera::m_downAngle = osg::DegreesToRadians( 6.9 );
+const double Camera::_downAngle = osg::DegreesToRadians( 6.9 );
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -89,7 +89,7 @@ void Camera::update()
 
             _d_x = 25.0f;
             _d_y = _d_x * tan( _d_psi ) * ( -1.0f );
-            _d_z = _d_x * tan( m_downAngle - _d_tht );
+            _d_z = _d_x * tan( _downAngle - _d_tht );
 
             Vec3 r_camera_bas( _d_x, _d_y, _d_z );
             Quat q_camera_bas( _d_phi, osg::X_AXIS,

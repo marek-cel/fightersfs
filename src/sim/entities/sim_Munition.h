@@ -26,7 +26,7 @@
 namespace sim
 {
 
-/** Munition base class. */
+/** @brief Munition base class. */
 class Munition : public Entity
 {
 public:
@@ -42,26 +42,28 @@ public:
 
     /**
      * @brief Updates munition.
-     * <p>Itarates throught top level unit type entities checking intersections
+     *
+     * Itarates throught top level unit type entities checking intersections
      * of projectile pathway with unit bounding sphere defined as unit radius.
-     * If intersection is detected hits unit with specified damage points.</p>
+     * If intersection is detected hits unit with specified damage points.
+     *
      * @param timeStep
      */
     virtual void update( double timeStep );
 
-    inline UInt32 getShooterId() const { return m_shooterId; }
+    inline UInt32 getShooterId() const { return _shooterId; }
 
     /** */
     virtual void setModelFile( const std::string &modelFile );
 
 protected:
 
-    const UInt16 m_dp;  ///< damage points
+    const UInt16 _dp;   ///< damage points
 
-    UInt32 m_shooterId; ///< shooter ID
+    UInt32 _shooterId;  ///< shooter ID
 
-    osg::ref_ptr<osg::Node> m_model;    ///< ordnance model node
-    std::string m_modelFile;            ///< ordnance model file
+    osg::ref_ptr<osg::Node> _model;     ///< ordnance model node
+    std::string _modelFile;             ///< ordnance model file
 
     virtual void hit( Unit *target );
 

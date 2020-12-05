@@ -30,7 +30,7 @@
 namespace sim
 {
 
-/** Bomber aircraft base class. */
+/** @brief Bomber aircraft base class. */
 class Bomber : public Aircraft
 {
 public:
@@ -49,20 +49,20 @@ public:
 
 protected:
 
-    Target< UnitSurface > *m_target;        ///< target
+    Target< UnitSurface > *_target;         ///< target
 
-    std::vector< Munition* > m_ordnance;    ///< bomber ordnance
+    std::vector< Munition* > _ordnance;     ///< bomber ordnance
 
-    UInt8 m_ordnanceIndex;  ///< current ordnance index
+    UInt8 _ordnanceIndex;   ///< current ordnance index
 
-    Vec3  m_target_pos;     ///< [m] target position expressed ine ENU
-    float m_target_dist;    ///< [m] horizontal distance to the current target
-    float m_target_alt;     ///< [m] relative altitude above target
-    float m_target_tht;     ///< [rad] relative elevation of the current target
-    float m_target_psi;     ///< [rad] relative azimuth of the current target
+    Vec3  _target_pos;      ///< [m] target position expressed ine ENU
+    float _target_dist;     ///< [m] horizontal distance to the current target
+    float _target_alt;      ///< [m] relative altitude above target
+    float _target_tht;      ///< [rad] relative elevation of the current target
+    float _target_psi;      ///< [rad] relative azimuth of the current target
 
-    bool m_engaged;         ///< specifies if aircraft is engaged into combat
-    bool m_trigger;         ///< trigger
+    bool _engaged;          ///< specifies if aircraft is engaged into combat
+    bool _trigger;          ///< trigger
 
     virtual void readOrdnance( const XmlNode &node );
     virtual void readOrdnance( const XmlNode &node, Munition *ordnance );

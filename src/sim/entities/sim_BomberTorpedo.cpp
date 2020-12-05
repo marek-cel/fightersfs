@@ -95,20 +95,20 @@ void BomberTorpedo::updateTarget()
 
     _attack = false;
 
-    if ( m_engaged )
+    if ( _engaged )
     {
-        float dist_attack = m_target_dist - _dropDistMax;
-        float dist_descent = m_target_alt / _tanMaxTht;
+        float dist_attack = _target_dist - _dropDistMax;
+        float dist_descent = _target_alt / _tanMaxTht;
 
         if ( dist_attack < 2.0f * dist_descent )
         {
-            UnitMarine *target = dynamic_cast< UnitMarine* >( m_target->getTarget() );
+            UnitMarine *target = dynamic_cast< UnitMarine* >( _target->getTarget() );
 
             if ( target )
             {
                 _attack = true;
 
-                Vec3 target_dir = m_target_pos - _pos;
+                Vec3 target_dir = _target_pos - _pos;
                 target_dir.z() = 0.0f;
                 target_dir *= 1.0/target_dir.length();
 
@@ -119,7 +119,7 @@ void BomberTorpedo::updateTarget()
             }
             else
             {
-                m_target->setTarget( 0 );
+                _target->setTarget( 0 );
             }
         }
     }
@@ -133,21 +133,21 @@ void BomberTorpedo::updateWeapons()
     Bomber::updateWeapons();
     ////////////////////////
 
-    if ( m_engaged )
+    if ( _engaged )
     {
-        if ( m_target_alt < _dropAltMax
-         && m_target_dist < _dropDistMax
-         && fabs( m_target_psi ) < 0.05f )
+        if ( _target_alt < _dropAltMax
+         && _target_dist < _dropDistMax
+         && fabs( _target_psi ) < 0.05f )
         {
-            m_trigger = true;
+            _trigger = true;
         }
     }
     else
     {
-        m_trigger = false;
+        _trigger = false;
     }
 
-    if ( m_trigger && m_ordnanceIndex < m_ordnance.size() )
+    if ( _trigger && _ordnanceIndex < _ordnance.size() )
     {
         if ( _time_drop > 1.0f )
         {

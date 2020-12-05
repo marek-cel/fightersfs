@@ -38,7 +38,7 @@ ObjectiveTimeout* ObjectiveTimeout::read( const XmlNode &node )
 
         if ( limit.length() > 0 )
         {
-            objective->m_limit = String::toFloat( limit );
+            objective->_limit = String::toFloat( limit );
 
             return objective;
         }
@@ -52,8 +52,8 @@ ObjectiveTimeout* ObjectiveTimeout::read( const XmlNode &node )
 ////////////////////////////////////////////////////////////////////////////////
 
 ObjectiveTimeout::ObjectiveTimeout() :
-    m_inited ( false ),
-    m_limit ( 0.0f )
+    _inited ( false ),
+    _limit ( 0.0f )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -64,15 +64,15 @@ ObjectiveTimeout::~ObjectiveTimeout() {}
 
 void ObjectiveTimeout::update()
 {
-    if ( !m_inited )
+    if ( !_inited )
     {
-        m_limit += Data::get()->mission.real_time;
-        m_inited = true;
+        _limit += Data::get()->mission.real_time;
+        _inited = true;
     }
 
-    if ( Data::get()->mission.real_time > m_limit )
+    if ( Data::get()->mission.real_time > _limit )
     {
-        m_status = Success;
+        _status = Success;
     }
 }
 
@@ -80,5 +80,5 @@ void ObjectiveTimeout::update()
 
 void ObjectiveTimeout::setLimit( float limit )
 {
-    m_limit = limit;
+    _limit = limit;
 }

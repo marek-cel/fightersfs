@@ -29,7 +29,7 @@ class WidgetCGI;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** */
+/** @brief Key input handler class. */
 class KeyHandler : public osgGA::GUIEventHandler
 {
 public:

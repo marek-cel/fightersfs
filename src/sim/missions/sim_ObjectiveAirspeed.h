@@ -28,7 +28,8 @@ namespace sim
 
 /**
  * @brief Airspeed objective class.
- * <p>Objective is completed if ownship airspeed is in the given range.</p>
+ *
+ * Objective is completed if ownship airspeed is in the given range.
  */
 class ObjectiveAirspeed : public Objective
 {
@@ -48,8 +49,8 @@ public:
 
 private:
 
-    float m_above;  ///< [m/s] minimum airspeed
-    float m_below;  ///< [m/s] maximum airspeed
+    float _above;   ///< [m/s] minimum airspeed
+    float _below;   ///< [m/s] maximum airspeed
 };
 
 } // end of sim namespace

@@ -28,17 +28,17 @@
 namespace sim
 {
 
-/** Gunner class. */
+/** @brief Gunner class. */
 class Gunner : public Entity
 {
 public:
 
-    static const float m_10deg_rad;     ///< [rad] 10 deg
-    static const float m_20deg_rad;     ///< [rad] 20 deg
-    static const float m_40deg_rad;     ///< [rad] 40 deg
-    static const float m_45deg_rad;     ///< [rad] 45 deg
-    static const float m_60deg_rad;     ///< [rad] 60 deg
-    static const float m_80deg_rad;     ///< [rad] 80 deg
+    static const float _10deg_rad;      ///< [rad] 10 deg
+    static const float _20deg_rad;      ///< [rad] 20 deg
+    static const float _40deg_rad;      ///< [rad] 40 deg
+    static const float _45deg_rad;      ///< [rad] 45 deg
+    static const float _60deg_rad;      ///< [rad] 60 deg
+    static const float _80deg_rad;      ///< [rad] 80 deg
 
     /** Constructor. */
     Gunner( Affiliation affiliation, Group *parent = 0, float range = 1000.0f );
@@ -51,32 +51,32 @@ public:
 
 protected:
 
-    Affiliation m_affiliation;  ///< gunner affiliation
+    Affiliation _affiliation;   ///< gunner affiliation
 
-    bool m_parent_valid;        ///<
-    UInt32 m_parent_id;         ///<
+    bool _parent_valid;         ///<
+    UInt32 _parent_id;          ///<
 
-    float m_range;              ///< [m] range
+    float _range;               ///< [m] range
 
-    float m_inertia;            ///< [s] gunner inertia time constant
-    bool  m_advanced;           ///< specifies if gunner predetermines target position
+    float _inertia;             ///< [s] gunner inertia time constant
+    bool  _advanced;            ///< specifies if gunner predetermines target position
 
-    Target< UnitAerial > *m_target; ///< target
+    Target< UnitAerial > *_target;  ///< target
 
-    Quat m_target_dir;          ///< absolute direction to target
+    Quat _target_dir;           ///< absolute direction to target
 
-    float m_target_dist;        ///< [m] distance to target
-    float m_target_tht;         ///< [rad] target relative elevation
-    float m_target_psi;         ///< [rad] target relative bearing
+    float _target_dist;         ///< [m] distance to target
+    float _target_tht;          ///< [rad] target relative elevation
+    float _target_psi;          ///< [rad] target relative bearing
 
-    bool m_trigger;
+    bool _trigger;
 
-    bool m_target_valid;        ///< specifies if target is valid
+    bool _target_valid;         ///< specifies if target is valid
 
-    Vec3 m_pos_abs;             ///< [m] gunner absolute position
-    Quat m_att_abs;             ///< gunner absolute attitude
+    Vec3 _pos_abs;              ///< [m] gunner absolute position
+    Quat _att_abs;              ///< gunner absolute attitude
 
-    float m_shoot_time;         ///< [s] time since last shot
+    float _shoot_time;          ///< [s] time since last shot
 
     virtual void updateWeapons();
 };
@@ -96,8 +96,8 @@ public:
 
 protected:
 
-    UInt8 m_burst_count;
-    float m_burst_time;         ///< [s] time since last shot
+    UInt8 _burst_count;
+    float _burst_time;          ///< [s] time since last shot
 
     virtual void updateWeapons();
 };
@@ -139,8 +139,8 @@ public:
 
 protected:
 
-    const float m_psi_min;      ///< [rad]
-    const float m_psi_max;      ///< [rad]
+    const float _psi_min;       ///< [rad]
+    const float _psi_max;       ///< [rad]
 
     virtual void updateWeapons();
 };

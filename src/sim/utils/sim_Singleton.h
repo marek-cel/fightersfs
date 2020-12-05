@@ -22,46 +22,46 @@
 namespace sim
 {
 
-/** Singleton template class. */
+/** @brief Singleton template class. */
 template < class TYPE >
 class Singleton
 {
 public:
 
-    /** Instace accessor. */
+    /** @brief Instace accessor. */
     inline static TYPE* instance()
     {
-        if ( !m_instance )
+        if ( !_instance )
         {
-            m_instance = new TYPE();
+            _instance = new TYPE();
         }
 
-        return m_instance;
+        return _instance;
     }
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Singleton() {}
 
 protected:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Singleton() {}
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Singleton( const Singleton & ) {}
 
 private:
 
-    static TYPE *m_instance;    ///< instance
+    static TYPE *_instance;     ///< instance
 };
 
 } // end of sim namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template < class TYPE > TYPE* sim::Singleton< TYPE >::m_instance = 0;
+template < class TYPE > TYPE* sim::Singleton< TYPE >::_instance = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 

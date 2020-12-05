@@ -28,28 +28,28 @@
 namespace sim
 {
 
-/** Ground elevation class. */
+/** @brief Ground elevation class. */
 class Elevation : public Singleton< Elevation >
 {
     friend class Singleton< Elevation >;
 
 private:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Elevation();
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Elevation();
 
-    /** Returns terrain elevation at given coordinates. */
+    /** @brief Returns terrain elevation at given coordinates. */
     float getElevation( float x, float y );
 
-    /** Reads ground elevation data file. */
+    /** @brief Reads ground elevation data file. */
     void readFile( const std::string &fileName );
 
-    /** Resets ground elevation data. */
+    /** @brief Resets ground elevation data. */
     void reset();
 
 private:

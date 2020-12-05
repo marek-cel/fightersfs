@@ -31,10 +31,12 @@ namespace sim
 
 /**
  * @brief Ownship class.
- * <p>Ownship is a unit controlled by player. As long as there cannot be more
- * than one such a unit ownship is a singleton class.</p>
- * <p>Ownship class gives interface and features essential for the purpose
- * of controlling unit and giving necessary feedback.</p>
+ *
+ * Ownship is a unit controlled by player. As long as there cannot be more than
+ * one such a unit ownship is a singleton class.
+ *
+ * Ownship class gives interface and features essential for the purpose
+ * of controlling unit and giving necessary feedback.
  */
 class Ownship : public Singleton< Ownship >
 {
@@ -45,41 +47,41 @@ public:
     static const float _target_fov_max;     ///< [rad] target indicators visibility max FoV
     static const float _target_fov_max_2;   ///< [rad^2] target indicators visibility max FoV squared
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Ownship();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Ownship();
 
-    /** Initializes ownship. */
+    /** @brief Initializes ownship. */
     void init();
 
-    /** This function should be called when ownship has been destroyed. */
+    /** @brief This function should be called when ownship has been destroyed. */
     void reportDestroyed();
 
-    /** This function should be called when ownship has been hit. */
+    /** @brief This function should be called when ownship has been hit. */
     void reportHit( const Munition *munition );
 
-    /** This function should be called when ownship has hit other unit. */
+    /** @brief This function should be called when ownship has hit other unit. */
     void reportTargetHit( Unit *target );
 
-    /** This function should be called when ownship has destroyed other unit. */
+    /** @brief This function should be called when ownship has destroyed other unit. */
     void reportTargetKill( Unit *target );
 
     /**
-     * Updates ownship.
+     * @brief Updates ownship.
      * @param timeStep [s] simulation time step
      */
     void update( double timeStep );
 
     /**
-     * Returns ownship aircraft.
+     * @brief Returns ownship aircraft.
      * @return ownship aircraft
      */
     inline Aircraft* getAircraft() const { return _aircraft; }
 
     /**
-     * Returns ownship entity.
+     * @brief Returns ownship entity.
      * @return ownship entity
      */
     inline Entity* getEntity() const
@@ -100,13 +102,13 @@ public:
     inline float getThrottle()  const { return _throttle;  }
 
     /**
-     * Sets current ownship aircraft.
+     * @brief Sets current ownship aircraft.
      * @param aircraft ownship aircraft
      */
     void setAircraft( Aircraft *aircraft );
 
     /**
-     * Sets wreckage entity after ownship has been destroyed.
+     * @brief Sets wreckage entity after ownship has been destroyed.
      * @param wreckage ownship wreckage entity
      */
     void setWreckage( WreckageAircraft *wreckage );

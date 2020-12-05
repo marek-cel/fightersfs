@@ -32,7 +32,8 @@ namespace sim
 
 /**
  * @brief Top level entities class.
- * <p>This singleton class should be used to access top level entities.</p>
+ *
+ * This singleton class should be used to access top level entities.
  */
 class Entities : public Group, public Singleton< Entities >
 {

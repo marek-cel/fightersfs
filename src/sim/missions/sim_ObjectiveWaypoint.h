@@ -28,7 +28,8 @@ namespace sim
 
 /**
  * @brief Waypoint objective class.
- * <p>This objective is completed when ownship reaches given index waypoint.</p>
+ *
+ * This objective is completed when ownship reaches given index waypoint.
  */
 class ObjectiveWaypoint : public Objective
 {
@@ -48,7 +49,7 @@ public:
 
 private:
 
-    UInt32 m_waypointIndex;     ///< waypoint index
+    UInt32 _waypointIndex;      ///< waypoint index
 };
 
 } // end of sim namespace

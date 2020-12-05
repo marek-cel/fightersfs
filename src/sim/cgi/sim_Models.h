@@ -29,7 +29,7 @@
 namespace sim
 {
 
-/** 3D models container class. */
+/** @brief 3D models container class. */
 class Models : public Singleton< Models >
 {
     friend class Singleton< Models >;
@@ -90,7 +90,7 @@ private:
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Models();
 
 private:

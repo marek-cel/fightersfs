@@ -35,17 +35,19 @@ typedef std::pair< Vec3, float > WaypointData;  ///< aircraft route waypoint dat
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Aircraft route class.
+ * @brief Aircraft route class.
+ *
  * First element is waypoint position, second element is waypoint desired speed.
  */
 class Route : public std::vector< WaypointData >
 {
 public:
 
-    /** Reads route from XML file. */
+    /** @brief Reads route from XML file. */
     static Route* read( const XmlNode &node );
 
-    /** Reads waypoint from XML file.
+    /**
+     * @brief Reads waypoint from XML file.
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure.
      */
     static int read( const XmlNode &node, WaypointData &waypoint );

@@ -42,7 +42,7 @@ ObjectiveWaypoint* ObjectiveWaypoint::read( const XmlNode &node )
 
             if ( index >= 0 )
             {
-                objective->m_waypointIndex = index;
+                objective->_waypointIndex = index;
 
                 return objective;
             }
@@ -71,9 +71,9 @@ void ObjectiveWaypoint::update()
 
     if ( aircraft )
     {
-        if ( aircraft->getWaypointIndex() > m_waypointIndex )
+        if ( aircraft->getWaypointIndex() > _waypointIndex )
         {
-            m_status = Success;
+            _status = Success;
         }
     }
 }

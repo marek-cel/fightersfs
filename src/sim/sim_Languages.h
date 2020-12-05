@@ -42,15 +42,15 @@ public:
 
 private:
 
-    /** Default constructor. */
+    /** @brief Default constructor. */
     Languages();
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Languages( const Languages & ) : sim::Singleton< Languages >() {}
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Languages();
 
     /** */

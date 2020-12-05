@@ -41,9 +41,9 @@ Entities::~Entities() {}
 
 Unit* Entities::getUnitByName( const std::string &name )
 {
-    List::iterator it = m_children.begin();
+    List::iterator it = _children.begin();
 
-    while ( it != m_children.end() )
+    while ( it != _children.end() )
     {
         Unit *unit = dynamic_cast< Unit* >( *it );
 
@@ -65,9 +65,9 @@ Unit* Entities::getUnitByName( const std::string &name )
 
 Unit* Entities::getOwnship()
 {
-    List::iterator it = m_children.begin();
+    List::iterator it = _children.begin();
 
-    while ( it != m_children.end() )
+    while ( it != _children.end() )
     {
         Unit *unit = dynamic_cast< Unit* >( *it );
 
@@ -89,9 +89,9 @@ Unit* Entities::getOwnship()
 
 void Entities::listAll()
 {
-    List::iterator it = m_children.begin();
+    List::iterator it = _children.begin();
 
-    while ( it != m_children.end() )
+    while ( it != _children.end() )
     {
         Log::i() << (*it)->getName() << std::endl;
         ++it;

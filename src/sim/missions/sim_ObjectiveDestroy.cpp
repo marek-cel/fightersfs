@@ -45,7 +45,7 @@ ObjectiveDestroy* ObjectiveDestroy::read( const XmlNode &node )
 
                 if ( unit )
                 {
-                    objective->m_unitsId.push_back( unit->getId() );
+                    objective->_unitsId.push_back( unit->getId() );
                 }
             }
             else
@@ -80,18 +80,18 @@ ObjectiveDestroy::~ObjectiveDestroy() {}
 
 void ObjectiveDestroy::addUnitId( UInt32 unitId )
 {
-    m_unitsId.push_back( unitId );
+    _unitsId.push_back( unitId );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void ObjectiveDestroy::update()
 {
-    if ( m_unitsId.size() > 0 )
+    if ( _unitsId.size() > 0 )
     {
-        UnitsId::iterator it = m_unitsId.begin();
+        UnitsId::iterator it = _unitsId.begin();
 
-        while ( it != m_unitsId.end() )
+        while ( it != _unitsId.end() )
         {
             Unit *unit = dynamic_cast< Unit* >( Entities::instance()->getEntityById( *it ) );
 
@@ -99,13 +99,13 @@ void ObjectiveDestroy::update()
             {
                 if ( unit->getHP() <= 0 )
                 {
-                    it = m_unitsId.erase( it );
+                    it = _unitsId.erase( it );
                     continue;
                 }
             }
             else
             {
-                it = m_unitsId.erase( it );
+                it = _unitsId.erase( it );
                 continue;
             }
 
@@ -114,6 +114,6 @@ void ObjectiveDestroy::update()
     }
     else
     {
-        m_status = Success;
+        _status = Success;
     }
 }

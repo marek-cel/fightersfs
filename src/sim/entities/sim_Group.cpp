@@ -26,11 +26,11 @@ using namespace sim;
 ////////////////////////////////////////////////////////////////////////////////
 
 Group::Group( Group *parent ) :
-    m_parent ( parent )
+    _parent ( parent )
 {
-    m_root = new osg::Group();
+    _root = new osg::Group();
 
-    m_children.clear();
+    _children.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +46,7 @@ void Group::attachEntity( Entity *entity )
 {
     if ( entity )
     {
-        m_children.push_back( entity );
+        _children.push_back( entity );
     }
 }
 
@@ -54,13 +54,13 @@ void Group::attachEntity( Entity *entity )
 
 void Group::deleteAllEntities()
 {
-    List::iterator it = m_children.begin();
+    List::iterator it = _children.begin();
 
-    while ( it != m_children.end() )
+    while ( it != _children.end() )
     {
         DELPTR( *it );
 
-        it = m_children.erase( it );
+        it = _children.erase( it );
     }
 }
 
@@ -70,14 +70,14 @@ void Group::deleteEntity( Entity *entity )
 {
     if ( entity )
     {
-        List::iterator it = m_children.begin();
+        List::iterator it = _children.begin();
 
-        while ( it != m_children.end() )
+        while ( it != _children.end() )
         {
             if ( (*it) == entity )
             {
                 DELPTR( *it );
-                m_children.erase( it );
+                _children.erase( it );
 
                 return;
             }
@@ -93,13 +93,13 @@ void Group::dettachEntity( Entity *entity )
 {
     if ( entity )
     {
-        List::iterator it = m_children.begin();
+        List::iterator it = _children.begin();
 
-        while ( it != m_children.end() )
+        while ( it != _children.end() )
         {
             if ( (*it) == entity )
             {
-                m_children.erase( it );
+                _children.erase( it );
 
                 return;
             }
@@ -113,16 +113,16 @@ void Group::dettachEntity( Entity *entity )
 
 Group::List* Group::getEntities()
 {
-    return &( m_children );
+    return &( _children );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Entity* Group::getEntityById( UInt32 id )
 {
-    List::iterator it = m_children.begin();
+    List::iterator it = _children.begin();
 
-    while ( it != m_children.end() )
+    while ( it != _children.end() )
     {
         if ( (*it)->getId() == id )
         {
@@ -139,9 +139,9 @@ Entity* Group::getEntityById( UInt32 id )
 
 void Group::load()
 {
-    List::iterator it = m_children.begin();
+    List::iterator it = _children.begin();
 
-    while ( it != m_children.end() )
+    while ( it != _children.end() )
     {
         if ( (*it) )
         {
@@ -156,17 +156,17 @@ void Group::load()
 
 void Group::update( double timeStep )
 {
-    List::iterator it = m_children.begin();
+    List::iterator it = _children.begin();
 
     // delete innactive entities (before updating)
-    while ( it != m_children.end() )
+    while ( it != _children.end() )
     {
         if ( (*it) )
         {
             if ( (*it)->getState() == Inactive )
             {
                 DELPTR( *it );
-                it = m_children.erase( it );
+                it = _children.erase( it );
             }
             else
             {
@@ -176,7 +176,7 @@ void Group::update( double timeStep )
     }
 
     // due to the fact that vector can be modified in update loop.
-    List children = m_children;
+    List children = _children;
 
     // updating after deleting due to keep innactive entities for one more step
     for ( List::iterator it = children.begin(); it != children.end(); ++it )

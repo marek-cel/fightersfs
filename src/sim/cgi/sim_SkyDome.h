@@ -33,7 +33,7 @@
 namespace sim
 {
 
-/** Sky dome module class. */
+/** @brief Sky dome module class. */
 class SkyDome : public Module
 {
 public:
@@ -41,13 +41,13 @@ public:
     static std::string _skyDomeFile;    ///< sky dome file
     static float _sunCoef;
 
-    /** Constructor. */
+    /** @brief Constructor. */
     SkyDome( Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~SkyDome();
 
-    /** Updates sky dome. */
+    /** @brief Updates sky dome. */
     void update();
 
 private:

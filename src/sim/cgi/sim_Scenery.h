@@ -35,7 +35,7 @@
 namespace sim
 {
 
-/** Scenery module class. */
+/** @brief Scenery module class. */
 class Scenery : public Module
 {
 public:
@@ -56,16 +56,16 @@ public:
         return _terrainNode.get();
     }
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Scenery( Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Scenery();
 
-    /** Loads terrain. */
+    /** @brief Loads terrain. */
     void load();
 
-    /** Updates scenery. */
+    /** @brief Updates scenery. */
     void update();
 
 private:

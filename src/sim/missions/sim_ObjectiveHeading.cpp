@@ -40,8 +40,8 @@ ObjectiveHeading* ObjectiveHeading::read( const XmlNode &node )
 
         if ( above.length() > 0 && below.length() > 0 )
         {
-            objective->m_above = Convert::deg2rad( String::toFloat( above ) );
-            objective->m_below = Convert::deg2rad( String::toFloat( below ) );
+            objective->_above = Convert::deg2rad( String::toFloat( above ) );
+            objective->_below = Convert::deg2rad( String::toFloat( below ) );
 
             return objective;
         }
@@ -55,8 +55,8 @@ ObjectiveHeading* ObjectiveHeading::read( const XmlNode &node )
 ////////////////////////////////////////////////////////////////////////////////
 
 ObjectiveHeading::ObjectiveHeading() :
-    m_above ( 0.0f ),
-    m_below ( 0.0f )
+    _above ( 0.0f ),
+    _below ( 0.0f )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -73,9 +73,9 @@ void ObjectiveHeading::update()
     {
         float heading = aircraft->getHeading();
 
-        if ( heading > m_above && heading < m_below )
+        if ( heading > _above && heading < _below )
         {
-            m_status = Success;
+            _status = Success;
         }
     }
 }

@@ -31,7 +31,8 @@ namespace sim
 
 /**
  * @brief Fog scene module class.
- * <p>This is parent module for all fogged sub-modules.</p>
+ *
+ * This is parent module for all fogged sub-modules.
  */
 class FogScene : public Module
 {
@@ -39,13 +40,13 @@ public:
 
     static int _visibility;     ///< [m]
 
-    /** Constructor. */
+    /** @brief Constructor. */
     FogScene( Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~FogScene();
 
-    /** Updates fog scene module. */
+    /** @brief Updates fog scene module. */
     void update();
 
 private:

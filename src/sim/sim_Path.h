@@ -48,7 +48,7 @@ class Path
 public:
 
     /**
-     * Returns file path prefixed with base path.
+     * @brief Returns file path prefixed with base path.
      * @param path file path relative to the base path.
      */
     inline static std::string get( const char *path = "" )
@@ -57,7 +57,7 @@ public:
     }
 
     /**
-     * Returns file path prefixed with base path.
+     * @brief Returns file path prefixed with base path.
      * @param path file path relative to the base path.
      */
     inline static std::string get( const std::string &path )

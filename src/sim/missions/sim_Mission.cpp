@@ -44,16 +44,16 @@ using namespace sim;
 ////////////////////////////////////////////////////////////////////////////////
 
 Mission::Mission() :
-    m_ownshipRoute ( 0 ),
-    m_stageIndex ( 0 ),
-    m_messageIndex ( 0 ),
-    m_status ( Pending ),
-    m_tutorial ( false ),
-    m_tutorialRoute ( false ),
-    m_ready ( false ),
-    m_realTime ( 0.0f ),
-    m_timeEnd  ( 0.0f ),
-    m_timeLeft ( 0.0f )
+    _ownshipRoute ( 0 ),
+    _stageIndex ( 0 ),
+    _messageIndex ( 0 ),
+    _status ( Pending ),
+    _tutorial ( false ),
+    _tutorialRoute ( false ),
+    _ready ( false ),
+    _realTime ( 0.0f ),
+    _timeEnd  ( 0.0f ),
+    _timeLeft ( 0.0f )
 {
     Elevation::instance()->reset();
     Statistics::instance()->reset();
@@ -66,34 +66,34 @@ Mission::~Mission()
     Entities::instance()->deleteAllEntities();
 
     // delete routes
-    for ( Routes::iterator it = m_routes.begin(); it != m_routes.end(); ++it )
+    for ( Routes::iterator it = _routes.begin(); it != _routes.end(); ++it )
     {
         DELPTR( it->second );
     }
 
-    m_routes.clear();
+    _routes.clear();
 
     // delete stages
-    for ( Stages::iterator it = m_stages.begin(); it != m_stages.end(); ++it )
+    for ( Stages::iterator it = _stages.begin(); it != _stages.end(); ++it )
     {
         DELPTR( *it );
     }
 
-    m_stages.clear();
+    _stages.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Mission::addStage( Stage *stage )
 {
-    m_stages.push_back( stage );
+    _stages.push_back( stage );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Mission::init()
 {
-    m_ready = true;
+    _ready = true;
 
     Data::get()->message.pointer_custom  = false;
     Data::get()->message.pointer_target  = false;
@@ -120,13 +120,13 @@ void Mission::init( const std::string &missionFile )
     {
         if ( SIM_SUCCESS == readMission( doc.getRootNode() ) )
         {
-            if ( m_stages.size() > 0 )
+            if ( _stages.size() > 0 )
             {
                 initStageTutorial();
-                m_stages[ 0 ]->init();
+                _stages[ 0 ]->init();
             }
 
-            m_ready = true;
+            _ready = true;
         }
     }
     else
@@ -151,17 +151,17 @@ void Mission::init( const std::string &missionFile )
 
 void Mission::update( double timeStep )
 {
-    if ( m_ready )
+    if ( _ready )
     {
         if ( !Data::get()->paused )
         {
-            m_realTime += (float)timeStep;
+            _realTime += (float)timeStep;
 
             Statistics::instance()->update( timeStep );
 
-            if ( m_status != Pending )
+            if ( _status != Pending )
             {
-                m_timeEnd += (float)timeStep;
+                _timeEnd += (float)timeStep;
             }
 
             // stages (before entities!)
@@ -174,21 +174,21 @@ void Mission::update( double timeStep )
     }
 
     // mission
-    Data::get()->mission.status = m_status;
+    Data::get()->mission.status = _status;
 
     Data::get()->mission.time_step = timeStep;
-    Data::get()->mission.real_time = m_realTime;
-    Data::get()->mission.time_end  = m_timeEnd;
-    Data::get()->mission.time_left = m_timeLeft;
+    Data::get()->mission.real_time = _realTime;
+    Data::get()->mission.time_end  = _timeEnd;
+    Data::get()->mission.time_left = _timeLeft;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Route* Mission::getRouteByName( const std::string &name )
 {
-    Routes::iterator it = m_routes.find( name );
+    Routes::iterator it = _routes.find( name );
 
-    if ( it != m_routes.end() )
+    if ( it != _routes.end() )
     {
         return it->second;
     }
@@ -200,11 +200,11 @@ Route* Mission::getRouteByName( const std::string &name )
 
 void Mission::initStageTutorial()
 {
-    if ( m_tutorial && !m_tutorialRoute )
+    if ( _tutorial && !_tutorialRoute )
     {
         bool waypointObj = false;
 
-        const Stage::Objectives &objectives = m_stages[ m_stageIndex ]->getObjectives();
+        const Stage::Objectives &objectives = _stages[ _stageIndex ]->getObjectives();
 
         for ( unsigned int i = 0; i < objectives.size(); i++ )
         {
@@ -229,7 +229,7 @@ void Mission::initStageTutorial()
                 Vec3 pos = Vec3( aircraft->getAbsPos().x(), aircraft->getAbsPos().y(), 0.0f );
 
                 // routes
-                for ( Routes::iterator it = m_routes.begin(); it != m_routes.end(); ++it )
+                for ( Routes::iterator it = _routes.begin(); it != _routes.end(); ++it )
                 {
                     Route *route = it->second;
 
@@ -263,13 +263,13 @@ void Mission::initStageTutorial()
                 }
 
                 // ownship route
-                if ( m_ownshipRoute )
+                if ( _ownshipRoute )
                 {
-                    aircraft->setRoute( m_ownshipRoute );
+                    aircraft->setRoute( _ownshipRoute );
                 }
             }
 
-            m_tutorialRoute = true;
+            _tutorialRoute = true;
         }
     }
 }
@@ -283,7 +283,7 @@ int Mission::readMission( const XmlNode &node )
         if ( 0 == String::icompare( node.getName(), "mission" ) )
         {
             // tutorial
-            m_tutorial = String::toInt( node.getAttribute( "tutorial" ) ) == 1 ? true : false;
+            _tutorial = String::toInt( node.getAttribute( "tutorial" ) ) == 1 ? true : false;
 
             // scenery
             XmlNode sceneryNode = node.getFirstChildElement( "scenery" );
@@ -358,7 +358,7 @@ int Mission::readRoutes( const XmlNode &node )
 
                 if ( route )
                 {
-                    m_routes.insert( std::pair< std::string, Route* >( routeName, route ) );
+                    _routes.insert( std::pair< std::string, Route* >( routeName, route ) );
                 }
                 else
                 {
@@ -485,11 +485,11 @@ int Mission::readStages( const XmlNode &node )
 
         while ( stageNode.isValid() )
         {
-            Stage *stage = Stage::read( stageNode, m_tutorial );
+            Stage *stage = Stage::read( stageNode, _tutorial );
 
             if ( stage )
             {
-                m_stages.push_back( stage );
+                _stages.push_back( stage );
             }
             else
             {
@@ -658,13 +658,13 @@ int Mission::readUnit( const XmlNode &node, Affiliation affiliation, bool ownshi
             if ( aircraft )
             {
                 // route
-                if ( !ownship || !m_tutorial )
+                if ( !ownship || !_tutorial )
                 {
                     aircraft->setRoute( getRouteByName( node.getAttribute( "route" ) ) );
                 }
                 else
                 {
-                    m_ownshipRoute = getRouteByName( node.getAttribute( "route" ) );
+                    _ownshipRoute = getRouteByName( node.getAttribute( "route" ) );
                 }
 
                 // unique
@@ -755,7 +755,7 @@ void Mission::updateMessage()
 
     strcpy( Data::get()->message.text, "" );
 
-    if ( m_tutorial )
+    if ( _tutorial )
     {
         Data::get()->message.pointer_custom  = false;
         Data::get()->message.pointer_target  = false;
@@ -770,26 +770,26 @@ void Mission::updateMessage()
         Data::get()->message.tip = NoTip;
     }
 
-    if ( m_status == Pending )
+    if ( _status == Pending )
     {
-        if ( m_stageIndex < m_stages.size() )
+        if ( _stageIndex < _stages.size() )
         {
-            if ( m_stages[ m_stageIndex ] )
+            if ( _stages[ _stageIndex ] )
             {
-                if ( m_messageIndex < m_stages[ m_stageIndex ]->getMessages().size() )
+                if ( _messageIndex < _stages[ _stageIndex ]->getMessages().size() )
                 {
-                    const Stage::Message &message = m_stages[ m_stageIndex ]->getMessages()[ m_messageIndex ];
+                    const Stage::Message &message = _stages[ _stageIndex ]->getMessages()[ _messageIndex ];
 
-                    if ( m_stages[ m_stageIndex ]->getStageTime() > message.delay )
+                    if ( _stages[ _stageIndex ]->getStageTime() > message.delay )
                     {
-                        if ( m_stages[ m_stageIndex ]->getStageTime() < message.delay + message.duration )
+                        if ( _stages[ _stageIndex ]->getStageTime() < message.delay + message.duration )
                         {
                             Data::get()->message.visible = true;
                             Data::get()->message.overlay = message.overlay;
 
                             strncpy( Data::get()->message.text, message.text.get().c_str(), SIM_MSG_LEN );
 
-                            if ( m_tutorial )
+                            if ( _tutorial )
                             {
                                 Data::get()->message.pointer_custom  = message.pointer_custom;
                                 Data::get()->message.pointer_target  = message.pointer_target;
@@ -806,9 +806,9 @@ void Mission::updateMessage()
                         }
                         else
                         {
-                            if ( m_messageIndex + 1 < m_stages[ m_stageIndex ]->getMessages().size() )
+                            if ( _messageIndex + 1 < _stages[ _stageIndex ]->getMessages().size() )
                             {
-                                m_messageIndex++;
+                                _messageIndex++;
                             }
                         }
                     }
@@ -822,17 +822,17 @@ void Mission::updateMessage()
 
 void Mission::updateStages( double timeStep )
 {
-    m_timeLeft = 0.0f;
+    _timeLeft = 0.0f;
 
-    if ( m_status != Failure && !Data::get()->ownship.destroyed )
+    if ( _status != Failure && !Data::get()->ownship.destroyed )
     {
-        if ( m_stages.size() > 0 )
+        if ( _stages.size() > 0 )
         {
-            if ( m_status == Pending )
+            if ( _status == Pending )
             {
-                if ( m_stageIndex < m_stages.size() )
+                if ( _stageIndex < _stages.size() )
                 {
-                    Stage *stage = m_stages[ m_stageIndex ];
+                    Stage *stage = _stages[ _stageIndex ];
 
                     if ( stage )
                     {
@@ -840,18 +840,18 @@ void Mission::updateStages( double timeStep )
 
                         if ( stage->getStatus() == Success )
                         {
-                            m_stageIndex++;
-                            m_messageIndex = 0;
+                            _stageIndex++;
+                            _messageIndex = 0;
 
-                            if ( m_stageIndex < m_stages.size() )
+                            if ( _stageIndex < _stages.size() )
                             {
                                 initStageTutorial();
-                                m_stages[ m_stageIndex ]->init();
+                                _stages[ _stageIndex ]->init();
                             }
                         }
                         else
                         {
-                            m_timeLeft = stage->getTimeLimit() - stage->getStageTime();
+                            _timeLeft = stage->getTimeLimit() - stage->getStageTime();
                         }
                     }
                 }
@@ -860,9 +860,9 @@ void Mission::updateStages( double timeStep )
             bool failure = false;
             bool success = true;
 
-            Stages::iterator it = m_stages.begin();
+            Stages::iterator it = _stages.begin();
 
-            while( it != m_stages.end() )
+            while( it != _stages.end() )
             {
                 if ( (*it) )
                 {
@@ -873,18 +873,18 @@ void Mission::updateStages( double timeStep )
                 ++it;
             }
 
-            m_status = Pending;
+            _status = Pending;
 
-            if ( success ) m_status = Success;
-            if ( failure ) m_status = Failure;
+            if ( success ) _status = Success;
+            if ( failure ) _status = Failure;
         }
         else
         {
-            m_status = Success;
+            _status = Success;
         }
     }
     else
     {
-        m_status = Failure;
+        _status = Failure;
     }
 }

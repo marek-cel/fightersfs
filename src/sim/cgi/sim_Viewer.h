@@ -31,25 +31,26 @@ namespace sim
 
 /**
  * @brief Unit viewer class.
- * <p>This class is used to display single unit object.</p>
+ *
+ * This class is used to display single unit object.
  */
 class Viewer : public Module
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Viewer( int width, int height );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Viewer();
 
-    /** Loads and reloads view (models, textures, etc.). */
+    /** @brief Loads and reloads view (models, textures, etc.). */
     void load();
 
-    /** Resets camera position and attitude. */
+    /** @brief Resets camera position and attitude. */
     void resetViewer();
 
-    /** Updates view. */
+    /** @brief Updates view. */
     void update( double timeStep );
 
     /** */
