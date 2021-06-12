@@ -1,25 +1,30 @@
 /****************************************************************************//*
- * Copyright (C) 2020 Marek M. Cel
+ * Copyright (C) 2021 Marek M. Cel
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
  ******************************************************************************/
 #ifndef HID_ASSIGNMENT_H
 #define HID_ASSIGNMENT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define HID_MAX_ACTIONS 14
+#define HID_MAX_ACTIONS 13
 #define HID_MAX_KEYS    69
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,22 +39,22 @@ struct Assignment
     enum Action
     {
         TriggerBasic     = 0,   ///< 0:  Primary Trigger
-        TriggerExtra     = 1,   ///< 1:  Secondary Trigger
-        RollAxis         = 2,   ///< 2:  Roll (Axis)
-        RollBankLeft     = 3,   ///< 3:  Roll: Bank Left
-        RollBankRight    = 4,   ///< 4:  Roll: Bank Right
-        PitchAxis        = 5,   ///< 5:  Pitch (Axis)
-        PitchNoseUp      = 6,   ///< 6:  Pitch: Nose Up
-        PitchNoseDown    = 7,   ///< 7:  Pitch: Nose Down
-        YawAxis          = 8,   ///< 8:  Yaw (Axis)
-        YawTurnLeft      = 9,   ///< 9:  Yaw: Turn Left
-        YawTurnRight     = 10,  ///< 10: Yaw: Turn Right
-        ThrottleAxis     = 11,  ///< 11: Throttle (Axis)
-        ThrottleIncrease = 12,  ///< 12: Throttle: Increase
-        ThrottleDecrease = 13   ///< 13: Throttle: Decrease
+        //TriggerExtra     = 1,   ///< 1:  Secondary Trigger
+        RollAxis         = 1,   ///< 1:  Roll (Axis)
+        RollBankLeft     = 2,   ///< 2:  Roll: Bank Left
+        RollBankRight    = 3,   ///< 3:  Roll: Bank Right
+        PitchAxis        = 4,   ///< 4:  Pitch (Axis)
+        PitchNoseUp      = 5,   ///< 5:  Pitch: Nose Up
+        PitchNoseDown    = 6,   ///< 6:  Pitch: Nose Down
+        YawAxis          = 7,   ///< 7:  Yaw (Axis)
+        YawTurnLeft      = 8,   ///< 8:  Yaw: Turn Left
+        YawTurnRight     = 9,   ///< 9:  Yaw: Turn Right
+        ThrottleAxis     = 10,  ///< 10: Throttle (Axis)
+        ThrottleIncrease = 11,  ///< 11: Throttle: Increase
+        ThrottleDecrease = 12,  ///< 12: Throttle: Decrease
     };
 
-#   if ( HID_MAX_ACTIONS != 14 )
+#   if ( HID_MAX_ACTIONS != 13 )
 #       error 'HID_MAX_ACTIONS' has been changed! Check code above this line!
 #   endif
 

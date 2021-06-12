@@ -1,18 +1,23 @@
 /****************************************************************************//*
- * Copyright (C) 2020 Marek M. Cel
+ * Copyright (C) 2021 Marek M. Cel
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
  ******************************************************************************/
 
 #include <sim/sim_Simulation.h>
@@ -45,6 +50,114 @@ using namespace sim;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+std::string Simulation::getMissionFile( UInt32 campaign_index, UInt32 mission_index )
+{
+    std::string missionFile = "";
+
+    Missions missions = getMissions( campaign_index );
+
+    if ( mission_index < missions.size() )
+    {
+        missionFile = missions[ mission_index ];
+    }
+
+    return missionFile;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Simulation::Campaigns Simulation::getCampaigns()
+{
+    Campaigns campaigns;
+
+    std::string campaignsFile = Base::getPath( "missions/campaigns.xml" );
+
+    XmlDoc doc( campaignsFile );
+
+    if ( doc.isOpen() )
+    {
+        XmlNode rootNode = doc.getRootNode();
+
+        if ( rootNode.isValid() )
+        {
+            if ( 0 == String::icompare( rootNode.getName(), "campaigns" ) )
+            {
+                XmlNode campaignNode = rootNode.getFirstChildElement( "campaign" );
+
+                while ( campaignNode.isValid() )
+                {
+                    std::string campaignFile = campaignNode.getAttribute( "file" );
+
+                    if ( campaignFile.length() > 0 )
+                    {
+                        campaigns.push_back( "missions/" + campaignFile );
+                    }
+
+                    campaignNode = campaignNode.getNextSiblingElement( "campaign" );
+                }
+            }
+        }
+    }
+    else
+    {
+        Log::e() << "Cannot open campaigns file: " << campaignsFile << std::endl;
+    }
+
+    return campaigns;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Simulation::Missions Simulation::getMissions( UInt32 campaign_index )
+{
+    Missions missions;
+
+    Campaigns campaigns = getCampaigns();
+
+    std::string campaignFile;
+
+    if ( campaign_index < campaigns.size() )
+    {
+        campaignFile = Base::getPath( campaigns[ campaign_index ] );
+    }
+
+    XmlDoc doc( campaignFile );
+
+    if ( doc.isOpen() )
+    {
+        XmlNode rootNode = doc.getRootNode();
+
+        if ( rootNode.isValid() )
+        {
+            if ( 0 == String::icompare( rootNode.getName(), "campaign" ) )
+            {
+                XmlNode missionNode = rootNode.getFirstChildElement( "mission" );
+
+                while ( missionNode.isValid() )
+                {
+                    std::string missionFile = missionNode.getAttribute( "file" );
+
+                    if ( missionFile.length() > 0 )
+                    {
+                        missions.push_back( "missions/" + missionFile );
+                    }
+
+                    missionNode = missionNode.getNextSiblingElement( "mission" );
+                }
+            }
+        }
+    }
+    else
+    {
+        Log::e() << "Cannot open campaign file: " << campaignFile << std::endl;
+    }
+
+    return missions;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
 Simulation::Simulation( int width, int height ) :
     _otw ( 0 ),
     _hud ( 0 ),
@@ -55,8 +168,6 @@ Simulation::Simulation( int width, int height ) :
 
     _orbitedUnitId ( 0 )
 {
-    readMissions();
-
     float linesWidth = floor( (float)height / 200.0f + 0.5f );
 
     Models::createTracer( 1.2f * linesWidth );
@@ -87,12 +198,14 @@ void Simulation::init() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Simulation::init( UInt32 mission_index )
+void Simulation::init( UInt32 campaign_index, UInt32 mission_index )
 {
-    if ( mission_index < _missions.size() )
+    std::string missionFile = getMissionFile( campaign_index, mission_index );
+
+    if ( missionFile.length() > 0 )
     {
         _mission = new Mission();
-        _mission->init( _missions[ mission_index ] );
+        _mission->init( missionFile );
     }
 
     Ownship::instance()->init();
@@ -279,43 +392,5 @@ void Simulation::toggleOrbitUnit()
         {
             _orbitedUnitId = 0;
         }
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Simulation::readMissions()
-{
-    std::string campaignFile = Base::getPath( "missions/campaign.xml" );
-
-    XmlDoc doc( campaignFile );
-
-    if ( doc.isOpen() )
-    {
-        XmlNode rootNode = doc.getRootNode();
-
-        if ( rootNode.isValid() )
-        {
-            if ( 0 == String::icompare( rootNode.getName(), "campaign" ) )
-            {
-                XmlNode missionNode = rootNode.getFirstChildElement( "mission" );
-
-                while ( missionNode.isValid() )
-                {
-                    std::string missionFile = missionNode.getAttribute( "file" );
-
-                    if ( missionFile.length() > 0 )
-                    {
-                        _missions.push_back( "missions/" + missionFile );
-                    }
-
-                    missionNode = missionNode.getNextSiblingElement( "mission" );
-                }
-            }
-        }
-    }
-    else
-    {
-        Log::e() << "Cannot open campaign file: " << campaignFile << std::endl;
     }
 }

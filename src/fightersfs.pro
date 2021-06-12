@@ -135,6 +135,9 @@ SOURCES += \
 RESOURCES += \
     fightersfs.qrc
 
+TRANSLATIONS = \
+    fightersfs_pl.ts
+
 include(gui/gui.pri)
 include(hid/hid.pri)
 include(sim/sim.pri)

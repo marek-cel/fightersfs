@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Flight Simulation Game</string>
+   <string notr="true">FightersFS</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../fightersfs.qrc">
@@ -19,9 +19,6 @@
   </property>
   <property name="styleSheet">
    <string notr="true"/>
-  </property>
-  <property name="locale">
-   <locale language="English" country="UnitedStates"/>
   </property>
   <property name="dockOptions">
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
@@ -105,7 +102,7 @@
         <item row="4" column="1">
          <widget class="QPushButton" name="pushButtonMenuTraining">
           <property name="text">
-           <string>TRAINING</string>
+           <string>TRAINING MISSIONS</string>
           </property>
          </widget>
         </item>
@@ -187,6 +184,10 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="pageCampaigns"/>
+      <widget class="QWidget" name="pageMissions"/>
+      <widget class="QWidget" name="pageBriefing"/>
+      <widget class="QWidget" name="pageDebriefing"/>
       <widget class="QWidget" name="pageData">
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">

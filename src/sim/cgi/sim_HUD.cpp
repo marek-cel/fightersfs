@@ -1,21 +1,29 @@
 /****************************************************************************//*
- * Copyright (C) 2020 Marek M. Cel
+ * Copyright (C) 2021 Marek M. Cel
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
  ******************************************************************************/
 
 #include <sim/cgi/sim_HUD.h>
+
+#include <iomanip>
+#include <sstream>
 
 #include <osg/LineWidth>
 #include <osg/Material>
@@ -106,9 +114,7 @@ void HUD::init( bool tutorial )
 
     _font = Fonts::get( getPath( "fonts/fsg_stencil.ttf" ) );
 
-#   ifndef SIM_DESKTOP
     createControls();
-#   endif
     createCrosshair();
     createEnemyIndicators();
     createHitIndicator();
@@ -268,7 +274,6 @@ void HUD::createCaption()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef SIM_DESKTOP
 void HUD::createControls()
 {
     // material
@@ -277,7 +282,10 @@ void HUD::createControls()
     _materialControls->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4( Color::white, 0.4f ) );
 
     createControlsThrottle();
+
+#   ifndef SIM_DESKTOP
     createControlsTrigger();
+#   endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -347,6 +355,7 @@ void HUD::createControlsThrottle()
         geode->addDrawable( geometry.get() );
     }
 
+#   ifndef SIM_DESKTOP
     // pointer
     if ( _tutorial )
     {
@@ -368,6 +377,7 @@ void HUD::createControlsThrottle()
 
         _switchPointerRpm->setAllChildrenOff();
     }
+#   endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -428,6 +438,7 @@ void HUD::createControlsThrottleGrip( osg::Group *parent, float alpha, float z_o
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef SIM_DESKTOP
 void HUD::createControlsTrigger()
 {
     const float r  = 25.0f;
@@ -1845,7 +1856,15 @@ void HUD::updateCaption()
 
             char text[ 16 ];
 
-            sprintf( text, "00:%02d.%03d", s, m );
+            std::stringstream ss;
+
+            ss << "00";
+            ss << ":";
+            ss << std::setfill('0') << std::setw( 2 ) << s;
+            ss << ".";
+            ss << std::setfill('0') << std::setw( 3 ) << m;
+
+            strcpy( text, ss.str().c_str() );
 
             _textCaption->setText( text );
         }
@@ -1893,9 +1912,9 @@ void HUD::updateControls()
     {
         _switchTrigger->setSingleChildOn( 0 );
     }
+#   endif
 
     _patControlsThrottle->setPosition( osg::Vec3( 0.0f, -50.0f + Data::get()->controls.throttle * 100.0f, 0.0f ) );
-#   endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////

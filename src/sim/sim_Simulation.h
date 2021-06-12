@@ -1,18 +1,23 @@
 /****************************************************************************//*
- * Copyright (C) 2020 Marek M. Cel
+ * Copyright (C) 2021 Marek M. Cel
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
  ******************************************************************************/
 #ifndef SIM_SIMULATION_H
 #define SIM_SIMULATION_H
@@ -40,6 +45,18 @@ class Simulation : public Base
 {
 public:
 
+    typedef std::vector< std::string > Campaigns;
+    typedef std::vector< std::string > Missions;
+
+    /** */
+    static std::string getMissionFile( UInt32 campaign_index, UInt32 mission_index );
+
+    /** */
+    static Campaigns getCampaigns();
+
+    /** */
+    static Missions  getMissions( UInt32 campaign_index );
+
     /**
      * @brief Constructor.
      * @param width viewport width in pixels
@@ -57,9 +74,10 @@ public:
 
     /**
      * @brief Initialized simulation (reads config files, creates scene, etc.).
+     * @param campaign_index campaign file index
      * @param mission_index mission file index
      */
-    void init( UInt32 mission_index );
+    void init( UInt32 campaign_index, UInt32 mission_index );
 
     /** @brief Loads and reloads simulation (models, textures, etc.). */
     void load();
@@ -103,10 +121,6 @@ public:
 
 private:
 
-    typedef std::vector< std::string > Missions;
-
-    Missions _missions;         ///< missions files list
-
     OTW *_otw;                  ///< Out-the-Window
     HUD *_hud;                  ///< Head-up-Display
     SFX *_sfx;                  ///< sound effects
@@ -126,9 +140,6 @@ private:
      * @param mission
      */
     void createSimulation( int width, int height );
-
-    /** @brief Reads campaign XML file and initializes missions files list.*/
-    void readMissions();
 };
 
 } // end of sim namespace

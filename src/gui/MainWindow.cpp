@@ -1,18 +1,23 @@
 /****************************************************************************//*
- * Copyright (C) 2020 Marek M. Cel
+ * Copyright (C) 2021 Marek M. Cel
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
  ******************************************************************************/
 
 #include <gui/MainWindow.h>
@@ -33,7 +38,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 MainWindow::MainWindow( QWidget *parent ) :
+#   ifdef SIM_TEST
+    QMainWindow( parent ),
+#   else
     QMainWindow( parent, Qt::FramelessWindowHint ),
+#   endif
     _ui ( new Ui::MainWindow ),
 
     _dialogConf ( NULLPTR ),
@@ -62,6 +71,8 @@ MainWindow::MainWindow( QWidget *parent ) :
     _pending   ( true  )
 {
     _ui->setupUi( this );
+
+    setLocale( QLocale::system() );
 
     _dialogConf = new DialogConf( this );
 
@@ -270,7 +281,7 @@ void MainWindow::settingsSave()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::simulationStart( int missionIndex )
+void MainWindow::simulationStart( int campaignIndex, int missionIndex )
 {
     if ( !_inited )
     {
@@ -286,7 +297,7 @@ void MainWindow::simulationStart( int missionIndex )
         int w = _ui->widgetPlay->width();
         int h = _ui->widgetPlay->height();
 
-        sim::Manager::instance()->init( w, h, missionIndex );
+        sim::Manager::instance()->init( w, h, campaignIndex, missionIndex );
 
         _ui->widgetPlay->init();
 
@@ -455,7 +466,14 @@ void MainWindow::shortcutTimeNormal_activated()
 
 void MainWindow::on_pushButtonMenuTutorial_clicked()
 {
-    simulationStart( 0 );
+    simulationStart( 0, 0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButtonMenuTraining_clicked()
+{
+    _ui->stackedMain->setCurrentIndex( PageMissions );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

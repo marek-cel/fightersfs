@@ -82,3 +82,27 @@ QScrollBar:horizontal
   height: 15px;
   margin: 0px 20px 0 20px;
 }
+
+QTabWidget
+{
+  background: #666;
+}
+
+QTabWidget::pane
+{
+  border: none;
+  background: #333;
+}
+
+QTabBar::tab
+{
+  padding: 5px 20px;
+  border: none;
+  color: #fff;
+} 
+
+QTabBar::tab:selected
+{ 
+  background: #666;
+  color: #fff;
+}

@@ -1,18 +1,23 @@
 /****************************************************************************//*
- * Copyright (C) 2020 Marek M. Cel
+ * Copyright (C) 2021 Marek M. Cel
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
  ******************************************************************************/
 
 #include <gui/WidgetCtrl.h>
@@ -30,22 +35,37 @@ WidgetCtrl::WidgetCtrl( QWidget *parent ) :
     _defaultAssignmentsInited ( false ),
     _comboDeviceInited ( false )
 {
-    _actionNames[ hid::Assignment::TriggerBasic     ] = "trigger_basic";        // 0
-    _actionNames[ hid::Assignment::TriggerExtra     ] = "trigger_extra";        // 1
-    _actionNames[ hid::Assignment::RollAxis         ] = "roll_axis";            // 2
-    _actionNames[ hid::Assignment::RollBankLeft     ] = "roll_bank_left";       // 3
-    _actionNames[ hid::Assignment::RollBankRight    ] = "roll_bank_right";      // 4
-    _actionNames[ hid::Assignment::PitchAxis        ] = "pitch_axis";           // 5
-    _actionNames[ hid::Assignment::PitchNoseUp      ] = "pitch_nose_up";        // 6
-    _actionNames[ hid::Assignment::PitchNoseDown    ] = "pitch_nose_down";      // 7
-    _actionNames[ hid::Assignment::YawAxis          ] = "yaw_axis";             // 8
-    _actionNames[ hid::Assignment::YawTurnLeft      ] = "yaw_turn_left";        // 9
-    _actionNames[ hid::Assignment::YawTurnRight     ] = "yaw_turn_right";       // 10
-    _actionNames[ hid::Assignment::ThrottleAxis     ] = "throttle_axis";        // 11
-    _actionNames[ hid::Assignment::ThrottleIncrease ] = "throttle_increase";    // 12
-    _actionNames[ hid::Assignment::ThrottleDecrease ] = "throttle_decrease";    // 13
+    _actionIds[ hid::Assignment::TriggerBasic     ] = "trigger_basic";        // 0
+    //_actionIds[ hid::Assignment::TriggerExtra     ] = "trigger_extra";        // 1
+    _actionIds[ hid::Assignment::RollAxis         ] = "roll_axis";            // 2
+    _actionIds[ hid::Assignment::RollBankLeft     ] = "roll_bank_left";       // 3
+    _actionIds[ hid::Assignment::RollBankRight    ] = "roll_bank_right";      // 4
+    _actionIds[ hid::Assignment::PitchAxis        ] = "pitch_axis";           // 5
+    _actionIds[ hid::Assignment::PitchNoseUp      ] = "pitch_nose_up";        // 6
+    _actionIds[ hid::Assignment::PitchNoseDown    ] = "pitch_nose_down";      // 7
+    _actionIds[ hid::Assignment::YawAxis          ] = "yaw_axis";             // 8
+    _actionIds[ hid::Assignment::YawTurnLeft      ] = "yaw_turn_left";        // 9
+    _actionIds[ hid::Assignment::YawTurnRight     ] = "yaw_turn_right";       // 10
+    _actionIds[ hid::Assignment::ThrottleAxis     ] = "throttle_axis";        // 11
+    _actionIds[ hid::Assignment::ThrottleIncrease ] = "throttle_increase";    // 12
+    _actionIds[ hid::Assignment::ThrottleDecrease ] = "throttle_decrease";    // 13
 
-#   if ( HID_MAX_ACTIONS != 14 )
+    _actionNames[ hid::Assignment::TriggerBasic     ] = tr( "Primary Trigger"    );
+    //_actionNames[ hid::Assignment::TriggerExtra     ] = tr( "Secondary Trigger"  );
+    _actionNames[ hid::Assignment::RollAxis         ] = tr( "Roll (Axis)"        );
+    _actionNames[ hid::Assignment::RollBankLeft     ] = tr( "Roll: Bank Left"    );
+    _actionNames[ hid::Assignment::RollBankRight    ] = tr( "Roll: Bank Right"   );
+    _actionNames[ hid::Assignment::PitchAxis        ] = tr( "Pitch (Axis)"       );
+    _actionNames[ hid::Assignment::PitchNoseUp      ] = tr( "Pitch: Nose Up"     );
+    _actionNames[ hid::Assignment::PitchNoseDown    ] = tr( "Pitch: Nose Down"   );
+    _actionNames[ hid::Assignment::YawAxis          ] = tr( "Yaw (Axis)"         );
+    _actionNames[ hid::Assignment::YawTurnLeft      ] = tr( "Yaw: Turn Left"     );
+    _actionNames[ hid::Assignment::YawTurnRight     ] = tr( "Yaw: Turn Right"    );
+    _actionNames[ hid::Assignment::ThrottleAxis     ] = tr( "Throttle (Axis)"    );
+    _actionNames[ hid::Assignment::ThrottleIncrease ] = tr( "Throttle: Increase" );
+    _actionNames[ hid::Assignment::ThrottleDecrease ] = tr( "Throttle: Decrease" );
+
+#   if ( HID_MAX_ACTIONS != 13 )
 #       error 'HID_MAX_ACTIONS' has been changed! Check code above this line!
 #   endif
 
@@ -256,7 +276,7 @@ void WidgetCtrl::createTableControls()
     for ( int i = 0; i < HID_MAX_ACTIONS; i++ )
     {
         QTableWidgetItem *tableRowHeader = new QTableWidgetItem();
-        tableRowHeader->setText( hid::Manager::_actionNames[ i ].c_str() );
+        tableRowHeader->setText( _actionNames[ i ] );
         _ui->tableControls->setVerticalHeaderItem( i, tableRowHeader );
 
         QTableWidgetItem *tableItem = new QTableWidgetItem();
@@ -277,7 +297,7 @@ void WidgetCtrl::updateTableControls()
         switch ( _assignments[ i ].type )
         {
         case hid::Assignment::Keyboard:
-            itemText += "Keyboard: ";
+            itemText += tr("Keyboard: ");
             if ( _assignments[ i ].data.keyboard.keyId >= 0
               && _assignments[ i ].data.keyboard.keyId < HID_MAX_KEYS )
             {
@@ -287,7 +307,7 @@ void WidgetCtrl::updateTableControls()
             }
             else
             {
-                itemText += "NONE";
+                itemText += tr("NONE");
             }
             break;
 
@@ -299,20 +319,20 @@ void WidgetCtrl::updateTableControls()
             if ( hid::Manager::isAxis( (hid::Assignment::Action)i ) )
             {
                 itemText += hid::Joysticks::_axisNames[ _assignments[ i ].data.joystick.axisId ].c_str();
-                if ( _assignments[ i ].data.joystick.inverted ) itemText += " (Inverted)";
+                if ( _assignments[ i ].data.joystick.inverted ) itemText += tr(" (Inverted)");
             }
             else
             {
                 if ( _assignments[ i ].data.joystick.buttonId >= 0
                   && _assignments[ i ].data.joystick.buttonId < joyData.buttCount )
                 {
-                    itemText += "Button ";
+                    itemText += tr("Button ");
                     itemText += QString::number( _assignments[ i ].data.joystick.buttonId + 1 );
                 }
                 else if ( _assignments[ i ].data.joystick.povId >= 0
                        && _assignments[ i ].data.joystick.povId < joyData.povsCount )
                 {
-                    itemText += "POV ";
+                    itemText += tr("POV ");
                     itemText += QString::number( _assignments[ i ].data.joystick.povId + 1 );
 
                     switch ( _assignments[ i ].data.joystick.direction )
@@ -321,7 +341,7 @@ void WidgetCtrl::updateTableControls()
                         case hid::Assignment::East:  itemText += " - E";  break;
                         case hid::Assignment::South: itemText += " - S";  break;
                         case hid::Assignment::West:  itemText += " - W";  break;
-                        default:  itemText += " - NONE"; break;
+                        default:  itemText += tr(" - NONE"); break;
                     }
                 }
             }
@@ -410,13 +430,13 @@ void WidgetCtrl::initDefaultAssignments()
             _assignments[ hid::Assignment::TriggerBasic ].data.joystick.povId      = -1;
             _assignments[ hid::Assignment::TriggerBasic ].data.joystick.direction  = hid::Assignment::Centered;
 
-            _assignments[ hid::Assignment::TriggerExtra ].type = hid::Assignment::Joystick;
-            _assignments[ hid::Assignment::TriggerExtra ].data.joystick.joystickId = 0;
-            _assignments[ hid::Assignment::TriggerExtra ].data.joystick.axisId     = -1;
-            _assignments[ hid::Assignment::TriggerExtra ].data.joystick.inverted   = false;
-            _assignments[ hid::Assignment::TriggerExtra ].data.joystick.buttonId   = 1;
-            _assignments[ hid::Assignment::TriggerExtra ].data.joystick.povId      = -1;
-            _assignments[ hid::Assignment::TriggerExtra ].data.joystick.direction  = hid::Assignment::Centered;
+            //_assignments[ hid::Assignment::TriggerExtra ].type = hid::Assignment::Joystick;
+            //_assignments[ hid::Assignment::TriggerExtra ].data.joystick.joystickId = 0;
+            //_assignments[ hid::Assignment::TriggerExtra ].data.joystick.axisId     = -1;
+            //_assignments[ hid::Assignment::TriggerExtra ].data.joystick.inverted   = false;
+            //_assignments[ hid::Assignment::TriggerExtra ].data.joystick.buttonId   = 1;
+            //_assignments[ hid::Assignment::TriggerExtra ].data.joystick.povId      = -1;
+            //_assignments[ hid::Assignment::TriggerExtra ].data.joystick.direction  = hid::Assignment::Centered;
 
             _assignments[ hid::Assignment::RollAxis ].type = hid::Assignment::Joystick;
             _assignments[ hid::Assignment::RollAxis ].data.joystick.joystickId = 0;
@@ -440,8 +460,8 @@ void WidgetCtrl::initDefaultAssignments()
             _assignments[ hid::Assignment::TriggerBasic ].data.keyboard.keyId = hid::Assignment::KeySpace;
 
             // TODO
-            _assignments[ hid::Assignment::TriggerExtra ].type = hid::Assignment::Keyboard;
-            _assignments[ hid::Assignment::TriggerExtra ].data.keyboard.keyId = hid::Assignment::KeySpace;
+            //_assignments[ hid::Assignment::TriggerExtra ].type = hid::Assignment::Keyboard;
+            //_assignments[ hid::Assignment::TriggerExtra ].data.keyboard.keyId = hid::Assignment::KeySpace;
 
             _assignments[ hid::Assignment::RollBankLeft ].type = hid::Assignment::Keyboard;
             _assignments[ hid::Assignment::RollBankLeft ].data.keyboard.keyId = hid::Assignment::KeyLeft;
@@ -468,7 +488,7 @@ void WidgetCtrl::initDefaultAssignments()
         _assignments[ hid::Assignment::ThrottleDecrease ].type = hid::Assignment::Keyboard;
         _assignments[ hid::Assignment::ThrottleDecrease ].data.keyboard.keyId = hid::Assignment::KeyMinus;
 
-#       if ( HID_MAX_ACTIONS != 14 )
+#       if ( HID_MAX_ACTIONS != 13 )
 #           error 'HID_MAX_ACTIONS' has been changed! Check code above this line!
 #       endif
 
@@ -506,7 +526,7 @@ void WidgetCtrl::assignmentRead( QSettings &settings, hid::Assignment &assignmen
 {
     settings.beginGroup( "controls" );
     {
-        settings.beginGroup( _actionNames[ action ].c_str() );
+        settings.beginGroup( _actionIds[ action ].c_str() );
         {
             int joysCount = hid::Joysticks::instance()->getJoysCount();
 
@@ -571,7 +591,7 @@ void WidgetCtrl::assignmentSave( QSettings &settings, hid::Assignment &assignmen
 {
     settings.beginGroup( "controls" );
     {
-        settings.beginGroup( _actionNames[ action ].c_str() );
+        settings.beginGroup( _actionIds[ action ].c_str() );
         {
             switch ( assignment.type )
             {

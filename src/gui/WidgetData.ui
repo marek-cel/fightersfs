@@ -11,14 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Data</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QWidget" name="widgetHeader" native="true">
-     <property name="locale">
-      <locale language="English" country="UnitedStates"/>
-     </property>
      <layout class="QGridLayout" name="gridLayout_4">
       <property name="leftMargin">
        <number>11</number>
@@ -36,9 +33,6 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="locale">
-         <locale language="English" country="UnitedStates"/>
         </property>
         <property name="text">
          <string>BACK</string>
@@ -65,9 +59,6 @@
 	font-family: &quot;FSG Stencil&quot;;
 }</string>
         </property>
-        <property name="locale">
-         <locale language="English" country="UnitedStates"/>
-        </property>
         <property name="text">
          <string>DATABASE</string>
         </property>
@@ -86,9 +77,6 @@
        <horstretch>0</horstretch>
        <verstretch>1</verstretch>
       </sizepolicy>
-     </property>
-     <property name="locale">
-      <locale language="English" country="UnitedStates"/>
      </property>
      <layout class="QGridLayout" name="gridLayout_6">
       <property name="spacing">
@@ -125,7 +113,7 @@
 }</string>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="pageAerial">
             <property name="styleSheet">
@@ -163,8 +151,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>221</width>
-                  <height>900</height>
+                  <width>241</width>
+                  <height>834</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_5">
@@ -199,7 +187,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -240,7 +228,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -303,7 +291,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -344,7 +332,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -363,7 +351,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -382,7 +370,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -423,7 +411,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -499,7 +487,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -540,7 +528,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -559,7 +547,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -578,7 +566,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -597,7 +585,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -616,7 +604,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -635,7 +623,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -654,7 +642,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -827,7 +815,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -876,8 +864,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>221</width>
-                  <height>490</height>
+                  <width>240</width>
+                  <height>495</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_9">
@@ -954,7 +942,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1066,7 +1054,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1085,7 +1073,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1104,7 +1092,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1123,7 +1111,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1142,7 +1130,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1161,7 +1149,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1180,7 +1168,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1199,7 +1187,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1233,8 +1221,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>218</width>
-                  <height>542</height>
+                  <width>238</width>
+                  <height>525</height>
                  </rect>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_10">
@@ -1247,7 +1235,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1311,7 +1299,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1346,7 +1334,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string notr="true">PLACE_HOLDER</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1375,9 +1363,6 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="locale">
-         <locale language="English" country="UnitedStates"/>
-        </property>
        </widget>
       </item>
       <item row="0" column="0" rowspan="3">
@@ -1387,9 +1372,6 @@
           <horstretch>6</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="locale">
-         <locale language="English" country="UnitedStates"/>
         </property>
        </widget>
       </item>

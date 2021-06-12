@@ -11,21 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Settings</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="WidgetCtrl" name="widgetCtrl" native="true">
-     <property name="locale">
-      <locale language="English" country="UnitedStates"/>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="locale">
-      <locale language="English" country="UnitedStates"/>
-     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -33,6 +23,9 @@
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="WidgetCtrl" name="widgetCtr" native="true"/>
    </item>
   </layout>
  </widget>
