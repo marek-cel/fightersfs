@@ -88,7 +88,7 @@
         <location filename="gui/MainWindow.ui" line="105"/>
         <source>TRAINING MISSIONS</source>
         <oldsource>TRAINING</oldsource>
-        <translation type="unfinished">MISJE TRENINGOWE</translation>
+        <translation>MISJE TRENINGOWE</translation>
     </message>
     <message>
         <location filename="gui/MainWindow.ui" line="138"/>
@@ -106,12 +106,12 @@
         <translation>KAMPANIE</translation>
     </message>
     <message>
-        <location filename="gui/MainWindow.cpp" line="136"/>
+        <location filename="gui/MainWindow.cpp" line="141"/>
         <source>Do you want to quit?</source>
         <translation>Czy na pewno chcesz wyjść?</translation>
     </message>
     <message>
-        <location filename="gui/MainWindow.cpp" line="239"/>
+        <location filename="gui/MainWindow.cpp" line="244"/>
         <source>Do you want to abort mission?</source>
         <translation>Czy na pewno chcesz zakończyć misję?</translation>
     </message>
@@ -149,102 +149,105 @@
         <translation>Wyczyść przypisanie</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="48"/>
         <source>Primary Trigger</source>
-        <translation>Główny spust</translation>
+        <translation type="vanished">Główny spust</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="49"/>
         <source>Secondary Trigger</source>
-        <translation>Dodatkowy spust</translation>
+        <translation type="vanished">Dodatkowy spust</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="50"/>
+        <location filename="gui/WidgetCtrl.cpp" line="53"/>
+        <source>Weapon Trigger</source>
+        <translation>Strzał</translation>
+    </message>
+    <message>
+        <location filename="gui/WidgetCtrl.cpp" line="55"/>
         <source>Roll (Axis)</source>
         <translation>Przechylenie (oś)</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="51"/>
+        <location filename="gui/WidgetCtrl.cpp" line="56"/>
         <source>Roll: Bank Left</source>
         <translation>Przechylenie: w lewo</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="52"/>
+        <location filename="gui/WidgetCtrl.cpp" line="57"/>
         <source>Roll: Bank Right</source>
         <translation>Przechylenie: w prawo</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="53"/>
+        <location filename="gui/WidgetCtrl.cpp" line="58"/>
         <source>Pitch (Axis)</source>
         <translation>Pochylenie (oś)</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="54"/>
+        <location filename="gui/WidgetCtrl.cpp" line="59"/>
         <source>Pitch: Nose Up</source>
         <translation>Pochylenie: w górę</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="55"/>
+        <location filename="gui/WidgetCtrl.cpp" line="60"/>
         <source>Pitch: Nose Down</source>
         <translation>Pochylenie: w dół</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="56"/>
+        <location filename="gui/WidgetCtrl.cpp" line="61"/>
         <source>Yaw (Axis)</source>
         <translation>Odchylenie (oś)</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="57"/>
+        <location filename="gui/WidgetCtrl.cpp" line="62"/>
         <source>Yaw: Turn Left</source>
         <translation>Odchylenie: w lewo</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="58"/>
+        <location filename="gui/WidgetCtrl.cpp" line="63"/>
         <source>Yaw: Turn Right</source>
         <translation>Odchylenie: w prawo</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="59"/>
+        <location filename="gui/WidgetCtrl.cpp" line="64"/>
         <source>Throttle (Axis)</source>
         <translation>Przepustnica (oś)</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="60"/>
+        <location filename="gui/WidgetCtrl.cpp" line="65"/>
         <source>Throttle: Increase</source>
         <translation>Przepustnica: zwiększenie</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="61"/>
+        <location filename="gui/WidgetCtrl.cpp" line="66"/>
         <source>Throttle: Decrease</source>
         <translation>Przepustnica: zmniejszenie</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="295"/>
+        <location filename="gui/WidgetCtrl.cpp" line="300"/>
         <source>Keyboard: </source>
         <translation>Klawiatura: </translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="305"/>
+        <location filename="gui/WidgetCtrl.cpp" line="310"/>
         <source>NONE</source>
         <translation>NONE</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="317"/>
+        <location filename="gui/WidgetCtrl.cpp" line="322"/>
         <source> (Inverted)</source>
         <translation> (odwrócona)</translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="324"/>
+        <location filename="gui/WidgetCtrl.cpp" line="329"/>
         <source>Button </source>
         <translation>Przycisk </translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="330"/>
+        <location filename="gui/WidgetCtrl.cpp" line="335"/>
         <source>POV </source>
         <translation>POV </translation>
     </message>
     <message>
-        <location filename="gui/WidgetCtrl.cpp" line="339"/>
+        <location filename="gui/WidgetCtrl.cpp" line="344"/>
         <source> - NONE</source>
         <translation> - NONE</translation>
     </message>

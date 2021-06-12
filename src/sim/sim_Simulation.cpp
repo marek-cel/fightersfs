@@ -70,7 +70,7 @@ Simulation::Campaigns Simulation::getCampaigns()
 {
     Campaigns campaigns;
 
-    std::string campaignsFile = Base::getPath( "missions/campaigns.xml" );
+    std::string campaignsFile = Base::getPath( "campaigns.xml" );
 
     XmlDoc doc( campaignsFile );
 
@@ -90,7 +90,7 @@ Simulation::Campaigns Simulation::getCampaigns()
 
                     if ( campaignFile.length() > 0 )
                     {
-                        campaigns.push_back( "missions/" + campaignFile );
+                        campaigns.push_back( "campaigns/" + campaignFile );
                     }
 
                     campaignNode = campaignNode.getNextSiblingElement( "campaign" );
@@ -260,7 +260,7 @@ void Simulation::update( double timeStep )
     Ownship::instance()->update( timeStep );
 
     _otw->update();
-    _hud->update();
+    _hud->update( timeStep );
     _sfx->update();
 
     _camera->update();

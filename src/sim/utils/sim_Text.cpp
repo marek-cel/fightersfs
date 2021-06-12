@@ -81,6 +81,20 @@ void Text::append( const Text &text )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+bool Text::isEmpty() const
+{
+    bool result = false;
+
+    for ( Strings::const_iterator it = _strings.begin(); it != _strings.end(); it++ )
+    {
+        result |= it->second.length() > 0;
+    }
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 std::string Text::get() const
 {
     Strings::const_iterator it = _strings.find( Languages::instance()->getCurrent() );

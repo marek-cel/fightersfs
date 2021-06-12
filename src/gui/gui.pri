@@ -1,4 +1,5 @@
 HEADERS += \
+    $$PWD/Campaigns.h \
     $$PWD/DialogAction.h \
     $$PWD/DialogConf.h \
     $$PWD/GraphicsWindowQt.h \
@@ -6,6 +7,7 @@ HEADERS += \
     $$PWD/KeyMap.h \
     $$PWD/MainWindow.h \
     $$PWD/MessageBox.h \
+    $$PWD/Missions.h \
     $$PWD/ScreenSaver.h \
     $$PWD/Units.h \
     $$PWD/Utils.h \
@@ -16,6 +18,7 @@ HEADERS += \
     $$PWD/WidgetUnit.h
 
 SOURCES += \
+    $$PWD/Campaigns.cpp \
     $$PWD/DialogAction.cpp \
     $$PWD/DialogConf.cpp \
     $$PWD/GraphicsWindowQt.cpp \
@@ -23,6 +26,7 @@ SOURCES += \
     $$PWD/KeyMap.cpp \
     $$PWD/MainWindow.cpp \
     $$PWD/MessageBox.cpp \
+    $$PWD/Missions.cpp \
     $$PWD/ScreenSaver.cpp \
     $$PWD/Units.cpp \
     $$PWD/Utils.cpp \

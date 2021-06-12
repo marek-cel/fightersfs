@@ -19,58 +19,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef SIM_TEXT_H
-#define SIM_TEXT_H
+#ifndef CAMPAIGNS_H
+#define CAMPAIGNS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <map>
-#include <string>
+#include <QDomElement>
+#include <QVector>
 
-#include <sim/sim_Types.h>
+#include <sim/utils/sim_Singleton.h>
+#include <sim/utils/sim_Text.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace sim
+/**
+ * @brief Campaign class.
+ */
+class Campaigns : public sim::Singleton< Campaigns >
 {
+    friend class Singleton< Campaigns >;
 
-/** @brief Text class. */
-class Text
-{
 public:
 
-    typedef std::map< UInt8, std::string > Strings;
+    struct CampaignData
+    {
+        QString file;
+        bool hidden;
 
-    /** @brief Default constructor. */
-    Text();
-
-    /** @brief Copy constructor. */
-    Text( const Text &text );
+        sim::Text name;
+    };
 
     /** @brief Destructor. */
-    virtual ~Text();
-
-    void append( const char *str );
-
-    void append( const std::string &str );
-
-    void append( const Text &text );
-
-    bool isEmpty() const;
-
-    /** */
-    std::string get() const;
-
-    /** */
-    void set( UInt8 index, const std::string &str );
+    virtual ~Campaigns();
 
 private:
 
-    Strings _strings;
-};
+    /**
+     * You should use static function instance() due to get refernce
+     * to Airports class instance.
+     */
+    Campaigns();
 
-} // end of sim namespace
+    /** Using this constructor is forbidden. */
+    Campaigns( const Campaigns & ) : sim::Singleton< Campaigns > () {}
+
+    sim::Text getCampaignName( const QString &fileName );
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // SIM_TEXT_H
+#endif // CAMPAIGNS_H

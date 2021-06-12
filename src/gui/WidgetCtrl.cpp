@@ -50,7 +50,7 @@ WidgetCtrl::WidgetCtrl( QWidget *parent ) :
     _actionIds[ hid::Assignment::ThrottleIncrease ] = "throttle_increase";    // 12
     _actionIds[ hid::Assignment::ThrottleDecrease ] = "throttle_decrease";    // 13
 
-    _actionNames[ hid::Assignment::TriggerBasic     ] = tr( "Primary Trigger"    );
+    _actionNames[ hid::Assignment::TriggerBasic     ] = tr( "Weapon Trigger"    );
     //_actionNames[ hid::Assignment::TriggerExtra     ] = tr( "Secondary Trigger"  );
     _actionNames[ hid::Assignment::RollAxis         ] = tr( "Roll (Axis)"        );
     _actionNames[ hid::Assignment::RollBankLeft     ] = tr( "Roll: Bank Left"    );

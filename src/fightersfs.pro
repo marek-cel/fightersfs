@@ -126,8 +126,7 @@ unix: LIBS += \
 ################################################################################
 
 HEADERS += \
-    defs.h \
-    fightersfs.h
+    defs.h
 
 SOURCES += \
     main.cpp

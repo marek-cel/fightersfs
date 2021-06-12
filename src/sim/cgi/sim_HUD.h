@@ -67,7 +67,7 @@ public:
     void load();
 
     /** @brief Updates HUD. */
-    void update();
+    void update( double timeStep );
 
     /** @brief Returns OSG node.  */
     inline osg::Group* getNode() { return _root.get(); }
@@ -101,6 +101,8 @@ private:
     osg::ref_ptr<osg::Switch> _switchPointerRpm;            ///< RPM pointer switch
     osg::ref_ptr<osg::Switch> _switchPointerTrigger;        ///< trigger pointer switch
     osg::ref_ptr<osg::Switch> _switchTutorialTips;          ///< tutorial tips switch (only in tutorial mode)
+#   else
+    osg::ref_ptr<osg::Switch> _switchThrottle;              ///<
 #   endif
 
     osg::ref_ptr<osg::PositionAttitudeTransform> _patCaption;           ///< caption position and scale
@@ -148,6 +150,11 @@ private:
     osg::ref_ptr<osgText::Text> _textMessage;           ///< message text
 
     bool _tutorial;             ///< specifies if HUD is in tutorial mode
+
+#   ifdef SIM_DESKTOP
+    float _timeThrottle;        ///< [s] time since throttle change
+    float _prevThrottle;        ///< previous throttle value
+#   endif
 
     float _timerTutorial;       ///< [s] timer for tutorial symbols
 
@@ -214,7 +221,7 @@ private:
     void createWaypointIndicatorDir();
 
     void updateCaption();
-    void updateControls();
+    void updateControls( double timeStep );
     void updateCrosshair();
     void updateHitIndicator();
     void updateIndicators();

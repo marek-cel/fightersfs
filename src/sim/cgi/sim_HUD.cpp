@@ -73,6 +73,11 @@ HUD::HUD( float linesWidth, int width, int height ) :
 
     _tutorial ( false ),
 
+#   ifdef SIM_DESKTOP
+    _timeThrottle ( 0.0f ),
+    _prevThrottle ( 0.0f ),
+#   endif
+
     _timerTutorial ( 0.0f )
 {
     _root = new osg::Group();
@@ -138,7 +143,7 @@ void HUD::load() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void HUD::update()
+void HUD::update( double timeStep )
 {
     if ( Data::get()->mission.status == Pending
       && ( Data::get()->camera.type == ViewChase || Data::get()->camera.type == ViewPilot ) )
@@ -147,7 +152,7 @@ void HUD::update()
         {
             _switch->setAllChildrenOn();
 
-            updateControls();
+            updateControls( timeStep );
             updateCrosshair();
             updateHitIndicator();
             updateIndicators();
@@ -292,8 +297,18 @@ void HUD::createControls()
 
 void HUD::createControlsThrottle()
 {
+#   ifdef SIM_DESKTOP
+    _switchThrottle = new osg::Switch();
+    _switch->addChild( _switchThrottle.get() );
+#   endif
+
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
+
+#   ifdef SIM_DESKTOP
+    _switchThrottle->addChild( pat.get() );
+#   else
     _switch->addChild( pat.get() );
+#   endif
 
     _patControlsThrottle = new osg::PositionAttitudeTransform();
     pat->addChild( _patControlsThrottle.get() );
@@ -1901,7 +1916,7 @@ void HUD::updateCaption()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void HUD::updateControls()
+void HUD::updateControls( double timeStep )
 {
 #   ifndef SIM_DESKTOP
     if ( Data::get()->controls.trigger )
@@ -1912,6 +1927,26 @@ void HUD::updateControls()
     {
         _switchTrigger->setSingleChildOn( 0 );
     }
+#   else
+    if ( fabs( _prevThrottle - Data::get()->controls.throttle ) > 1.0e-6 )
+    {
+        _timeThrottle = 0.0;
+    }
+    else
+    {
+        _timeThrottle += timeStep;
+    }
+
+    if ( _timeThrottle > 3.0 )
+    {
+        _switchThrottle->setAllChildrenOff();
+    }
+    else
+    {
+        _switchThrottle->setAllChildrenOn();
+    }
+
+    _prevThrottle = Data::get()->controls.throttle;
 #   endif
 
     _patControlsThrottle->setPosition( osg::Vec3( 0.0f, -50.0f + Data::get()->controls.throttle * 100.0f, 0.0f ) );

@@ -19,58 +19,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef SIM_TEXT_H
-#define SIM_TEXT_H
+#ifndef MISSIONS_H
+#define MISSIONS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <map>
-#include <string>
+#include <sim/utils/sim_Singleton.h>
 
-#include <sim/sim_Types.h>
+#include <vector>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace sim
+/**
+ * @brief Missions class.
+ */
+class Missions : public sim::Singleton< Missions >
 {
+    friend class Singleton< Missions >;
 
-/** @brief Text class. */
-class Text
-{
 public:
 
-    typedef std::map< UInt8, std::string > Strings;
+    struct Mission
+    {
 
-    /** @brief Default constructor. */
-    Text();
+    };
 
-    /** @brief Copy constructor. */
-    Text( const Text &text );
+    typedef std::vector< std::vector< Mission > > Data;
 
     /** @brief Destructor. */
-    virtual ~Text();
+    virtual ~Missions();
 
-    void append( const char *str );
-
-    void append( const std::string &str );
-
-    void append( const Text &text );
-
-    bool isEmpty() const;
-
-    /** */
-    std::string get() const;
-
-    /** */
-    void set( UInt8 index, const std::string &str );
+    Mission getMission( int campaign, int mission );
 
 private:
 
-    Strings _strings;
-};
+    Data _data;
 
-} // end of sim namespace
+    /**
+     * You should use static function instance() due to get refernce
+     * to Airports class instance.
+     */
+    Missions();
+
+    /** Using this constructor is forbidden. */
+    Missions( const Missions & ) : sim::Singleton< Missions > () {}
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // SIM_TEXT_H
+#endif // MISSIONS_H

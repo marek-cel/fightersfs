@@ -19,58 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef SIM_TEXT_H
-#define SIM_TEXT_H
+
+#include <gui/Missions.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <map>
-#include <string>
-
-#include <sim/sim_Types.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace sim
+Missions::Missions()
 {
 
-/** @brief Text class. */
-class Text
-{
-public:
-
-    typedef std::map< UInt8, std::string > Strings;
-
-    /** @brief Default constructor. */
-    Text();
-
-    /** @brief Copy constructor. */
-    Text( const Text &text );
-
-    /** @brief Destructor. */
-    virtual ~Text();
-
-    void append( const char *str );
-
-    void append( const std::string &str );
-
-    void append( const Text &text );
-
-    bool isEmpty() const;
-
-    /** */
-    std::string get() const;
-
-    /** */
-    void set( UInt8 index, const std::string &str );
-
-private:
-
-    Strings _strings;
-};
-
-} // end of sim namespace
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // SIM_TEXT_H
+Missions::~Missions() {}
