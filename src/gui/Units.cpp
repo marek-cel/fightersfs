@@ -114,7 +114,7 @@ void Units::readUnit( QDomElement &nodeUnit, Type type )
 
     QDomElement nodeName = nodeUnit.firstChildElement( "name" );
 
-    int result = Utils::read( nodeName, data.name );
+    int result = Utils::read( nodeName, &data.name );
 
     if ( result == SIM_SUCCESS )
     {
@@ -159,9 +159,9 @@ void Units::readUnit( QDomElement &nodeInfo, Data::DataAerial &data )
     QDomElement nodeMaxSpeed     = nodeInfo.firstChildElement( "max_speed" );
     QDomElement nodeRange        = nodeInfo.firstChildElement( "range" );
 
-    if ( result == SIM_SUCCESS ) result = Utils::read( nodeRole       , data.role       );
-    if ( result == SIM_SUCCESS ) result = Utils::read( nodePowerplant , data.powerplant );
-    if ( result == SIM_SUCCESS ) result = Utils::read( nodeArmament   , data.armament   );
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodeRole       , &data.role       );
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodePowerplant , &data.powerplant );
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodeArmament   , &data.armament   );
 
     data.manufacturer = nodeManufacturer .text();
     data.firstFlight  = nodeFirstFlight  .text();
@@ -198,8 +198,8 @@ void Units::readUnit( QDomElement &nodeInfo, Data::DataMarine &data )
     QDomElement nodeDraft        = nodeInfo.firstChildElement( "draft" );
     QDomElement nodeMaxSpeed     = nodeInfo.firstChildElement( "max_speed" );
 
-    if ( result == SIM_SUCCESS ) result = Utils::read( nodeType     , data.type     );
-    if ( result == SIM_SUCCESS ) result = Utils::read( nodeArmament , data.armament );
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodeType     , &data.type     );
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodeArmament , &data.armament );
 
     data.numberBuilt = nodeNumberBuilt .text().toInt();
     data.complement  = nodeComplement  .text().toInt();
@@ -222,8 +222,8 @@ void Units::readUnit( QDomElement &nodeInfo, Data::DataGround &data )
 
     QDomElement nodeNumberBuilt  = nodeInfo.firstChildElement( "number_built" );
 
-    if ( result == SIM_SUCCESS ) result = Utils::read( nodeType     , data.type     );
-    if ( result == SIM_SUCCESS ) result = Utils::read( nodeArmament , data.armament );
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodeType     , &data.type     );
+    if ( result == SIM_SUCCESS ) result = Utils::read( nodeArmament , &data.armament );
 
     data.numberBuilt = nodeNumberBuilt.text().toInt();
 }

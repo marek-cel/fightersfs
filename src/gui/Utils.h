@@ -36,7 +36,7 @@ class Utils
 public:
 
     /** @return SIM_SUCCESS on success or SIM_FAILURE on failure. */
-    static int read( const QDomElement &node, Text &text );
+    static int read( const QDomElement &node, Text *text );
 
     static void m2ftin( double len_m, int *len_ft, int *len_in );
 

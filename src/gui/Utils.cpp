@@ -26,7 +26,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int Utils::read( const QDomElement &node, Text &text )
+int Utils::read( const QDomElement &node, Text *text )
 {
     if ( !node.isNull() )
     {
@@ -44,7 +44,7 @@ int Utils::read( const QDomElement &node, Text &text )
 
                 if ( index >= 0 )
                 {
-                    text.set( index, str );
+                    text->set( index, str );
                 }
             }
 

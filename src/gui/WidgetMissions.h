@@ -49,6 +49,12 @@ public:
 
     void setCampaign( int campaign );
 
+    void setStatus( sim::Status status );
+
+signals:
+
+    void startClicked( int campaign, int mission );
+
 protected:
 
     void resizeEvent( QResizeEvent *event );
@@ -58,14 +64,20 @@ private:
     Ui::WidgetMissions *_ui;
 
     int _campaign;
+    int _mission;
+
+    sim::Status _status;
 
     void initMissions();
 
     void updateMissionImage();
+    void updateMissionText();
 
 private slots:
 
     void on_comboBoxMissions_currentIndexChanged( int index );
+
+    void on_pushButtonStartMission_clicked();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

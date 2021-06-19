@@ -26,6 +26,7 @@
 
 #include <sim/utils/sim_Singleton.h>
 
+#include <QDomElement>
 #include <QFileInfo>
 #include <QVector>
 
@@ -46,6 +47,8 @@ public:
     {
         QFileInfo fileInfo;     ///< mission file info
 
+        QString fileImage;      ///<
+
         Text name;              ///< mission name
         Text introduction;      ///< mission introduction
         Text summaryFailure;    ///< mission summary failure
@@ -57,9 +60,9 @@ public:
     /** @brief Destructor. */
     virtual ~Missions();
 
-    MissionData getMission( int campaign, int mission );
+    MissionData getMission( int campaign, int mission ) const;
 
-    int getMissionsCount( int campaign );
+    int getMissionsCount( int campaign ) const;
 
 private:
 
@@ -73,6 +76,10 @@ private:
 
     /** Using this constructor is forbidden. */
     Missions( const Missions & ) : sim::Singleton< Missions > () {}
+
+    void readCampaign( QString campaignFile );
+
+    bool readMissionData( QString missionFile, MissionData *missionData );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

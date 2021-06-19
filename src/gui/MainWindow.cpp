@@ -146,6 +146,29 @@ void MainWindow::closeEvent( QCloseEvent *event )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void MainWindow::resizeEvent( QResizeEvent *event )
+{
+    //////////////////////////////////
+    QMainWindow::resizeEvent( event );
+    //////////////////////////////////
+
+    QPixmap pixmap( ":/gui/images/logo.png" );
+
+    int w = _ui->labelLogo->width();
+    int h = _ui->labelLogo->height();
+
+    if ( w < pixmap.width() )
+    {
+        pixmap = pixmap.scaled( w, h, Qt::KeepAspectRatio );
+    }
+
+    //std::cout << w << " x " << h << std::endl;
+
+    _ui->labelLogo->setPixmap( pixmap );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::timerEvent( QTimerEvent *event )
 {
     /////////////////////////////////
@@ -331,6 +354,8 @@ void MainWindow::simulationAbort()
 
     _ui->stackedWidgetMain->setCurrentIndex( 0 );
     _ui->stackedWidgetMenu->setCurrentIndex( _backPage );
+
+    _ui->widgetMissions->setStatus( sim::Data::get()->mission.status );
 
     _ui->widgetPlay->stop();
 
@@ -533,4 +558,13 @@ void MainWindow::on_pushButtonConfSave_clicked()
 {
     _ui->widgetCtrl->saveData();
     _ui->stackedWidgetMenu->setCurrentIndex( PageHome );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_widgetMissions_startClicked( int campaign, int mission )
+{
+    _backPage = PageMissions;
+
+    simulationStart( campaign, mission );
 }

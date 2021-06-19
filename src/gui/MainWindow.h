@@ -73,6 +73,9 @@ protected:
     void closeEvent( QCloseEvent *event );
 
     /** */
+    void resizeEvent( QResizeEvent *event );
+
+    /** */
     void timerEvent( QTimerEvent *event );
 
 private:
@@ -139,6 +142,8 @@ private slots:
 
     void on_pushButtonConfDiscard_clicked();
     void on_pushButtonConfSave_clicked();
+
+    void on_widgetMissions_startClicked( int campaign, int mission );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

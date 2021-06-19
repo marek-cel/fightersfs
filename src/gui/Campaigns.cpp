@@ -85,7 +85,7 @@ sim::Text Campaigns::getCampaignName( const QString &fileName )
         {
             QDomElement nameNode = rootNode.firstChildElement( "name" );
 
-            Utils::read( nameNode, name );
+            Utils::read( nameNode, &name );
         }
     }
 

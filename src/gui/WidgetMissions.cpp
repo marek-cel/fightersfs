@@ -23,13 +23,18 @@
 #include <gui/WidgetMissions.h>
 #include <ui_WidgetMissions.h>
 
+#include <gui/Missions.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetMissions::WidgetMissions( QWidget *parent ) :
     QWidget( parent ),
     _ui ( new Ui::WidgetMissions ),
 
-    _campaign ( 0 )
+    _campaign ( 0 ),
+    _mission  ( 0 ),
+
+    _status ( sim::Pending )
 {
     _ui->setupUi( this );
 }
@@ -46,8 +51,19 @@ WidgetMissions::~WidgetMissions()
 void WidgetMissions::setCampaign( int campaign )
 {
     _campaign = campaign;
+    _mission  = 0;
+    _status   = sim::Pending;
 
     initMissions();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMissions::setStatus( sim::Status status )
+{
+    _status = status;
+
+    updateMissionText();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,9 +83,9 @@ void WidgetMissions::initMissions()
 {
     _ui->comboBoxMissions->clear();
 
-    for ( unsigned int i = 0; i < 3; i++ )
+    for ( int i = 0; i < Missions::instance()->getMissionsCount( _campaign ); i++ )
     {
-        QString name = QString::number( i );
+        QString name = Missions::instance()->getMission( _campaign, i ).name.get().c_str();
         _ui->comboBoxMissions->addItem( name );
     }
 }
@@ -78,7 +94,9 @@ void WidgetMissions::initMissions()
 
 void WidgetMissions::updateMissionImage()
 {
-    QPixmap pixmap( Path::get( "missions/training_01_img.png" ).c_str() );
+    QString fileImage = Missions::instance()->getMission( _campaign, _mission ).fileImage;
+
+    QPixmap pixmap( Path::get( fileImage.toStdString() ).c_str() );
 
     int w = _ui->labelMissionImage->width();
     int h = _ui->labelMissionImage->height();
@@ -92,7 +110,43 @@ void WidgetMissions::updateMissionImage()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void WidgetMissions::updateMissionText()
+{
+    QString text;
+
+    switch ( _status )
+    {
+    case sim::Pending:
+        text = Missions::instance()->getMission( _campaign, _mission ).introduction.get().c_str();
+        break;
+
+    case sim::Failure:
+        text = Missions::instance()->getMission( _campaign, _mission ).summaryFailure.get().c_str();
+        break;
+
+    case sim::Success:
+        text = Missions::instance()->getMission( _campaign, _mission ).summarySuccess.get().c_str();
+        break;
+    }
+
+
+
+    _ui->textBrowserMission->setText( text );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void WidgetMissions::on_comboBoxMissions_currentIndexChanged( int index )
 {
+    _mission = index;
+
     updateMissionImage();
+    updateMissionText();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMissions::on_pushButtonStartMission_clicked()
+{
+    startClicked( _campaign, _mission );
 }

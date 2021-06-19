@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
+    <width>972</width>
     <height>576</height>
    </rect>
   </property>
@@ -136,7 +136,7 @@
              </spacer>
             </item>
             <item row="1" column="1">
-             <widget class="QLabel" name="label">
+             <widget class="QLabel" name="labelLogo">
               <property name="text">
                <string/>
               </property>
@@ -144,7 +144,7 @@
                <pixmap resource="../fightersfs.qrc">:/gui/images/logo.png</pixmap>
               </property>
               <property name="scaledContents">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
