@@ -143,6 +143,7 @@ private slots:
     void on_pushButtonConfDiscard_clicked();
     void on_pushButtonConfSave_clicked();
 
+    void on_widgetCampaign_startClicked( int campaign );
     void on_widgetMissions_startClicked( int campaign, int mission );
 };
 

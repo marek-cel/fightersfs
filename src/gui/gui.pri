@@ -11,6 +11,7 @@ HEADERS += \
     $$PWD/Units.h \
     $$PWD/Utils.h \
     $$PWD/WidgetCGI.h \
+    $$PWD/WidgetCampaign.h \
     $$PWD/WidgetCtrl.h \
     $$PWD/WidgetData.h \
     $$PWD/WidgetMissions.h \
@@ -30,6 +31,7 @@ SOURCES += \
     $$PWD/Units.cpp \
     $$PWD/Utils.cpp \
     $$PWD/WidgetCGI.cpp \
+    $$PWD/WidgetCampaign.cpp \
     $$PWD/WidgetCtrl.cpp \
     $$PWD/WidgetData.cpp \
     $$PWD/WidgetMissions.cpp \
@@ -39,6 +41,7 @@ SOURCES += \
 FORMS += \
     $$PWD/DialogAction.ui \
     $$PWD/MainWindow.ui \
+    $$PWD/WidgetCampaign.ui \
     $$PWD/WidgetCtrl.ui \
     $$PWD/WidgetData.ui \
     $$PWD/WidgetMissions.ui

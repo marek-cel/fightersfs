@@ -98,12 +98,15 @@ void WidgetMissions::updateMissionImage()
 
     QPixmap pixmap( Path::get( fileImage.toStdString() ).c_str() );
 
-    int w = _ui->labelMissionImage->width();
-    int h = _ui->labelMissionImage->height();
+    if ( !pixmap.isNull() )
+    {
+        int w = _ui->labelMissionImage->width();
+        int h = _ui->labelMissionImage->height();
 
-    pixmap = pixmap.scaled( w, h, Qt::KeepAspectRatio );
+        pixmap = pixmap.scaled( w, h, Qt::KeepAspectRatio );
 
-    //std::cout << w << " x " << h << std::endl;
+        //std::cout << w << " x " << h << std::endl;
+    }
 
     _ui->labelMissionImage->setPixmap( pixmap );
 }
@@ -139,6 +142,7 @@ void WidgetMissions::updateMissionText()
 void WidgetMissions::on_comboBoxMissions_currentIndexChanged( int index )
 {
     _mission = index;
+    _status  = sim::Pending;
 
     updateMissionImage();
     updateMissionText();

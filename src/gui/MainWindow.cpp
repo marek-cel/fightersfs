@@ -562,6 +562,14 @@ void MainWindow::on_pushButtonConfSave_clicked()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void MainWindow::on_widgetCampaign_startClicked( int campaign )
+{
+    _ui->stackedWidgetMenu->setCurrentIndex( PageMissions );
+    _ui->widgetMissions->setCampaign( campaign );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::on_widgetMissions_startClicked( int campaign, int mission )
 {
     _backPage = PageMissions;

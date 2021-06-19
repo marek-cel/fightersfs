@@ -105,7 +105,7 @@
         <item row="0" column="1" rowspan="8">
          <widget class="QStackedWidget" name="stackedWidgetMenu">
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="pageHome">
            <layout class="QGridLayout" name="gridLayout_5">
@@ -176,7 +176,13 @@
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="pageCampaign"/>
+          <widget class="QWidget" name="pageCampaign">
+           <layout class="QGridLayout" name="gridLayout_8">
+            <item row="0" column="0">
+             <widget class="WidgetCampaign" name="widgetCampaign" native="true"/>
+            </item>
+           </layout>
+          </widget>
           <widget class="QWidget" name="pageMissions">
            <layout class="QGridLayout" name="gridLayout_7">
             <item row="0" column="0">
@@ -283,6 +289,12 @@
    <class>WidgetMissions</class>
    <extends>QWidget</extends>
    <header>gui/WidgetMissions.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WidgetCampaign</class>
+   <extends>QWidget</extends>
+   <header>gui/WidgetCampaign.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

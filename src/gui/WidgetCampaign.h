@@ -19,61 +19,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef CAMPAIGNS_H
-#define CAMPAIGNS_H
+#ifndef WIDGETCAMPAIGN_H
+#define WIDGETCAMPAIGN_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDomElement>
-#include <QVector>
+#include <QWidget>
 
-#include <sim/utils/sim_Singleton.h>
-#include <sim/utils/sim_Text.h>
+#include <defs.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Campaign class.
- */
-class Campaigns : public sim::Singleton< Campaigns >
+namespace Ui
 {
-    friend class Singleton< Campaigns >;
+    class WidgetCampaign;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+class WidgetCampaign : public QWidget
+{
+    Q_OBJECT
 
 public:
 
-    struct CampaignData
-    {
-        QString file;
-        bool hidden;
+    explicit WidgetCampaign( QWidget *parent = NULLPTR );
 
-        sim::Text name;
-    };
+    ~WidgetCampaign();
 
-    /** @brief Destructor. */
-    virtual ~Campaigns();
+signals:
 
-    CampaignData getCampaign( int campaign ) const;
+    void startClicked( int campaign );
 
-    int getCampaignsCount() const;
+protected:
 
-    int getRealIndex( int visible_index );
+    void resizeEvent( QResizeEvent *event );
 
 private:
 
-    QVector< CampaignData > _data;
+    Ui::WidgetCampaign *_ui;
 
-    /**
-     * You should use static function instance() due to get refernce
-     * to Airports class instance.
-     */
-    Campaigns();
+    int _campaign;
 
-    /** Using this constructor is forbidden. */
-    Campaigns( const Campaigns & ) : sim::Singleton< Campaigns > () {}
+    void initCampaigns();
 
-    sim::Text getCampaignName( const QString &fileName );
+    void updateCampaignImage();
+    void updateCampaignText();
+
+private slots:
+
+    void on_comboBoxCampaigns_currentIndexChanged( int index );
+
+    void on_pushButtonStartCampaign_clicked();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // CAMPAIGNS_H
+#endif // WIDGETCAMPAIGN_H

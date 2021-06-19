@@ -55,6 +55,8 @@ Campaigns::Campaigns()
 
                 data.name = getCampaignName( data.file );
 
+                _data.push_back( data );
+
                 campaignNode = campaignNode.nextSiblingElement( "campaign" );
             }
         }
@@ -64,6 +66,40 @@ Campaigns::Campaigns()
 ////////////////////////////////////////////////////////////////////////////////
 
 Campaigns::~Campaigns() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Campaigns::CampaignData Campaigns::getCampaign( int campaign ) const
+{
+    CampaignData data;
+
+    data = _data.at( campaign );
+
+    return data;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+int Campaigns::getCampaignsCount() const
+{
+    return _data.size();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+int Campaigns::getRealIndex( int visible_index )
+{
+    int hidden = 0;
+
+    for ( int i = 0; i < _data.size(); i++ )
+    {
+        if ( _data[ i ].hidden ) hidden++;
+
+        if ( i >= visible_index + hidden ) break;
+    }
+
+    return visible_index + hidden;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
