@@ -1,8 +1,8 @@
 2021-06-19 Marek M. Cel <marekcel@marekcel.pl>
     
-    * reading missions data for GUI
+    * reading missions and campaigns data for GUI
     
-    * WidgetMissions
+    * WidgetMissions, WidgetCampaigns
 
 
 
