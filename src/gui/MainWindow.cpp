@@ -26,11 +26,11 @@
 #include <iostream>
 
 #include <QCloseEvent>
+#include <QMessageBox>
 #include <QSettings>
 
-#include <gui/KeyMap.h>
-#include <gui/MessageBox.h>
 #include <gui/ScreenSaver.h>
+#include <gui/Utils.h>
 
 #include <hid/hid_Manager.h>
 #include <sim/sim_Manager.h>
@@ -38,14 +38,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 MainWindow::MainWindow( QWidget *parent ) :
-#   ifdef SIM_TEST
     QMainWindow( parent ),
-#   else
-    QMainWindow( parent, Qt::FramelessWindowHint ),
-#   endif
     _ui ( new Ui::MainWindow ),
-
-    _dialogConf ( NULLPTR ),
 
     _shortcutPause ( NULLPTR ),
     _shortcutAbort ( NULLPTR ),
@@ -60,21 +54,19 @@ MainWindow::MainWindow( QWidget *parent ) :
 
     _timer ( NULLPTR ),
 
-    _timerId ( 0 ),
-
     _timeCoef ( 0.0 ),
     _heading  ( 0.0 ),
 
     _autopilot ( false ),
     _inited    ( false ),
     _throttle  ( false ),
-    _pending   ( true  )
+    _pending   ( true  ),
+
+    _timerId ( 0 ),
+
+    _backPage ( PageHome )
 {
     _ui->setupUi( this );
-
-    setLocale( QLocale::system() );
-
-    _dialogConf = new DialogConf( this );
 
     _shortcutPause = new QShortcut( QKeySequence(Qt::Key_Pause)  , this, SLOT(shortcutPause_activated()) );
     _shortcutAbort = new QShortcut( QKeySequence(Qt::Key_Escape) , this, SLOT(shortcutAbort_activated()) );
@@ -90,19 +82,19 @@ MainWindow::MainWindow( QWidget *parent ) :
     _timer = new QElapsedTimer();
 
     settingsRead();
+
+    _ui->stackedWidgetMenu->setCurrentIndex( PageHome );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 MainWindow::~MainWindow()
 {
+    settingsSave();
+
     DELPTR( _timer );
 
     if ( _timerId ) killTimer( _timerId );
-
-    settingsSave();
-
-    DELPTR( _dialogConf );
 
     DELPTR( _shortcutPause );
     DELPTR( _shortcutAbort );
@@ -122,12 +114,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::init()
 {
-    _ui->stackedMain->setCurrentIndex( PageHome );
-
     hid::Manager::instance()->init();
 
-    _dialogConf->readData();
-    _dialogConf->updateAssignments();
+    _ui->widgetCtrl->readData();
+    _ui->widgetCtrl->updateAssignments();
 
     _timer->start();
     _timerId = startTimer( 1000.0 * SIM_TIME_STEP );
@@ -140,9 +130,9 @@ void MainWindow::closeEvent( QCloseEvent *event )
     QString title = windowTitle();
     QString text = tr( "Do you want to quit?" );
 
-    MessageBox::StandardButton result = MessageBox::question( this, title, text );
+    QMessageBox::StandardButton result = QMessageBox::question( this, title, text );
 
-    if ( result == MessageBox::Yes )
+    if ( result == QMessageBox::Yes )
     {
         /////////////////////////////////
         QMainWindow::closeEvent( event );
@@ -164,14 +154,14 @@ void MainWindow::timerEvent( QTimerEvent *event )
 
     double timeStep = (double)_timer->restart() / 1000.0;
 
-    if ( _ui->widgetPlay->isVisible() && _inited )
+    if ( _ui->stackedWidgetMain->currentIndex() == 1 && _inited )
     {
         _ui->widgetPlay->update();
     }
 
-    if ( _ui->widgetData->isVisible() )
+    if ( _ui->stackedWidgetMenu->currentIndex() == PageDatabase )
     {
-        _ui->widgetData->step();
+        _ui->widgetData->timeStep();
     }
 
     if ( _pending && !sim::Data::get()->ownship.destroyed )
@@ -243,7 +233,7 @@ void MainWindow::askIfAbort()
     QString title = windowTitle();
     QString text = tr( "Do you want to abort mission?" );
 
-    MessageBox::StandardButton result = MessageBox::question( this, title, text );
+    QMessageBox::StandardButton result = QMessageBox::question( this, title, text );
 
     if ( result == QMessageBox::Yes )
     {
@@ -292,7 +282,7 @@ void MainWindow::simulationStart( int campaignIndex, int missionIndex )
         _heading  = 0.0;
         _timeCoef = 1.0;
 
-        _ui->stackedMain->setCurrentIndex( PagePlay );
+        _ui->stackedWidgetMain->setCurrentIndex( 1 );
 
         int w = _ui->widgetPlay->width();
         int h = _ui->widgetPlay->height();
@@ -339,7 +329,8 @@ void MainWindow::simulationAbort()
 
     _timeCoef = 1.0;
 
-    _ui->stackedMain->setCurrentIndex( PageHome );
+    _ui->stackedWidgetMain->setCurrentIndex( 0 );
+    _ui->stackedWidgetMenu->setCurrentIndex( _backPage );
 
     _ui->widgetPlay->stop();
 
@@ -462,54 +453,84 @@ void MainWindow::shortcutTimeNormal_activated()
 }
 #endif
 
+
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_pushButtonMenuTutorial_clicked()
+void MainWindow::on_pushButtonTutorial_clicked()
 {
+    _backPage = PageHome;
+
     simulationStart( 0, 0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_pushButtonMenuTraining_clicked()
+void MainWindow::on_pushButtonTraining_clicked()
 {
-    _ui->stackedMain->setCurrentIndex( PageMissions );
+    _ui->stackedWidgetMenu->setCurrentIndex( PageMissions );
+    _ui->widgetMissions->setCampaign( 1 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_pushButtonMenuData_clicked()
+void MainWindow::on_pushButtonCampaign_clicked()
 {
-    _ui->stackedMain->setCurrentIndex( PageData );
+    _ui->stackedWidgetMenu->setCurrentIndex( PageCampaign );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_pushButtonMenuConf_clicked()
+void MainWindow::on_pushButtonDatabase_clicked()
 {
-    _dialogConf->readData();
+    _ui->stackedWidgetMenu->setCurrentIndex( PageDatabase );
+}
 
-    if ( _dialogConf->exec() == QDialog::Accepted )
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButtonSettings_clicked()
+{
+    _ui->widgetCtrl->readData();
+    _ui->stackedWidgetMenu->setCurrentIndex( PageSettings );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButtonAbout_clicked()
+{
+    QFile aboutHtmlFile( ":/gui/html/about.html" );
+
+    QString aboutWinTitle;
+    QString aboutInfoText;
+
+    aboutWinTitle = tr( "About" );
+
+    if ( aboutHtmlFile.open( QIODevice::ReadOnly ) )
     {
-        _dialogConf->saveData();
-        _dialogConf->updateAssignments();
+        aboutInfoText = aboutHtmlFile.readAll();
+        aboutHtmlFile.close();
     }
-    else
-    {
-        _dialogConf->readData();
-    }
+
+    QMessageBox::about( this, aboutWinTitle, aboutInfoText );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_pushButtonMenuExit_clicked()
+void MainWindow::on_pushButtonExit_clicked()
 {
     close();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_widgetData_back()
+void MainWindow::on_pushButtonConfDiscard_clicked()
 {
-    _ui->stackedMain->setCurrentIndex( PageHome );
+    _ui->stackedWidgetMenu->setCurrentIndex( PageHome );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButtonConfSave_clicked()
+{
+    _ui->widgetCtrl->saveData();
+    _ui->stackedWidgetMenu->setCurrentIndex( PageHome );
 }

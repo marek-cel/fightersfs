@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef WIDGETDATA_H
-#define WIDGETDATA_H
+#ifndef WIDGETMISSIONS_H
+#define WIDGETMISSIONS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,44 +28,46 @@
 
 #include <defs.h>
 
-#include <gui/Units.h>
-
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
 {
-    class WidgetData;
+    class WidgetMissions;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class WidgetData : public QWidget
+class WidgetMissions : public QWidget
 {
     Q_OBJECT
 
 public:
 
-    explicit WidgetData( QWidget *parent = NULLPTR );
+    explicit WidgetMissions( QWidget *parent = NULLPTR );
 
-    ~WidgetData();
+    ~WidgetMissions();
 
-    void timeStep();
+    void setCampaign( int campaign );
+
+protected:
+
+    void resizeEvent( QResizeEvent *event );
 
 private:
 
-    Ui::WidgetData *_ui;
+    Ui::WidgetMissions *_ui;
 
-    void initDatabase();
+    int _campaign;
 
-    void updateDataAerial( const Units::Data::DataAerial &data );
-    void updateDataMarine( const Units::Data::DataMarine &data );
-    void updateDataGround( const Units::Data::DataGround &data );
+    void initMissions();
+
+    void updateMissionImage();
 
 private slots:
 
-    void on_comboBoxUnits_currentIndexChanged( int index );
+    void on_comboBoxMissions_currentIndexChanged( int index );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // WIDGETDATA_H
+#endif // WIDGETMISSIONS_H

@@ -37,8 +37,8 @@ const double WidgetCGI::_zFar  = SIM_SKYDOME_RAD + 0.1f * SIM_SKYDOME_RAD;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-WidgetCGI::WidgetCGI( QWidget *parent ) :
-    QWidget( parent )
+WidgetCGI::WidgetCGI( QWidget *parent, Qt::WindowFlags f ) :
+    QWidget( parent, f )
 {
     setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
     //setThreadingModel( osgViewer::ViewerBase::ThreadPerContext );

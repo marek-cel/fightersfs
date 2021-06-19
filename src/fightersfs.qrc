@@ -6,6 +6,8 @@
         
         <file>gui/fonts/fsg_stencil.ttf</file>
         
+        <file>gui/html/about.html</file>
+        
         <file>gui/styles/main.qss</file>
         
         <file>gui/translations/fightersfs_pl.qm</file>

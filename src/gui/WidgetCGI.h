@@ -49,7 +49,7 @@ public:
     static const double _zFar;
 
     /** @brief Constructor. */
-    WidgetCGI( QWidget *parent = NULLPTR );
+    WidgetCGI( QWidget *parent = NULLPTR, Qt::WindowFlags f = Qt::WindowFlags() );
 
     /** @brief Destructor. */
     virtual ~WidgetCGI();

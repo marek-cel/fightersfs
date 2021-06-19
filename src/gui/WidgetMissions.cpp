@@ -19,96 +19,80 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef DEFS_H
-#define DEFS_H
+
+#include <gui/WidgetMissions.h>
+#include <ui_WidgetMissions.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifdef SIM_TEST
-#   include <iostream>
-#endif
+WidgetMissions::WidgetMissions( QWidget *parent ) :
+    QWidget( parent ),
+    _ui ( new Ui::WidgetMissions ),
 
-#include <sim/sim_Defines.h>
-#include <sim/sim_Log.h>
-#include <sim/sim_Path.h>
-
-#include <sim/utils/sim_Convert.h>
-#include <sim/utils/sim_Singleton.h>
-#include <sim/utils/sim_String.h>
-#include <sim/utils/sim_Text.h>
-#include <sim/utils/sim_XmlDoc.h>
-#include <sim/utils/sim_XmlNode.h>
-#include <sim/utils/sim_XmlUtils.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define SIM_APP_NAME   "FightersFS"
-#define SIM_APP_VER    "1.0"
-#define SIM_ORG_NAME   "Marek_Cel"
-#define SIM_ORG_DOMAIN "marekcel.pl"
-
-////////////////////////////////////////////////////////////////////////////////
-
-#ifndef NULLPTR
-#   if __cplusplus >= 201103L
-#       define NULLPTR nullptr
-#   else
-#       define NULLPTR 0
-#   endif
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
-
-#ifndef DELPTR
-#define DELPTR( ptr ) \
-{ \
-    if ( ptr ) delete ptr; \
-    ptr = NULLPTR; \
+    _campaign ( 0 )
+{
+    _ui->setupUi( this );
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef DELTAB
-#define DELTAB( ptr ) \
-{ \
-    if ( ptr ) delete [] ptr; \
-    ptr = NULLPTR; \
+WidgetMissions::~WidgetMissions()
+{
+    DELPTR( _ui );
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef THROW
-#define THROW( e ) \
-{ \
-    e.setFile( __FILE__ ); \
-    e.setLine( __LINE__ ); \
-    throw e; \
+void WidgetMissions::setCampaign( int campaign )
+{
+    _campaign = campaign;
+
+    initMissions();
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-typedef unsigned char  UInt8;   ///< 8-bits unsigned integer type
-typedef unsigned short UInt16;  ///< 16-bits unsigned integer type
-typedef unsigned int   UInt32;  ///< 32-bits unsigned integer type
+void WidgetMissions::resizeEvent( QResizeEvent *event )
+{
+    //////////////////////////////
+    QWidget::resizeEvent( event );
+    //////////////////////////////
+
+    updateMissionImage();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-typedef sim::Convert Convert;
-typedef sim::Log     Log;
-typedef sim::Path    Path;
-typedef sim::String  String;
-typedef sim::Text    Text;
+void WidgetMissions::initMissions()
+{
+    _ui->comboBoxMissions->clear();
 
-typedef sim::XmlDoc   XmlDoc;
-typedef sim::XmlNode  XmlNode;
-typedef sim::XmlUtils XmlUtils;
-
-template < class TYPE >
-class Singleton : public sim::Singleton< TYPE > {};
+    for ( unsigned int i = 0; i < 3; i++ )
+    {
+        QString name = QString::number( i );
+        _ui->comboBoxMissions->addItem( name );
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DEFS_H
+void WidgetMissions::updateMissionImage()
+{
+    QPixmap pixmap( Path::get( "missions/training_01_img.png" ).c_str() );
+
+    int w = _ui->labelMissionImage->width();
+    int h = _ui->labelMissionImage->height();
+
+    pixmap = pixmap.scaled( w, h, Qt::KeepAspectRatio );
+
+    //std::cout << w << " x " << h << std::endl;
+
+    _ui->labelMissionImage->setPixmap( pixmap );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMissions::on_comboBoxMissions_currentIndexChanged( int index )
+{
+    updateMissionImage();
+}

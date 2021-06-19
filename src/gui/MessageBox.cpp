@@ -44,7 +44,7 @@ MessageBox::StandardButton MessageBox::question( QWidget *parent,
 MessageBox::MessageBox( const QString &title, const QString &text,
                         StandardButtons buttons, QWidget *parent ) :
     QMessageBox( NoIcon, title, text, buttons, parent,
-                 Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::FramelessWindowHint )
+                 Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////

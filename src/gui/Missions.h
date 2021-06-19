@@ -26,7 +26,10 @@
 
 #include <sim/utils/sim_Singleton.h>
 
-#include <vector>
+#include <QFileInfo>
+#include <QVector>
+
+#include <defs.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -39,21 +42,28 @@ class Missions : public sim::Singleton< Missions >
 
 public:
 
-    struct Mission
+    struct MissionData
     {
+        QFileInfo fileInfo;     ///< mission file info
 
+        Text name;              ///< mission name
+        Text introduction;      ///< mission introduction
+        Text summaryFailure;    ///< mission summary failure
+        Text summarySuccess;    ///< mission summaru success
     };
 
-    typedef std::vector< std::vector< Mission > > Data;
+    typedef QVector< QVector< MissionData > > MissionsData;
 
     /** @brief Destructor. */
     virtual ~Missions();
 
-    Mission getMission( int campaign, int mission );
+    MissionData getMission( int campaign, int mission );
+
+    int getMissionsCount( int campaign );
 
 private:
 
-    Data _data;
+    MissionsData _data;
 
     /**
      * You should use static function instance() due to get refernce

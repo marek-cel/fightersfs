@@ -13,13 +13,13 @@
         <location filename="gui/DialogAction.ui" line="202"/>
         <location filename="gui/DialogAction.ui" line="338"/>
         <source>Device:</source>
-        <translation>Urządznie:</translation>
+        <translation>Urządzenie:</translation>
     </message>
     <message>
         <location filename="gui/DialogAction.ui" line="59"/>
         <location filename="gui/DialogAction.ui" line="224"/>
         <source>DeviceName</source>
-        <translation>Nazwa urządzenia</translation>
+        <translation>NazwaUrządzenia</translation>
     </message>
     <message>
         <location filename="gui/DialogAction.ui" line="85"/>
@@ -29,7 +29,7 @@
     <message>
         <location filename="gui/DialogAction.ui" line="155"/>
         <source>Inverted</source>
-        <translation>Odwrócenie</translation>
+        <translation>Odwrócona</translation>
     </message>
     <message>
         <location filename="gui/DialogAction.ui" line="272"/>
@@ -53,67 +53,142 @@
     </message>
 </context>
 <context>
-    <name>DialogConf</name>
+    <name>MainWindow</name>
     <message>
-        <location filename="gui/DialogConf.ui" line="14"/>
+        <location filename="gui/MainWindow.ui" line="66"/>
+        <source>Campaign</source>
+        <translation>Kampania</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.ui" line="87"/>
+        <source>Training Missions</source>
+        <translation>Misje treningowe</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.ui" line="73"/>
+        <source>Tutorial</source>
+        <translation>Tutorial</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.ui" line="80"/>
+        <source>Database</source>
+        <translation>Baza danych</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.ui" line="94"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <source>General</source>
-        <translation type="vanished">Ogólne</translation>
+        <location filename="gui/MainWindow.ui" line="101"/>
+        <source>Exit</source>
+        <translation>Wyjście</translation>
     </message>
     <message>
-        <source>Controls</source>
-        <translation type="vanished">Sterowanie</translation>
-    </message>
-</context>
-<context>
-    <name>MainWindow</name>
-    <message>
-        <source>Flight Simulation Game</source>
-        <translation type="vanished">Flight Simulation Game</translation>
+        <location filename="gui/MainWindow.ui" line="229"/>
+        <source>Discard</source>
+        <translation>Odrzuć</translation>
     </message>
     <message>
-        <location filename="gui/MainWindow.ui" line="78"/>
-        <source>TUTORIAL</source>
-        <translation>TUTORIAL</translation>
+        <location filename="gui/MainWindow.ui" line="236"/>
+        <source>Save</source>
+        <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="gui/MainWindow.ui" line="85"/>
-        <source>SETTINGS</source>
-        <translation>USTAWIENIA</translation>
+        <location filename="gui/MainWindow.ui" line="247"/>
+        <location filename="gui/MainWindow.cpp" line="621"/>
+        <source>About</source>
+        <translation>O programie</translation>
     </message>
     <message>
-        <location filename="gui/MainWindow.ui" line="105"/>
-        <source>TRAINING MISSIONS</source>
-        <oldsource>TRAINING</oldsource>
-        <translation>MISJE TRENINGOWE</translation>
-    </message>
-    <message>
-        <location filename="gui/MainWindow.ui" line="138"/>
-        <source>EXIT</source>
-        <translation>WYJŚCIE</translation>
-    </message>
-    <message>
-        <location filename="gui/MainWindow.ui" line="145"/>
-        <source>DATABASE</source>
-        <translation>BAZA DANYCH</translation>
-    </message>
-    <message>
-        <location filename="gui/MainWindow.ui" line="152"/>
-        <source>CAMPAIGNS</source>
-        <translation>KAMPANIE</translation>
-    </message>
-    <message>
-        <location filename="gui/MainWindow.cpp" line="141"/>
+        <location filename="gui/MainWindow.cpp" line="139"/>
         <source>Do you want to quit?</source>
         <translation>Czy na pewno chcesz wyjść?</translation>
     </message>
     <message>
-        <location filename="gui/MainWindow.cpp" line="244"/>
+        <location filename="gui/MainWindow.cpp" line="242"/>
         <source>Do you want to abort mission?</source>
         <translation>Czy na pewno chcesz zakończyć misję?</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="408"/>
+        <source>Role</source>
+        <translation>Typ</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="409"/>
+        <source>Manufacturer</source>
+        <translation>Producent</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="410"/>
+        <source>First Flight</source>
+        <translation>Data oblotu</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="411"/>
+        <source>Introduction</source>
+        <translation>Wprowadzenie</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="412"/>
+        <source>Retired</source>
+        <translation>Wycofanie</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="413"/>
+        <source>Number Built</source>
+        <translation>Egzemplarze</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="414"/>
+        <source>Primary User</source>
+        <translation>Gł. użytkownik</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="415"/>
+        <source>Crew</source>
+        <translation>Załoga</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="416"/>
+        <source>Length</source>
+        <translation>Długość</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="417"/>
+        <source>Wingspan</source>
+        <translation>Rozpiętość</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="418"/>
+        <source>Height</source>
+        <translation>Wysokość</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="419"/>
+        <source>MTOW</source>
+        <translation>Masa maks.</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="420"/>
+        <source>Max Speed</source>
+        <translation>Prędkość maks.</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="421"/>
+        <source>Range</source>
+        <translation>Zasięg</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="422"/>
+        <source>Powerplant</source>
+        <translation>Napęd</translation>
+    </message>
+    <message>
+        <location filename="gui/MainWindow.cpp" line="423"/>
+        <source>Armament</source>
+        <translation>Uzbrojenie</translation>
     </message>
 </context>
 <context>
@@ -136,7 +211,7 @@
     <message>
         <location filename="gui/WidgetCtrl.ui" line="70"/>
         <source>Input Assignment</source>
-        <translation>Przypisanie wejścia</translation>
+        <translation>Przypisanie</translation>
     </message>
     <message>
         <location filename="gui/WidgetCtrl.ui" line="83"/>
@@ -149,17 +224,9 @@
         <translation>Wyczyść przypisanie</translation>
     </message>
     <message>
-        <source>Primary Trigger</source>
-        <translation type="vanished">Główny spust</translation>
-    </message>
-    <message>
-        <source>Secondary Trigger</source>
-        <translation type="vanished">Dodatkowy spust</translation>
-    </message>
-    <message>
         <location filename="gui/WidgetCtrl.cpp" line="53"/>
         <source>Weapon Trigger</source>
-        <translation>Strzał</translation>
+        <translation>Broń</translation>
     </message>
     <message>
         <location filename="gui/WidgetCtrl.cpp" line="55"/>
@@ -229,7 +296,7 @@
     <message>
         <location filename="gui/WidgetCtrl.cpp" line="310"/>
         <source>NONE</source>
-        <translation>NONE</translation>
+        <translation>BRAK</translation>
     </message>
     <message>
         <location filename="gui/WidgetCtrl.cpp" line="322"/>
@@ -249,137 +316,7 @@
     <message>
         <location filename="gui/WidgetCtrl.cpp" line="344"/>
         <source> - NONE</source>
-        <translation> - NONE</translation>
-    </message>
-</context>
-<context>
-    <name>WidgetData</name>
-    <message>
-        <location filename="gui/WidgetData.ui" line="14"/>
-        <source>Data</source>
-        <translation>Dane</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="38"/>
-        <source>BACK</source>
-        <translation>WSTECZ</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="63"/>
-        <source>DATABASE</source>
-        <translation>BAZA DANYCH</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="174"/>
-        <location filename="gui/WidgetData.ui" line="929"/>
-        <source>Length:</source>
-        <translation>Długość:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="215"/>
-        <location filename="gui/WidgetData.ui" line="897"/>
-        <source>Max Speed:</source>
-        <translation>Prędkość maks.:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="256"/>
-        <source>Retired:</source>
-        <translation>Wycofanie ze służby:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="278"/>
-        <source>Introduction:</source>
-        <translation>Wejście do służby:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="319"/>
-        <source>Wingspan:</source>
-        <translation>Rozpiętość:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="398"/>
-        <source>Powerplant:</source>
-        <translation>Zaspół napędowy:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="439"/>
-        <source>Manufacturer:</source>
-        <translation>Producent:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="474"/>
-        <source>Role:</source>
-        <translation>Typ:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="515"/>
-        <source>First Flight:</source>
-        <translation>Data oblotu:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="670"/>
-        <source>Range:</source>
-        <translation>Zasięg:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="692"/>
-        <location filename="gui/WidgetData.ui" line="993"/>
-        <location filename="gui/WidgetData.ui" line="1273"/>
-        <source>Number Built:</source>
-        <translation>Egzemplarze:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="714"/>
-        <source>Primary User:</source>
-        <translation>Główny użytkownik:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="736"/>
-        <source>Crew:</source>
-        <translation>Załoga:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="758"/>
-        <source>Height:</source>
-        <translation>Wysokość:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="780"/>
-        <source>MTOW:</source>
-        <translation>Masa maks.:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="802"/>
-        <location filename="gui/WidgetData.ui" line="1041"/>
-        <location filename="gui/WidgetData.ui" line="1321"/>
-        <source>Armament:</source>
-        <translation>Uzbrojenie:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="881"/>
-        <source>Complement:</source>
-        <translation>Załoga:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="913"/>
-        <source>Displacement:</source>
-        <translation>Wyporność:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="977"/>
-        <location filename="gui/WidgetData.ui" line="1257"/>
-        <source>Type:</source>
-        <translation>Klasa:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="1009"/>
-        <source>Beam:</source>
-        <translation>Szerokość:</translation>
-    </message>
-    <message>
-        <location filename="gui/WidgetData.ui" line="1025"/>
-        <source>Draft:</source>
-        <translation>Zanużenie:</translation>
+        <translation> - BRAK</translation>
     </message>
 </context>
 </TS>

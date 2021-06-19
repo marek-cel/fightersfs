@@ -24,13 +24,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QElapsedTimer>
 #include <QMainWindow>
+
+#include <QElapsedTimer>
 #include <QShortcut>
 
 #include <defs.h>
 
-#include <gui/DialogConf.h>
+#include <gui/Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -48,15 +49,13 @@ class MainWindow : public QMainWindow
 
 public:
 
-    enum
+    enum Pages
     {
-        PageHome = 0,       ///< home page index
-        PageCampaigns = 1,
+        PageHome     = 0,
+        PageCampaign = 1,
         PageMissions = 2,
-        PageBriefieng = 3,
-        PageDebriefing = 4,
-        PageData = 5,       ///< database page index
-        PagePlay = 6        ///< simulation page index
+        PageDatabase = 3,
+        PageSettings = 4
     };
 
     /** @brief Constructor. */
@@ -80,8 +79,6 @@ private:
 
     Ui::MainWindow *_ui;                    ///< UI object
 
-    DialogConf *_dialogConf;                ///< configuration dialog
-
     QShortcut *_shortcutPause;              ///< pause keybaord shortcut
     QShortcut *_shortcutAbort;              ///< abort keybaord shortcut
 
@@ -95,8 +92,6 @@ private:
 
     QElapsedTimer *_timer;                  ///< timer object
 
-    int _timerId;                           ///< timer ID
-
     double _timeCoef;                       ///< [-] time coefficient
     double _heading;                        ///< [rad] last valid heading
 
@@ -104,6 +99,10 @@ private:
     bool _inited;                           ///< specifies if simulation is initialized
     bool _throttle;                         ///< specifies if throttle is inited
     bool _pending;                          ///< specifies if mission is pending
+
+    int _timerId;                           ///< timer ID
+
+    int _backPage;
 
     void askIfAbort();
 
@@ -129,13 +128,17 @@ private slots:
     void shortcutTimeNormal_activated();
 #   endif
 
-    void on_pushButtonMenuTutorial_clicked();
-    void on_pushButtonMenuTraining_clicked();
-    void on_pushButtonMenuData_clicked();
-    void on_pushButtonMenuConf_clicked();
-    void on_pushButtonMenuExit_clicked();
+    void on_pushButtonTutorial_clicked();
+    void on_pushButtonTraining_clicked();
+    void on_pushButtonCampaign_clicked();
+    void on_pushButtonDatabase_clicked();
+    void on_pushButtonSettings_clicked();
+    void on_pushButtonAbout_clicked();
 
-    void on_widgetData_back();
+    void on_pushButtonExit_clicked();
+
+    void on_pushButtonConfDiscard_clicked();
+    void on_pushButtonConfSave_clicked();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
