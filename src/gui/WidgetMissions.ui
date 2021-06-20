@@ -28,6 +28,9 @@
    </property>
    <item row="1" column="0" rowspan="3">
     <widget class="QTextBrowser" name="textBrowserMission">
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="frameShape">
       <enum>QFrame::Box</enum>
      </property>
@@ -83,6 +86,11 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>comboBoxMissions</tabstop>
+  <tabstop>textBrowserMission</tabstop>
+  <tabstop>pushButtonStartMission</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

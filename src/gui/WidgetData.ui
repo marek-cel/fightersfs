@@ -54,6 +54,9 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="frameShape">
       <enum>QFrame::Box</enum>
      </property>
@@ -72,6 +75,10 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>comboBoxUnits</tabstop>
+  <tabstop>textBrowserUnitData</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -47,6 +47,9 @@ public:
         bool hidden;
 
         sim::Text name;
+        sim::Text synopsis;
+
+        QString fileImage;      ///<
     };
 
     /** @brief Destructor. */
@@ -71,7 +74,7 @@ private:
     /** Using this constructor is forbidden. */
     Campaigns( const Campaigns & ) : sim::Singleton< Campaigns > () {}
 
-    sim::Text getCampaignName( const QString &fileName );
+    void readCampaign( const QString &fileName, CampaignData *data );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

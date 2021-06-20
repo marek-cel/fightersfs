@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Missions</string>
+   <string>Campaigns</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
@@ -76,6 +76,9 @@
    </item>
    <item row="1" column="0" rowspan="2">
     <widget class="QTextBrowser" name="textBrowserCampaign">
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="frameShape">
       <enum>QFrame::Box</enum>
      </property>
@@ -83,6 +86,11 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>comboBoxCampaigns</tabstop>
+  <tabstop>textBrowserCampaign</tabstop>
+  <tabstop>pushButtonStartCampaign</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

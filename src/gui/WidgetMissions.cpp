@@ -132,8 +132,6 @@ void WidgetMissions::updateMissionText()
         break;
     }
 
-
-
     _ui->textBrowserMission->setText( text );
 }
 

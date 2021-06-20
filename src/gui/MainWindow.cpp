@@ -501,6 +501,7 @@ void MainWindow::on_pushButtonTraining_clicked()
 void MainWindow::on_pushButtonCampaign_clicked()
 {
     _ui->stackedWidgetMenu->setCurrentIndex( PageCampaign );
+    _ui->widgetCampaign->updateCampaign();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

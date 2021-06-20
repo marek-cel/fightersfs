@@ -47,6 +47,8 @@ public:
 
     ~WidgetCampaign();
 
+    void updateCampaign();
+
 signals:
 
     void startClicked( int campaign );

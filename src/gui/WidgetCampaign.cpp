@@ -47,6 +47,14 @@ WidgetCampaign::~WidgetCampaign()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void WidgetCampaign::updateCampaign()
+{
+    updateCampaignImage();
+    updateCampaignText();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void WidgetCampaign::resizeEvent( QResizeEvent *event )
 {
     //////////////////////////////
@@ -79,28 +87,30 @@ void WidgetCampaign::initCampaigns()
 
 void WidgetCampaign::updateCampaignImage()
 {
-    //QString fileImage = Missions::instance()->getMission( _campaign, _mission ).fileImage;
-    //
-    //QPixmap pixmap( Path::get( fileImage.toStdString() ).c_str() );
-    //
-    //if ( !pixmap.isNull() )
-    //{
-    //    int w = _ui->labelMissionImage->width();
-    //    int h = _ui->labelMissionImage->height();
-    //
-    //    pixmap = pixmap.scaled( w, h, Qt::KeepAspectRatio );
-    //
-    //    //std::cout << w << " x " << h << std::endl;
-    //}
-    //
-    //_ui->labelCampaignImage->setPixmap( pixmap );
+    QString fileImage = Campaigns::instance()->getCampaign( _campaign ).fileImage;
+
+    QPixmap pixmap( Path::get( fileImage.toStdString() ).c_str() );
+
+    if ( !pixmap.isNull() )
+    {
+        int w = _ui->labelCampaignImage->width();
+        int h = _ui->labelCampaignImage->height();
+
+        pixmap = pixmap.scaled( w, h, Qt::KeepAspectRatio );
+
+        //std::cout << w << " x " << h << std::endl;
+    }
+
+    _ui->labelCampaignImage->setPixmap( pixmap );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void WidgetCampaign::updateCampaignText()
 {
+    QString text = Campaigns::instance()->getCampaign( _campaign ).synopsis.get().c_str();
 
+    _ui->textBrowserCampaign->setText( text );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

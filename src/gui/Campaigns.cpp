@@ -53,7 +53,7 @@ Campaigns::Campaigns()
                 data.file   = campaignNode.attributeNode( "file"   ).value();
                 data.hidden = campaignNode.attributeNode( "hidden" ).value().toInt();
 
-                data.name = getCampaignName( data.file );
+                readCampaign( data.file, &data );
 
                 _data.push_back( data );
 
@@ -103,10 +103,8 @@ int Campaigns::getRealIndex( int visible_index )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-sim::Text Campaigns::getCampaignName( const QString &fileName )
+void Campaigns::readCampaign( const QString &fileName, CampaignData *data )
 {
-    sim::Text name;
-
     QFile file( Path::get( ( "campaigns/" + fileName.toStdString() ).c_str() ).c_str() );
 
     if ( file.open(QFile::ReadOnly | QFile::Text) )
@@ -119,11 +117,14 @@ sim::Text Campaigns::getCampaignName( const QString &fileName )
 
         if ( rootNode.tagName() == "campaign" )
         {
-            QDomElement nameNode = rootNode.firstChildElement( "name" );
+            QDomElement nameNode     = rootNode.firstChildElement( "name"     );
+            QDomElement synopsisNode = rootNode.firstChildElement( "synopsis" );
+            QDomElement imageNode    = rootNode.firstChildElement( "image"    );
 
-            Utils::read( nameNode, &name );
+            Utils::read( nameNode     , &data->name     );
+            Utils::read( synopsisNode , &data->synopsis );
+
+            data->fileImage = imageNode.text();
         }
     }
-
-    return name;
 }
