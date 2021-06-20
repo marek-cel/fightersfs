@@ -88,6 +88,8 @@ void WidgetMissions::initMissions()
         QString name = Missions::instance()->getMission( _campaign, i ).name.get().c_str();
         _ui->comboBoxMissions->addItem( name );
     }
+
+    _ui->comboBoxMissions->setCurrentIndex( 0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -139,7 +141,7 @@ void WidgetMissions::updateMissionText()
 
 void WidgetMissions::on_comboBoxMissions_currentIndexChanged( int index )
 {
-    _mission = index;
+    _mission = ( index >= 0 ) ? index : 0;
     _status  = sim::Pending;
 
     updateMissionImage();

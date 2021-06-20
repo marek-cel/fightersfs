@@ -42,8 +42,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define SIM_APP_NAME   "FightersFS"
-#define SIM_APP_VER    "1.0"
+#define SIM_APP_NAME   "FIGHTERS"
+#define SIM_APP_VER    "0.1"
 #define SIM_ORG_NAME   "Marek_Cel"
 #define SIM_ORG_DOMAIN "marekcel.pl"
 

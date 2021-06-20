@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string notr="true">FightersFS</string>
+   <string notr="true">FIGHTERS</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../fightersfs.qrc">
