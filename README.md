@@ -19,3 +19,5 @@ Pilot one of the classic warplanes, including [AT-6 Texan](https://en.wikipedia.
 ![screenshot 04](screenshot_04.jpg)
 ![screenshot 05](screenshot_05.jpg)
 ![screenshot 06](screenshot_06.jpg)
+
+Visit [http://marekcel.pl/fighters](http://marekcel.pl/fighters) for more information.
