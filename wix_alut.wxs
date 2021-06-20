@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <Fragment>
+    <DirectoryRef Id="dir_fightersfs_bin">
+      <Component Id="dir_fightersfs_alut" Guid="{}">
+        <File Id="dir_fightersfs_alut_dll" Name="alut.dll" DiskId="1" Source="$(env.OPENAL_DIR)\bin\alut.dll" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  
+  <Fragment>
+    <ComponentGroup Id="cg_fightersfs_alut">
+      <ComponentRef Id="dir_fightersfs_alut" />
+    </ComponentGroup>
+  </Fragment>
+  
+</Wix>

@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<Wix
+  xmlns="http://schemas.microsoft.com/wix/2006/wi"
+  xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product
+    Id="{}" 
+    Name="FIGHTERS"
+    Language="1033"
+    Version="0.1"
+    Manufacturer="Marek Cel" 
+    UpgradeCode="{}">
+        
+    <Package
+      Description="FIGHTERS Windows Installer Package"
+      Manufacturer="Marek Cel (marekcel.pl)"
+      InstallerVersion="301"
+      InstallPrivileges="elevated"
+      InstallScope="perMachine"
+      Platform="x64"
+      Compressed="yes" />
+
+    <Media Id="1" Cabinet="fightersfs.cab" EmbedCab="yes" />
+    
+    <Property Id="AllUSERS" Value="1"/>
+    
+    <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+    
+      <!-- Visual C++ 2019 Redistributable Merge Module -->
+      <Merge Id="VCRedist" SourceFile="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\14.28.29325\MergeModules\Microsoft_VC142_CRT_x64.msm" DiskId="1" Language="0"/>
+      
+      <!-- installation dir -->
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="dir_fightersfs" Name="FIGHTERS">
+        
+          <Directory Id="dir_fightersfs_bin" Name="bin">
+          
+            <!-- sim.exe -->
+            <Component Id="dir_fightersfs_fightersfs" Guid="{}">
+              <File Id="dir_fightersfs_fightersfs_exe" Name="fightersfs.exe" DiskId="1" Source="bin\fightersfs.exe" />
+            </Component>
+          
+          </Directory>
+            
+        </Directory>
+      </Directory>
+            
+      <!-- start menu shortcuts -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="FIGHTERS">
+          <Component Id="menu_shortcuts" Guid="{}">
+            <Shortcut
+              Id="menu_sim" 
+              Name="FIGHTERS" 
+              Icon="fightersfs_ico"
+              Description="FIGHTERS Combat Flight Simulator"
+              Target="[dir_fightersfs_bin]\fightersfs.exe"
+              WorkingDirectory="dir_fightersfs_bin" />
+            <Shortcut
+              Id="menu_unistall"
+              Name="Uninstall FIGHTERS"
+              Target="[SystemFolder]msiexec.exe"
+              Arguments="/x [ProductCode]"
+              Description="Uninstall" />
+            <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+            <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+          </Component>
+        </Directory>
+      </Directory>
+      
+    </Directory>
+
+    <!-- main program -->
+    <Feature Id="fightersfs_main" Title="FIGHTERS" Level="1">
+      <ComponentGroupRef Id="cg_fightersfs_alut" /> <!-- ALUT libs -->
+      <ComponentGroupRef Id="cg_fightersfs_data" /> <!-- data -->
+      <ComponentGroupRef Id="cg_fightersfs_osg" />  <!-- OSG libs -->
+      <ComponentGroupRef Id="cg_fightersfs_qt" />   <!-- Qt libs -->
+      
+      <ComponentRef Id="dir_fightersfs_fightersfs" />   <!-- fightersfs.exe -->
+
+      <ComponentRef Id="menu_shortcuts" />      <!-- start menu shortcuts -->      
+    </Feature>
+    
+    <!-- Visual C++ 2019 Redistributable Merge Module -->
+    <Feature Id="VCRedist" Title="Visual C++ 2019 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
+      <MergeRef Id="VCRedist"/>
+    </Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="dir_fightersfs" />
+    <UIRef Id="WixUI_InstallDir" />
+    
+    <Icon Id="fightersfs_ico" SourceFile="fightersfs.ico" />
+    
+  </Product>
+</Wix>

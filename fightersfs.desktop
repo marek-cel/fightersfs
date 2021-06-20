@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=0.1
+Name=FIGHTERS
+GenericName=Combat Flight Simulator
+Exec=fightersfs
+Terminal=false
+Categories=Game;Simulation
+Comment=open-source flight simulator
+Keywords=
+Icon=fightersfs

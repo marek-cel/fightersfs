@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <Fragment>
+    <DirectoryRef Id="dir_fightersfs_bin">
+      <Directory Id="dir_fightersfs_osgPlugins_3_6_5" Name="osgPlugins-3.6.5" />
+      <Component Id="dir_fightersfs_icudt58" Guid="{}">
+        <File Id="dir_fightersfs_icudt58_dll" Name="icudt58.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\icudt58.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_icuin58" Guid="{}">
+        <File Id="dir_fightersfs_icuin58_dll" Name="icuin58.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\icuin58.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_icuuc58" Guid="{}">
+        <File Id="dir_fightersfs_icuuc58_dll" Name="icuuc58.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\icuuc58.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_libpng16" Guid="{}">
+        <File Id="dir_fightersfs_libpng16_dll" Name="libpng16.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\libpng16.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_libxml2" Guid="{}">
+        <File Id="dir_fightersfs_libxml2_dll" Name="libxml2.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\libxml2.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_osg161_osg" Guid="{}">
+        <File Id="dir_fightersfs_osg161_osg_dll" Name="osg161-osg.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osg.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_osg161_osgDB" Guid="{}">
+        <File Id="dir_fightersfs_osg161_osgDB_dll" Name="osg161-osgDB.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgDB.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_osg161_osgGA" Guid="{}">
+        <File Id="dir_fightersfs_osg161_osgGA_dll" Name="osg161-osgGA.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgGA.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_osg161_osgParticle" Guid="{}">
+        <File Id="dir_fightersfs_osg161_osgParticle_dll" Name="osg161-osgParticle.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgParticle.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_osg161_osgSim" Guid="{}">
+        <File Id="dir_fightersfs_osg161_osgSim_dll" Name="osg161-osgSim.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgSim.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_osg161_osgTerrain" Guid="{}">
+        <File Id="dir_fightersfs_osg161_osgTerrain_dll" Name="osg161-osgTerrain.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgTerrain.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_osg161_osgText" Guid="{}">
+        <File Id="dir_fightersfs_osg161_osgText_dll" Name="osg161-osgText.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgText.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_osg161_osgUtil" Guid="{}">
+        <File Id="dir_fightersfs_osg161_osgUtil_dll" Name="osg161-osgUtil.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgUtil.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_osg161_osgViewer" Guid="{}">
+        <File Id="dir_fightersfs_osg161_osgViewer_dll" Name="osg161-osgViewer.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgViewer.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_osg161_osgWidget" Guid="{}">
+        <File Id="dir_fightersfs_osg161_osgWidget_dll" Name="osg161-osgWidget.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgWidget.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_ot21_OpenThreads" Guid="{}">
+        <File Id="dir_fightersfs_ot21_OpenThreads_dll" Name="ot21-OpenThreads.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\ot21-OpenThreads.dll" />
+      </Component>
+      <Component Id="dir_fightersfs_zlib" Guid="{}">
+        <File Id="dir_fightersfs_zlib_dll" Name="zlib.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\zlib.dll" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  
+  <Fragment>
+    <ComponentGroup Id="cg_fightersfs_osg">
+      <ComponentGroupRef Id="cg_fightersfs_osg_plugins" />
+      <ComponentRef Id="dir_fightersfs_icudt58" />
+      <ComponentRef Id="dir_fightersfs_icuin58" />
+      <ComponentRef Id="dir_fightersfs_icuuc58" />
+      <ComponentRef Id="dir_fightersfs_libpng16" />
+      <ComponentRef Id="dir_fightersfs_libxml2" />
+      <ComponentRef Id="dir_fightersfs_osg161_osg" />
+      <ComponentRef Id="dir_fightersfs_osg161_osgDB" />
+      <ComponentRef Id="dir_fightersfs_osg161_osgGA" />
+      <ComponentRef Id="dir_fightersfs_osg161_osgParticle" />
+      <ComponentRef Id="dir_fightersfs_osg161_osgSim" />
+      <ComponentRef Id="dir_fightersfs_osg161_osgTerrain" />
+      <ComponentRef Id="dir_fightersfs_osg161_osgText" />
+      <ComponentRef Id="dir_fightersfs_osg161_osgUtil" />
+      <ComponentRef Id="dir_fightersfs_osg161_osgViewer" />
+      <ComponentRef Id="dir_fightersfs_osg161_osgWidget" />
+      <ComponentRef Id="dir_fightersfs_ot21_OpenThreads" />
+      <ComponentRef Id="dir_fightersfs_zlib" />
+    </ComponentGroup>
+  </Fragment>
+  
+</Wix>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+  xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+
+  <Bundle
+    Name="FIGHTERS"
+    Version="0.1"
+    UpgradeCode="{}">
+
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+      <bal:WixStandardBootstrapperApplication
+        LicenseFile="LICENSE.rtf"
+    LogoFile="fightersfs.png"
+    ShowVersion="yes" />
+  </BootstrapperApplicationRef>
+    
+    <Chain>
+
+      <PackageGroupRef Id="OpenAL"/>
+      <MsiPackage SourceFile="fightersfs-0.1-win64.msi" />
+
+    </Chain>
+  
+  </Bundle>
+  
+  <Fragment>
+  
+    <PackageGroup Id="OpenAL">
+      <ExePackage
+        SourceFile="oalinst.exe"
+        DetectCondition="ExeDetectedVariable"
+        InstallCommand="/q /ACTION=Install"
+        RepairCommand="/q ACTION=Repair /hideconsole"
+        UninstallCommand="/q ACTION=Uninstall /hideconsole" />
+    </PackageGroup>
+  
+  </Fragment>
+
+</Wix>
