@@ -1,5 +1,5 @@
-# fightersfs
-Arcade style combat flight simulation game.
+# FIGHTERS
+FIGHTERS is an arcade style combat flight simulation game. It was originally developed as two seperate games (Fighters over the Pacific and Fighters: Polish Aces) for the Android platform.
 
 44 missions based on the actual events of World War 2. Defend Warsaw from German bombers, intercept Luftwaffe bombers during the Battle of Britain, destroy V-1 flying bombs threatening London, intercept Japanese bombers over Pearl Harbor, defend American base on Midway, fight against Japanese warbirds over Guadalcanal, cover American fleet on the Philippine Sea, cover land forces during battle of Berlin, defend ships from Kamikaze attacks.
 
