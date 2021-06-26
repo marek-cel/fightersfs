@@ -1,6 +1,23 @@
 # FIGHTERS
 FIGHTERS is an arcade style combat flight simulation game. It was originally developed as two seperate games (Fighters over the Pacific and Fighters: Polish Aces) for the Android platform.
 
+## Installation
+
+### Linux
+
+Linux [deb package](https://github.com/marek-cel/fightersfs/releases/download/0.1/fightersfs_0.1_focal_amd64.deb) is provided for Ubuntu 20.04 LTS / LinuxMint 20.x.
+
+Additional data package dependency is required:
+
+* [fightersfs-data](https://github.com/marek-cel/fightersfs-data/releases/download/0.1/fightersfs-data_0.1_focal_all.deb)
+
+### Windows
+
+Windows [installer](https://github.com/marek-cel/fightersfs/releases/download/0.1/fightersfs-0.1-win64.exe) is provided. It contains all necessary data.
+
+
+## Synopsis
+
 44 missions based on the actual events of World War 2. Defend Warsaw from German bombers, intercept Luftwaffe bombers during the Battle of Britain, destroy V-1 flying bombs threatening London, intercept Japanese bombers over Pearl Harbor, defend American base on Midway, fight against Japanese warbirds over Guadalcanal, cover American fleet on the Philippine Sea, cover land forces during battle of Berlin, defend ships from Kamikaze attacks.
 
 Over 60 different unit types. 42 aircrafts types including 22 fighters. 18 warships types including 7 battleships, 5 destroyers and 4 aircraft carriers.
