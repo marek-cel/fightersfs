@@ -19,64 +19,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef CAMPAIGNS_H
-#define CAMPAIGNS_H
+#ifndef MANAGER_H
+#define MANAGER_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDomElement>
-#include <QVector>
+#include <QApplication>
+#include <QTranslator>
 
-#include <sim/utils/sim_Singleton.h>
-#include <sim/utils/sim_Text.h>
+#include <gui/MainWindow.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Campaign class.
+ * @brief Manager class.
  */
-class Campaigns : public sim::Singleton< Campaigns >
+class Manager
 {
-    friend class sim::Singleton< Campaigns >;
-
 public:
 
-    struct CampaignData
-    {
-        QString file;
-        bool hidden;
+    static int main( int argc, char *argv[] );
 
-        sim::Text name;
-        sim::Text synopsis;
-
-        QString fileImage;      ///<
-    };
+    Manager();
 
     /** @brief Destructor. */
-    virtual ~Campaigns();
+    virtual ~Manager();
 
-    CampaignData getCampaign( int campaign ) const;
+    void init( int argc, char *argv[] );
 
-    int getCampaignsCount() const;
+    void exec();
 
-    int getRealIndex( int visible_index );
+    inline int result() const { return _result; }
 
 private:
 
-    QVector< CampaignData > _data;
+    QApplication *_app;         ///< app
+    MainWindow   *_win;         ///< GUI
 
-    /**
-     * You should use static function instance() due to get refernce
-     * to Airports class instance.
-     */
-    Campaigns();
+    QTranslator _translator;
+    QTranslator _translatorQt;
 
-    /** Using this constructor is forbidden. */
-    Campaigns( const Campaigns & ) : sim::Singleton< Campaigns > () {}
+    int _result;
 
-    void readCampaign( const QString &fileName, CampaignData *data );
+    QString getLangCode();
+
+    void initTranslations();
+
+    void showSlpashScreen();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // CAMPAIGNS_H
+#endif // MANAGER_H

@@ -39,7 +39,7 @@
  */
 class Missions : public sim::Singleton< Missions >
 {
-    friend class Singleton< Missions >;
+    friend class sim::Singleton< Missions >;
 
 public:
 

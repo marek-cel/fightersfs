@@ -175,13 +175,13 @@ void UnitMarine::createReflection( osg::Node *model, osg::Group *parent )
     osg::ref_ptr<osg::Geode> geodeQuad = new osg::Geode;
     geodeQuad->addDrawable( quad.get() );
 
-    osg::ref_ptr<osg::Texture2D> texWaterDUDV = Textures::get( Path::get( "textures/water_DUDV.png" ) );
+    osg::ref_ptr<osg::Texture2D> texWaterDUDV = Textures::get( Path::get( "textures/water_dudv.png" ) );
     texWaterDUDV->setWrap( osg::Texture::WRAP_S, osg::Texture::REPEAT );
     texWaterDUDV->setWrap( osg::Texture::WRAP_T, osg::Texture::REPEAT );
     texWaterDUDV->setFilter( osg::Texture::MIN_FILTER, osg::Texture::LINEAR );
     texWaterDUDV->setFilter( osg::Texture::MAG_FILTER, osg::Texture::LINEAR );
 
-    osg::ref_ptr<osg::Texture2D> texWaterNM = Textures::get( Path::get( "textures/water_NM.png" ) );
+    osg::ref_ptr<osg::Texture2D> texWaterNM = Textures::get( Path::get( "textures/water_nm.png" ) );
     texWaterNM->setWrap( osg::Texture::WRAP_S, osg::Texture::REPEAT );
     texWaterNM->setWrap( osg::Texture::WRAP_T, osg::Texture::REPEAT );
     texWaterNM->setFilter( osg::Texture::MIN_FILTER, osg::Texture::LINEAR );

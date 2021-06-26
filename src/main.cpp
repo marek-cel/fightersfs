@@ -20,108 +20,16 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <iostream>
-
-#include <QApplication>
-#include <QDir>
-#include <QFontDatabase>
-#include <QLibraryInfo>
-#include <QMetaType>
-#include <QSettings>
-#include <QTranslator>
-
-#include <osg/Notify>
-
-#include <defs.h>
-
-#include <gui/MainWindow.h>
-
-#include <sim/sim_Languages.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-QString getLangCode();
+#include <Manager.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /** This is application main function. */
 int main( int argc, char *argv[] )
 {
-    setlocale( LC_ALL, "C" );
-
-    QLocale::setDefault( QLocale::system() );
-
-    Path::setBasePath( SIM_BASE_PATH );
-
-    QApplication *app = new QApplication( argc, argv );
-
-    app->setApplicationName    ( SIM_APP_NAME   );
-    app->setApplicationVersion ( SIM_APP_VER    );
-    app->setOrganizationDomain ( SIM_ORG_DOMAIN );
-    app->setOrganizationName   ( SIM_ORG_NAME   );
-
-    QString lang_code = getLangCode();
-
-    QTranslator translator;
-    QTranslator translatorQt;
-
-    translator.load( QString( ":/gui/translations/fightersfs_" ) + lang_code );
-
-    translatorQt.load( QLocale::system(),
-                       QString::fromUtf8("qt"),
-                       QString::fromUtf8("_"),
-                       QLibraryInfo::location(QLibraryInfo::TranslationsPath) );
-
-    app->installTranslator( &translator );
-    app->installTranslator( &translatorQt );
-
-    sim::Languages::instance()->setCurrentByCode( lang_code.toStdString() );
-
-    QFontDatabase::addApplicationFont( ":/gui/fonts/fsg_stencil.ttf" );
-
-    QFile file( ":/gui/styles/main.qss" );
-    file.open( QFile::ReadOnly );
-    QString styleSheet = QLatin1String( file.readAll() );
-    qApp->setStyleSheet( styleSheet );
-
-#   ifdef SIM_OSGDEBUGINFO
-    osg::setNotifyLevel( osg::DEBUG_INFO );
-#   else
-    osg::setNotifyLevel( osg::WARN );
-#   endif
-
-    MainWindow *win = new MainWindow();
-
-#   ifdef SIM_TEST
-    win->show();
-#   else
-    win->showFullScreen();
-#   endif
-
-    win->init();
-
-    int result = app->exec();
-
-    DELPTR( win );
-    DELPTR( app );
-
-    return result;
+    return Manager::main( argc, argv );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-QString getLangCode()
-{
-    QString locale = QLocale::system().name();
-    QString lang_code = locale.mid( 0, locale.indexOf('_') );
 
-    QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
-
-    settings.beginGroup( "settings" );
-
-    lang_code = settings.value( "lang_code", lang_code ).toString();
-
-    settings.endGroup();
-
-    return lang_code;
-}

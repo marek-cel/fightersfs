@@ -3,7 +3,7 @@
   
   <Fragment>
     <DirectoryRef Id="dir_fightersfs_bin">
-      <Component Id="dir_fightersfs_alut" Guid="{}">
+      <Component Id="dir_fightersfs_alut" Guid="{d7cf115c-4804-4b03-b239-0400d56e72c2}">
         <File Id="dir_fightersfs_alut_dll" Name="alut.dll" DiskId="1" Source="$(env.OPENAL_DIR)\bin\alut.dll" />
       </Component>
     </DirectoryRef>

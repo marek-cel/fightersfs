@@ -5,13 +5,13 @@
   <Bundle
     Name="FIGHTERS"
     Version="0.1"
-    UpgradeCode="{}">
+    UpgradeCode="{202f4f9c-5a70-4502-8164-60f867ff0f19}">
 
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
       <bal:WixStandardBootstrapperApplication
         LicenseFile="LICENSE.rtf"
-    LogoFile="fightersfs.png"
-    ShowVersion="yes" />
+        LogoFile="fightersfs.png"
+        ShowVersion="yes" />
   </BootstrapperApplicationRef>
     
     <Chain>

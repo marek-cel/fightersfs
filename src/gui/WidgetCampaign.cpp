@@ -96,7 +96,7 @@ void WidgetCampaign::updateCampaignImage()
         int w = _ui->labelCampaignImage->width();
         int h = _ui->labelCampaignImage->height();
 
-        pixmap = pixmap.scaled( w, h, Qt::KeepAspectRatio );
+        pixmap = pixmap.scaled( w, h, Qt::KeepAspectRatio, Qt::SmoothTransformation );
 
         //std::cout << w << " x " << h << std::endl;
     }

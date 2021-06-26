@@ -158,11 +158,15 @@ std::string String::toString( const std::wstring &str )
 {
     size_t length = str.length() + 1;
 
-    char mbstr[ 2*length ];
+    char *mbstr = new char [ 2*length ];
 
     wcstombs( mbstr, str.c_str(), length );
 
-    return std::string( mbstr );
+    std::string result( mbstr );
+
+    delete [] mbstr;
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -246,9 +250,14 @@ std::wstring String::toWideString( const std::string &str )
 {
     size_t length = str.length() + 1;
 
-    wchar_t wstr[ length ];
+    wchar_t *wstr = new wchar_t [ length ];
 
     mbstowcs( wstr, str.c_str(), length );
 
-    return std::wstring( wstr );
+    std::wstring result( wstr );
+
+    delete [] wstr;
+
+    return result;
+
 }

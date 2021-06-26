@@ -122,7 +122,7 @@ void WidgetData::updateDataAerial( const Units::Data::DataAerial &data )
     text += QString( "%1" ).arg( labels[  2 ], l_max, ' ' ) + ": " + data.firstFlight                         + "\n";
     text += QString( "%1" ).arg( labels[  3 ], l_max, ' ' ) + ": " + data.introduction                        + "\n";
     text += QString( "%1" ).arg( labels[  4 ], l_max, ' ' ) + ": " + data.retired                             + "\n";
-    text += QString( "%1" ).arg( labels[  5 ], l_max, ' ' ) + ": " + QString::number( data.numberBuilt )      + "\n";
+    text += QString( "%1" ).arg( labels[  5 ], l_max, ' ' ) + ": " + locale().toString( data.numberBuilt )    + "\n";
     text += QString( "%1" ).arg( labels[  6 ], l_max, ' ' ) + ": " + data.primaryUser                         + "\n";
     text += QString( "%1" ).arg( labels[  7 ], l_max, ' ' ) + ": " + data.crew                                + "\n";
     text += QString( "%1" ).arg( labels[  8 ], l_max, ' ' ) + ": " + length                                   + "\n";
@@ -141,17 +141,46 @@ void WidgetData::updateDataAerial( const Units::Data::DataAerial &data )
 
 void WidgetData::updateDataMarine( const Units::Data::DataMarine &data )
 {
-    QString displacement = QString::number( data.displacement , 'f', 0 ) + " t";
-    QString length       = QString::number( data.length       , 'f', 0 ) + " m";
-    QString beam         = QString::number( data.beam         , 'f', 2 ) + " m";
-    QString draft        = QString::number( data.draft        , 'f', 2 ) + " m";
-    QString maxSpeed     = QString::number( data.maxSpeed     , 'f', 0 ) + " kts";
+    QString displacement = locale().toString( data.displacement , 'f', 0 ) + " t";
+    QString length       = locale().toString( data.length       , 'f', 0 ) + " m";
+    QString beam         = locale().toString( data.beam         , 'f', 2 ) + " m";
+    QString draft        = locale().toString( data.draft        , 'f', 2 ) + " m";
+    QString maxSpeed     = locale().toString( data.maxSpeed     , 'f', 0 ) + " kts";
 
     length += " (" + QString::number( floor( Convert::m2ft( data.length ) + 0.5 ) ) + " ft)";
     beam   += " (" + Utils::m2ftin( data.beam  ) + ")";
     draft  += " (" + Utils::m2ftin( data.draft ) + ")";
 
+    QVector< QString > labels;
+
+    labels.push_back( tr( "Type"         ) );
+    labels.push_back( tr( "Armament"     ) );
+    labels.push_back( tr( "Number Built" ) );
+    labels.push_back( tr( "Complement"   ) );
+    labels.push_back( tr( "Displacement" ) );
+    labels.push_back( tr( "Length"       ) );
+    labels.push_back( tr( "Beam"         ) );
+    labels.push_back( tr( "Draft"        ) );
+    labels.push_back( tr( "Max Speed"    ) );
+
+    int l_max = 0;
+
+    for ( auto l : labels )
+    {
+        l_max = std::max( l_max, l.length() );
+    }
+
     QString text;
+
+    text += QString( "%1" ).arg( labels[ 0 ], l_max, ' ' ) + ": " + QString( data.type.get().c_str() )     + "\n";
+    text += QString( "%1" ).arg( labels[ 1 ], l_max, ' ' ) + ": " + QString( data.armament.get().c_str() ) + "\n";
+    text += QString( "%1" ).arg( labels[ 2 ], l_max, ' ' ) + ": " + locale().toString( data.numberBuilt )  + "\n";
+    text += QString( "%1" ).arg( labels[ 3 ], l_max, ' ' ) + ": " + locale().toString( data.complement )   + "\n";
+    text += QString( "%1" ).arg( labels[ 4 ], l_max, ' ' ) + ": " + displacement                           + "\n";
+    text += QString( "%1" ).arg( labels[ 5 ], l_max, ' ' ) + ": " + length                                 + "\n";
+    text += QString( "%1" ).arg( labels[ 6 ], l_max, ' ' ) + ": " + beam                                   + "\n";
+    text += QString( "%1" ).arg( labels[ 7 ], l_max, ' ' ) + ": " + draft                                  + "\n";
+    text += QString( "%1" ).arg( labels[ 8 ], l_max, ' ' ) + ": " + maxSpeed                               + "\n";
 
     _ui->textBrowserUnitData->setText( text );
 }
@@ -160,7 +189,24 @@ void WidgetData::updateDataMarine( const Units::Data::DataMarine &data )
 
 void WidgetData::updateDataGround( const Units::Data::DataGround &data )
 {
+    QVector< QString > labels;
+
+    labels.push_back( tr( "Type"         ) );
+    labels.push_back( tr( "Armament"     ) );
+    labels.push_back( tr( "Number Built" ) );
+
+    int l_max = 0;
+
+    for ( auto l : labels )
+    {
+        l_max = std::max( l_max, l.length() );
+    }
+
     QString text;
+
+    text += QString( "%1" ).arg( labels[ 0 ], l_max, ' ' ) + ": " + QString( data.type.get().c_str() )     + "\n";
+    text += QString( "%1" ).arg( labels[ 1 ], l_max, ' ' ) + ": " + QString( data.armament.get().c_str() ) + "\n";
+    text += QString( "%1" ).arg( labels[ 2 ], l_max, ' ' ) + ": " + locale().toString( data.numberBuilt )  + "\n";
 
     _ui->textBrowserUnitData->setText( text );
 }

@@ -26,6 +26,10 @@
 
 #include <osg/Group>
 
+#ifdef SIM_DESKTOP
+#   include <osgSim/OverlayNode>
+#endif
+
 #include <sim/cgi/sim_ManipulatorOrbit.h>
 #include <sim/cgi/sim_Module.h>
 
@@ -72,7 +76,14 @@ private:
 
     UInt32 _index;          ///< current unit index
 
+#   ifdef SIM_DESKTOP
+    osg::ref_ptr<osgSim::OverlayNode> _overlayNode;         ///< aircraft shadow
+#   endif
+
     osg::ref_ptr<ManipulatorOrbit> _manipulatorOrbit;           ///<
+
+    osg::ref_ptr<osg::Group> _groupGround;
+    osg::ref_ptr<osg::Group> _groupShadow;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> _patUnit;      ///< orbit manipulator center
     osg::ref_ptr<osg::PositionAttitudeTransform> _patModel;     ///< model group node
@@ -97,6 +108,9 @@ private:
     void createGround();
     void createOcean();
     void createPlane( const std::string &textureFile );
+#   ifdef SIM_DESKTOP
+    void createShadow();
+#   endif
 
     void loadUnit();
 };

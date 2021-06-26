@@ -96,17 +96,17 @@
     </message>
     <message>
         <location filename="gui/MainWindow.ui" line="239"/>
-        <location filename="gui/MainWindow.cpp" line="531"/>
+        <location filename="gui/MainWindow.cpp" line="597"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
     <message>
-        <location filename="gui/MainWindow.cpp" line="131"/>
+        <location filename="gui/MainWindow.cpp" line="137"/>
         <source>Do you want to quit?</source>
         <translation>Czy na pewno chcesz wyjść?</translation>
     </message>
     <message>
-        <location filename="gui/MainWindow.cpp" line="257"/>
+        <location filename="gui/MainWindow.cpp" line="263"/>
         <source>Do you want to abort mission?</source>
         <translation>Czy na pewno chcesz zakończyć misję?</translation>
     </message>
@@ -224,7 +224,7 @@
     <message>
         <location filename="gui/WidgetCtrl.cpp" line="300"/>
         <source>Keyboard: </source>
-        <translation>Klawiatura:</translation>
+        <translation>Klawiatura: </translation>
     </message>
     <message>
         <location filename="gui/WidgetCtrl.cpp" line="310"/>
@@ -234,17 +234,17 @@
     <message>
         <location filename="gui/WidgetCtrl.cpp" line="322"/>
         <source> (Inverted)</source>
-        <translation>(odwrócona)</translation>
+        <translation> (odwrócona)</translation>
     </message>
     <message>
         <location filename="gui/WidgetCtrl.cpp" line="329"/>
         <source>Button </source>
-        <translation>Przycisk</translation>
+        <translation>Przycisk </translation>
     </message>
     <message>
         <location filename="gui/WidgetCtrl.cpp" line="335"/>
         <source>POV </source>
-        <translation>POV</translation>
+        <translation>POV </translation>
     </message>
     <message>
         <location filename="gui/WidgetCtrl.cpp" line="344"/>
@@ -286,6 +286,8 @@
     </message>
     <message>
         <location filename="gui/WidgetData.cpp" line="99"/>
+        <location filename="gui/WidgetData.cpp" line="158"/>
+        <location filename="gui/WidgetData.cpp" line="196"/>
         <source>Number Built</source>
         <translation>Egzemplarze</translation>
     </message>
@@ -301,6 +303,7 @@
     </message>
     <message>
         <location filename="gui/WidgetData.cpp" line="102"/>
+        <location filename="gui/WidgetData.cpp" line="161"/>
         <source>Length</source>
         <translation>Długość</translation>
     </message>
@@ -321,6 +324,7 @@
     </message>
     <message>
         <location filename="gui/WidgetData.cpp" line="106"/>
+        <location filename="gui/WidgetData.cpp" line="164"/>
         <source>Max Speed</source>
         <translation>Prędkość maks.</translation>
     </message>
@@ -336,8 +340,36 @@
     </message>
     <message>
         <location filename="gui/WidgetData.cpp" line="109"/>
+        <location filename="gui/WidgetData.cpp" line="157"/>
+        <location filename="gui/WidgetData.cpp" line="195"/>
         <source>Armament</source>
         <translation>Uzbrojenie</translation>
+    </message>
+    <message>
+        <location filename="gui/WidgetData.cpp" line="156"/>
+        <location filename="gui/WidgetData.cpp" line="194"/>
+        <source>Type</source>
+        <translation>Klasa</translation>
+    </message>
+    <message>
+        <location filename="gui/WidgetData.cpp" line="159"/>
+        <source>Complement</source>
+        <translation>Załoga</translation>
+    </message>
+    <message>
+        <location filename="gui/WidgetData.cpp" line="160"/>
+        <source>Displacement</source>
+        <translation>Wyporność</translation>
+    </message>
+    <message>
+        <location filename="gui/WidgetData.cpp" line="162"/>
+        <source>Beam</source>
+        <translation>Szerokość</translation>
+    </message>
+    <message>
+        <location filename="gui/WidgetData.cpp" line="163"/>
+        <source>Draft</source>
+        <translation>Zanużenie</translation>
     </message>
 </context>
 <context>

@@ -47,9 +47,11 @@ MainWindow::MainWindow( QWidget *parent ) :
 #   ifdef SIM_TEST
     _shortcutAuto ( NULLPTR ),
 
+    _shortcutFullScreen ( NULLPTR ),
     _shortcutTimeFaster ( NULLPTR ),
     _shortcutTimeSlower ( NULLPTR ),
     _shortcutTimeNormal ( NULLPTR ),
+    _shortcutToggleView ( NULLPTR ),
 #   endif
 
     _timer ( NULLPTR ),
@@ -74,9 +76,11 @@ MainWindow::MainWindow( QWidget *parent ) :
 #   ifdef SIM_TEST
     _shortcutAuto = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_A), this, SLOT(shortcutAuto_activated()) );
 
+    _shortcutFullScreen = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_F)     , this, SLOT(shortcutFullScreen_activated()) );
     _shortcutTimeFaster = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Equal) , this, SLOT(shortcutTimeFaster_activated()) );
     _shortcutTimeSlower = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Minus) , this, SLOT(shortcutTimeSlower_activated()) );
     _shortcutTimeNormal = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_0)     , this, SLOT(shortcutTimeNormal_activated()) );
+    _shortcutToggleView = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_V)     , this, SLOT(shortcutToggleView_activated()) );
 #   endif
 
     _timer = new QElapsedTimer();
@@ -102,9 +106,11 @@ MainWindow::~MainWindow()
 #   ifdef SIM_TEST
     DELPTR( _shortcutAuto );
 
+    DELPTR( _shortcutFullScreen );
     DELPTR( _shortcutTimeFaster );
     DELPTR( _shortcutTimeSlower );
     DELPTR( _shortcutTimeNormal );
+    DELPTR( _shortcutToggleView );
 #   endif
 
     DELPTR( _ui );
@@ -121,6 +127,8 @@ void MainWindow::init()
 
     _timer->start();
     _timerId = startTimer( 1000.0 * SIM_TIME_STEP );
+
+    resizeHomeImage();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,19 +160,7 @@ void MainWindow::resizeEvent( QResizeEvent *event )
     QMainWindow::resizeEvent( event );
     //////////////////////////////////
 
-    QPixmap pixmap( ":/gui/images/logo.png" );
-
-    int w = _ui->labelLogo->width();
-    int h = _ui->labelLogo->height();
-
-    if ( w < pixmap.width() )
-    {
-        pixmap = pixmap.scaled( w, h, Qt::KeepAspectRatio );
-    }
-
-    //std::cout << w << " x " << h << std::endl;
-
-    _ui->labelLogo->setPixmap( pixmap );
+    resizeHomeImage();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -262,6 +258,25 @@ void MainWindow::askIfAbort()
     {
         simulationAbort();
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::resizeHomeImage()
+{
+    QPixmap pixmap( ":/gui/images/home.png" );
+
+    int w = _ui->labelLogo->width();
+    int h = _ui->labelLogo->height();
+
+    //if ( w < pixmap.width() )
+    {
+        pixmap = pixmap.scaled( w, h, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+    }
+
+    //std::cout << w << " x " << h << std::endl;
+
+    _ui->labelLogo->setPixmap( pixmap );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -416,6 +431,22 @@ void MainWindow::shortcutAuto_activated()
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifdef SIM_TEST
+void MainWindow::shortcutFullScreen_activated()
+{
+    if ( isFullScreen() )
+    {
+        showNormal();
+    }
+    else
+    {
+        showFullScreen();
+    }
+}
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+
+#ifdef SIM_TEST
 void MainWindow::shortcutTimeFaster_activated()
 {
     if ( _inited )
@@ -478,6 +509,50 @@ void MainWindow::shortcutTimeNormal_activated()
 }
 #endif
 
+////////////////////////////////////////////////////////////////////////////////
+
+#ifdef SIM_TEST
+void MainWindow::shortcutToggleView_activated()
+{
+    static int view = 0;
+
+    if ( view == 0 )
+    {
+        sim::Manager::instance()->setViewFlyby();
+        view = 1;
+    }
+    else if ( view == 1 )
+    {
+        sim::Manager::instance()->setViewFront();
+        view = 2;
+    }
+    else if ( view == 2 )
+    {
+        sim::Manager::instance()->setViewOrbit();
+        view = 3;
+    }
+    else if ( view == 3 )
+    {
+        sim::Manager::instance()->setViewPilot();
+        view = 4;
+    }
+    else if ( view == 4 )
+    {
+        sim::Manager::instance()->setViewShift();
+        view = 5;
+    }
+    else if ( view == 5 )
+    {
+        sim::Manager::instance()->setViewWorld();
+        view = 6;
+    }
+    else if ( view == 6 )
+    {
+        sim::Manager::instance()->setViewChase();
+        view = 0;
+    }
+}
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 

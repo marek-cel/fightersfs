@@ -3,12 +3,12 @@
   xmlns="http://schemas.microsoft.com/wix/2006/wi"
   xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Product
-    Id="{}" 
+    Id="{01db2105-671c-4573-b380-0c18bcbb822d}" 
     Name="FIGHTERS"
     Language="1033"
     Version="0.1"
     Manufacturer="Marek Cel" 
-    UpgradeCode="{}">
+    UpgradeCode="{99c4e8f3-dfe2-4150-badf-cebcf88c9755}">
         
     <Package
       Description="FIGHTERS Windows Installer Package"
@@ -37,7 +37,7 @@
           <Directory Id="dir_fightersfs_bin" Name="bin">
           
             <!-- sim.exe -->
-            <Component Id="dir_fightersfs_fightersfs" Guid="{}">
+            <Component Id="dir_fightersfs_fightersfs" Guid="{24fac5bb-f9a3-4d68-802f-c3922159ba8a}">
               <File Id="dir_fightersfs_fightersfs_exe" Name="fightersfs.exe" DiskId="1" Source="bin\fightersfs.exe" />
             </Component>
           
@@ -49,7 +49,7 @@
       <!-- start menu shortcuts -->
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="FIGHTERS">
-          <Component Id="menu_shortcuts" Guid="{}">
+          <Component Id="menu_shortcuts" Guid="{182ac9c3-1c56-4a98-a755-771e183fbf6f}">
             <Shortcut
               Id="menu_sim" 
               Name="FIGHTERS" 

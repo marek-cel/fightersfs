@@ -27,6 +27,12 @@
 #include <osg/Material>
 #include <osg/PositionAttitudeTransform>
 
+#ifdef SIM_DESKTOP
+#   include <osg/Geode>
+#   include <osg/Geometry>
+#   include <osg/TexEnv>
+#endif
+
 #include <sim/sim_ListUnits.h>
 #include <sim/sim_Log.h>
 
@@ -56,6 +62,29 @@ Viewer::Viewer( int width, int height ):
     _prop_angle ( 0.0 ),
     _real_time  ( 0.0 )
 {
+    _groupGround = new osg::Group();
+
+#   ifdef SIM_DESKTOP
+    osgSim::OverlayNode::OverlayTechnique technique = osgSim::OverlayNode::OBJECT_DEPENDENT_WITH_ORTHOGRAPHIC_OVERLAY;
+
+    _overlayNode = new osgSim::OverlayNode( technique );
+    _root->addChild( _overlayNode.get() );
+
+    _overlayNode->setContinuousUpdate( true );
+    _overlayNode->getOrCreateStateSet()->setTextureAttribute( 1, new osg::TexEnv( osg::TexEnv::DECAL ) );
+    _overlayNode->getOrCreateStateSet()->setMode( GL_BLEND, osg::StateAttribute::ON );
+    _overlayNode->getOrCreateStateSet()->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+    _overlayNode->getOrCreateStateSet()->setRenderBinDetails( 0, "RenderBin" );
+    _overlayNode->getOrCreateStateSet()->setTextureAttribute( 1, new osg::TexEnv( osg::TexEnv::DECAL ) );
+
+    _groupShadow = new osg::Group();
+    _overlayNode->setOverlaySubgraph( _groupShadow.get() );
+
+    _overlayNode->addChild( _groupGround.get() );
+#   else
+    _root->addChild( _groupGround.get() );
+#   endif
+
     _patUnit  = new osg::PositionAttitudeTransform();
     _patModel = new osg::PositionAttitudeTransform();
 
@@ -86,6 +115,24 @@ void Viewer::load()
     {
         _root->removeChildren( 0, _root->getNumChildren() );
     }
+
+    if ( _groupGround->getNumChildren() > 0 )
+    {
+        _groupGround->removeChildren( 0, _groupGround->getNumChildren() );
+    }
+
+#   ifdef SIM_DESKTOP
+    if ( ListUnits::instance()->getData( _index ).type == ListUnits::Ground )
+    {
+        _root->addChild( _overlayNode.get() );
+    }
+    else
+    {
+        _root->addChild( _groupGround.get() );
+    }
+#   else
+    _root->addChild( _groupGround.get() );
+#   endif
 
     _root->addChild( _patUnit.get() );
     _root->addChild( _patModel.get() );
@@ -288,7 +335,7 @@ void Viewer::createOcean()
 void Viewer::createPlane( const std::string &textureFile )
 {
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    _root->addChild( geode.get() );
+    _groupGround->addChild( geode.get() );
 
     osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
     geode->addDrawable( geom.get() );
@@ -314,6 +361,65 @@ void Viewer::createPlane( const std::string &textureFile )
     stateSet->setAttributeAndModes( fog.get(), osg::StateAttribute::ON );
     stateSet->setMode( GL_FOG, osg::StateAttribute::ON );
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+#ifdef SIM_DESKTOP
+void Viewer::createShadow()
+{
+    const double w_2 = 8.0;
+    const double l_2 = 8.0;
+
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    _groupShadow->addChild( geode.get() );
+
+    osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
+    geode->addDrawable( geom.get() );
+
+    osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
+    osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
+    osg::ref_ptr<osg::Vec2Array> t = new osg::Vec2Array();
+    osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
+
+    v->push_back( osg::Vec3d( -w_2, -l_2, 0.0 ) );
+    v->push_back( osg::Vec3d(  w_2, -l_2, 0.0 ) );
+    v->push_back( osg::Vec3d(  w_2,  l_2, 0.0 ) );
+    v->push_back( osg::Vec3d( -w_2,  l_2, 0.0 ) );
+
+    c->push_back( osg::Vec4( 0.8, 0.8, 0.8, 1.0 ) );
+
+    t->push_back( osg::Vec2( 0, 0 ) );
+    t->push_back( osg::Vec2( 1, 0 ) );
+    t->push_back( osg::Vec2( 1, 1 ) );
+    t->push_back( osg::Vec2( 0, 1 ) );
+
+    n->push_back( osg::Vec3d( 0.0, 0.0, 1.0 ) );
+
+    geom->setNormalArray( n.get() );
+    geom->setNormalBinding( osg::Geometry::BIND_OVERALL );
+
+    geom->setColorArray( c.get() );
+    geom->setColorBinding( osg::Geometry::BIND_OVERALL );
+
+    geom->setVertexArray( v.get() );
+    geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, v->size() ) );
+
+    geom->setTexCoordArray( 0, t.get() );
+
+    // material
+    osg::ref_ptr<osg::Material> material = new osg::Material();
+    material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
+    material->setAmbient( osg::Material::FRONT, osg::Vec4f( 0.8f, 0.8f, 0.8f, 1.0f ) );
+    material->setDiffuse( osg::Material::FRONT, osg::Vec4f( 0.5f, 0.5f, 0.5f, 1.0f ) );
+
+    osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
+
+    stateSet->setAttribute( material.get() );
+
+    osg::ref_ptr<osg::Texture2D> texture = Textures::get( getPath( "textures/shadow_tank.png" ) );
+    stateSet->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON );
+}
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -375,6 +481,8 @@ void Viewer::loadUnit()
                         model->getOrCreateStateSet()->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
                     }
                 }
+
+                createShadow();
             }
 
             _patUnit->setPosition( pos );

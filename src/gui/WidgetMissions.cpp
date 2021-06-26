@@ -105,7 +105,7 @@ void WidgetMissions::updateMissionImage()
         int w = _ui->labelMissionImage->width();
         int h = _ui->labelMissionImage->height();
 
-        pixmap = pixmap.scaled( w, h, Qt::KeepAspectRatio );
+        pixmap = pixmap.scaled( w, h, Qt::KeepAspectRatio, Qt::SmoothTransformation );
 
         //std::cout << w << " x " << h << std::endl;
     }

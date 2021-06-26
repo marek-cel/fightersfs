@@ -73,6 +73,7 @@ unix: INCLUDEPATH += \
 #}
 
 win32: LIBS += \
+    -L$(OPENAL_DIR)/libs/Win64 \
     -L$(OSG_ROOT)/lib \
     -lalut \
     -llibxml2 \
@@ -126,10 +127,12 @@ unix: LIBS += \
 ################################################################################
 
 HEADERS += \
-    defs.h
+    defs.h \
+    Manager.h
 
 SOURCES += \
-    main.cpp
+    main.cpp \
+    Manager.cpp
 
 RESOURCES += \
     fightersfs.qrc

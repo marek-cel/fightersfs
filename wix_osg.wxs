@@ -4,55 +4,55 @@
   <Fragment>
     <DirectoryRef Id="dir_fightersfs_bin">
       <Directory Id="dir_fightersfs_osgPlugins_3_6_5" Name="osgPlugins-3.6.5" />
-      <Component Id="dir_fightersfs_icudt58" Guid="{}">
+      <Component Id="dir_fightersfs_icudt58" Guid="{5ac526f6-63ab-4dc5-9d84-fd4fa2238682}">
         <File Id="dir_fightersfs_icudt58_dll" Name="icudt58.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\icudt58.dll" />
       </Component>
-      <Component Id="dir_fightersfs_icuin58" Guid="{}">
+      <Component Id="dir_fightersfs_icuin58" Guid="{ed43c313-e21d-4626-9c53-a1739a3cf4db}">
         <File Id="dir_fightersfs_icuin58_dll" Name="icuin58.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\icuin58.dll" />
       </Component>
-      <Component Id="dir_fightersfs_icuuc58" Guid="{}">
+      <Component Id="dir_fightersfs_icuuc58" Guid="{429ef12e-89ff-4904-b8a8-250904aae89b}">
         <File Id="dir_fightersfs_icuuc58_dll" Name="icuuc58.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\icuuc58.dll" />
       </Component>
-      <Component Id="dir_fightersfs_libpng16" Guid="{}">
+      <Component Id="dir_fightersfs_libpng16" Guid="{b7f6e698-8de1-4272-a715-50d70f96ac81}">
         <File Id="dir_fightersfs_libpng16_dll" Name="libpng16.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\libpng16.dll" />
       </Component>
-      <Component Id="dir_fightersfs_libxml2" Guid="{}">
+      <Component Id="dir_fightersfs_libxml2" Guid="{eabb8db4-d08d-495c-8de0-8a0b1b4dbc60}">
         <File Id="dir_fightersfs_libxml2_dll" Name="libxml2.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\libxml2.dll" />
       </Component>
-      <Component Id="dir_fightersfs_osg161_osg" Guid="{}">
+      <Component Id="dir_fightersfs_osg161_osg" Guid="{596efd8f-fc9a-4421-8742-300f20947e95}">
         <File Id="dir_fightersfs_osg161_osg_dll" Name="osg161-osg.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osg.dll" />
       </Component>
-      <Component Id="dir_fightersfs_osg161_osgDB" Guid="{}">
+      <Component Id="dir_fightersfs_osg161_osgDB" Guid="{9d9b0a99-e28a-4840-92bc-c5bb09e6598b}">
         <File Id="dir_fightersfs_osg161_osgDB_dll" Name="osg161-osgDB.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgDB.dll" />
       </Component>
-      <Component Id="dir_fightersfs_osg161_osgGA" Guid="{}">
+      <Component Id="dir_fightersfs_osg161_osgGA" Guid="{cde1e0e6-2079-457c-a9b1-cadcd4693ae0}">
         <File Id="dir_fightersfs_osg161_osgGA_dll" Name="osg161-osgGA.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgGA.dll" />
       </Component>
-      <Component Id="dir_fightersfs_osg161_osgParticle" Guid="{}">
+      <Component Id="dir_fightersfs_osg161_osgParticle" Guid="{6fbf8499-a093-457b-bdd2-271428ac8768}">
         <File Id="dir_fightersfs_osg161_osgParticle_dll" Name="osg161-osgParticle.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgParticle.dll" />
       </Component>
-      <Component Id="dir_fightersfs_osg161_osgSim" Guid="{}">
+      <Component Id="dir_fightersfs_osg161_osgSim" Guid="{1bc3cb9d-78b9-48e6-ac2c-763d54d250e5}">
         <File Id="dir_fightersfs_osg161_osgSim_dll" Name="osg161-osgSim.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgSim.dll" />
       </Component>
-      <Component Id="dir_fightersfs_osg161_osgTerrain" Guid="{}">
+      <Component Id="dir_fightersfs_osg161_osgTerrain" Guid="{c6c98c17-d7b1-45e0-848b-7516945c69a5}">
         <File Id="dir_fightersfs_osg161_osgTerrain_dll" Name="osg161-osgTerrain.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgTerrain.dll" />
       </Component>
-      <Component Id="dir_fightersfs_osg161_osgText" Guid="{}">
+      <Component Id="dir_fightersfs_osg161_osgText" Guid="{be9f4b3a-c7b6-43fb-b7d5-0efd3277dc4c}">
         <File Id="dir_fightersfs_osg161_osgText_dll" Name="osg161-osgText.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgText.dll" />
       </Component>
-      <Component Id="dir_fightersfs_osg161_osgUtil" Guid="{}">
+      <Component Id="dir_fightersfs_osg161_osgUtil" Guid="{33e6b7de-9eef-49d8-8434-47f0081d6506}">
         <File Id="dir_fightersfs_osg161_osgUtil_dll" Name="osg161-osgUtil.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgUtil.dll" />
       </Component>
-      <Component Id="dir_fightersfs_osg161_osgViewer" Guid="{}">
+      <Component Id="dir_fightersfs_osg161_osgViewer" Guid="{bb746a35-570e-4552-ae00-cb6d8b1e85a7}">
         <File Id="dir_fightersfs_osg161_osgViewer_dll" Name="osg161-osgViewer.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgViewer.dll" />
       </Component>
-      <Component Id="dir_fightersfs_osg161_osgWidget" Guid="{}">
+      <Component Id="dir_fightersfs_osg161_osgWidget" Guid="{eadcf6dd-9261-4f59-b8a8-27f00801d71c}">
         <File Id="dir_fightersfs_osg161_osgWidget_dll" Name="osg161-osgWidget.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgWidget.dll" />
       </Component>
-      <Component Id="dir_fightersfs_ot21_OpenThreads" Guid="{}">
+      <Component Id="dir_fightersfs_ot21_OpenThreads" Guid="{1942ccb5-5ef8-4d6b-9487-dad3a172b9df}">
         <File Id="dir_fightersfs_ot21_OpenThreads_dll" Name="ot21-OpenThreads.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\ot21-OpenThreads.dll" />
       </Component>
-      <Component Id="dir_fightersfs_zlib" Guid="{}">
+      <Component Id="dir_fightersfs_zlib" Guid="{39b629cd-d99c-4c1b-9b51-d42095943d9b}">
         <File Id="dir_fightersfs_zlib_dll" Name="zlib.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\zlib.dll" />
       </Component>
     </DirectoryRef>

@@ -88,9 +88,11 @@ private:
 #   ifdef SIM_TEST
     QShortcut *_shortcutAuto;               ///< toggle autopilot keybaord shortcut
 
+    QShortcut *_shortcutFullScreen;         ///< toggle fullscreen
     QShortcut *_shortcutTimeFaster;         ///< faster time elapsing keyboard shortcut
     QShortcut *_shortcutTimeSlower;         ///< slower time elapsing keyboard shortcut
     QShortcut *_shortcutTimeNormal;         ///< normal time elapsing keyboard shortcut
+    QShortcut *_shortcutToggleView;         ///<
 #   endif
 
     QElapsedTimer *_timer;                  ///< timer object
@@ -109,6 +111,8 @@ private:
 
     void askIfAbort();
 
+    void resizeHomeImage();
+
     void settingsRead();
     void settingsSave();
 
@@ -126,9 +130,11 @@ private slots:
 #   ifdef SIM_TEST
     void shortcutAuto_activated();
 
+    void shortcutFullScreen_activated();
     void shortcutTimeFaster_activated();
     void shortcutTimeSlower_activated();
     void shortcutTimeNormal_activated();
+    void shortcutToggleView_activated();
 #   endif
 
     void on_pushButtonTutorial_clicked();
