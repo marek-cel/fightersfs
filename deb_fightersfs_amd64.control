@@ -1,0 +1,8 @@
+Package: fightersfs
+Version: 0.1
+Architecture: amd64
+Maintainer: Marek M. Cel <marekcel@marekcel.pl>
+Depends: fightersfs-data, libopenscenegraph160, libopenthreads21, libalut0, libopenal1, libqt5core5a, libqt5gui5, libqt5opengl5, libqt5svg5, libqt5widgets5, libqt5xml5, libx11-6, libxss1
+Installed-Size: 3391
+Homepage: http://marekcel.pl
+Description: Combat flight simulation game.
