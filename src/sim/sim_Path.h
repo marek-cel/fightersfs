@@ -33,7 +33,7 @@
 #       if defined(__ANDROID__)
 #           define SIM_DATA_PATH "/sdcard/Download/data/"
 #       elif defined(_LINUX_)
-#           define SIM_BASE_PATH "/usr/share/fightersfs/"
+#           define SIM_BASE_PATH "/usr/share/fightersfs/data/"
 #       elif defined(WIN32)
 #           define SIM_BASE_PATH "../data/"
 #       endif

@@ -22,7 +22,7 @@
 
 #include <sim/entities/sim_WreckageSurface.h>
 
-#ifdef SIM_TEST
+#ifdef SIM_DESKTOP
 #   include <sim/entities/sim_UnitMarine.h>
 #endif
 

@@ -36,7 +36,7 @@ Data::SimulationData Data::_data;
 ////////////////////////////////////////////////////////////////////////////////
 
 Manager::Manager() :
-    _simulation ( 0 ),
+    _simulation ( nullptr ),
 
     _campaign_index ( 0 ),
     _mission_index  ( 0 ),
@@ -67,7 +67,7 @@ Manager::~Manager()
 
 void Manager::init( int width, int height, UInt32 campaign_index, UInt32 mission_index )
 {
-    if ( _simulation != 0 )
+    if ( _simulation != nullptr )
     {
         reset();
     }
@@ -340,8 +340,8 @@ void Manager::reset()
 
     DELPTR( _simulation );
 
-    _nodeHUD = 0;
-    _nodeOTW = 0;
+    _nodeHUD = nullptr;
+    _nodeOTW = nullptr;
 
     _timeStep = 0.0;
     _timeInit = 0.0;

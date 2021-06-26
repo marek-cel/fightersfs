@@ -326,8 +326,15 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>pushButtonConfDiscard</tabstop>
+  <tabstop>pushButtonTutorial</tabstop>
+  <tabstop>pushButtonTraining</tabstop>
+  <tabstop>pushButtonCampaign</tabstop>
+  <tabstop>pushButtonDatabase</tabstop>
+  <tabstop>pushButtonSettings</tabstop>
+  <tabstop>pushButtonAbout</tabstop>
+  <tabstop>pushButtonExit</tabstop>
   <tabstop>pushButtonConfSave</tabstop>
+  <tabstop>pushButtonConfDiscard</tabstop>
  </tabstops>
  <resources>
   <include location="../fightersfs.qrc"/>

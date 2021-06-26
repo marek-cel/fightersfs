@@ -159,12 +159,12 @@ Simulation::Missions Simulation::getMissions( UInt32 campaign_index )
 ////////////////////////////////////////////////////////////////////////////////
 
 Simulation::Simulation( int width, int height ) :
-    _otw ( 0 ),
-    _hud ( 0 ),
-    _sfx ( 0 ),
+    _otw ( nullptr ),
+    _hud ( nullptr ),
+    _sfx ( nullptr ),
 
-    _camera  ( 0 ),
-    _mission ( 0 ),
+    _camera  ( nullptr ),
+    _mission ( nullptr ),
 
     _orbitedUnitId ( 0 )
 {
