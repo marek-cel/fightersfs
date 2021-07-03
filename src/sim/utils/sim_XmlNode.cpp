@@ -268,3 +268,13 @@ std::string XmlNode::getText() const
 
     return std::string();
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+const XmlNode& XmlNode::operator=( const XmlNode &node )
+{
+    _file = node._file;
+    _node = node._node;
+
+    return (*this);
+}

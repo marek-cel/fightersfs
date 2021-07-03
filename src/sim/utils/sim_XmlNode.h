@@ -221,6 +221,8 @@ public:
         return ( _node ) ? true : false;
     }
 
+    const XmlNode& operator=( const XmlNode &node );
+
 private:
 
     std::string _file;  ///< XML file name

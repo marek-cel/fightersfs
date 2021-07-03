@@ -39,8 +39,8 @@ using namespace sim;
 
 Tracer::Tracer( UInt32 shooterId, bool trail ) :
     Bullet( 25, shooterId, 5.0f, 0 ),
-    _elevation ( 0.0f )
-//    _trail ( false ),
+    _elevation ( 0.0f ),
+    _trail ( trail )
 //    _counter_update ( 0 )
 {
     load();

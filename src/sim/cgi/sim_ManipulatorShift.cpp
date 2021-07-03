@@ -36,6 +36,7 @@ ManipulatorShift::ManipulatorShift() :
 
 ManipulatorShift::ManipulatorShift( const ManipulatorShift &cmi, const osg::CopyOp &copyOp ) :
     osg::Object( cmi, copyOp ),
+    osg::Callback( cmi, copyOp ),
     inherited( cmi, copyOp ),
     _matrix( cmi._matrix )
 {}

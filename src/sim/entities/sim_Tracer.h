@@ -57,7 +57,7 @@ private:
 
     float _elevation;  ///< [m] terrain elevation
 
-//    bool _trail;        ///< specifies if tracer is a smoke trail
+    bool _trail;        ///< specifies if tracer is a smoke trail
 //    unsigned int _counter_update;
 //    osg::ref_ptr<osgParticle::SmokeTrailEffect> _smokeTrail;
 

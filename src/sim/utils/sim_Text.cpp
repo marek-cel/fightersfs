@@ -47,7 +47,7 @@ Text::~Text() {}
 
 void Text::append( const char *str )
 {
-    for ( Strings::iterator it = _strings.begin(); it != _strings.end(); it++ )
+    for ( Strings::iterator it = _strings.begin(); it != _strings.end(); ++it )
     {
         it->second += str;
     }
@@ -73,8 +73,8 @@ void Text::append( const Text &text )
         {
             it->second += it_src->second;
 
-            it++;
-            it_src++;
+            ++it;
+            ++it_src;
         }
     }
 }
@@ -85,7 +85,7 @@ bool Text::isEmpty() const
 {
     bool result = false;
 
-    for ( Strings::const_iterator it = _strings.begin(); it != _strings.end(); it++ )
+    for ( Strings::const_iterator it = _strings.begin(); it != _strings.end(); ++it )
     {
         result |= it->second.length() > 0;
     }
@@ -121,4 +121,13 @@ void Text::set( UInt8 index, const std::string &str )
     {
         _strings.insert( std::pair< UInt8, std::string >( index, str ) );
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+const Text& Text::operator=( const Text &text )
+{
+    _strings = text._strings;
+
+    return (*this);
 }

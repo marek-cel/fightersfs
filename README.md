@@ -1,5 +1,5 @@
-# FIGHTERS
-FIGHTERS is an arcade style combat flight simulation game. It was originally developed as two seperate games (Fighters over the Pacific and Fighters: Polish Aces) for the Android platform.
+# FightersFS
+FightersFS is an arcade style combat flight simulation game. It was originally developed as two seperate games (Fighters over the Pacific and Fighters: Polish Aces) for the Android platform.
 
 ## Installation
 
@@ -37,4 +37,4 @@ Pilot one of the classic warplanes, including [AT-6 Texan](https://en.wikipedia.
 ![screenshot 05](screenshot_05.jpg)
 ![screenshot 06](screenshot_06.jpg)
 
-Visit [http://marekcel.pl/fighters](http://marekcel.pl/fighters) for more information.
+Visit [http://marekcel.pl/fightersfs](http://marekcel.pl/fightersfs) for more information.

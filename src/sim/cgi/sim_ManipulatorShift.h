@@ -34,7 +34,7 @@ namespace sim
 /** @brief Shift view camera manipulator class. */
 class ManipulatorShift : public osgGA::CameraManipulator
 {
-    typedef CameraManipulator inherited;
+    typedef osgGA::CameraManipulator inherited;
 
 public:
 

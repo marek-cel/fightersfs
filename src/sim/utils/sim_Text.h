@@ -64,6 +64,8 @@ public:
     /** */
     void set( UInt8 index, const std::string &str );
 
+    const Text& operator=( const Text &text );
+
 private:
 
     Strings _strings;
