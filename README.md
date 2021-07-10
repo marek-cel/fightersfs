@@ -5,7 +5,7 @@ FightersFS is an arcade style combat flight simulation game. It was originally d
 
 ### Linux
 
-Linux [deb package](https://github.com/marek-cel/fightersfs/releases/download/0.1/fightersfs_0.1_focal_amd64.deb) is provided for Ubuntu 20.04 LTS / LinuxMint 20.x.
+Linux [dpkg package](https://github.com/marek-cel/fightersfs/releases/download/0.1/fightersfs_0.1_focal_amd64.deb) is provided for Ubuntu 20.04 LTS / LinuxMint 20.x.
 
 Additional data package dependency is required:
 
