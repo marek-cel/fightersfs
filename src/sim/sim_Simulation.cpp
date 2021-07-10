@@ -218,7 +218,8 @@ void Simulation::init( UInt32 campaign_index, UInt32 mission_index )
 
 void Simulation::load()
 {
-    Models::instance()->reset();
+    Models   ::reset();
+    Textures ::reset();
 
     // entities must be loaded before OTW
     Entities::instance()->load();

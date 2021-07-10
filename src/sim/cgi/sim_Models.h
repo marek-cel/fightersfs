@@ -71,7 +71,8 @@ public:
      * @param straight
      * @return
      */
-    static osg::Node* get( const std::string &objectFile, bool straight = false );
+    static osg::Node* get( const std::string &objectFile, bool straight = false,
+                           bool no_storage = false );
 
     /** Returns tracer bullet object. */
     inline static osg::LOD* getTracer() { return _tracer.get(); }

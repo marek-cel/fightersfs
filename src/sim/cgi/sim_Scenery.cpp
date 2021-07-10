@@ -297,7 +297,7 @@ void Scenery::loadGeneric()
 
 void Scenery::loadTerrain()
 {
-    osg::ref_ptr<osg::Node> terrain = Models::get( getPath( _terrainFile ), true );
+    osg::ref_ptr<osg::Node> terrain = Models::get( getPath( _terrainFile ), true, true );
 
     if ( terrain.valid() )
     {

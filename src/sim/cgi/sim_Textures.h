@@ -46,6 +46,9 @@ public:
     static osg::Texture2D* get( const std::string &textureFile, float maxAnisotropy = 1.0f,
                                 osg::Texture::WrapMode mode = osg::Texture::MIRROR );
 
+    /** Resets textures list. */
+    static void reset();
+
 private:
 
     /**

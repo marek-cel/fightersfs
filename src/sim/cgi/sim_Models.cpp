@@ -128,7 +128,8 @@ void Models::createTracer( float linesWidth )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-osg::Node* Models::get( const std::string &objectFile, bool straight )
+osg::Node* Models::get( const std::string &objectFile, bool straight,
+                        bool no_storage )
 {
     for ( unsigned int i = 0; i < instance()->_fileNames.size(); i++ )
     {
@@ -142,10 +143,17 @@ osg::Node* Models::get( const std::string &objectFile, bool straight )
 
     if ( object.valid() )
     {
-        instance()->_objects.push_back( object.get() );
-        instance()->_fileNames.push_back( objectFile );
+        if ( !no_storage )
+        {
+            instance()->_objects.push_back( object.get() );
+            instance()->_fileNames.push_back( objectFile );
 
-        return object.get();
+            return object.get();
+        }
+        else
+        {
+            return object.release();
+        }
     }
     else
     {
@@ -180,16 +188,16 @@ osg::Node* Models::readNodeFile( std::string objectFile )
 
 void Models::reset()
 {
-    instance()->_fileNames.clear();
-    instance()->_objects.clear();
+    instance()->_fileNames .clear();
+    instance()->_objects   .clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Models::Models()
 {
-    _fileNames.clear();
-    _objects.clear();
+    _fileNames .clear();
+    _objects   .clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
